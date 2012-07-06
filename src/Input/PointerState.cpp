@@ -1,0 +1,68 @@
+#include "../Main.h"
+
+PointerState::PointerState()
+	: m_Timestamp(glfwGetTime()),
+	  m_ButtonStates(),
+	  m_AxisStates()
+{
+}
+
+PointerState::~PointerState()
+{
+}
+
+auto PointerState::GetTimestamp() const -> decltype(m_Timestamp)
+{
+	return m_Timestamp;
+}
+
+auto PointerState::GetButtonState(Input::InputId ButtonId, bool Default) const -> bool
+{
+	if (ButtonId < m_ButtonStates.size())
+		return m_ButtonStates[ButtonId];
+	else
+		return Default;
+}
+
+auto PointerState::GetAxisState(Input::InputId AxisId, Input::AxisState Default) const -> Input::AxisState
+{
+	if (AxisId < m_AxisStates.size())
+		return m_AxisStates[AxisId];
+	else
+		return Default;
+}
+
+void PointerState::UpdateTimestamp()
+{
+	m_Timestamp = glfwGetTime();
+}
+
+auto PointerState::UpdateButtonState(Input::InputId ButtonId) -> decltype((m_ButtonStates[ButtonId]))
+{
+	// Expand the buttons array to fit this button, if neccessary
+	while (m_ButtonStates.size() <= ButtonId)
+		m_ButtonStates.push_back(false);
+
+	return m_ButtonStates[ButtonId];
+}
+
+auto PointerState::UpdateAxisState(Input::InputId AxisId) -> decltype((m_AxisStates[AxisId]))
+{
+	// Expand the array to fit this, if neccessary
+	while (m_AxisStates.size() <= AxisId)
+		m_AxisStates.push_back(Input::AxisState());
+
+	return m_AxisStates[AxisId];
+}
+
+// Returns true if any of the buttons are pressed, otherwise false
+bool PointerState::AnyButtonsPressed() const
+{
+	for (const auto & ButtonState : m_ButtonStates)
+	{
+		if (ButtonState)
+			return true;
+	}
+	
+	return false;
+}

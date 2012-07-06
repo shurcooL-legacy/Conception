@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="glfw">
+      <UniqueIdentifier>{1bcd4e21-84b1-4583-aff9-61443f300230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glfw\win32">
+      <UniqueIdentifier>{5915a999-4888-4219-85d6-672a7c6f25ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\Input">
+      <UniqueIdentifier>{ecb313e8-14fe-400e-b17f-8c903b653b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Input\Pointers">
+      <UniqueIdentifier>{2100ed5d-3641-412e-996d-dcf8df9471af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ControlModules">
+      <UniqueIdentifier>{cf4c45ff-b063-4671-9512-e82f31f87d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Widget">
+      <UniqueIdentifier>{25e3a781-4a6b-4ea1-b144-f59f71143922}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glfw\enable.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\fullscreen.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\glext.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\image.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\init.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\input.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\joystick.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\stream.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\tga.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\thread.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\time.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\window.c">
+      <Filter>glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_init.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_joystick.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_thread.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_time.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_window.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_dllmain.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_enable.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_fullscreen.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw\win32\win32_glext.c">
+      <Filter>glfw\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlModules\WidgetModule.cpp">
+      <Filter>src\ControlModules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlModules\ControlModule.cpp">
+      <Filter>src\ControlModules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlModules\TypingModule.cpp">
+      <Filter>src\ControlModules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlModules\UnrealCameraModule.cpp">
+      <Filter>src\ControlModules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Pointers\TouchPointer.cpp">
+      <Filter>src\Input\Pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Pointers\TypingPointer.cpp">
+      <Filter>src\Input\Pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Pointers\MousePointer.cpp">
+      <Filter>src\Input\Pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Pointers\Pointer.cpp">
+      <Filter>src\Input\Pointers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\MultitouchTestBoxWidget.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\TextFieldWidget.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\Widget.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\WidgetManager.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\ButtonWidget.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Widget\ListWidget.cpp">
+      <Filter>src\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Canvas.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Concept.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConceptionApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MultitouchTestApp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ogl_utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGLStream.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Project.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTools.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vector2.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\App.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\ControlModuleMapping.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\GestureListener.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\GestureRecognizer.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputEvent.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputListener.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputManager.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\InputResponder.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\PointerInputListener.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\PointerMapping.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\PointerState.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\SystemInputListener.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="glfw\internal.h">
+      <Filter>glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="glfw\win32\platform.h">
+      <Filter>glfw\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GL\glfw.h">
+      <Filter>glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlModules\UnrealCameraModule.h">
+      <Filter>src\ControlModules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlModules\WidgetModule.h">
+      <Filter>src\ControlModules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlModules\ControlModule.h">
+      <Filter>src\ControlModules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlModules\TypingModule.h">
+      <Filter>src\ControlModules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Pointers\TouchPointer.h">
+      <Filter>src\Input\Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Pointers\TypingPointer.h">
+      <Filter>src\Input\Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Pointers\MousePointer.h">
+      <Filter>src\Input\Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Pointers\Pointer.h">
+      <Filter>src\Input\Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\MultitouchTestBoxWidget.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\TextFieldWidget.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\Widget.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\WidgetManager.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\ButtonWidget.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Widget\ListWidget.h">
+      <Filter>src\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="src\App.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Attachable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Canvas.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Concept.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConceptionApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Concepts.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Main.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MultitouchTestApp.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutuallyAttachable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutuallyAttachable.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ogl_utils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLStream.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Project.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderTools.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector2.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector2.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\ControlModuleMapping.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\GestureListener.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\GestureRecognizer.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputEvent.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputListener.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputManager.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\InputResponder.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\PointerInputListener.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\PointerMapping.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\PointerState.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\SystemInputListener.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

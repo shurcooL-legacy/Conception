@@ -1,0 +1,199 @@
+#pragma once
+#ifndef __Main_H__
+#define __Main_H__
+
+#if defined(_MSC_VER)
+#	pragma warning( disable : 4351 )
+#endif
+
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <set>
+#include <map>
+#include <list>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <cassert>
+#include <stdio.h>
+#include <string.h>
+#include <array>
+#include <memory>
+
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>		// Needed for creating a process to compile projects
+#endif // WIN32
+
+#include <GL/glfw.h>
+
+#ifdef WIN32
+	typedef signed __int8		sint8;
+	typedef signed __int16		sint16;
+	typedef signed __int32		sint32;
+	typedef signed __int64		sint64;
+	typedef unsigned __int8		uint8;
+	typedef unsigned __int16	uint16;
+	typedef unsigned __int32	uint32;
+	typedef unsigned __int64	uint64;
+//#elif defined(__APPLE__) && defined(__MACH__)
+#else		// For __APPLE__ and Linux
+	typedef int8_t				sint8;
+	typedef int16_t				sint16;
+	typedef int32_t				sint32;
+	typedef int64_t				sint64;
+	typedef uint8_t				uint8;
+	typedef uint16_t			uint16;
+	typedef uint32_t			uint32;
+	typedef uint64_t			uint64;
+#endif // WIN32
+
+using std::endl;
+
+#ifdef WIN32
+namespace std
+{
+	long lround(double arg);
+}
+#endif // WIN32
+
+class Concept;
+class Function;
+class Project;
+class InputEvent;
+class InputManager;
+class InputResponder;
+class InputListener;
+class PointerInputListener;
+class ControlModuleMapping;
+class ControlModule;
+class UnrealCameraModule;
+class TypingModule;
+class WidgetModule;
+class WidgetManager;
+class PointerMapping;
+class Widget;
+class ButtonWidget;
+class MultitouchTestBoxWidget;
+class TextFieldWidget;
+class ConceptStringBoxWidget;
+class ListWidget;
+class FunctionWidget;
+class OpenGLStream;
+class Canvas;
+class App;
+class ConceptionApp;
+class ConceptionTestApp;
+class MultitouchTestApp;
+class Pointer;
+class MousePointer;
+class TouchPointer;
+class TypingPointer;
+class GestureRecognizer;
+class GestureListener;
+class PointerState;
+class Color;
+
+typedef std::vector<Concept>::size_type ConceptId;
+
+namespace Input
+{
+	typedef uint16 InputId;
+
+	class AxisState
+	{
+	public:
+		AxisState(sint32 Position, sint32 Length)
+			: m_Position(Position),
+			  m_Length(Length)
+		{
+		}
+		AxisState()
+			: AxisState(0, 0)
+		{
+		}
+
+		sint32 GetPosition() const { return m_Position; }
+		sint32 GetLength() const { return m_Length; }
+
+	private:
+		sint32 m_Position;
+		sint32 m_Length;
+	};
+};
+
+#include "Vector2.h"
+
+template <typename T> class Rectangle
+{
+private:
+	Vector2<T> m_Position;
+	Vector2<T> m_Dimensions;
+
+public:
+	Rectangle(Vector2<T> Position, Vector2<T> Dimensions)
+		: m_Position(Position),
+		  m_Dimensions(Dimensions)
+	{
+	}
+	Rectangle()
+		: Rectangle(Vector2<T>::ZERO, Vector2<T>::ZERO)
+	{
+	}
+
+	const decltype(m_Position) GetPosition() const { return m_Position; }
+	const decltype(m_Dimensions) GetDimensions() const { return m_Dimensions; }
+	decltype((m_Position)) SetPosition() { return m_Position; }
+	decltype((m_Dimensions)) SetDimensions() { return m_Dimensions; }
+};
+
+typedef Rectangle<sint32> Rectanglen;
+typedef Rectangle<double> Rectangled;
+
+#include "MutuallyConnectable.h"
+#include "ogl_utils.h"
+#include "RenderTools.h"
+#include "OpenGLStream.h"
+#include "Concept.h"
+#include "Conception/Function.h"
+#include "Project.h"
+#include "Input/PointerInputListener.h"
+#include "Input/InputResponder.h"
+#include "Input/PointerMapping.h"
+#include "Input/InputListener.h"
+#include "Input/GestureListener.h"
+#include "Input/PointerState.h"
+#include "Input/InputEvent.h"
+#include "Input/Pointers/Pointer.h"
+#include "Input/Pointers/MousePointer.h"
+#include "Input/Pointers/TouchPointer.h"
+#include "Input/Pointers/TypingPointer.h"
+#include "Input/InputManager.h"
+#include "Input/ControlModuleMapping.h"
+#include "Input/GestureRecognizer.h"
+#include "ControlModules/ControlModule.h"
+#include "ControlModules/UnrealCameraModule.h"
+#include "ControlModules/TypingModule.h"
+#include "ControlModules/WidgetModule.h"
+#include "Widget/WidgetManager.h"
+#include "Widget/Widget.h"
+#include "Widget/ButtonWidget.h"
+#include "Widget/MultitouchTestBoxWidget.h"
+#include "Widget/TextFieldWidget.h"
+#include "Widget/ConceptStringBoxWidget.h"
+#include "Widget/ListWidget.h"
+#include "Widget/FunctionWidget.h"
+#include "Canvas.h"
+#include "App.h"
+#include "ConceptionApp.h"
+#include "ConceptionTestApp.h"
+#include "MultitouchTestApp.h"
+
+#ifdef WIN32
+#elif defined(__APPLE__) && defined(__MACH__)
+#endif
+
+extern InputManager * g_InputManager;
+
+#endif // __Main_H__

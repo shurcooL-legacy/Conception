@@ -1,0 +1,620 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
+		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
+		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
+		2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
+		2A4FFA9A155465D90021D8EF /* ControlModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5C155465D90021D8EF /* ControlModule.cpp */; };
+		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
+		2A4FFA9C155465D90021D8EF /* UnrealCameraModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */; };
+		2A4FFA9D155465D90021D8EF /* WidgetModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA62155465D90021D8EF /* WidgetModule.cpp */; };
+		2A4FFA9E155465D90021D8EF /* ControlModuleMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */; };
+		2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputResponder.cpp */; };
+		2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA69155465D90021D8EF /* InputManager.cpp */; };
+		2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */; };
+		2A4FFAA2155465D90021D8EF /* MousePointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA6E155465D90021D8EF /* MousePointer.cpp */; };
+		2A4FFAA3155465D90021D8EF /* Pointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA70155465D90021D8EF /* Pointer.cpp */; };
+		2A4FFAA4155465D90021D8EF /* TouchPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA72155465D90021D8EF /* TouchPointer.cpp */; };
+		2A4FFAA5155465D90021D8EF /* TypingPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA74155465D90021D8EF /* TypingPointer.cpp */; };
+		2A4FFAA6155465D90021D8EF /* SystemInputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA76155465D90021D8EF /* SystemInputListener.cpp */; };
+		2A4FFAA7155465D90021D8EF /* PointerMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA78155465D90021D8EF /* PointerMapping.cpp */; };
+		2A4FFAA8155465D90021D8EF /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA7A155465D90021D8EF /* Main.cpp */; };
+		2A4FFAA9155465D90021D8EF /* MultitouchTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA7C155465D90021D8EF /* MultitouchTestApp.cpp */; };
+		2A4FFAAA155465D90021D8EF /* ogl_utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA7E155465D90021D8EF /* ogl_utils.cpp */; };
+		2A4FFAAB155465D90021D8EF /* OpenGLStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA80155465D90021D8EF /* OpenGLStream.cpp */; };
+		2A4FFAAC155465D90021D8EF /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA82155465D90021D8EF /* Project.cpp */; };
+		2A4FFAAD155465D90021D8EF /* RenderTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA84155465D90021D8EF /* RenderTools.cpp */; };
+		2A4FFAAE155465D90021D8EF /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA86155465D90021D8EF /* App.cpp */; };
+		2A4FFAAF155465D90021D8EF /* ButtonWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */; };
+		2A4FFAB0155465D90021D8EF /* ListWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8D155465D90021D8EF /* ListWidget.cpp */; };
+		2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */; };
+		2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */; };
+		2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA93155465D90021D8EF /* Widget.cpp */; };
+		2A4FFAB4155465D90021D8EF /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA95155465D90021D8EF /* WidgetManager.cpp */; };
+		2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */; };
+		2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */; };
+		2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899C155A12A900F5EE37 /* InputListener.cpp */; };
+		2A807460153F06C700649628 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A80745F153F06C700649628 /* OpenGL.framework */; };
+		2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A807461153F06CD00649628 /* Cocoa.framework */; };
+		2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8368CB155AD04800D25BC1 /* PointerState.cpp */; };
+		2A96BDE61540B0040010D618 /* cocoa_enable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD01540B0040010D618 /* cocoa_enable.m */; };
+		2A96BDE71540B0040010D618 /* cocoa_fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD11540B0040010D618 /* cocoa_fullscreen.m */; };
+		2A96BDE81540B0040010D618 /* cocoa_glext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD21540B0040010D618 /* cocoa_glext.m */; };
+		2A96BDE91540B0040010D618 /* cocoa_init.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD31540B0040010D618 /* cocoa_init.m */; };
+		2A96BDEA1540B0040010D618 /* cocoa_joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD41540B0040010D618 /* cocoa_joystick.m */; };
+		2A96BDEB1540B0040010D618 /* cocoa_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD51540B0040010D618 /* cocoa_thread.c */; };
+		2A96BDEC1540B0040010D618 /* cocoa_time.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD61540B0040010D618 /* cocoa_time.m */; };
+		2A96BDED1540B0040010D618 /* cocoa_window.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD71540B0040010D618 /* cocoa_window.m */; };
+		2A96BDEE1540B0040010D618 /* enable.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD91540B0040010D618 /* enable.c */; };
+		2A96BDEF1540B0040010D618 /* fullscreen.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDDA1540B0040010D618 /* fullscreen.c */; };
+		2A96BDF01540B0040010D618 /* glext.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDDB1540B0040010D618 /* glext.c */; };
+		2A96BDF11540B0040010D618 /* image.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDDC1540B0040010D618 /* image.c */; };
+		2A96BDF21540B0040010D618 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDDD1540B0040010D618 /* init.c */; };
+		2A96BDF31540B0040010D618 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDDE1540B0040010D618 /* input.c */; };
+		2A96BDF41540B0040010D618 /* joystick.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE01540B0040010D618 /* joystick.c */; };
+		2A96BDF51540B0040010D618 /* stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE11540B0040010D618 /* stream.c */; };
+		2A96BDF61540B0040010D618 /* tga.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE21540B0040010D618 /* tga.c */; };
+		2A96BDF71540B0040010D618 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE31540B0040010D618 /* thread.c */; };
+		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
+		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
+		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
+		2ADA2E89155CBAAE00DEAECF /* GestureListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */; };
+		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
+		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
+		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2A807411153F058500649628 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
+		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
+		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA55155465D90021D8EF /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Canvas.h; path = src/Canvas.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA56155465D90021D8EF /* Concept.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Concept.cpp; path = src/Concept.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA57155465D90021D8EF /* Concept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Concept.h; path = src/Concept.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionApp.cpp; path = src/ConceptionApp.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA59155465D90021D8EF /* ConceptionApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionApp.h; path = src/ConceptionApp.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA5A155465D90021D8EF /* Concepts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concepts.h; path = src/Concepts.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA5C155465D90021D8EF /* ControlModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlModule.cpp; sourceTree = "<group>"; };
+		2A4FFA5D155465D90021D8EF /* ControlModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlModule.h; sourceTree = "<group>"; };
+		2A4FFA5E155465D90021D8EF /* TypingModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypingModule.cpp; sourceTree = "<group>"; };
+		2A4FFA5F155465D90021D8EF /* TypingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypingModule.h; sourceTree = "<group>"; };
+		2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnrealCameraModule.cpp; sourceTree = "<group>"; };
+		2A4FFA61155465D90021D8EF /* UnrealCameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnrealCameraModule.h; sourceTree = "<group>"; };
+		2A4FFA62155465D90021D8EF /* WidgetModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetModule.cpp; sourceTree = "<group>"; };
+		2A4FFA63155465D90021D8EF /* WidgetModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetModule.h; sourceTree = "<group>"; };
+		2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlModuleMapping.cpp; sourceTree = "<group>"; };
+		2A4FFA66155465D90021D8EF /* ControlModuleMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlModuleMapping.h; sourceTree = "<group>"; };
+		2A4FFA67155465D90021D8EF /* InputResponder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputResponder.cpp; sourceTree = "<group>"; };
+		2A4FFA68155465D90021D8EF /* InputResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputResponder.h; sourceTree = "<group>"; };
+		2A4FFA69155465D90021D8EF /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		2A4FFA6A155465D90021D8EF /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
+		2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerInputListener.cpp; sourceTree = "<group>"; };
+		2A4FFA6C155465D90021D8EF /* PointerInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerInputListener.h; sourceTree = "<group>"; };
+		2A4FFA6E155465D90021D8EF /* MousePointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MousePointer.cpp; sourceTree = "<group>"; };
+		2A4FFA6F155465D90021D8EF /* MousePointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MousePointer.h; sourceTree = "<group>"; };
+		2A4FFA70155465D90021D8EF /* Pointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pointer.cpp; sourceTree = "<group>"; };
+		2A4FFA71155465D90021D8EF /* Pointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pointer.h; sourceTree = "<group>"; };
+		2A4FFA72155465D90021D8EF /* TouchPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchPointer.cpp; sourceTree = "<group>"; };
+		2A4FFA73155465D90021D8EF /* TouchPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchPointer.h; sourceTree = "<group>"; };
+		2A4FFA74155465D90021D8EF /* TypingPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypingPointer.cpp; sourceTree = "<group>"; };
+		2A4FFA75155465D90021D8EF /* TypingPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypingPointer.h; sourceTree = "<group>"; };
+		2A4FFA76155465D90021D8EF /* SystemInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemInputListener.cpp; sourceTree = "<group>"; };
+		2A4FFA77155465D90021D8EF /* SystemInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInputListener.h; sourceTree = "<group>"; };
+		2A4FFA78155465D90021D8EF /* PointerMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerMapping.cpp; sourceTree = "<group>"; };
+		2A4FFA79155465D90021D8EF /* PointerMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerMapping.h; sourceTree = "<group>"; };
+		2A4FFA7A155465D90021D8EF /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = src/Main.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA7B155465D90021D8EF /* Main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Main.h; path = src/Main.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA7C155465D90021D8EF /* MultitouchTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MultitouchTestApp.cpp; path = src/MultitouchTestApp.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA7D155465D90021D8EF /* MultitouchTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultitouchTestApp.h; path = src/MultitouchTestApp.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA7E155465D90021D8EF /* ogl_utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ogl_utils.cpp; path = src/ogl_utils.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA7F155465D90021D8EF /* ogl_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ogl_utils.h; path = src/ogl_utils.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA80155465D90021D8EF /* OpenGLStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLStream.cpp; path = src/OpenGLStream.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA81155465D90021D8EF /* OpenGLStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLStream.h; path = src/OpenGLStream.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA82155465D90021D8EF /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Project.cpp; path = src/Project.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA83155465D90021D8EF /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Project.h; path = src/Project.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A4FFA84155465D90021D8EF /* RenderTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderTools.cpp; path = src/RenderTools.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA85155465D90021D8EF /* RenderTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTools.h; path = src/RenderTools.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA86155465D90021D8EF /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = App.cpp; path = src/App.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA87155465D90021D8EF /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA88155465D90021D8EF /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = src/Vector2.h; sourceTree = SOURCE_ROOT; };
+		2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonWidget.cpp; sourceTree = "<group>"; };
+		2A4FFA8C155465D90021D8EF /* ButtonWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonWidget.h; sourceTree = "<group>"; };
+		2A4FFA8D155465D90021D8EF /* ListWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ListWidget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A4FFA8E155465D90021D8EF /* ListWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ListWidget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultitouchTestBoxWidget.cpp; sourceTree = "<group>"; };
+		2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultitouchTestBoxWidget.h; sourceTree = "<group>"; };
+		2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextFieldWidget.cpp; sourceTree = "<group>"; };
+		2A4FFA92155465D90021D8EF /* TextFieldWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWidget.h; sourceTree = "<group>"; };
+		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		2A4FFA95155465D90021D8EF /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
+		2A4FFA96155465D90021D8EF /* WidgetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetManager.h; sourceTree = "<group>"; };
+		2A7B8B701558B25F007A1FA7 /* InputEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputEvent.h; sourceTree = "<group>"; };
+		2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEvent.cpp; sourceTree = "<group>"; };
+		2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
+		2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cpp; sourceTree = "<group>"; };
+		2A7C899C155A12A900F5EE37 /* InputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputListener.cpp; sourceTree = "<group>"; };
+		2A7C899D155A12A900F5EE37 /* InputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputListener.h; sourceTree = "<group>"; };
+		2A807413153F058500649628 /* Conception */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Conception; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A80745F153F06C700649628 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		2A807461153F06CD00649628 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		2A8368CB155AD04800D25BC1 /* PointerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerState.cpp; sourceTree = "<group>"; };
+		2A8368CE155AD05300D25BC1 /* PointerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointerState.h; sourceTree = "<group>"; };
+		2A96BDD01540B0040010D618 /* cocoa_enable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_enable.m; sourceTree = "<group>"; };
+		2A96BDD11540B0040010D618 /* cocoa_fullscreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_fullscreen.m; sourceTree = "<group>"; };
+		2A96BDD21540B0040010D618 /* cocoa_glext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_glext.m; sourceTree = "<group>"; };
+		2A96BDD31540B0040010D618 /* cocoa_init.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_init.m; sourceTree = "<group>"; };
+		2A96BDD41540B0040010D618 /* cocoa_joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_joystick.m; sourceTree = "<group>"; };
+		2A96BDD51540B0040010D618 /* cocoa_thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cocoa_thread.c; sourceTree = "<group>"; };
+		2A96BDD61540B0040010D618 /* cocoa_time.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_time.m; sourceTree = "<group>"; };
+		2A96BDD71540B0040010D618 /* cocoa_window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_window.m; sourceTree = "<group>"; };
+		2A96BDD81540B0040010D618 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		2A96BDD91540B0040010D618 /* enable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = enable.c; path = glfw/enable.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDA1540B0040010D618 /* fullscreen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fullscreen.c; path = glfw/fullscreen.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDB1540B0040010D618 /* glext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = glext.c; path = glfw/glext.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDC1540B0040010D618 /* image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = image.c; path = glfw/image.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDD1540B0040010D618 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = init.c; path = glfw/init.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDE1540B0040010D618 /* input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = input.c; path = glfw/input.c; sourceTree = SOURCE_ROOT; };
+		2A96BDDF1540B0040010D618 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = internal.h; path = glfw/internal.h; sourceTree = SOURCE_ROOT; };
+		2A96BDE01540B0040010D618 /* joystick.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = joystick.c; path = glfw/joystick.c; sourceTree = SOURCE_ROOT; };
+		2A96BDE11540B0040010D618 /* stream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = stream.c; path = glfw/stream.c; sourceTree = SOURCE_ROOT; };
+		2A96BDE21540B0040010D618 /* tga.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tga.c; path = glfw/tga.c; sourceTree = SOURCE_ROOT; };
+		2A96BDE31540B0040010D618 /* thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thread.c; path = glfw/thread.c; sourceTree = SOURCE_ROOT; };
+		2A96BDE41540B0040010D618 /* time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = time.c; path = glfw/time.c; sourceTree = SOURCE_ROOT; };
+		2A96BDE51540B0040010D618 /* window.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = window.c; path = glfw/window.c; sourceTree = SOURCE_ROOT; };
+		2AAAF4D21562E84C00BFD81D /* MutuallyConnectable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MutuallyConnectable.hpp; path = src/MutuallyConnectable.hpp; sourceTree = SOURCE_ROOT; };
+		2AB805B9155966E90052572D /* glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glfw.h; path = include/GL/glfw.h; sourceTree = SOURCE_ROOT; };
+		2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionTestApp.cpp; path = src/ConceptionTestApp.cpp; sourceTree = SOURCE_ROOT; };
+		2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionTestApp.h; path = src/ConceptionTestApp.h; sourceTree = SOURCE_ROOT; };
+		2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MutuallyConnectable.h; path = src/MutuallyConnectable.h; sourceTree = SOURCE_ROOT; };
+		2ADA2E87155CBAA200DEAECF /* GestureListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureListener.h; sourceTree = "<group>"; };
+		2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureListener.cpp; sourceTree = "<group>"; };
+		2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionWidget.cpp; sourceTree = "<group>"; };
+		2ADBF3C815840A19007BDF94 /* FunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionWidget.h; sourceTree = "<group>"; };
+		2ADBF3CF15841AF3007BDF94 /* Function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Function.cpp; sourceTree = "<group>"; };
+		2ADBF3D015841AF3007BDF94 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = Function.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
+		2AF419651563F81C0076E6E5 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = src/Vector2.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2A807410153F058500649628 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */,
+				2A807460153F06C700649628 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2A4FFA5B155465D90021D8EF /* ControlModules */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FFA5C155465D90021D8EF /* ControlModule.cpp */,
+				2A4FFA5D155465D90021D8EF /* ControlModule.h */,
+				2A4FFA5E155465D90021D8EF /* TypingModule.cpp */,
+				2A4FFA5F155465D90021D8EF /* TypingModule.h */,
+				2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */,
+				2A4FFA61155465D90021D8EF /* UnrealCameraModule.h */,
+				2A4FFA62155465D90021D8EF /* WidgetModule.cpp */,
+				2A4FFA63155465D90021D8EF /* WidgetModule.h */,
+			);
+			name = ControlModules;
+			path = src/ControlModules;
+			sourceTree = SOURCE_ROOT;
+		};
+		2A4FFA64155465D90021D8EF /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */,
+				2A4FFA66155465D90021D8EF /* ControlModuleMapping.h */,
+				2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */,
+				2ADA2E87155CBAA200DEAECF /* GestureListener.h */,
+				2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */,
+				2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */,
+				2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */,
+				2A7B8B701558B25F007A1FA7 /* InputEvent.h */,
+				2A7C899C155A12A900F5EE37 /* InputListener.cpp */,
+				2A7C899D155A12A900F5EE37 /* InputListener.h */,
+				2A4FFA69155465D90021D8EF /* InputManager.cpp */,
+				2A4FFA6A155465D90021D8EF /* InputManager.h */,
+				2A4FFA67155465D90021D8EF /* InputResponder.cpp */,
+				2A4FFA68155465D90021D8EF /* InputResponder.h */,
+				2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */,
+				2A4FFA6C155465D90021D8EF /* PointerInputListener.h */,
+				2A4FFA78155465D90021D8EF /* PointerMapping.cpp */,
+				2A4FFA79155465D90021D8EF /* PointerMapping.h */,
+				2A4FFA6D155465D90021D8EF /* Pointers */,
+				2A8368CB155AD04800D25BC1 /* PointerState.cpp */,
+				2A8368CE155AD05300D25BC1 /* PointerState.h */,
+				2A4FFA76155465D90021D8EF /* SystemInputListener.cpp */,
+				2A4FFA77155465D90021D8EF /* SystemInputListener.h */,
+			);
+			name = Input;
+			path = src/Input;
+			sourceTree = SOURCE_ROOT;
+		};
+		2A4FFA6D155465D90021D8EF /* Pointers */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FFA6E155465D90021D8EF /* MousePointer.cpp */,
+				2A4FFA6F155465D90021D8EF /* MousePointer.h */,
+				2A4FFA70155465D90021D8EF /* Pointer.cpp */,
+				2A4FFA71155465D90021D8EF /* Pointer.h */,
+				2A4FFA72155465D90021D8EF /* TouchPointer.cpp */,
+				2A4FFA73155465D90021D8EF /* TouchPointer.h */,
+				2A4FFA74155465D90021D8EF /* TypingPointer.cpp */,
+				2A4FFA75155465D90021D8EF /* TypingPointer.h */,
+			);
+			path = Pointers;
+			sourceTree = "<group>";
+		};
+		2A4FFA8A155465D90021D8EF /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */,
+				2A4FFA8C155465D90021D8EF /* ButtonWidget.h */,
+				2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */,
+				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
+				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
+				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
+				2A4FFA8D155465D90021D8EF /* ListWidget.cpp */,
+				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
+				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
+				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
+				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
+				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
+				2A4FFA93155465D90021D8EF /* Widget.cpp */,
+				2A4FFA94155465D90021D8EF /* Widget.h */,
+				2A4FFA95155465D90021D8EF /* WidgetManager.cpp */,
+				2A4FFA96155465D90021D8EF /* WidgetManager.h */,
+			);
+			name = Widget;
+			path = src/Widget;
+			sourceTree = SOURCE_ROOT;
+		};
+		2A807406153F052200649628 = {
+			isa = PBXGroup;
+			children = (
+				2A807461153F06CD00649628 /* Cocoa.framework */,
+				2A80745F153F06C700649628 /* OpenGL.framework */,
+				2A96BDA21540AF300010D618 /* glfw */,
+				2A807416153F058500649628 /* src */,
+				2A807414153F058500649628 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2A807414153F058500649628 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A807413153F058500649628 /* Conception */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A807416153F058500649628 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2A4FFA86155465D90021D8EF /* App.cpp */,
+				2A4FFA87155465D90021D8EF /* App.h */,
+				2A4FFA54155465D90021D8EF /* Canvas.cpp */,
+				2A4FFA55155465D90021D8EF /* Canvas.h */,
+				2A4FFA56155465D90021D8EF /* Concept.cpp */,
+				2A4FFA57155465D90021D8EF /* Concept.h */,
+				2ADBF3CE15841AF2007BDF94 /* Conception */,
+				2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */,
+				2A4FFA59155465D90021D8EF /* ConceptionApp.h */,
+				2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */,
+				2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */,
+				2A4FFA5A155465D90021D8EF /* Concepts.h */,
+				2A4FFA5B155465D90021D8EF /* ControlModules */,
+				2A4FFA64155465D90021D8EF /* Input */,
+				2A4FFA7A155465D90021D8EF /* Main.cpp */,
+				2A4FFA7B155465D90021D8EF /* Main.h */,
+				2A4FFA7C155465D90021D8EF /* MultitouchTestApp.cpp */,
+				2A4FFA7D155465D90021D8EF /* MultitouchTestApp.h */,
+				2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */,
+				2AAAF4D21562E84C00BFD81D /* MutuallyConnectable.hpp */,
+				2A4FFA7E155465D90021D8EF /* ogl_utils.cpp */,
+				2A4FFA7F155465D90021D8EF /* ogl_utils.h */,
+				2A4FFA80155465D90021D8EF /* OpenGLStream.cpp */,
+				2A4FFA81155465D90021D8EF /* OpenGLStream.h */,
+				2A4FFA82155465D90021D8EF /* Project.cpp */,
+				2A4FFA83155465D90021D8EF /* Project.h */,
+				2A4FFA84155465D90021D8EF /* RenderTools.cpp */,
+				2A4FFA85155465D90021D8EF /* RenderTools.h */,
+				2AF419651563F81C0076E6E5 /* Vector2.cpp */,
+				2A4FFA88155465D90021D8EF /* Vector2.h */,
+				2AF419641563F7E70076E6E5 /* Vector2.hpp */,
+				2A4FFA8A155465D90021D8EF /* Widget */,
+			);
+			name = src;
+			path = Conception;
+			sourceTree = "<group>";
+		};
+		2A96BDA21540AF300010D618 /* glfw */ = {
+			isa = PBXGroup;
+			children = (
+				2A96BDCF1540B0040010D618 /* cocoa */,
+				2A96BDD91540B0040010D618 /* enable.c */,
+				2A96BDDA1540B0040010D618 /* fullscreen.c */,
+				2A96BDDB1540B0040010D618 /* glext.c */,
+				2AB805B9155966E90052572D /* glfw.h */,
+				2A96BDDC1540B0040010D618 /* image.c */,
+				2A96BDDD1540B0040010D618 /* init.c */,
+				2A96BDDE1540B0040010D618 /* input.c */,
+				2A96BDDF1540B0040010D618 /* internal.h */,
+				2A96BDE01540B0040010D618 /* joystick.c */,
+				2A96BDE11540B0040010D618 /* stream.c */,
+				2A96BDE21540B0040010D618 /* tga.c */,
+				2A96BDE31540B0040010D618 /* thread.c */,
+				2A96BDE41540B0040010D618 /* time.c */,
+				2A96BDE51540B0040010D618 /* window.c */,
+			);
+			name = glfw;
+			path = Conception;
+			sourceTree = "<group>";
+		};
+		2A96BDCF1540B0040010D618 /* cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				2A96BDD01540B0040010D618 /* cocoa_enable.m */,
+				2A96BDD11540B0040010D618 /* cocoa_fullscreen.m */,
+				2A96BDD21540B0040010D618 /* cocoa_glext.m */,
+				2A96BDD31540B0040010D618 /* cocoa_init.m */,
+				2A96BDD41540B0040010D618 /* cocoa_joystick.m */,
+				2A96BDD51540B0040010D618 /* cocoa_thread.c */,
+				2A96BDD61540B0040010D618 /* cocoa_time.m */,
+				2A96BDD71540B0040010D618 /* cocoa_window.m */,
+				2A96BDD81540B0040010D618 /* platform.h */,
+			);
+			name = cocoa;
+			path = glfw/cocoa;
+			sourceTree = SOURCE_ROOT;
+		};
+		2ADBF3CE15841AF2007BDF94 /* Conception */ = {
+			isa = PBXGroup;
+			children = (
+				2ADBF3CF15841AF3007BDF94 /* Function.cpp */,
+				2ADBF3D015841AF3007BDF94 /* Function.h */,
+			);
+			name = Conception;
+			path = src/Conception;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2A807412153F058500649628 /* Conception */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A80741B153F058500649628 /* Build configuration list for PBXNativeTarget "Conception" */;
+			buildPhases = (
+				2A80740F153F058500649628 /* Sources */,
+				2A807410153F058500649628 /* Frameworks */,
+				2A807411153F058500649628 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Conception;
+			productName = Conception;
+			productReference = 2A807413153F058500649628 /* Conception */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A807408153F052200649628 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 2A80740B153F052200649628 /* Build configuration list for PBXProject "Conception" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2A807406153F052200649628;
+			productRefGroup = 2A807414153F058500649628 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2A807412153F058500649628 /* Conception */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2A80740F153F058500649628 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A96BDE61540B0040010D618 /* cocoa_enable.m in Sources */,
+				2A96BDE71540B0040010D618 /* cocoa_fullscreen.m in Sources */,
+				2A96BDE81540B0040010D618 /* cocoa_glext.m in Sources */,
+				2A96BDE91540B0040010D618 /* cocoa_init.m in Sources */,
+				2A96BDEA1540B0040010D618 /* cocoa_joystick.m in Sources */,
+				2A96BDEB1540B0040010D618 /* cocoa_thread.c in Sources */,
+				2A96BDEC1540B0040010D618 /* cocoa_time.m in Sources */,
+				2A96BDED1540B0040010D618 /* cocoa_window.m in Sources */,
+				2A96BDEE1540B0040010D618 /* enable.c in Sources */,
+				2A96BDEF1540B0040010D618 /* fullscreen.c in Sources */,
+				2A96BDF01540B0040010D618 /* glext.c in Sources */,
+				2A96BDF11540B0040010D618 /* image.c in Sources */,
+				2A96BDF21540B0040010D618 /* init.c in Sources */,
+				2A96BDF31540B0040010D618 /* input.c in Sources */,
+				2A96BDF41540B0040010D618 /* joystick.c in Sources */,
+				2A96BDF51540B0040010D618 /* stream.c in Sources */,
+				2A96BDF61540B0040010D618 /* tga.c in Sources */,
+				2A96BDF71540B0040010D618 /* thread.c in Sources */,
+				2A96BDF81540B0040010D618 /* time.c in Sources */,
+				2A96BDF91540B0040010D618 /* window.c in Sources */,
+				2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */,
+				2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */,
+				2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */,
+				2A4FFA9A155465D90021D8EF /* ControlModule.cpp in Sources */,
+				2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */,
+				2A4FFA9C155465D90021D8EF /* UnrealCameraModule.cpp in Sources */,
+				2A4FFA9D155465D90021D8EF /* WidgetModule.cpp in Sources */,
+				2A4FFA9E155465D90021D8EF /* ControlModuleMapping.cpp in Sources */,
+				2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */,
+				2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */,
+				2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */,
+				2A4FFAA2155465D90021D8EF /* MousePointer.cpp in Sources */,
+				2A4FFAA3155465D90021D8EF /* Pointer.cpp in Sources */,
+				2A4FFAA4155465D90021D8EF /* TouchPointer.cpp in Sources */,
+				2A4FFAA5155465D90021D8EF /* TypingPointer.cpp in Sources */,
+				2A4FFAA6155465D90021D8EF /* SystemInputListener.cpp in Sources */,
+				2A4FFAA7155465D90021D8EF /* PointerMapping.cpp in Sources */,
+				2A4FFAA8155465D90021D8EF /* Main.cpp in Sources */,
+				2A4FFAA9155465D90021D8EF /* MultitouchTestApp.cpp in Sources */,
+				2A4FFAAA155465D90021D8EF /* ogl_utils.cpp in Sources */,
+				2A4FFAAB155465D90021D8EF /* OpenGLStream.cpp in Sources */,
+				2A4FFAAC155465D90021D8EF /* Project.cpp in Sources */,
+				2A4FFAAD155465D90021D8EF /* RenderTools.cpp in Sources */,
+				2A4FFAAE155465D90021D8EF /* App.cpp in Sources */,
+				2A4FFAAF155465D90021D8EF /* ButtonWidget.cpp in Sources */,
+				2A4FFAB0155465D90021D8EF /* ListWidget.cpp in Sources */,
+				2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */,
+				2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */,
+				2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */,
+				2A4FFAB4155465D90021D8EF /* WidgetManager.cpp in Sources */,
+				2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */,
+				2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */,
+				2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */,
+				2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */,
+				2ADA2E89155CBAAE00DEAECF /* GestureListener.cpp in Sources */,
+				2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */,
+				2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */,
+				2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */,
+				2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */,
+				2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2A80740D153F052200649628 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		2A80740E153F052200649628 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		2A80741C153F058500649628 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2A80741D153F058500649628 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/include\"";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lib\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2A80740B153F052200649628 /* Build configuration list for PBXProject "Conception" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A80740D153F052200649628 /* Debug */,
+				2A80740E153F052200649628 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A80741B153F058500649628 /* Build configuration list for PBXNativeTarget "Conception" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A80741C153F058500649628 /* Debug */,
+				2A80741D153F058500649628 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A807408153F052200649628 /* Project object */;
+}
