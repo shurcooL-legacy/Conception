@@ -383,6 +383,36 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							SetCaretPosition(m_Content.length(), false);
 						}
 					}
+					break;
+				case 'X':
+					{
+						if (SuperActive)
+						{
+							glfwSetClipboardString(GetSelectionContent());
+
+							EraseSelectionIfAny();
+						}
+					}
+					break;
+				case 'C':
+					{
+						if (SuperActive)
+						{
+							glfwSetClipboardString(GetSelectionContent());
+						}
+					}
+					break;
+				case 'V':
+					{
+						if (SuperActive)
+						{
+							EraseSelectionIfAny();
+
+							m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+							MoveCaret(glfwGetClipboardString().length(), true);
+						}
+					}
+					break;
 				default:
 					break;
 				}
@@ -402,55 +432,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 						Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-						UpdateContentLines();
-
-						// Calculate nearest caret position
-						uint32 LineNumber = LocalPosition.Y() / lineHeight;
-						if (LineNumber > m_ContentLines.size() - 1)
-							LineNumber = m_ContentLines.size() - 1;
-						uint32 CharacterNumber = (LocalPosition.X() + charWidth / 2) / charWidth;
-						if (CharacterNumber > m_ContentLines[LineNumber].m_Length)
-							CharacterNumber = m_ContentLines[LineNumber].m_Length;
-
-						{
-							std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length);
-
-							uint32 CaretPositionX = 0;
-							std::string::size_type Start = 0, End;
-							do
-							{
-								End = Line.find_first_of('\t', Start);
-
-								auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
-								//PrintSegment(Line.substr(Start, Length));
-								CaretPositionX += Length * charWidth;
-								if (CaretPositionX >= LocalPosition.X())
-								{
-									CharacterNumber = Start + (LocalPosition.X() - (CaretPositionX - Length * charWidth) + charWidth / 2) / charWidth;
-									break;
-								}
-								if (std::string::npos != End)
-								{
-									//Tab();
-									auto StartCaretPositionX = CaretPositionX;
-									CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
-									if (CaretPositionX >= LocalPosition.X())
-									{
-										if (CaretPositionX - LocalPosition.X() > LocalPosition.X() - StartCaretPositionX)
-											CharacterNumber = Start + Length;
-										else
-											CharacterNumber = Start + Length + 1;
-										break;
-									}
-								}
-
-								Start = End + 1;
-							}
-							while (std::string::npos != End);
-						}
+						auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
 						auto ShiftActive = g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT) || g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT);
-						SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + CharacterNumber, !ShiftActive);
+						SetCaretPosition(CaretPosition, !ShiftActive);
 					}
 					break;
 				default:
@@ -474,53 +459,9 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 				if (LocalPosition.Y() < 0)
 					LocalPosition.Y() = 0;
 
-				UpdateContentLines();
+				auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
-				// Calculate nearest caret position
-				uint32 LineNumber = LocalPosition.Y() / lineHeight;
-				if (LineNumber > m_ContentLines.size() - 1)
-					LineNumber = m_ContentLines.size() - 1;
-				uint32 CharacterNumber = (LocalPosition.X() + charWidth / 2) / charWidth;
-				if (CharacterNumber > m_ContentLines[LineNumber].m_Length)
-					CharacterNumber = m_ContentLines[LineNumber].m_Length;
-				{
-					std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length);
-
-					uint32 CaretPositionX = 0;
-					std::string::size_type Start = 0, End;
-					do
-					{
-						End = Line.find_first_of('\t', Start);
-
-						auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
-						//PrintSegment(Line.substr(Start, Length));
-						CaretPositionX += Length * charWidth;
-						if (CaretPositionX >= LocalPosition.X())
-						{
-							CharacterNumber = Start + (LocalPosition.X() - (CaretPositionX - Length * charWidth) + charWidth / 2) / charWidth;
-							break;
-						}
-						if (std::string::npos != End)
-						{
-							//Tab();
-							auto StartCaretPositionX = CaretPositionX;
-							CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
-							if (CaretPositionX >= LocalPosition.X())
-							{
-								if (CaretPositionX - LocalPosition.X() > LocalPosition.X() - StartCaretPositionX)
-									CharacterNumber = Start + Length;
-								else
-									CharacterNumber = Start + Length + 1;
-								break;
-							}
-						}
-
-						Start = End + 1;
-					}
-					while (std::string::npos != End);
-				}
-
-				SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + CharacterNumber, false);
+				SetCaretPosition(CaretPosition, false);
 			}
 		}
 	}
@@ -553,30 +494,7 @@ void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, 
 			++LineNumber;
 		}
 
-		uint32 CaretPositionX = 0;
-		{
-			std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, ColumnNumber);
-
-			std::string::size_type Start = 0, End;
-			do
-			{
-				End = Line.find_first_of('\t', Start);
-
-				auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
-				//PrintSegment(Line.substr(Start, Length));
-				CaretPositionX += Length * charWidth;
-				if (std::string::npos != End)
-				{
-					//Tab();
-					CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
-				}
-
-				Start = End + 1;
-			}
-			while (std::string::npos != End);
-		}
-
-		m_TargetCaretColumnX = CaretPositionX;
+		m_TargetCaretColumnX = GetCaretPositionX(LineNumber, ColumnNumber);
 	}
 }
 
@@ -612,8 +530,6 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 		++LineNumber;
 	}
 
-	uint32 CaretPositionX = m_TargetCaretColumnX;
-
 	if (-1 == MoveAmount)
 	{
 		if (LineNumber > 0)
@@ -626,52 +542,17 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 	}
 	//m_CaretPosition = std::min(m_ContentLines[LineNumber].m_StartPosition + ColumnNumber, m_ContentLines[LineNumber].m_StartPosition + m_ContentLines[LineNumber].m_Length);
 	{
-		Vector2n LocalPosition(CaretPositionX, 0);
-		
-		// Calculate nearest caret position
-		uint32 CharacterNumber = (LocalPosition.X() + charWidth / 2) / charWidth;
-		if (CharacterNumber > m_ContentLines[LineNumber].m_Length)
-			CharacterNumber = m_ContentLines[LineNumber].m_Length;
+		auto CaretPosition = GetNearestCaretPosition(LineNumber, m_TargetCaretColumnX);
 
-		{
-			std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length);
-
-			uint32 CaretPositionX = 0;
-			std::string::size_type Start = 0, End;
-			do
-			{
-				End = Line.find_first_of('\t', Start);
-
-				auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
-				//PrintSegment(Line.substr(Start, Length));
-				CaretPositionX += Length * charWidth;
-				if (CaretPositionX >= LocalPosition.X())
-				{
-					CharacterNumber = Start + (LocalPosition.X() - (CaretPositionX - Length * charWidth) + charWidth / 2) / charWidth;
-					break;
-				}
-				if (std::string::npos != End)
-				{
-					//Tab();
-					auto StartCaretPositionX = CaretPositionX;
-					CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
-					if (CaretPositionX >= LocalPosition.X())
-					{
-						if (CaretPositionX - LocalPosition.X() > LocalPosition.X() - StartCaretPositionX)
-							CharacterNumber = Start + Length;
-						else
-							CharacterNumber = Start + Length + 1;
-						break;
-					}
-				}
-
-				Start = End + 1;
-			}
-			while (std::string::npos != End);
-		}
-
-		SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + CharacterNumber, ResetSelection, false);
+		SetCaretPosition(CaretPosition, ResetSelection, false);
 	}
+}
+
+std::string TextFieldWidget::GetSelectionContent()
+{
+	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+
+	return m_Content.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
 }
 
 // Returns true if there was a selection, false otherwise
@@ -702,8 +583,9 @@ void TextFieldWidget::UpdateContentLines()
 
 		auto Length = ((std::string::npos != End) ? End : m_Content.length()) - Start;
 		m_ContentLines.push_back(ContentLine(Start, Length));
-		if (m_MaxLineLength < Length)
-			m_MaxLineLength = Length;
+		auto LengthX = GetCaretPositionX(m_ContentLines.size() - 1, Length) / charWidth;
+		if (m_MaxLineLength < LengthX)
+			m_MaxLineLength = LengthX;
 
 		Start = End + 1;
 	}
@@ -712,4 +594,91 @@ void TextFieldWidget::UpdateContentLines()
 	// TEST: Resize the widget to accomodate text width
 	m_Dimensions.X() = std::max(m_MaxLineLength * charWidth, 3LU * charWidth);
 	m_Dimensions.Y() = std::max(m_ContentLines.size() * lineHeight, 1LU * lineHeight);
+}
+
+uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)
+{
+	uint32 CaretPositionX = 0;
+
+	{
+		std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, ColumnNumber);
+
+		std::string::size_type Start = 0, End;
+		do
+		{
+			End = Line.find_first_of('\t', Start);
+
+			auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
+			//PrintSegment(Line.substr(Start, Length));
+			CaretPositionX += Length * charWidth;
+			if (std::string::npos != End)
+			{
+				//Tab();
+				CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
+			}
+
+			Start = End + 1;
+		}
+		while (std::string::npos != End);
+	}
+
+	return CaretPositionX;
+}
+
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(Vector2n LocalPosition)
+{
+	uint32 LineNumber = LocalPosition.Y() / lineHeight;
+
+	return GetNearestCaretPosition(LineNumber, static_cast<uint32>(LocalPosition.X()));
+}
+
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX)
+{
+	UpdateContentLines();
+
+	// Calculate nearest caret position
+	if (LineNumber > m_ContentLines.size() - 1)
+		LineNumber = m_ContentLines.size() - 1;
+	uint32 CharacterNumber = (LocalPositionX + charWidth / 2) / charWidth;
+	if (CharacterNumber > m_ContentLines[LineNumber].m_Length)
+		CharacterNumber = m_ContentLines[LineNumber].m_Length;
+
+	{
+		std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length);
+
+		uint32 CaretPositionX = 0;
+		std::string::size_type Start = 0, End;
+		do
+		{
+			End = Line.find_first_of('\t', Start);
+
+			auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
+			//PrintSegment(Line.substr(Start, Length));
+			CaretPositionX += Length * charWidth;
+			if (CaretPositionX >= LocalPositionX)
+			{
+				CharacterNumber = Start + (LocalPositionX - (CaretPositionX - Length * charWidth) + charWidth / 2) / charWidth;
+				break;
+			}
+			if (std::string::npos != End)
+			{
+				//Tab();
+				auto StartCaretPositionX = CaretPositionX;
+				CaretPositionX = ((CaretPositionX / charWidth / 4) + 1) * 4 * charWidth;
+				if (CaretPositionX >= LocalPositionX)
+				{
+					if (CaretPositionX - LocalPositionX > LocalPositionX - StartCaretPositionX)
+						CharacterNumber = Start + Length;
+					else
+						CharacterNumber = Start + Length + 1;
+					break;
+				}
+			}
+
+			Start = End + 1;
+		}
+		while (std::string::npos != End);
+	}
+
+	return (m_ContentLines[LineNumber].m_StartPosition + CharacterNumber);
 }

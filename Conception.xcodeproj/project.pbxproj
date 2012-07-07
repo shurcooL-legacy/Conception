@@ -65,6 +65,8 @@
 		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
 		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
+		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
+		2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9D15A7624F007719FA /* Utilities.mm */; };
 		2ADA2E89155CBAAE00DEAECF /* GestureListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */; };
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
@@ -185,6 +187,9 @@
 		2AB805B9155966E90052572D /* glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glfw.h; path = include/GL/glfw.h; sourceTree = SOURCE_ROOT; };
 		2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionTestApp.cpp; path = src/ConceptionTestApp.cpp; sourceTree = SOURCE_ROOT; };
 		2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionTestApp.h; path = src/ConceptionTestApp.h; sourceTree = SOURCE_ROOT; };
+		2AD87E9915A75FF3007719FA /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = src/Utilities.h; sourceTree = SOURCE_ROOT; };
+		2AD87E9B15A7600F007719FA /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = src/Utilities.cpp; sourceTree = SOURCE_ROOT; };
+		2AD87E9D15A7624F007719FA /* Utilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Utilities.mm; path = src/Utilities.mm; sourceTree = SOURCE_ROOT; };
 		2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MutuallyConnectable.h; path = src/MutuallyConnectable.h; sourceTree = SOURCE_ROOT; };
 		2ADA2E87155CBAA200DEAECF /* GestureListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureListener.h; sourceTree = "<group>"; };
 		2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureListener.cpp; sourceTree = "<group>"; };
@@ -345,6 +350,9 @@
 				2A4FFA83155465D90021D8EF /* Project.h */,
 				2A4FFA84155465D90021D8EF /* RenderTools.cpp */,
 				2A4FFA85155465D90021D8EF /* RenderTools.h */,
+				2AD87E9B15A7600F007719FA /* Utilities.cpp */,
+				2AD87E9915A75FF3007719FA /* Utilities.h */,
+				2AD87E9D15A7624F007719FA /* Utilities.mm */,
 				2AF419651563F81C0076E6E5 /* Vector2.cpp */,
 				2A4FFA88155465D90021D8EF /* Vector2.h */,
 				2AF419641563F7E70076E6E5 /* Vector2.hpp */,
@@ -514,6 +522,8 @@
 				2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */,
 				2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */,
 				2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */,
+				2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */,
+				2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

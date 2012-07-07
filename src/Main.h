@@ -151,6 +151,7 @@ public:
 typedef Rectangle<sint32> Rectanglen;
 typedef Rectangle<double> Rectangled;
 
+#include "Utilities.h"
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
 #include "RenderTools.h"
