@@ -42,6 +42,14 @@ int main(int argc, char * argv[])
 
 		return 0;
 	}*/
+	{
+		auto Test = []() { std::cout << "Hi from anon func.\n"; };
+
+		// Call Test()
+		Test();
+
+		return 0;
+	}
 
 
 
