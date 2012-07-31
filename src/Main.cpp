@@ -42,6 +42,7 @@ int main(int argc, char * argv[])
 
 		return 0;
 	}*/
+#if 0
 	{
 		auto Test = []() { std::cout << "Hi from anon func.\n"; };
 
@@ -50,6 +51,7 @@ int main(int argc, char * argv[])
 
 		return 0;
 	}
+#endif
 
 
 
@@ -174,7 +176,7 @@ int main(int argc, char * argv[])
 
 	// Clean up
 #if defined(__APPLE__) && defined(__MACH__)
-	system("rm ./GenProgram.cpp ./GenProgram.command");		// Clean up temporary files
+	//system("rm ./GenProgram.cpp ./GenProgram.command");		// Clean up temporary files
 #endif
 	OglUtilsKillFont();
 	glfwTerminate();
