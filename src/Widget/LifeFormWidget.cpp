@@ -51,7 +51,7 @@ void LifeFormWidget::ProcessTap()
 
 void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 {
-	m_VelocityD = Vector2d(8, 5);
+	m_VelocityD = Vector2d(-25, 5);
 
 	for (auto & Connected : GetGestureRecognizer().GetConnected())
 	{
