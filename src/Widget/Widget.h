@@ -37,6 +37,8 @@ protected:
 
 	//bool IsActiveExternally() { return (this == *m_ActiveWidgetPointer); }
 
+	virtual bool IsHit(const Vector2n ParentPosition) const;
+
 	virtual const Vector2n ParentToLocal(const Vector2n ParentPosition) const;
 	const Vector2n GlobalToParent(const Vector2n GlobalPosition) const;
 	const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const;

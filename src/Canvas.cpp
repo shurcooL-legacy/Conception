@@ -437,7 +437,7 @@ const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 		PositionDouble = Vector2d((PositionDouble - Vector2d(m_Dimensions.X(), m_Dimensions.Y()) * 0.5) / CameraZ + Camera);
 	}
 
-	Vector2n PositionInt(std::lround(std::floor(PositionDouble.X())), std::lround(std::floor(PositionDouble.Y())));		// TODO: Loss of accuracy? Fix it if needed.
+	Vector2n PositionInt(static_cast<sint32>(std::lround(std::floor(PositionDouble.X()))), static_cast<sint32>(std::lround(std::floor(PositionDouble.Y()))));		// TODO: Loss of accuracy? Fix it if needed.
 	return PositionInt;
 }
 

@@ -57,15 +57,22 @@ const Canvas * Widget::GetParent() const
 // Returns false if there is no hit whatsoever
 bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-	bool Hit = (   ParentPosition.X() >= m_Position.X()
-				&& ParentPosition.Y() >= m_Position.Y()
-				&& ParentPosition.X() < m_Position.X() + m_Dimensions.X()
-				&& ParentPosition.Y() < m_Position.Y() + m_Dimensions.Y());
+	bool Hit = IsHit(ParentPosition);
 
 	if (Hit && nullptr != Hits)
 	{
 		Hits->push_back(const_cast<Widget *>(this));
 	}
+
+	return Hit;
+}
+
+bool Widget::IsHit(const Vector2n ParentPosition) const
+{
+	bool Hit = (   ParentPosition.X() >= m_Position.X()
+				&& ParentPosition.Y() >= m_Position.Y()
+				&& ParentPosition.X() <  m_Position.X() + m_Dimensions.X()
+				&& ParentPosition.Y() <  m_Position.Y() + m_Dimensions.Y());
 
 	return Hit;
 }

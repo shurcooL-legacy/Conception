@@ -49,4 +49,8 @@ void DrawAroundBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Colo
 
 void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color BorderColor);
 
+void DrawCircle(Vector2n Position, Vector2n Size);
+void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor);
+void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor, Color BorderColor);
+
 #endif // __RenderTools_H__

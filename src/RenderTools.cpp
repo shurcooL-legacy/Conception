@@ -131,3 +131,40 @@ void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color
 
 	glEnable(GL_TEXTURE_2D);
 }
+
+void DrawCircle(Vector2n Position, Vector2n Size)
+{
+	DrawCircle(Position, Size, Color(1, 1, 1));
+}
+void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor)
+{
+	DrawCircle(Position, Size, BackgroundColor, Color(0.3, 0.3, 0.3));
+}
+void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor, Color BorderColor)
+{
+	glDisable(GL_TEXTURE_2D);
+	
+	const auto TwoPi = std::atan(1) * 8;
+
+	const uint32 x = 64;
+
+	glBegin(GL_TRIANGLE_FAN);
+		glColor3dv(BorderColor.GetComponents());
+		glVertex2i(Position.X(), Position.Y());
+		for (int i = 0; i <= x; ++i)
+		{
+			glVertex2d(Position.X() + std::sin(TwoPi * i / x) * Size.X() / 2, Position.Y() + std::cos(TwoPi * i / x) * Size.Y() / 2);
+		}
+	glEnd();
+
+	glBegin(GL_TRIANGLE_FAN);
+		glColor3dv(BackgroundColor.GetComponents());
+		glVertex2i(Position.X(), Position.Y());
+		for (int i = 0; i <= x; ++i)
+		{
+			glVertex2d(Position.X() + std::sin(TwoPi * i / x) * (Size.X() / 2 - 1), Position.Y() + std::cos(TwoPi * i / x) * (Size.Y() / 2 - 1));
+		}
+	glEnd();
+
+	glEnable(GL_TEXTURE_2D);
+}
