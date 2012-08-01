@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
+		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
 		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
@@ -86,6 +88,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A21998A15C8857100867486 /* SentienceApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SentienceApp.cpp; path = src/SentienceApp.cpp; sourceTree = SOURCE_ROOT; };
+		2A21998B15C8857100867486 /* SentienceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentienceApp.h; path = src/SentienceApp.h; sourceTree = SOURCE_ROOT; };
+		2A21998E15C8895400867486 /* LifeFormWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LifeFormWidget.cpp; sourceTree = "<group>"; };
+		2A21998F15C8895400867486 /* LifeFormWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeFormWidget.h; sourceTree = "<group>"; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
 		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; };
@@ -285,6 +291,8 @@
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
+				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,
+				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8D155465D90021D8EF /* ListWidget.cpp */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
@@ -350,6 +358,8 @@
 				2A4FFA83155465D90021D8EF /* Project.h */,
 				2A4FFA84155465D90021D8EF /* RenderTools.cpp */,
 				2A4FFA85155465D90021D8EF /* RenderTools.h */,
+				2A21998A15C8857100867486 /* SentienceApp.cpp */,
+				2A21998B15C8857100867486 /* SentienceApp.h */,
 				2AD87E9B15A7600F007719FA /* Utilities.cpp */,
 				2AD87E9915A75FF3007719FA /* Utilities.h */,
 				2AD87E9D15A7624F007719FA /* Utilities.mm */,
@@ -524,6 +534,8 @@
 				2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */,
 				2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */,
 				2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */,
+				2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */,
+				2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

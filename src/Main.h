@@ -80,12 +80,14 @@ class TextFieldWidget;
 class ConceptStringBoxWidget;
 class ListWidget;
 class FunctionWidget;
+class LifeFormWidget;
 class OpenGLStream;
 class Canvas;
 class App;
 class ConceptionApp;
 class ConceptionTestApp;
 class MultitouchTestApp;
+class SentienceApp;
 class Pointer;
 class MousePointer;
 class TouchPointer;
@@ -185,11 +187,13 @@ typedef Rectangle<double> Rectangled;
 #include "Widget/ConceptStringBoxWidget.h"
 #include "Widget/ListWidget.h"
 #include "Widget/FunctionWidget.h"
+#include "Widget/LifeFormWidget.h"
 #include "Canvas.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "ConceptionTestApp.h"
 #include "MultitouchTestApp.h"
+#include "SentienceApp.h"
 
 #ifdef WIN32
 #elif defined(__APPLE__) && defined(__MACH__)

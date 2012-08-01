@@ -114,7 +114,7 @@ int main(int argc, char * argv[])
 			std::cout << x.str();
 		}
 
-		glfwSetWindowTitle("Conception");
+		glfwSetWindowTitle("Sentience");
 		glfwSwapInterval(1);					// Set Vsync
 		glfwDisable(GLFW_AUTO_POLL_EVENTS);
 
@@ -125,9 +125,10 @@ int main(int argc, char * argv[])
 	InputManager InputManager;
 	g_InputManager = &InputManager;
 
-	ConceptionApp MainApp(InputManager);
+	//ConceptionApp MainApp(InputManager);
 	//ConceptionTestApp MainApp(InputManager);
 	//MultitouchTestApp MainApp(InputManager);
+	SentienceApp MainApp(InputManager);
 
 	// Perform the layout of UI widgets
 	MainApp.Layout();

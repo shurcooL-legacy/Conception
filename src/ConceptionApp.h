@@ -15,7 +15,7 @@ public:
 
 private:
 	ConceptionApp(const ConceptionApp &);
-	ConceptionApp & operator =(const ConceptionApp &);
+	ConceptionApp & operator = (const ConceptionApp &);
 
 	Project		m_CurrentProject;
 };

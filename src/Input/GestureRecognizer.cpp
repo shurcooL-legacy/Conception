@@ -23,7 +23,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}
 
 	// DECISION
-#if 0
+#if 1
 	// TEST: Capture the pointer if the pointer is activated (via primary button)
 	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
 		&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)

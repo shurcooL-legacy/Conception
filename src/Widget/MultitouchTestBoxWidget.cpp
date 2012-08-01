@@ -8,6 +8,7 @@ MultitouchTestBoxWidget::MultitouchTestBoxWidget(Vector2n Position)
 //	m_GestureRecognizerTEST.m_Widget = this;
 //	m_GestureRecognizerTEST.m_OnTap = &MultitouchTestBoxWidget::ProcessTap;
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 }
 
 MultitouchTestBoxWidget::~MultitouchTestBoxWidget()
