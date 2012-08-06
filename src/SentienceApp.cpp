@@ -5,11 +5,11 @@ SentienceApp::SentienceApp(InputManager & InputManager)
 {
 	{
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
-
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300)));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300)));
 		
-		MainCanvas->AddWidget(new LifeFormWidget(Vector2n(0, 0)));
+		auto * lf = new LifeFormWidget(Vector2n(0, 0));
+		MainCanvas->AddWidget(lf);
+
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), [=]() { lf->ProcessTap(); } ));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}

@@ -8,8 +8,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
 
 		MainCanvas->AddWidget(new ListWidget(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes()));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300)));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300)));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), []() { std::cout << "Hi from anon func.\n"; } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0)));
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100)));
 
