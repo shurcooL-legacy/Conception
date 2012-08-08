@@ -422,7 +422,6 @@ void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition)
 printf("ProcessTouchButton(TouchButton %d, Action %d)\n", TouchButton, Action);
 }*/
 
-// TODO: Unify ProcessTouchButton with this function, add 3rd action type (down, move, up)
 void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchPositionX, int TouchPositionY)
 {
 	if (m_pInstance->m_TouchPointers.end() == m_pInstance->m_TouchPointers.find(TouchButton))

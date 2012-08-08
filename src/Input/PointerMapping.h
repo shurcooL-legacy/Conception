@@ -33,6 +33,7 @@ public:
 	void RequestPointerRelease(GestureRecognizer * Candidate);
 
 	GestureRecognizer * GetCapturer() const;
+	GestureRecognizer * GetHoverer() const;
 
 	//void RemoveHoverPointer(Pointer * Pointer);
 

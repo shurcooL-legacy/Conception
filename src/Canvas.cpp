@@ -73,14 +73,18 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 			if ((*Widget)->HitTest(LocalPosition, Hits))
 			{
 				HitInside = true;
-				// DECISION
-				//break;		// HACK: Also a hack, need to do proper query if widget wants to block any futher hit testing for hover/interest checks
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+				break;		// HACK: Also a hack, need to do proper query if widget wants to block any futher hit testing for hover/interest checks
+#endif
 			}
 		}
 
 		if (m_HasBackground)
 		{
-			Widget::HitTest(ParentPosition, Hits);
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+			if (!HitInside)
+#endif
+				Widget::HitTest(ParentPosition, Hits);
 		}
 	}
 

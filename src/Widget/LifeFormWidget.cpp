@@ -71,11 +71,15 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 	{
 		m_VelocityD = Vector2d(8, 5);
 
-		for (auto & Connected : GetGestureRecognizer().GetConnected())
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
 		{
-			if (Pointer::VirtualCategory::POINTING == Connected->GetVirtualCategory())
+			if (   Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory()
+#if !DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+				&& &GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer()
+#endif
+				)
 			{
-				const PointerState & PointerState = Connected->GetPointerState();
+				const PointerState & PointerState = Pointer->GetPointerState();
 				
 				const double SpeedMultiplier = 250;
 				

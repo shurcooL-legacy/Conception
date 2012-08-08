@@ -167,7 +167,7 @@ static void setUpMenuBar( void )
     [NSApp setWindowsMenu:windowMenu];
     [windowMenuItem setSubmenu:windowMenu];
 
-    [windowMenu addItemWithTitle:@"Miniaturize"
+    [windowMenu addItemWithTitle:@"Minimize"
                           action:@selector(performMiniaturize:)
                    keyEquivalent:@"m"];
     [windowMenu addItemWithTitle:@"Zoom"
@@ -177,6 +177,11 @@ static void setUpMenuBar( void )
     [windowMenu addItemWithTitle:@"Bring All to Front"
                           action:@selector(arrangeInFront:)
                    keyEquivalent:@""];
+    [windowMenu addItem:[NSMenuItem separatorItem]];
+    [[windowMenu addItemWithTitle:@"Enter Full Screen"		// TODO: Make this appear at the bottom of the menu (for consistency)
+                           action:@selector(toggleFullScreen:)
+                    keyEquivalent:@"f"]
+     setKeyEquivalentModifierMask:NSControlKeyMask | NSCommandKeyMask];
 
     // At least guard the call to private API to avoid an exception if it
     // goes away.  Hopefully that means the worst we'll break in future is to

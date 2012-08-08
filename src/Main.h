@@ -58,6 +58,9 @@ namespace std
 }
 #endif // WIN32
 
+// Decisions
+#define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 1
+
 class Concept;
 class Function;
 class Project;

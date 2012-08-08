@@ -160,6 +160,14 @@ GestureRecognizer * PointerMapping::GetCapturer() const
 	return m_Capturer;
 }
 
+GestureRecognizer * PointerMapping::GetHoverer() const
+{
+	if (!m_Entries.empty())
+		return m_Entries.front();
+	else
+		return nullptr;
+}
+
 /*void PointerMapping::RemoveHoverPointer(Pointer * Pointer)
 {
 	for (auto & Entry : m_Entries)

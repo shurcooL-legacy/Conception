@@ -205,10 +205,11 @@ bool App::ProcessEvent(InputEvent & InputEvent)
 				{
 					Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 
-					/*auto Result = */(*Widget)->HitTest(GlobalPosition, &Hits);
-					// DECISION
-					/*if (Result)
-						break;*/		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
+					auto Result = (*Widget)->HitTest(GlobalPosition, &Hits);
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+					if (Result)
+						break;		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
+#endif
 				}
 
 				/*std::cout << std::string(100, '\n');
