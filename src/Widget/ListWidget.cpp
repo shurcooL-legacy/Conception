@@ -1,21 +1,19 @@
 #include "../Main.h"
 
 ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
-	: Widget(Position, Vector2n::ZERO),
-	  m_List(List),
-	  m_TestButton(Position + Vector2n(0, -15), [&]() {
+	: CompositeWidget(Position, {
+		std::shared_ptr<Widget>(new ButtonWidget(Position + Vector2n(0, -15), Vector2n(15, 15), [&]() {
 			// TEST: This is specific stuff for quick testing
 			{
 				if (!m_List.empty())
 				{
-				  m_List.pop_back();
+					m_List.pop_back();
 				}
 			}
-		} )
+		} )) }),
+	  m_List(List)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	
-	m_TestButton.SetDimensions(Vector2n(15, 15));
 
 	UpdateDimensions();
 }
@@ -68,15 +66,7 @@ void ListWidget::Render()
 		}
 	}
 
-	m_TestButton.Render();
-}
-
-// Returns true if there is any (even partial) hit
-// Returns false if there is no hit whatsoever
-bool ListWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
-{
-	return (   m_TestButton.HitTest(ParentPosition, Hits)
-			|| Widget::HitTest(ParentPosition, Hits));
+	CompositeWidget::Render();
 }
 
 void ListWidget::ProcessTap()
@@ -110,7 +100,7 @@ void ListWidget::UpdateDimensions()
 	{
 		MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), Concepts[Entry].GetDimensions().X());
 	}
-	MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), (m_List.size() + 1) * lineHeight);
+	MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
 
 	Vector2n Dimensions = MaxDimensions;
 

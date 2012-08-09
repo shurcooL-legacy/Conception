@@ -1,7 +1,7 @@
 #include "../Main.h"
 
-ButtonWidget::ButtonWidget(Vector2n Position, std::function<void()> Action)
-	: Widget(Position, Vector2n(30, 30)),
+ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action)
+	: Widget(Position, Dimensions),
 	  m_Action(Action)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;

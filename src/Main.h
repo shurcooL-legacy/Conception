@@ -77,6 +77,7 @@ class WidgetModule;
 class WidgetManager;
 class PointerMapping;
 class Widget;
+class CompositeWidget;
 class ButtonWidget;
 class MultitouchTestBoxWidget;
 class TextFieldWidget;
@@ -184,6 +185,7 @@ typedef Rectangle<double> Rectangled;
 #include "ControlModules/WidgetModule.h"
 #include "Widget/WidgetManager.h"
 #include "Widget/Widget.h"
+#include "Widget/CompositeWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"

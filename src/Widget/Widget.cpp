@@ -57,7 +57,7 @@ const Canvas * Widget::GetParent() const
 // Returns false if there is no hit whatsoever
 bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-	bool Hit = IsHit(ParentPosition);
+	auto Hit = IsHit(ParentPosition);
 
 	if (Hit && nullptr != Hits)
 	{

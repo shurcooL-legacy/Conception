@@ -46,6 +46,7 @@
 		2A807460153F06C700649628 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A80745F153F06C700649628 /* OpenGL.framework */; };
 		2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A807461153F06CD00649628 /* Cocoa.framework */; };
 		2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8368CB155AD04800D25BC1 /* PointerState.cpp */; };
+		2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */; };
 		2A96BDE61540B0040010D618 /* cocoa_enable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD01540B0040010D618 /* cocoa_enable.m */; };
 		2A96BDE71540B0040010D618 /* cocoa_fullscreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD11540B0040010D618 /* cocoa_fullscreen.m */; };
 		2A96BDE81540B0040010D618 /* cocoa_glext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDD21540B0040010D618 /* cocoa_glext.m */; };
@@ -167,6 +168,8 @@
 		2A807461153F06CD00649628 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		2A8368CB155AD04800D25BC1 /* PointerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerState.cpp; sourceTree = "<group>"; };
 		2A8368CE155AD05300D25BC1 /* PointerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointerState.h; sourceTree = "<group>"; };
+		2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositeWidget.cpp; sourceTree = "<group>"; };
+		2A91C74B15D349AD0070E981 /* CompositeWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositeWidget.h; sourceTree = "<group>"; };
 		2A96BDD01540B0040010D618 /* cocoa_enable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_enable.m; sourceTree = "<group>"; };
 		2A96BDD11540B0040010D618 /* cocoa_fullscreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_fullscreen.m; sourceTree = "<group>"; };
 		2A96BDD21540B0040010D618 /* cocoa_glext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_glext.m; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 			children = (
 				2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */,
 				2A4FFA8C155465D90021D8EF /* ButtonWidget.h */,
+				2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */,
+				2A91C74B15D349AD0070E981 /* CompositeWidget.h */,
 				2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */,
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
@@ -536,6 +541,7 @@
 				2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */,
 				2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */,
 				2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */,
+				2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
