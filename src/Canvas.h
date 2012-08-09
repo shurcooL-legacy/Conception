@@ -9,7 +9,7 @@ public:
 	Canvas(Vector2n Position, bool Centered, bool HasBackground);
 	~Canvas();
 
-	void Render();
+	void Render() override;
 
 	void AddWidget(Widget * Widget);
 
@@ -49,7 +49,7 @@ public:
 
 private:
 	Canvas(const Canvas &) = delete;
-	Canvas & operator =(const Canvas &) = delete;
+	Canvas & operator = (const Canvas &) = delete;
 
 	Vector2d Camera;
 	double CameraZ;

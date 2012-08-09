@@ -2,9 +2,20 @@
 
 ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
 	: Widget(Position, Vector2n::ZERO),
-	  m_List(List)
+	  m_List(List),
+	  m_TestButton(Position + Vector2n(0, -15), [&]() {
+			// TEST: This is specific stuff for quick testing
+			{
+				if (!m_List.empty())
+				{
+				  m_List.pop_back();
+				}
+			}
+		} )
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	
+	m_TestButton.SetDimensions(Vector2n(15, 15));
 
 	UpdateDimensions();
 }
@@ -35,7 +46,7 @@ void ListWidget::Render()
 	// Draw list
 	{
 		UpdateDimensions();		// LATER: Optimize by not repeating this calculation each time, only when something changes?
-		
+
 		if (m_List.empty())
 		{
 			BackgroundColor[0] = 234 / 255.0;
@@ -56,6 +67,16 @@ void ListWidget::Render()
 			OpenGLStream << Concepts[Entry] << endl;
 		}
 	}
+
+	m_TestButton.Render();
+}
+
+// Returns true if there is any (even partial) hit
+// Returns false if there is no hit whatsoever
+bool ListWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
+{
+	return (   m_TestButton.HitTest(ParentPosition, Hits)
+			|| Widget::HitTest(ParentPosition, Hits));
 }
 
 void ListWidget::ProcessTap()

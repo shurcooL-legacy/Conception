@@ -29,8 +29,11 @@ public:
 	void SetParent(Canvas & Parent);
 	const Canvas * GetParent() const;
 
-	const GestureRecognizer & GetGestureRecognizer() { return m_GestureRecognizer; }
+	const GestureRecognizer & GetGestureRecognizer() const { return m_GestureRecognizer; }
 	GestureRecognizer & ModifyGestureRecognizer() { return m_GestureRecognizer; }
+
+	void SetPosition(Vector2n Position);
+	void SetDimensions(Vector2n Dimensions);
 
 protected:
 	Widget(Vector2n Position, Vector2n Dimensions);
@@ -43,8 +46,8 @@ protected:
 	const Vector2n GlobalToParent(const Vector2n GlobalPosition) const;
 	const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const;
 
-	bool CheckHover();
-	bool CheckActive();
+	bool CheckHover() const;
+	bool CheckActive() const;
 
 	Vector2n		m_Position;
 	Vector2n		m_Dimensions;

@@ -13,14 +13,14 @@ Widget::~Widget()
 {
 }
 
-bool Widget::CheckHover()
+bool Widget::CheckHover() const
 {
 	//return !m_HoverPointers.empty();
 	//return false;
 	return (!GetGestureRecognizer().GetConnected().empty());		// TEST
 }
 
-bool Widget::CheckActive()
+bool Widget::CheckActive() const
 {
 	//return (this == WidgetManager.m_ActiveWidget);
 	/*for (auto Pointer : m_HoverPointers)
@@ -113,6 +113,16 @@ bool Widget::ShouldActivate() const
 bool Widget::ShouldDeactivate() const
 {
 	return !ShouldActivate();
+}
+
+void Widget::SetPosition(Vector2n Position)
+{
+	m_Position = Position;
+}
+
+void Widget::SetDimensions(Vector2n Dimensions)
+{
+	m_Dimensions = Dimensions;
 }
 
 /*void Widget::AddHoverPointer(Pointer * Pointer)
