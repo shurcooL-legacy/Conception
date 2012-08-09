@@ -31,6 +31,13 @@ public:
 	void ProcessCanvasUpdated() override;
 
 	void MoveView(uint8 Degree, double MoveAmount, double A[2] = 0, Vector2n ParentLocalPosition = Vector2n::ZERO);
+
+	bool m_BlackBackgroundTEST;
+
+private:
+	Canvas(const Canvas &) = delete;
+	Canvas & operator = (const Canvas &) = delete;
+
 	void RenderBackground();
 	const Rectanglen GetScissorBox() const;
 	void SetScissorBox(Rectanglen ScissorBox);
@@ -42,14 +49,6 @@ public:
 
 	virtual const Vector2n ParentToLocal(const Vector2n ParentPosition) const override;
 	//virtual const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const override;		Got replaced by ParentToLocal()
-
-	void SetDimensions(Vector2n Dimensions);
-
-	bool m_BlackBackgroundTEST;
-
-private:
-	Canvas(const Canvas &) = delete;
-	Canvas & operator = (const Canvas &) = delete;
 
 	Vector2d Camera;
 	double CameraZ;

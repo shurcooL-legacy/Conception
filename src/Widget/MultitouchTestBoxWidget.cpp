@@ -38,7 +38,7 @@ void MultitouchTestBoxWidget::Render()
 		BorderColor[2] = 0.396;
 	}
 
-	DrawBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
 void MultitouchTestBoxWidget::ProcessTap()
@@ -107,7 +107,7 @@ void MultitouchTestBoxWidget::ProcessManipulationStarted(const PointerState & Po
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
 	auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
-	ModifyGestureRecognizer().m_ManipulationOffset = m_Position - ParentLocalPosition;
+	ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
 }
 
 void MultitouchTestBoxWidget::ProcessManipulationUpdated(const PointerState & PointerState)
@@ -118,7 +118,7 @@ void MultitouchTestBoxWidget::ProcessManipulationUpdated(const PointerState & Po
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
 	auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
-	m_Position = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
+	ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
 }
 
 void MultitouchTestBoxWidget::ProcessManipulationCompleted(const PointerState & PointerState)
@@ -138,20 +138,20 @@ void MultitouchTestBoxWidget::ProcessTimePassed(const double TimePassed)
 			
 			if (PointerState.GetButtonState(GLFW_KEY_LEFT) && !PointerState.GetButtonState(GLFW_KEY_RIGHT))
 			{
-				m_Position.X() += -SpeedMultiplier * TimePassed;
+				ModifyPosition().X() += -SpeedMultiplier * TimePassed;
 			}
 			else if (PointerState.GetButtonState(GLFW_KEY_RIGHT) && !PointerState.GetButtonState(GLFW_KEY_LEFT))
 			{
-				m_Position.X() += SpeedMultiplier * TimePassed;
+				ModifyPosition().X() += SpeedMultiplier * TimePassed;
 			}
 			
 			if (PointerState.GetButtonState(GLFW_KEY_UP) && !PointerState.GetButtonState(GLFW_KEY_DOWN))
 			{
-				m_Position.Y() += -SpeedMultiplier * TimePassed;
+				ModifyPosition().Y() += -SpeedMultiplier * TimePassed;
 			}
 			else if (PointerState.GetButtonState(GLFW_KEY_DOWN) && !PointerState.GetButtonState(GLFW_KEY_UP))
 			{
-				m_Position.Y() += SpeedMultiplier * TimePassed;
+				ModifyPosition().Y() += SpeedMultiplier * TimePassed;
 			}
 		}
 	}

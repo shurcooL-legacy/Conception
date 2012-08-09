@@ -43,10 +43,10 @@ void ConceptStringBoxWidget::Render()
 		glVertex2d(m_Position.X() + 30, m_Position.Y() + 30);
 		glVertex2d(m_Position.X() + 30, m_Position.Y());
 	glEnd();*/
-	DrawAroundBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
 	glColor3d(0, 0, 0);
-	OpenGLStream OpenGLStream(m_Position);
+	OpenGLStream OpenGLStream(GetPosition());
 	OpenGLStream << m_Content;
 
 	//if (CheckHover())

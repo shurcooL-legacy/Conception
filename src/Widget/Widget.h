@@ -26,12 +26,16 @@ public:
 
 	virtual void ProcessCanvasUpdated();
 
-	void SetParent(Canvas & Parent);
-	const Canvas * GetParent() const;
+	void SetParent(Widget & Parent);
+	const Widget * GetParent() const;
 
 	const GestureRecognizer & GetGestureRecognizer() const { return m_GestureRecognizer; }
 	GestureRecognizer & ModifyGestureRecognizer() { return m_GestureRecognizer; }
 
+	const Vector2n GetPosition() const;
+	const Vector2n GetDimensions() const;
+	Vector2n & ModifyPosition();
+	Vector2n & ModifyDimensions();
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
@@ -49,16 +53,16 @@ protected:
 	bool CheckHover() const;
 	bool CheckActive() const;
 
+private:
 	Vector2n		m_Position;
 	Vector2n		m_Dimensions;
 
-private:
 	//Widget **				m_ActiveWidgetPointer;
 	//std::set<Pointer *>		m_HoverPointers;
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
 
-	Canvas *			m_Parent;
+	Widget *			m_Parent;
 
 	friend class App;		// DEBUG: For debug printing
 };

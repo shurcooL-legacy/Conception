@@ -37,11 +37,11 @@ void FunctionWidget::Render()
 		BorderColor[2] = 0.396;
 	}
 
-	DrawAroundBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
-	glColor3d(0, 0, 0); OglUtilsPrint(m_Position.X(), m_Position.Y() - lineHeight, 0, LEFT, "Global Function");
+	glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X(), GetPosition().Y() - lineHeight, 0, LEFT, "Global Function");
 
-	OpenGLStream OpenGLStream(m_Position);
+	OpenGLStream OpenGLStream(GetPosition());
 	OpenGLStream << m_Function;
 }
 

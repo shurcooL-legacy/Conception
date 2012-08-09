@@ -13,8 +13,11 @@ public:
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const override;
 
-//private:
+private:
 	std::vector<std::shared_ptr<Widget>>		m_Widgets;
+
+protected:
+	decltype(m_Widgets) & GetWidgets() { return m_Widgets; }
 };
 
 #endif // __CompositeWidget_H__

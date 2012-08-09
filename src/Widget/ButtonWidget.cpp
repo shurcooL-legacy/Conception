@@ -39,7 +39,7 @@ void ButtonWidget::Render()
 	{
 	}
 
-	DrawBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
 void ButtonWidget::ProcessTap()

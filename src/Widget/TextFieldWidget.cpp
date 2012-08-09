@@ -54,10 +54,10 @@ void TextFieldWidget::Render()
 		glVertex2d(m_Position.X() + 30, m_Position.Y() + 30);
 		glVertex2d(m_Position.X() + 30, m_Position.Y());
 	glEnd();*/
-	DrawAroundBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
 	glColor3d(0, 0, 0);
-	OpenGLStream OpenGLStream(m_Position);
+	OpenGLStream OpenGLStream(GetPosition());
 	OpenGLStream << m_Content.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
 	Vector2n CaretPosition;
@@ -134,7 +134,7 @@ void TextFieldWidget::ProcessManipulationStarted(const PointerState & PointerSta
 	{
 		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
-		ModifyGestureRecognizer().m_ManipulationOffset = m_Position - ParentLocalPosition;
+		ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
 	}
 }
 
@@ -144,7 +144,7 @@ void TextFieldWidget::ProcessManipulationUpdated(const PointerState & PointerSta
 	{
 		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
-		m_Position = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
+		ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
 	}
 }
 
@@ -592,8 +592,8 @@ void TextFieldWidget::UpdateContentLines()
 	while (std::string::npos != End);
 
 	// TEST: Resize the widget to accomodate text width
-	m_Dimensions.X() = std::max(m_MaxLineLength * charWidth, 3LU * charWidth);
-	m_Dimensions.Y() = std::max(m_ContentLines.size() * lineHeight, 1LU * lineHeight);
+	ModifyDimensions().X() = std::max(m_MaxLineLength * charWidth, 3LU * charWidth);
+	ModifyDimensions().Y() = std::max(m_ContentLines.size() * lineHeight, 1LU * lineHeight);
 }
 
 uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)

@@ -13,6 +13,10 @@ public:
 
 	void ProcessTap() override;
 
+	void ProcessManipulationStarted(const PointerState & PointerState) override;
+	void ProcessManipulationUpdated(const PointerState & PointerState) override;
+	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+
 private:
 	void UpdateDimensions();
 

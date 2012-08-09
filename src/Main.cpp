@@ -114,7 +114,7 @@ int main(int argc, char * argv[])
 			std::cout << x.str();
 		}
 
-		glfwSetWindowTitle("Sentience");
+		glfwSetWindowTitle("Conception");
 		glfwSwapInterval(1);					// Set Vsync
 		glfwDisable(GLFW_AUTO_POLL_EVENTS);
 

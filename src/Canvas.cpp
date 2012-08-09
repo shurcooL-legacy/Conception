@@ -154,8 +154,8 @@ void Canvas::ProcessTap()
 void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
 	auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
-	double A[2] = { WidgetLocalPosition.X() - 0.5 * m_Dimensions.X(),
-					WidgetLocalPosition.Y() - 0.5 * m_Dimensions.Y() };
+	double A[2] = { WidgetLocalPosition.X() - 0.5 * GetDimensions().X(),
+					WidgetLocalPosition.Y() - 0.5 * GetDimensions().Y() };
 
 	auto ParentLocalPosition = GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition()));
 
@@ -285,7 +285,7 @@ void Canvas::RenderBackground()
 	// HACK: Black background
 	if (m_BlackBackgroundTEST/*dynamic_cast<MultitouchTestApp *>(pMainApp)*/ && m_HasBackground)
 	{
-		DrawAroundBox(m_Position, m_Dimensions, Color(0, 0, 0), Color(1, 1, 1));
+		DrawAroundBox(GetPosition(), GetDimensions(), Color(0, 0, 0), Color(1, 1, 1));
 
 		return;
 	}
@@ -308,10 +308,10 @@ void Canvas::RenderBackground()
 		glTexCoord2d(-0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(-0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, -0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], -0.5 * m_CanvasSize[1]);*/
-		glTexCoord2d((-0.5 * m_Dimensions[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * m_Dimensions[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(m_Position[0], m_Position[1]);
-		glTexCoord2d((-0.5 * m_Dimensions[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * m_Dimensions[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(m_Position[0], m_Position[1] + m_Dimensions[1]);
-		glTexCoord2d((0.5 * m_Dimensions[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * m_Dimensions[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(m_Position[0] + m_Dimensions[0], m_Position[1] + m_Dimensions[1]);
-		glTexCoord2d((0.5 * m_Dimensions[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * m_Dimensions[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(m_Position[0] + m_Dimensions[0], m_Position[1]);
+		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
+		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
+		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
+		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
 	glEnd();
 }
 
@@ -337,9 +337,10 @@ void Canvas::SetScissorBox(Rectanglen ScissorBox)
 	m_ScissorBox.SetDimensions().Y() = std::lround(y2 - y1);
 
 	// Crop the scissor box by the parent scissor box
-	if (nullptr != GetParent())
+	auto ParentCanvas = dynamic_cast<const Canvas *>(GetParent());
+	if (nullptr != ParentCanvas)
 	{
-		auto ParentScissorBox = GetParent()->GetScissorBox();
+		auto ParentScissorBox = ParentCanvas->GetScissorBox();
 
 		// Squish along two dimensions
 		for (uint8 Dimension = 0; Dimension < 2; ++Dimension)
@@ -377,12 +378,12 @@ void Canvas::SetupTransform()
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glPushMatrix();
 
-	SetScissorBox(Rectanglen(m_Position, m_Dimensions));
+	SetScissorBox(Rectanglen(GetPosition(), GetDimensions()));
 
-	glTranslated(m_Position.X(), m_Position.Y(), 0);
+	glTranslated(GetPosition().X(), GetPosition().Y(), 0);
 	if (m_Centered)
 	{
-		glTranslated(0.5 * m_Dimensions.X(), 0.5 * m_Dimensions.Y(), 0);
+		glTranslated(0.5 * GetDimensions().X(), 0.5 * GetDimensions().Y(), 0);
 	}
 	glScaled(CameraZ, CameraZ, CameraZ);
 	glTranslated(-Camera.X(), -Camera.Y(), 0);
@@ -429,7 +430,7 @@ const Vector2d Canvas::GlobalToCanvas(const Vector2n Position) const
 const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 {
 	auto WidgetLocalPosition = Widget::ParentToLocal(ParentPosition);
-	
+
 	Vector2d PositionDouble(WidgetLocalPosition.X(), WidgetLocalPosition.Y());
 
 	if (!m_Centered)
@@ -438,7 +439,7 @@ const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 	}
 	else
 	{
-		PositionDouble = Vector2d((PositionDouble - Vector2d(m_Dimensions.X(), m_Dimensions.Y()) * 0.5) / CameraZ + Camera);
+		PositionDouble = Vector2d((PositionDouble - Vector2d(GetDimensions().X(), GetDimensions().Y()) * 0.5) / CameraZ + Camera);
 	}
 
 	Vector2n PositionInt(static_cast<sint32>(std::lround(std::floor(PositionDouble.X()))), static_cast<sint32>(std::lround(std::floor(PositionDouble.Y()))));		// TODO: Loss of accuracy? Fix it if needed.
@@ -463,8 +464,3 @@ const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 	Vector2n PositionInt(std::lround(std::floor(PositionDouble.X())), std::lround(std::floor(PositionDouble.Y())));		// TODO: Loss of accuracy? Fix it if needed.
 	return PositionInt;
 }*/
-
-void Canvas::SetDimensions(Vector2n Dimensions)
-{
-	m_Dimensions = Dimensions;
-}

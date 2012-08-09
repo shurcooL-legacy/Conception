@@ -2,7 +2,7 @@
 
 ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
 	: CompositeWidget(Position, {
-		std::shared_ptr<Widget>(new ButtonWidget(Position + Vector2n(0, -15), Vector2n(15, 15), [&]() {
+		std::shared_ptr<Widget>(new ButtonWidget(Vector2n(-1, -18), Vector2n(lineHeight, lineHeight), [&]() {
 			// TEST: This is specific stuff for quick testing
 			{
 				if (!m_List.empty())
@@ -14,6 +14,7 @@ ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
 	  m_List(List)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 
 	UpdateDimensions();
 }
@@ -52,14 +53,14 @@ void ListWidget::Render()
 			BackgroundColor[2] = 190 / 255.0;
 		}
 
-		DrawAroundBox(m_Position, m_Dimensions, BackgroundColor, BorderColor);
+		DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
 		// TODO: This part is not general
 		std::string Description[2] = { "#include <", ">" };
-		glColor3d(0, 0, 0); OglUtilsPrint(m_Position.X(), m_Position.Y(), 0, RIGHT, Description[0].c_str());
-		glColor3d(0, 0, 0); OglUtilsPrint(m_Position.X() + m_Dimensions.X(), m_Position.Y(), 0, LEFT, Description[1].c_str());
+		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X(), GetPosition().Y(), 0, RIGHT, Description[0].c_str());
+		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X() + GetDimensions().X(), GetPosition().Y(), 0, LEFT, Description[1].c_str());
 
-		OpenGLStream OpenGLStream(m_Position);
+		OpenGLStream OpenGLStream(GetPosition());
 		for (auto & Entry : m_List)
 		{
 			OpenGLStream << Concepts[Entry] << endl;
@@ -104,5 +105,29 @@ void ListWidget::UpdateDimensions()
 
 	Vector2n Dimensions = MaxDimensions;
 
-	m_Dimensions = Dimensions;
+	SetDimensions(Dimensions);
+}
+
+void ListWidget::ProcessManipulationStarted(const PointerState & PointerState)
+{
+	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	{
+		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
+		
+		ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
+	}
+}
+
+void ListWidget::ProcessManipulationUpdated(const PointerState & PointerState)
+{
+	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	{
+		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
+		
+		ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
+	}
+}
+
+void ListWidget::ProcessManipulationCompleted(const PointerState & PointerState)
+{
 }

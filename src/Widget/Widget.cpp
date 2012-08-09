@@ -43,12 +43,12 @@ void Widget::ProcessCanvasUpdated()
 	ModifyGestureRecognizer().ProcessCanvasUpdated();
 }
 
-void Widget::SetParent(Canvas & Parent)
+void Widget::SetParent(Widget & Parent)
 {
 	m_Parent = &Parent;
 }
 
-const Canvas * Widget::GetParent() const
+const Widget * Widget::GetParent() const
 {
 	return m_Parent;
 }
@@ -115,6 +115,16 @@ bool Widget::ShouldDeactivate() const
 	return !ShouldActivate();
 }
 
+const Vector2n Widget::GetPosition() const
+{
+	return m_Position;
+}
+
+const Vector2n Widget::GetDimensions() const
+{
+	return m_Dimensions;
+}
+
 void Widget::SetPosition(Vector2n Position)
 {
 	m_Position = Position;
@@ -123,6 +133,16 @@ void Widget::SetPosition(Vector2n Position)
 void Widget::SetDimensions(Vector2n Dimensions)
 {
 	m_Dimensions = Dimensions;
+}
+
+Vector2n & Widget::ModifyPosition()
+{
+	return m_Position;
+}
+
+Vector2n & Widget::ModifyDimensions()
+{
+	return m_Dimensions;
 }
 
 /*void Widget::AddHoverPointer(Pointer * Pointer)

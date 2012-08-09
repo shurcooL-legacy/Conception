@@ -28,10 +28,10 @@ void LifeFormWidget::Render()
 	};
 	
 	Color BackgroundColor(Colors[m_Color]);
-	DrawCircle(m_Position, m_Dimensions, BackgroundColor);
+	DrawCircle(GetPosition(), GetDimensions(), BackgroundColor);
 
 	// Render properties
-	OpenGLStream OpenGLStream(m_Position + Vector2n(m_Dimensions.X() / 2 + 5, m_Dimensions.X() / -2));
+	OpenGLStream OpenGLStream(GetPosition() + Vector2n(GetDimensions().X() / 2 + 5, GetDimensions().X() / -2));
 	std::stringstream ss;
 	ss << "Health: " << m_CurrentState.Health << '\n';
 	ss << "Pain: " << m_CurrentState.Pain << '\n';
@@ -41,7 +41,7 @@ void LifeFormWidget::Render()
 
 bool LifeFormWidget::IsHit(const Vector2n ParentPosition) const
 {
-	bool Hit = (ParentPosition - m_Position).LengthSquared() < (m_Dimensions.X() * m_Dimensions.X() / 4);
+	bool Hit = (ParentPosition - GetPosition()).LengthSquared() < (GetDimensions().X() * GetDimensions().X() / 4);
 
 	return Hit;
 }
@@ -120,7 +120,7 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 	{
 		m_PositionD = m_PositionD + m_VelocityD * TimePassed;
 
-		m_Position.X() = m_PositionD.X();
-		m_Position.Y() = m_PositionD.Y();
+		ModifyPosition().X() = m_PositionD.X();
+		ModifyPosition().Y() = m_PositionD.Y();
 	}
 }
