@@ -21,6 +21,19 @@ ConceptId FindConcept(std::string Concept)
 	return 0;
 }
 
+ConceptId FindOrCreateConcept(std::string Concept)
+{
+	auto ConceptId = FindConcept(Concept);
+
+	if (0 == ConceptId)
+	{
+		Concepts.push_back(::Concept("", Concept));
+		ConceptId = LastConceptId();
+	}
+
+	return ConceptId;
+}
+
 Concept & LastConcept()
 {
 	return Concepts.back();

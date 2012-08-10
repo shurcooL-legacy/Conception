@@ -409,7 +409,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							EraseSelectionIfAny();
 
 							m_Content.insert(m_CaretPosition, glfwGetClipboardString());
-							MoveCaret(glfwGetClipboardString().length(), true);
+							MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
 						}
 					}
 					break;
@@ -592,8 +592,8 @@ void TextFieldWidget::UpdateContentLines()
 	while (std::string::npos != End);
 
 	// TEST: Resize the widget to accomodate text width
-	ModifyDimensions().X() = std::max(m_MaxLineLength * charWidth, 3LU * charWidth);
-	ModifyDimensions().Y() = std::max(m_ContentLines.size() * lineHeight, 1LU * lineHeight);
+	ModifyDimensions().X() = std::max<sint32>(static_cast<sint32>(m_MaxLineLength * charWidth), 3 * charWidth);
+	ModifyDimensions().Y() = std::max<sint32>(static_cast<sint32>(m_ContentLines.size()) * lineHeight, 1 * lineHeight);
 }
 
 uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)
@@ -639,7 +639,7 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	// Calculate nearest caret position
 	if (LineNumber > m_ContentLines.size() - 1)
 		LineNumber = m_ContentLines.size() - 1;
-	uint32 CharacterNumber = (LocalPositionX + charWidth / 2) / charWidth;
+	std::string::size_type CharacterNumber = (LocalPositionX + charWidth / 2) / charWidth;
 	if (CharacterNumber > m_ContentLines[LineNumber].m_Length)
 		CharacterNumber = m_ContentLines[LineNumber].m_Length;
 

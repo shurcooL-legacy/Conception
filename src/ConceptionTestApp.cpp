@@ -105,7 +105,7 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), nullptr));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), nullptr));
-		MainCanvas->AddWidget(new ListWidget(Vector2n(-200, -292), m_CurrentProject.GetStdIncludes()));
+		MainCanvas->AddWidget(new ListWidget<ConceptId>(Vector2n(-200, -292), m_CurrentProject.GetStdIncludes()));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100)));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));

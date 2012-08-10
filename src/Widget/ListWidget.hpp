@@ -1,14 +1,10 @@
-#include "../Main.h"
-
-ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
+template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T> & List)
 	: CompositeWidget(Position, {
 		std::shared_ptr<Widget>(new ButtonWidget(Vector2n(-1, -18), Vector2n(lineHeight, lineHeight), [&]() {
 			// TEST: This is specific stuff for quick testing
+			if (!m_List.empty())
 			{
-				if (!m_List.empty())
-				{
-					m_List.pop_back();
-				}
+				m_List.pop_back();
 			}
 		} )) }),
 	  m_List(List)
@@ -19,11 +15,16 @@ ListWidget::ListWidget(Vector2n Position, std::vector<ConceptId> & List)
 	UpdateDimensions();
 }
 
-ListWidget::~ListWidget()
+template <typename T> ListWidget<T>::~ListWidget()
 {
 }
 
-void ListWidget::Render()
+template <typename T> void ListWidget<T>::Insert(T & Entry)
+{
+	m_List.push_back(Entry);
+}
+
+template <typename T> void ListWidget<T>::Render()
 {
 	Color BackgroundColor(1, 1, 1);
 	Color BorderColor(0.3, 0.3, 0.3);
@@ -63,43 +64,26 @@ void ListWidget::Render()
 		OpenGLStream OpenGLStream(GetPosition());
 		for (auto & Entry : m_List)
 		{
-			OpenGLStream << Concepts[Entry] << endl;
+			OpenGLStream << Entry << endl;
 		}
 	}
 
 	CompositeWidget::Render();
 }
 
-void ListWidget::ProcessTap()
+template <typename T> void ListWidget<T>::ProcessTap()
 {
-	// TEST: This is specific stuff for quick testing
-	{
-		//auto Entry = g_TypingModuleTEST->GetString();
-		//g_TypingModuleTEST->Clear();
-		std::string Entry = "TypingModule not yet re-enabled";
-
-		if (Entry.length() > 0)
-		{
-			auto ConceptId = FindConcept(Entry);
-			if (0 == ConceptId)
-			{
-				Concepts.push_back(Concept("", Entry));
-				ConceptId = LastConceptId();
-			}
-
-			m_List.push_back(ConceptId);
-		}
-	}
+	m_TapAction();
 }
 
-void ListWidget::UpdateDimensions()
+template <typename T> void ListWidget<T>::UpdateDimensions()
 {
 	Vector2n MinDimensions(3 * charWidth, lineHeight);
 
 	Vector2n MaxDimensions(MinDimensions);
 	for (auto & Entry : m_List)
 	{
-		MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), Concepts[Entry].GetDimensions().X());
+		MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), Concept::GetDimensions(Entry).X());
 	}
 	MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
 
@@ -108,7 +92,7 @@ void ListWidget::UpdateDimensions()
 	SetDimensions(Dimensions);
 }
 
-void ListWidget::ProcessManipulationStarted(const PointerState & PointerState)
+template <typename T> void ListWidget<T>::ProcessManipulationStarted(const PointerState & PointerState)
 {
 	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
 	{
@@ -118,7 +102,7 @@ void ListWidget::ProcessManipulationStarted(const PointerState & PointerState)
 	}
 }
 
-void ListWidget::ProcessManipulationUpdated(const PointerState & PointerState)
+template <typename T> void ListWidget<T>::ProcessManipulationUpdated(const PointerState & PointerState)
 {
 	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
 	{
@@ -128,6 +112,6 @@ void ListWidget::ProcessManipulationUpdated(const PointerState & PointerState)
 	}
 }
 
-void ListWidget::ProcessManipulationCompleted(const PointerState & PointerState)
+template <typename T> void ListWidget<T>::ProcessManipulationCompleted(const PointerState & PointerState)
 {
 }

@@ -4,6 +4,8 @@
 
 typedef std::basic_string<ConceptId> ConceptString;
 
+extern std::vector<Concept> Concepts;
+
 class Concept
 {
 public:
@@ -31,9 +33,9 @@ public:
 		return (m_Labels.end() != m_Labels.find(Label));
 	}
 
- 	Vector2n GetDimensions() const
+	Vector2n GetDimensions() const
 	{
-		return Vector2n(m_Concept.length() * charWidth, lineHeight);
+		return Vector2n(static_cast<sint32>(m_Concept.length()) * charWidth, lineHeight);
 	}
 
 	friend std::ostream & operator << (std::ostream & out, const Concept & Concept)
@@ -43,6 +45,16 @@ public:
 		return out;
 	}
 
+	static const Vector2n GetDimensions(ConceptId ConceptId)
+	{
+		return Concepts[ConceptId].GetDimensions();
+	}
+
+	static const Vector2n GetDimensions(Concept & Concept)
+	{
+		return Concept.GetDimensions();
+	}
+
 	std::string		m_HumanDescription;
 	std::string		m_Concept;
 
@@ -50,10 +62,9 @@ private:
 	std::set<ConceptId>		m_Labels;
 };
 
-extern std::vector<Concept> Concepts;
-
 void PopulateConcepts();
 ConceptId FindConcept(std::string Concept);
+ConceptId FindOrCreateConcept(std::string Concept);
 Concept & LastConcept();
 ConceptId LastConceptId();
 void VerifyNoDuplicateConcepts(std::vector<Concept> & Concepts);

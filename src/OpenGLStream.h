@@ -7,7 +7,8 @@ class OpenGLStream
 public:
 	OpenGLStream(Vector2n CaretPosition);
 	~OpenGLStream();
-	
+
+	OpenGLStream & operator << (const ConceptId ConceptId);
 	OpenGLStream & operator << (const Concept & Concept);
 	OpenGLStream & operator << (const std::string & String);
 	OpenGLStream & operator << (OpenGLStream & (* Function)(OpenGLStream &));

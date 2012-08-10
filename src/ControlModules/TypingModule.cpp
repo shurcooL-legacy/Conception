@@ -47,7 +47,7 @@ void TypingModule::Render()
 	if (m_Typed.length() > 0)
 	{
 		Vector2n Position(static_cast<sint32>(GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(GetAxisState(1).GetPosition()) + lineHeight);
-		Vector2n Dimensions(m_Typed.length() * charWidth, 1 * lineHeight);
+		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
 
 		DrawAroundBox(Position, Dimensions, Color(234 / 255.0, 233 / 255.0, 190 / 255.0));
 

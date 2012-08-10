@@ -30,7 +30,7 @@ protected:
 
 private:
 	MutuallyConnectable(const MutuallyConnectable<T, U> &) = delete;
-	MutuallyConnectable<T, U> & operator =(const MutuallyConnectable<T, U> &) = delete;
+	MutuallyConnectable<T, U> & operator = (const MutuallyConnectable<T, U> &) = delete;
 
 	void ConnectWithoutReciprocating(MutuallyConnectable<U, T> & MutuallyConnectable);
 	void DisconnectWithoutReciprocating(MutuallyConnectable<U, T> & MutuallyConnectable);

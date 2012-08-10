@@ -82,7 +82,6 @@ class ButtonWidget;
 class MultitouchTestBoxWidget;
 class TextFieldWidget;
 class ConceptStringBoxWidget;
-class ListWidget;
 class FunctionWidget;
 class LifeFormWidget;
 class OpenGLStream;
@@ -157,6 +156,8 @@ public:
 typedef Rectangle<sint32> Rectanglen;
 typedef Rectangle<double> Rectangled;
 
+extern InputManager * g_InputManager;
+
 #include "Utilities.h"
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
@@ -203,7 +204,5 @@ typedef Rectangle<double> Rectangled;
 #ifdef WIN32
 #elif defined(__APPLE__) && defined(__MACH__)
 #endif
-
-extern InputManager * g_InputManager;
 
 #endif // __Main_H__

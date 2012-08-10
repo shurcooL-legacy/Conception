@@ -2,26 +2,31 @@
 #ifndef __ListWidget_H__
 #define __ListWidget_H__
 
-class ListWidget
+template <typename T> class ListWidget
 	: public CompositeWidget
 {
 public:
-	ListWidget(Vector2n Position, std::vector<ConceptId> & List);
+	ListWidget(Vector2n Position, std::vector<T> & List);
 	virtual ~ListWidget();
-	
-	void Render() override;
 
+	void Insert(T & Entry);
+
+	void Render() override;
+	
 	void ProcessTap() override;
 
 	void ProcessManipulationStarted(const PointerState & PointerState) override;
 	void ProcessManipulationUpdated(const PointerState & PointerState) override;
 	void ProcessManipulationCompleted(const PointerState & PointerState) override;
 
+	std::function<void()>		m_TapAction;
+	
 private:
 	void UpdateDimensions();
 
-	// TODO: Template this specific class to typename <T>
-	std::vector<ConceptId>		& m_List;
+	std::vector<T>				& m_List;
 };
+
+#include "ListWidget.hpp"
 
 #endif // __ListWidget_H__

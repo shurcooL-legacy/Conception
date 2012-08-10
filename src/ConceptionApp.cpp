@@ -4,21 +4,42 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject()
 {
+	PopulateConcepts();
+
 	{
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
 
-		MainCanvas->AddWidget(new ListWidget(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes()));
+		{
+			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes());
+			StdIncludesList->m_TapAction = [=]()
+				{
+					//auto Entry = g_TypingModuleTEST->GetString();
+					//g_TypingModuleTEST->Clear();
+					std::string Entry = "TypingModule not yet re-enabled";
+					
+					if (Entry.length() > 0)
+					{
+						auto ConceptId = FindOrCreateConcept(Entry);
+
+						StdIncludesList->Insert(ConceptId);
+					}
+				};
+
+			MainCanvas->AddWidget(StdIncludesList);
+		}
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0)));
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100)));
 
+		{
+			MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts));
+		}
+
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}
 
 	{
-		PopulateConcepts();
-
 		// Load program
 		m_CurrentProject.LoadSampleGenProgram(*static_cast<Canvas *>(m_Widgets[0].get()));
 	}

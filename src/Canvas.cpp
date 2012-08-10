@@ -331,10 +331,10 @@ void Canvas::SetScissorBox(Rectanglen ScissorBox)
 	gluProject(ScissorBox.GetDimensions().X(), ScissorBox.GetDimensions().Y(), 0.0, ModelMatrix, ProjectionMatrix, Viewport, &x1, &y1, &z1);
 	gluProject(0.0, 0.0, 0.0, ModelMatrix, ProjectionMatrix, Viewport, &x2, &y2, &z2);
 
-	m_ScissorBox.SetPosition().X() = std::lround(x0);
-	m_ScissorBox.SetPosition().Y() = std::lround(y0);
-	m_ScissorBox.SetDimensions().X() = std::lround(x1 - x2);
-	m_ScissorBox.SetDimensions().Y() = std::lround(y2 - y1);
+	m_ScissorBox.SetPosition().X() = static_cast<sint32>(std::lround(x0));
+	m_ScissorBox.SetPosition().Y() = static_cast<sint32>(std::lround(y0));
+	m_ScissorBox.SetDimensions().X() = static_cast<sint32>(std::lround(x1 - x2));
+	m_ScissorBox.SetDimensions().Y() = static_cast<sint32>(std::lround(y2 - y1));
 
 	// Crop the scissor box by the parent scissor box
 	auto ParentCanvas = dynamic_cast<const Canvas *>(GetParent());

@@ -11,9 +11,16 @@ OpenGLStream::~OpenGLStream()
 {
 }
 
+OpenGLStream & OpenGLStream::operator << (const ConceptId ConceptId)
+{
+	*this << Concepts[ConceptId];
+
+	return *this;
+}
+
 OpenGLStream & OpenGLStream::operator << (const Concept & Concept)
 {
-	DrawInnerBox(m_CaretPosition, Vector2n(charWidth * Concept.m_Concept.size(), lineHeight), Color(233 / 255.0, 239 / 255.0, 250 / 255.0), Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
+	DrawInnerBox(m_CaretPosition, Vector2n(charWidth * static_cast<sint32>(Concept.m_Concept.size()), lineHeight), Color(233 / 255.0, 239 / 255.0, 250 / 255.0), Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
 
 	if (Concept.HasLabel(26))
 		glColor3d(0, 0, 1);
@@ -91,7 +98,7 @@ void OpenGLStream::PrintSegment(const std::string & Segment)
 	if (Color(1, 1, 1) != m_BackgroundColor)
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		DrawBox(m_CaretPosition, Vector2n(Segment.length() * charWidth, lineHeight), m_BackgroundColor, m_BackgroundColor);
+		DrawBox(m_CaretPosition, Vector2n(static_cast<sint32>(Segment.length()) * charWidth, lineHeight), m_BackgroundColor, m_BackgroundColor);
 		glPopAttrib();
 	}
 
