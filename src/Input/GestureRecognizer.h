@@ -3,18 +3,18 @@
 #define __GestureRecognizer_H__
 
 class GestureRecognizer
-	: public InputListener,
+	: public InputHandler,
 	  public MutuallyConnectable<GestureRecognizer, Pointer>
 {
 public:
-	GestureRecognizer(GestureListener & Owner);
+	GestureRecognizer(GestureHandler & Owner);
 	~GestureRecognizer();
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	virtual void ProcessCanvasUpdated();
 
-	GestureListener & GetOwner();
+	GestureHandler & GetOwner();
 
 	bool				m_RecognizeTap;
 	bool				m_RecognizeManipulationTranslate;
@@ -29,7 +29,7 @@ private:
 
 	bool				m_InManipulation;
 
-	GestureListener &			m_Owner;
+	GestureHandler &			m_Owner;
 };
 
 #endif // __GestureRecognizer_H__

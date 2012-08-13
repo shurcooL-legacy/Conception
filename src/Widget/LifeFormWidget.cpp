@@ -105,7 +105,7 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 		const auto QuarterPi = std::atan(1);
 
 		auto Output = GenerateOutput();
-		
+
 		m_VelocityD = Vector2d(0, 0);
 
 		if (   Output.Action >= 0

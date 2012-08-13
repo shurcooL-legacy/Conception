@@ -6,7 +6,7 @@ class TypingPointer
 	: public Pointer
 {
 public:
-	TypingPointer(InputResponder & InputResponder);
+	TypingPointer(InputHandler & InputHandler);
 	virtual ~TypingPointer();
 
 	/*void ProcessButton(Input::InputId ButtonId, bool Pressed);

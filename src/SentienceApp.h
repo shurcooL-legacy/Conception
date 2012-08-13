@@ -11,7 +11,7 @@ public:
 
 	void UpdateWindowDimensions(Vector2n WindowDimensions) override;
 
-	bool ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:
 	SentienceApp(const SentienceApp &);

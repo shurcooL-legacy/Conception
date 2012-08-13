@@ -25,29 +25,7 @@ void SentienceApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
 }
 
-bool SentienceApp::ProcessEvent(InputEvent & InputEvent)
+void SentienceApp::ProcessEvent(InputEvent & InputEvent)
 {
-	// DEBUG, TEST: System key handling
-	if (false == InputEvent.m_Handled)
-	{
-		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
-		{
-			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
-			{
-				auto ButtonId = InputEvent.m_InputId;
-				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
-				if (Pressed)
-				{
-					switch (ButtonId)
-					{
-					default:
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	return App::ProcessEvent(InputEvent);
+	App::ProcessEvent(InputEvent);
 }

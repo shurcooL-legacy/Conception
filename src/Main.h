@@ -66,7 +66,7 @@ class Function;
 class Project;
 class InputEvent;
 class InputManager;
-class InputResponder;
+class InputHandler;
 class InputListener;
 class PointerInputListener;
 class ControlModuleMapping;
@@ -96,7 +96,7 @@ class MousePointer;
 class TouchPointer;
 class TypingPointer;
 class GestureRecognizer;
-class GestureListener;
+class GestureHandler;
 class PointerState;
 class Color;
 
@@ -167,10 +167,10 @@ extern InputManager * g_InputManager;
 #include "Conception/Function.h"
 #include "Project.h"
 #include "Input/PointerInputListener.h"
-#include "Input/InputResponder.h"
+#include "Input/InputHandler.h"
 #include "Input/PointerMapping.h"
 #include "Input/InputListener.h"
-#include "Input/GestureListener.h"
+#include "Input/GestureHandler.h"
 #include "Input/PointerState.h"
 #include "Input/InputEvent.h"
 #include "Input/Pointers/Pointer.h"

@@ -1,9 +1,9 @@
 #include "../Main.h"
 
-InputResponder::InputResponder()
+InputHandler::InputHandler()
 {
 }
 
-InputResponder::~InputResponder()
+InputHandler::~InputHandler()
 {
 }

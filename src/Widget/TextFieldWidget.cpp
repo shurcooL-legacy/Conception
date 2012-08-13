@@ -117,7 +117,7 @@ void TextFieldWidget::ProcessTap()
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
-void TextFieldWidget::ProcessCharacter(const uint32 Character)
+void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
 {
 	if (Character < 128u)
 	{
@@ -125,6 +125,8 @@ void TextFieldWidget::ProcessCharacter(const uint32 Character)
 
 		m_Content.insert(m_CaretPosition, 1, static_cast<uint8>(Character));
 		MoveCaret(+1, true);
+
+		InputEvent.m_Handled = true;
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 TypingModule::TypingModule()
-	: GestureListener(),
+	: GestureHandler(),
 	  m_Typed()
 {
 }
@@ -30,6 +30,8 @@ void TypingModule::ProcessEvent(InputEvent & InputEvent)
 						{
 							m_Typed.erase(m_Typed.end() - 1);
 						}
+
+						InputEvent.m_Handled = true;
 					}
 					break;
 				default:
@@ -40,27 +42,29 @@ void TypingModule::ProcessEvent(InputEvent & InputEvent)
 	}
 }
 
-void TypingModule::ProcessCharacter(const uint32 Character)
+void TypingModule::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
 {
-	if (   ('a' <= Character && Character <= 'z')
+	if (Character < 128u)
+	/*if (   ('a' <= Character && Character <= 'z')
 		|| ('A' <= Character && Character <= 'Z')
 		|| ('0' <= Character && Character <= '9')
 		|| ' ' == Character
 		|| '-' == Character
 		|| '_' == Character
-		|| '.' == Character)
+		|| '.' == Character)*/
 	{
 		m_Typed += static_cast<uint8>(Character);
+
+		InputEvent.m_Handled = true;
 	}
 }
 
-void TypingModule::Render()
+void TypingModule::Render(const InputManager & InputManager)
 {
 	// Draw "m_Typed" string
 	if (m_Typed.length() > 0)
 	{
-		//Vector2n Position(static_cast<sint32>(GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(GetAxisState(1).GetPosition()) + lineHeight);
-		Vector2n Position(640 - m_Typed.length() * charWidth / 2 + charWidth, 300 + lineHeight);
+		Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) + lineHeight);
 		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
 
 		DrawAroundBox(Position, Dimensions, Color(234 / 255.0, 233 / 255.0, 190 / 255.0));

@@ -1,9 +1,9 @@
 #include "../Main.h"
 
-GestureListener::GestureListener()
+GestureHandler::GestureHandler()
 {
 }
 
-GestureListener::~GestureListener()
+GestureHandler::~GestureHandler()
 {
 }

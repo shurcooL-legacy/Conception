@@ -27,21 +27,11 @@ void CompositeWidget::Render()
 	glPopMatrix();
 }
 
-/*
-// HACK
-// CONTINUE: Fix hack, it works for rendering but not input
-auto CompositeParent = dynamic_cast<const CompositeWidget *>(GetParent());
-if (nullptr != CompositeParent)
-{
-	return m_Position + CompositeParent->GetPosition();
-}*/
-
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-	//for (auto & Widget : m_Widgets)
-	for (auto Widget = m_Widgets.rbegin(); m_Widgets.rend() != Widget; ++Widget)
+	for (auto & Widget : reverse(m_Widgets))
 	{
-		auto Result = (*Widget)->HitTest(ParentToLocal(ParentPosition), Hits);
+		auto Result = Widget->HitTest(ParentToLocal(ParentPosition), Hits);
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
 		if (Result)
 			return true;

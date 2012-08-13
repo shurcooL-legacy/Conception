@@ -6,7 +6,7 @@ class MousePointer
 	: public Pointer
 {
 public:
-	MousePointer(InputResponder & InputResponder);
+	MousePointer(InputHandler & InputHandler);
 	virtual ~MousePointer();
 
 	/*void ProcessButton(Input::InputId ButtonId, bool Pressed);

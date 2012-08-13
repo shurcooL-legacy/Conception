@@ -10,8 +10,8 @@ public:
 
 	/*void RegisterPointerListener(PointerInputListener * PointerListener);
 	void UnregisterPointerListener(PointerInputListener * PointerListener);*/
-	void SetInputResponder(InputResponder * InputResponder);
-	void ClearInputResponder();
+	void SetInputHandler(InputHandler * InputHandler);
+	void ClearInputHandler();
 
 	void SetMouseCursorVisibility(bool Visible);
 	bool IsMouseCursorVisible();
@@ -62,7 +62,7 @@ private:
 	public:std::unique_ptr<MousePointer>						m_MousePointer;private:		// HACK
 	std::map<uint8, std::unique_ptr<TouchPointer>>		m_TouchPointers;
 
-	InputResponder *	m_InputResponder;		// MAYBE: Change the type to App?
+	InputHandler *	m_InputHandler;		// MAYBE: Change the type to App?
 	//std::vector<PointerInputListener *>		m_PointerListeners;
 
 	//Vector2n			m_MouseCursorPosition;		// TODO: Replace with a more proper list of "cursors"

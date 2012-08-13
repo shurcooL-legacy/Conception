@@ -3,14 +3,14 @@
 #define __Pointer_H__
 
 class Pointer
-	: public InputResponder,
+	: public InputHandler,
 	  public MutuallyConnectable<Pointer, GestureRecognizer>
 {
 public:
 	enum class DeviceCategory : uint8 { KEYBOARD, MOUSE, TOUCH };
 	enum class VirtualCategory : uint8 { TYPING, POINTING };
 
-	bool ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 
@@ -24,7 +24,7 @@ public:
 	PointerState & ModifyPointerState();
 
 protected:
-	Pointer(InputResponder & InputResponder);
+	Pointer(InputHandler & InputHandler);
 	virtual ~Pointer();
 
 	void ProcessActivation(InputEvent & InputEvent);
@@ -39,7 +39,7 @@ private:
 	bool				m_IsActive;
 	PointerState		m_PointerState;
 
-	InputResponder &	m_InputResponder;
+	InputHandler &	m_InputHandler;
 	PointerMapping		m_PointerMapping;
 };
 

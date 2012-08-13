@@ -8,7 +8,7 @@ InputManager::InputManager()
 	: m_TypingPointer(),
 	  m_MousePointer(),
 	  m_TouchPointers(),
-	  m_InputResponder(nullptr),
+	  m_InputHandler(nullptr),
 	  //m_PointerListeners(),
 	  m_MouseCursorVisible(true),
 	  m_MouseIgnorePositionOnce(false),
@@ -23,20 +23,20 @@ InputManager::~InputManager()
 {
 	printf("~InputManager()\n");
 
-	ClearInputResponder();		// THINK: Do I really need it call it a second time "just in case"?
+	ClearInputHandler();		// THINK: Do I really need it call it a second time "just in case"?
 
 	m_pInstance = nullptr;
 }
 
-void InputManager::SetInputResponder(InputResponder * InputResponder)
+void InputManager::SetInputHandler(InputHandler * InputHandler)
 {
-	assert(nullptr == m_InputResponder);
-	m_InputResponder = InputResponder;
+	assert(nullptr == m_InputHandler);
+	m_InputHandler = InputHandler;
 
 	SetGlfwCallbacks();
 }
 
-void InputManager::ClearInputResponder()
+void InputManager::ClearInputHandler()
 {
 	// Clear all pointer mappings
 	if (nullptr != m_TypingPointer)
@@ -130,8 +130,8 @@ void InputManager::RequestTypingPointer(GestureRecognizer & Target)
 
 void InputManager::SetGlfwCallbacks()
 {
-	m_TypingPointer = std::unique_ptr<TypingPointer>(new TypingPointer(*m_InputResponder));
-	m_MousePointer = std::unique_ptr<MousePointer>(new MousePointer(*m_InputResponder));
+	m_TypingPointer = std::unique_ptr<TypingPointer>(new TypingPointer(*m_InputHandler));
+	m_MousePointer = std::unique_ptr<MousePointer>(new MousePointer(*m_InputHandler));
 
 	glfwSetWindowSizeCallback(&InputManager::ProcessWindowSize);
 
@@ -177,12 +177,12 @@ void GLFWCALL InputManager::ProcessWindowSize(int WindowWidth, int WindowHeight)
 	m_pInstance->m_WindowDimensions = Vector2n(WindowWidth, WindowHeight);
 	printf("Window Dimensions: %dx%d\n", m_pInstance->m_WindowDimensions.X(), m_pInstance->m_WindowDimensions.Y());
 
-	if (nullptr != m_pInstance->m_InputResponder)
+	if (nullptr != m_pInstance->m_InputHandler)
 	{
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::PARENT_SIZE);		// TODO: Maybe put the event details inside?
 
-		m_pInstance->m_InputResponder->ProcessEvent(InputEvent);
+		m_pInstance->m_InputHandler->ProcessEvent(InputEvent);
 	}
 }
 
@@ -426,7 +426,7 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 {
 	if (m_pInstance->m_TouchPointers.end() == m_pInstance->m_TouchPointers.find(TouchButton))
 	{
-		m_pInstance->m_TouchPointers.insert(std::pair<uint8, std::unique_ptr<TouchPointer>>(TouchButton, std::unique_ptr<TouchPointer>(new TouchPointer(*m_pInstance->m_InputResponder))));
+		m_pInstance->m_TouchPointers.insert(std::pair<uint8, std::unique_ptr<TouchPointer>>(TouchButton, std::unique_ptr<TouchPointer>(new TouchPointer(*m_pInstance->m_InputHandler))));
 	}
 
 	/*auto & PreviousTouchPosition = m_pInstance->m_TouchPointers[TouchButton]->PreviousTouchPosition();
@@ -537,5 +537,5 @@ void InputManager::ProcessTimePassed(const double TimePassed)
 		(*it0)->ProcessTimePassed(TimePassed);
 	}*/
 
-	m_InputResponder->ProcessTimePassed(TimePassed);
+	m_InputHandler->ProcessTimePassed(TimePassed);
 }

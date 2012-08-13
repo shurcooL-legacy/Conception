@@ -1,7 +1,7 @@
 #include "../../Main.h"
 
-MousePointer::MousePointer(InputResponder & InputResponder)
-	: Pointer(InputResponder)
+MousePointer::MousePointer(InputHandler & InputHandler)
+	: Pointer(InputHandler)
 {
 }
 

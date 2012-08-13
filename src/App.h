@@ -3,7 +3,7 @@
 #define __App_H__
 
 class App
-	: public InputResponder
+	: public InputHandler
 {
 public:
 	App(InputManager & InputManager);
@@ -13,12 +13,13 @@ public:
 
 	virtual void UpdateWindowDimensions(Vector2n WindowDimensions) {}
 
+	const InputManager & GetInputManager();
 	InputManager & ModifyInputManager();
 
-	void Render();
+	virtual void Render();
 
 	//void ProcessPosition(Pointer * Pointer, Vector2n Position);
-	bool ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 

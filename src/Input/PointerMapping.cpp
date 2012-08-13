@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 PointerMapping::PointerMapping(Pointer & Owner)
-	: InputResponder(),
+	: InputHandler(),
 	  //m_HoverWidget(nullptr),
 	  m_Capturer(nullptr),
 	  m_Entries(),
@@ -105,7 +105,7 @@ void PointerMapping::ProcessCharacter(Pointer * Pointer, int Character)
 {
 }*/
 
-bool PointerMapping::ProcessEvent(InputEvent & InputEvent)
+void PointerMapping::ProcessEvent(InputEvent & InputEvent)
 {
 	if (nullptr == m_Capturer)
 	{
@@ -124,7 +124,7 @@ bool PointerMapping::ProcessEvent(InputEvent & InputEvent)
 		m_Capturer->ProcessEvent(InputEvent);
 	}
 
-	return true;
+	//return true;
 }
 
 void PointerMapping::ProcessTimePassed(const double TimePassed)

@@ -1,7 +1,7 @@
 #include "../../Main.h"
 
-TypingPointer::TypingPointer(InputResponder & InputResponder)
-	: Pointer(InputResponder)
+TypingPointer::TypingPointer(InputHandler & InputHandler)
+	: Pointer(InputHandler)
 {
 }
 

@@ -6,7 +6,7 @@ class TouchPointer
 	: public Pointer
 {
 public:
-	TouchPointer(InputResponder & InputResponder);
+	TouchPointer(InputHandler & InputHandler);
 	virtual ~TouchPointer();
 
 	/*void ProcessButton(Input::InputId ButtonId, bool Pressed);

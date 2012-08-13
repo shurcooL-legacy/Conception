@@ -14,7 +14,7 @@
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
 		2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
-		2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputResponder.cpp */; };
+		2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputHandler.cpp */; };
 		2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA69155465D90021D8EF /* InputManager.cpp */; };
 		2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */; };
 		2A4FFAA2155465D90021D8EF /* MousePointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA6E155465D90021D8EF /* MousePointer.cpp */; };
@@ -64,7 +64,7 @@
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
 		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
 		2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9D15A7624F007719FA /* Utilities.mm */; };
-		2ADA2E89155CBAAE00DEAECF /* GestureListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */; };
+		2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */; };
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
@@ -98,8 +98,8 @@
 		2A4FFA5A155465D90021D8EF /* Concepts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concepts.h; path = src/Concepts.h; sourceTree = SOURCE_ROOT; };
 		2A4FFA5E155465D90021D8EF /* TypingModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypingModule.cpp; sourceTree = "<group>"; };
 		2A4FFA5F155465D90021D8EF /* TypingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypingModule.h; sourceTree = "<group>"; };
-		2A4FFA67155465D90021D8EF /* InputResponder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputResponder.cpp; sourceTree = "<group>"; };
-		2A4FFA68155465D90021D8EF /* InputResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputResponder.h; sourceTree = "<group>"; };
+		2A4FFA67155465D90021D8EF /* InputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputHandler.cpp; sourceTree = "<group>"; };
+		2A4FFA68155465D90021D8EF /* InputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputHandler.h; sourceTree = "<group>"; };
 		2A4FFA69155465D90021D8EF /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		2A4FFA6A155465D90021D8EF /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
 		2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerInputListener.cpp; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 		2AD87E9B15A7600F007719FA /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = src/Utilities.cpp; sourceTree = SOURCE_ROOT; };
 		2AD87E9D15A7624F007719FA /* Utilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Utilities.mm; path = src/Utilities.mm; sourceTree = SOURCE_ROOT; };
 		2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MutuallyConnectable.h; path = src/MutuallyConnectable.h; sourceTree = SOURCE_ROOT; };
-		2ADA2E87155CBAA200DEAECF /* GestureListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureListener.h; sourceTree = "<group>"; };
-		2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureListener.cpp; sourceTree = "<group>"; };
+		2ADA2E87155CBAA200DEAECF /* GestureHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureHandler.h; sourceTree = "<group>"; };
+		2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureHandler.cpp; sourceTree = "<group>"; };
 		2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionWidget.cpp; sourceTree = "<group>"; };
 		2ADBF3C815840A19007BDF94 /* FunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionWidget.h; sourceTree = "<group>"; };
 		2ADBF3CF15841AF3007BDF94 /* Function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Function.cpp; sourceTree = "<group>"; };
@@ -220,18 +220,18 @@
 		2A4FFA64155465D90021D8EF /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */,
-				2ADA2E87155CBAA200DEAECF /* GestureListener.h */,
+				2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */,
+				2ADA2E87155CBAA200DEAECF /* GestureHandler.h */,
 				2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */,
 				2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */,
 				2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */,
 				2A7B8B701558B25F007A1FA7 /* InputEvent.h */,
+				2A4FFA67155465D90021D8EF /* InputHandler.cpp */,
+				2A4FFA68155465D90021D8EF /* InputHandler.h */,
 				2A7C899C155A12A900F5EE37 /* InputListener.cpp */,
 				2A7C899D155A12A900F5EE37 /* InputListener.h */,
 				2A4FFA69155465D90021D8EF /* InputManager.cpp */,
 				2A4FFA6A155465D90021D8EF /* InputManager.h */,
-				2A4FFA67155465D90021D8EF /* InputResponder.cpp */,
-				2A4FFA68155465D90021D8EF /* InputResponder.h */,
 				2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */,
 				2A4FFA6C155465D90021D8EF /* PointerInputListener.h */,
 				2A4FFA78155465D90021D8EF /* PointerMapping.cpp */,
@@ -475,7 +475,7 @@
 				2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */,
 				2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */,
 				2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */,
-				2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */,
+				2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */,
 				2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */,
 				2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */,
 				2A4FFAA2155465D90021D8EF /* MousePointer.cpp in Sources */,
@@ -499,7 +499,7 @@
 				2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */,
 				2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */,
 				2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */,
-				2ADA2E89155CBAAE00DEAECF /* GestureListener.cpp in Sources */,
+				2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */,
 				2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */,
 				2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */,
 				2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */,

@@ -1,7 +1,7 @@
 #include "../Main.h"
 
-GestureRecognizer::GestureRecognizer(GestureListener & Owner)
-	: InputListener(),
+GestureRecognizer::GestureRecognizer(GestureHandler & Owner)
+	: InputHandler(),
 	  m_RecognizeTap(false),
 	  m_RecognizeManipulationTranslate(false),
 	  m_InManipulation(false),
@@ -125,15 +125,16 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);		// TEST
 		}
 	}
-	
+
 	//if (...)
 	{
 		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CHARACTER_EVENT))
 		{
-			m_Owner.ProcessCharacter(InputEvent.m_InputId);
+			m_Owner.ProcessCharacter(InputEvent, InputEvent.m_InputId);
 		}
 	}
 
+	// TODO: There might be duplication here this way, I think I should eliminate it (by providing a complete alternative gesture-level api for all events
 	// Low-level event passthrough
 	m_Owner.ProcessEvent(InputEvent);
 }
@@ -149,7 +150,7 @@ void GestureRecognizer::ProcessCanvasUpdated()
 	}
 }
 
-GestureListener & GestureRecognizer::GetOwner()
+GestureHandler & GestureRecognizer::GetOwner()
 {
 	return m_Owner;
 }

@@ -1,17 +1,17 @@
 #include "../../Main.h"
 
-Pointer::Pointer(InputResponder & MyInputResponder)
-	: InputResponder(),
+Pointer::Pointer(InputHandler & MyInputHandler)
+	: InputHandler(),
 	  m_IsActive(false),
 	  m_PointerState(),
-	  m_InputResponder(MyInputResponder),
+	  m_InputHandler(MyInputHandler),
 	  m_PointerMapping(*this)
 {
 	InputEvent InputEvent;
 	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
 	InputEvent.m_Pointer = this;
 
-	m_InputResponder.ProcessEvent(InputEvent);
+	m_InputHandler.ProcessEvent(InputEvent);
 }
 
 Pointer::~Pointer()
@@ -20,7 +20,7 @@ Pointer::~Pointer()
 	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
 	InputEvent.m_Pointer = this;
 
-	m_InputResponder.ProcessEvent(InputEvent);
+	m_InputHandler.ProcessEvent(InputEvent);
 }
 
 void Pointer::ProcessActivation(InputEvent & InputEvent)
@@ -42,7 +42,7 @@ bool Pointer::IsActive()
 	return m_IsActive;
 }
 
-bool Pointer::ProcessEvent(InputEvent & InputEvent)
+void Pointer::ProcessEvent(InputEvent & InputEvent)
 {
 	//std::cout << InputEvent.ToString();
 
@@ -91,7 +91,7 @@ bool Pointer::ProcessEvent(InputEvent & InputEvent)
 
 	m_PointerState = InputEvent.m_Pointer->GetPointerState();
 
-	return m_InputResponder.ProcessEvent(InputEvent);
+	return m_InputHandler.ProcessEvent(InputEvent);
 }
 
 void Pointer::ProcessTimePassed(const double TimePassed)

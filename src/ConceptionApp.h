@@ -11,13 +11,17 @@ public:
 
 	void UpdateWindowDimensions(Vector2n WindowDimensions) override;
 
-	bool ProcessEvent(InputEvent & InputEvent) override;
+	void Render() override;
+
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:
 	ConceptionApp(const ConceptionApp &);
 	ConceptionApp & operator = (const ConceptionApp &);
 
 	Project		m_CurrentProject;
+
+	TypingModule	m_TypingModule;
 };
 
 #endif // __ConceptionApp_H__

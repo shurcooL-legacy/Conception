@@ -3,18 +3,18 @@
 #define __TypingModule_H__
 
 class TypingModule
-	: public GestureListener
+	: public GestureHandler
 {
 public:
 	TypingModule();
 	~TypingModule();
 
-	void Render();
+	void Render(const InputManager & InputManager);
 
 	std::string GetString();
 	void Clear();
 
-	void ProcessCharacter(const uint32 Character) override;
+	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 

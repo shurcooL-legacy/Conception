@@ -3,7 +3,7 @@
 #define __Widget_H__
 
 class Widget
-	: public GestureListener
+	: public GestureHandler
 {
 public:
 	virtual ~Widget();

@@ -2,7 +2,8 @@
 
 ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
-	  m_CurrentProject()
+	  m_CurrentProject(),
+	  m_TypingModule()
 {
 	PopulateConcepts();
 
@@ -13,9 +14,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes());
 			StdIncludesList->m_TapAction = [=]()
 				{
-					//auto Entry = g_TypingModuleTEST->GetString();
-					//g_TypingModuleTEST->Clear();
-					std::string Entry = "TypingModule not yet re-enabled";
+					auto Entry = m_TypingModule.GetString();
+					m_TypingModule.Clear();
+					//auto Entry = std::string("TypingModule not yet re-enabled");
 
 					if (Entry.length() > 0)
 					{
@@ -55,7 +56,17 @@ void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
 }
 
-bool ConceptionApp::ProcessEvent(InputEvent & InputEvent)
+void ConceptionApp::Render()
+{
+	App::Render();
+
+	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()
+	{
+		m_TypingModule.Render(GetInputManager());
+	}
+}
+
+void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 {
 	// DEBUG, TEST: System key handling
 	if (false == InputEvent.m_Handled)
@@ -78,13 +89,17 @@ bool ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 						{
 							m_CurrentProject.GenerateProgram();
 							m_CurrentProject.RunProgram();
+
+							InputEvent.m_Handled = true;
 						}
 						break;
 					// TEST
 					case 'B':
-						if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
+						//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
 						{
-							m_CurrentProject.GetStdIncludes().push_back(FindConcept("test"));
+							m_CurrentProject.GetStdIncludes().push_back(FindOrCreateConcept("test"));
+
+							InputEvent.m_Handled = true;
 						}
 						break;
 					default:
@@ -95,5 +110,21 @@ bool ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	return App::ProcessEvent(InputEvent);
+	App::ProcessEvent(InputEvent);
+
+	// TODO, LOWER_PRIORITY: Perhaps generalize and standardize this back into App, removing need for overloaded ProcessEvent()
+	if (false == InputEvent.m_Handled)
+	{
+		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CHARACTER_EVENT))
+		{
+			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
+			{
+				auto Character = InputEvent.m_InputId;
+
+				m_TypingModule.ProcessCharacter(InputEvent, Character);
+			}
+		}
+
+		m_TypingModule.ProcessEvent(InputEvent);
+	}
 }

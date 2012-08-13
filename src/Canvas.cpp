@@ -67,10 +67,10 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 		Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
 		auto LocalPosition = ParentToLocal(ParentPosition);
 
-		//for (auto & Widget : m_Widgets)
-		for (auto Widget = m_Widgets.rbegin(); m_Widgets.rend() != Widget; ++Widget)
+		//for (auto & Widget : reverse_adapt_container(m_Widgets))
+		for (auto & Widget : reverse(m_Widgets))
 		{
-			if ((*Widget)->HitTest(LocalPosition, Hits))
+			if (Widget->HitTest(LocalPosition, Hits))
 			{
 				HitInside = true;
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET

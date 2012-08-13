@@ -1,7 +1,7 @@
 #include "../../Main.h"
 
-TouchPointer::TouchPointer(InputResponder & InputResponder)
-	: Pointer(InputResponder)
+TouchPointer::TouchPointer(InputHandler & InputHandler)
+	: Pointer(InputHandler)
 {
 }
 

@@ -3,7 +3,7 @@
 #define __PointerMapping_H__
 
 class PointerMapping
-	: public InputResponder
+	: public InputHandler
 {
 public:
 	PointerMapping(Pointer & Owner);
@@ -25,7 +25,7 @@ public:
 
 	void ProcessCharacter(Pointer * Pointer, int Character);*/
 
-	bool ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 

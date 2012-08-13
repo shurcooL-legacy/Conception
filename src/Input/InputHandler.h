@@ -1,20 +1,20 @@
 #pragma once
-#ifndef __InputResponder_H__
-#define __InputResponder_H__
+#ifndef __InputHandler_H__
+#define __InputHandler_H__
 
-class InputResponder
+class InputHandler
 {
 public:
-	InputResponder();
-	virtual ~InputResponder();
+	InputHandler();
+	virtual ~InputHandler();
 
-	virtual bool ProcessEvent(InputEvent & InputEvent) { return false; }
+	virtual void ProcessEvent(InputEvent & InputEvent) {}
 	
 	virtual void ProcessTimePassed(const double TimePassed) {}
 
 private:
-	InputResponder(const InputResponder &) = delete;
-	InputResponder & operator = (const InputResponder &) = delete;
+	InputHandler(const InputHandler &) = delete;
+	InputHandler & operator = (const InputHandler &) = delete;
 };
 
-#endif // __InputResponder_H__
+#endif // __InputHandler_H__

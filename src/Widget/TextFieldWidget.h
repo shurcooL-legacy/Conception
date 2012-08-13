@@ -12,7 +12,7 @@ public:
 	void Render() override;
 
 	void ProcessTap() override;
-	void ProcessCharacter(const uint32 Character) override;
+	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 	void ProcessManipulationStarted(const PointerState & PointerState) override;
 	void ProcessManipulationUpdated(const PointerState & PointerState) override;
