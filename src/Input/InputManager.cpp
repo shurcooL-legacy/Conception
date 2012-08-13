@@ -9,7 +9,6 @@ InputManager::InputManager()
 	  m_MousePointer(),
 	  m_TouchPointers(),
 	  m_InputHandler(nullptr),
-	  //m_PointerListeners(),
 	  m_MouseCursorVisible(true),
 	  m_MouseIgnorePositionOnce(false),
 	  m_MouseIgnorePositionAlways(false),
@@ -56,23 +55,6 @@ void InputManager::ClearInputHandler()
 
 	SetMouseCursorVisibility(true);
 }
-
-/*void InputManager::RegisterPointerListener(PointerInputListener * PointerListener)
-{
-	m_PointerListeners.push_back(PointerListener);
-}
-
-void InputManager::UnregisterPointerListener(PointerInputListener * PointerListener)
-{
-	for (auto it0 = m_PointerListeners.begin(); it0 != m_PointerListeners.end(); ++it0)
-	{
-		if (*it0 == PointerListener)
-		{
-			m_PointerListeners.erase(it0);
-			break;
-		}
-	}
-}*/
 
 void InputManager::SetMouseCursorVisibility(bool Visible)
 {
@@ -188,20 +170,16 @@ void GLFWCALL InputManager::ProcessWindowSize(int WindowWidth, int WindowHeight)
 
 void GLFWCALL InputManager::ProcessKey(int Key, int Action)
 {
-	//m_pInstance->m_TypingPointer.ProcessButton(Key, (GLFW_PRESS == Action));
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::BUTTON_EVENT);
-	InputEvent.m_DeviceId = 0;
-	InputEvent.m_InputId = Key;
-	InputEvent.m_Buttons.push_back(GLFW_PRESS == Action);
-	InputEvent.m_Pointer = m_pInstance->m_TypingPointer.get();
-
-	InputEvent.m_Pointer->ProcessEvent(InputEvent);
-
-	/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
 	{
-		(*it0)->ProcessButton(InputId(0 / * Keyboard * /, Key), (GLFW_PRESS == Action));
-	}*/
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::BUTTON_EVENT);
+		InputEvent.m_DeviceId = 0;
+		InputEvent.m_InputId = Key;
+		InputEvent.m_Buttons.push_back(GLFW_PRESS == Action);
+		InputEvent.m_Pointer = m_pInstance->m_TypingPointer.get();
+
+		InputEvent.m_Pointer->ProcessEvent(InputEvent);
+	}
 }
 
 void GLFWCALL InputManager::ProcessChar(int Character, int Action)
@@ -216,25 +194,11 @@ void GLFWCALL InputManager::ProcessChar(int Character, int Action)
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
-
-	/*if (GLFW_PRESS == Action)
-	{
-		m_pInstance->m_TypingPointer.ProcessCharacter(Character);
-	}*/
-
-	/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-	{
-		if (GLFW_PRESS == Action)
-		{
-			(*it0)->ProcessCharacter(Character);
-		}
-	}*/
 }
 
 void GLFWCALL InputManager::ProcessMouseButton(int MouseButton, int Action)
 {
 	{
-		//m_pInstance->m_MousePointer.ProcessButton(MouseButton, (GLFW_PRESS == Action));
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::BUTTON_EVENT);
 		InputEvent.m_DeviceId = 0;
@@ -244,69 +208,11 @@ void GLFWCALL InputManager::ProcessMouseButton(int MouseButton, int Action)
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
-
-	/*for (std::vector<PointerInputListener *>::reverse_iterator it0 = m_pInstance->m_PointerListeners.rbegin(); it0 != m_pInstance->m_PointerListeners.rend(); ++it0)
-	{
-		(*it0)->ProcessButton(m_pInstance->m_MousePointer.get(), Input::InputId(MouseButton), (GLFW_PRESS == Action));
-	}*/
 }
 
 void GLFWCALL InputManager::ProcessMousePos(int MousePositionX, int MousePositionY)
 {
 //printf("InputManager::ProcessMousePos %d %d\n", MousePositionX, MousePositionY);
-#if 0
-	static bool PreviousMousePositionSet = false;
-
-	if (true == m_pInstance->IsMouseCursorVisible())
-	{
-		PreviousMousePositionSet = false;
-
-		//m_pInstance->m_MousePositionX = MousePositionX;
-		//m_pInstance->m_MousePositionY = MousePositionY;
-
-		/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-		{
-			//(*it0)->ProcessMousePosition(MousePositionX, MousePositionY);
-			(*it0)->Process2Axes(InputId(1000 / * Mouse * /, 0), MousePositionX, MousePositionY);
-		}*/
-
-		//printf("       pointer moved to = (%d, %d)\n", nMousePosX, nMousePosY);
-	}
-	else
-	{
-		static int		PreviousMousePositionX = MousePositionX;
-		static int		PreviousMousePositionY = MousePositionY;
-
-		if (false == PreviousMousePositionSet)
-		{
-			//printf("  initial mouse pos = (%d, %d)\n", nMousePosX, nMousePosY);
-			PreviousMousePositionX = MousePositionX;
-			PreviousMousePositionY = MousePositionY;
-			PreviousMousePositionSet = true;
-		}
-		else
-		{
-			int MouseMovedX = MousePositionX - PreviousMousePositionX;
-			int MouseMovedY = MousePositionY - PreviousMousePositionY;
-			PreviousMousePositionX = MousePositionX;
-			PreviousMousePositionY = MousePositionY;
-
-			/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-			{
-				(*it0)->ProcessSlider(InputId(1000 / * Mouse * /, 0 / * Mouse X Axis * /), static_cast<double>(MouseMovedX));
-				(*it0)->ProcessSlider(InputId(1000 / * Mouse * /, 1 / * Mouse Y Axis * /), static_cast<double>(MouseMovedY));
-			}*/
-		}
-	}
-#else
-	/*static int PreviousMousePositionX = MousePositionX;
-	static int PreviousMousePositionY = MousePositionY;
-
-	int MouseMovedX = MousePositionX - PreviousMousePositionX;
-	int MouseMovedY = MousePositionY - PreviousMousePositionY;
-	PreviousMousePositionX = MousePositionX;
-	PreviousMousePositionY = MousePositionY;*/
-
 	if (m_pInstance->m_MouseIgnorePositionAlways)
 	{
 		//printf("mm - %d,%d (Always)\n", MouseMovedX, MouseMovedY);
@@ -322,10 +228,6 @@ void GLFWCALL InputManager::ProcessMousePos(int MousePositionX, int MousePositio
 
 	if (true == m_pInstance->IsMouseCursorVisible())
 	{
-		//m_pInstance->m_MouseCursorPosition.X() = MousePositionX;
-		//m_pInstance->m_MouseCursorPosition.Y() = MousePositionY;
-
-		//m_pInstance->m_MousePointer.ProcessPosition(m_pInstance->m_MouseCursorPosition);
 		{
 			InputEvent InputEvent;
 			InputEvent.m_EventTypes.insert(InputEvent::EventType::AXIS_EVENT);
@@ -339,44 +241,15 @@ void GLFWCALL InputManager::ProcessMousePos(int MousePositionX, int MousePositio
 
 			InputEvent.m_Pointer->ProcessEvent(InputEvent);
 		}
-
-		/*for (std::vector<PointerInputListener *>::reverse_iterator it0 = m_pInstance->m_PointerListeners.rbegin(); it0 != m_pInstance->m_PointerListeners.rend(); ++it0)
-		{
-			(*it0)->ProcessPosition(&m_pInstance->m_MousePointer, m_pInstance->m_MouseCursorPosition);
-		}*/
-
-		/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-		{
-			//(*it0)->ProcessMousePosition(MousePositionX, MousePositionY);
-			Input::AxisState AxisStates[2] = { Input::AxisState(MousePositionX, m_pInstance->m_WindowDimensions.X()), Input::AxisState(MousePositionY, m_pInstance->m_WindowDimensions.Y()) };
-			(*it0)->Process2Axes(InputId(1000 / * Mouse * /, 0), AxisStates);
-		}*/
 	}
 
-	// Deal with invisible mouse cursor...
+	// TODO: Deal with invisible mouse cursor...
 	// TODO: Should I even treat it as a pointer device? Maybe not.
-	/*{
-		//m_pInstance->m_MousePointer.ProcessSlider(0 / * Mouse X Axis * /, static_cast<double>(MouseMovedX));
-		//m_pInstance->m_MousePointer.ProcessSlider(1 / * Mouse Y Axis * /, static_cast<double>(MouseMovedY));
-	}*/
-
-	/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-	{
-		(*it0)->ProcessSlider(InputId(1000 / * Mouse * /, 0 / * Mouse X Axis * /), static_cast<double>(MouseMovedX));
-		(*it0)->ProcessSlider(InputId(1000 / * Mouse * /, 1 / * Mouse Y Axis * /), static_cast<double>(MouseMovedY));
-	}*/
-#endif
 }
 
 void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition)
 {
-	/*static int PreviousMouseWheelPosition = MouseWheelPosition;
-
-	int MouseWheelMoved = MouseWheelPosition - PreviousMouseWheelPosition;
-	PreviousMouseWheelPosition = MouseWheelPosition;*/
-
 	{
-		//m_pInstance->m_MousePointer.ProcessSlider(2 /* Mouse Wheel */, MouseWheelMoved);
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::AXIS_EVENT);
 		InputEvent.m_DeviceId = 0;
@@ -386,12 +259,6 @@ void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition)
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
-
-	/*for (std::vector<InputListener *>::reverse_iterator it0 = m_pInstance->m_Listeners.rbegin(); it0 != m_pInstance->m_Listeners.rend(); ++it0)
-	{
-		(*it0)->ProcessSlider(InputId(1000 / * Mouse * /, 2 / * Mouse Wheel * /), MouseWheelMoved);
-		(*it0)->ProcessAxis(InputId(1000 / * Mouse * /, 2 / * Mouse Wheel * /), Input::AxisState(MouseWheelPosition, 0));
-	}*/
 //printf("InputManager::ProcessMouseWheel(int MouseWheelPosition = %d), moved = %d\n", MouseWheelPosition, MouseWheelMoved);
 }
 
@@ -428,22 +295,6 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 	{
 		m_pInstance->m_TouchPointers.insert(std::pair<uint8, std::unique_ptr<TouchPointer>>(TouchButton, std::unique_ptr<TouchPointer>(new TouchPointer(*m_pInstance->m_InputHandler))));
 	}
-
-	/*auto & PreviousTouchPosition = m_pInstance->m_TouchPointers[TouchButton]->PreviousTouchPosition();
-
-	int TouchMovedX = TouchPositionX - PreviousTouchPosition.X();
-	int TouchMovedY = TouchPositionY - PreviousTouchPosition.Y();
-	PreviousTouchPosition.X() = TouchPositionX;
-	PreviousTouchPosition.Y() = TouchPositionY;
-
-	Vector2n TouchPosition(TouchPositionX, TouchPositionY);*/
-
-	//m_pInstance->m_TouchPointers[TouchButton]->ProcessPosition(TouchPosition);
-
-	/*for (std::vector<PointerInputListener *>::reverse_iterator it0 = m_pInstance->m_PointerListeners.rbegin(); it0 != m_pInstance->m_PointerListeners.rend(); ++it0)
-	{
-		(*it0)->ProcessPosition(m_pInstance->m_TouchPointers[TouchButton].get(), TouchPosition);
-	}*/
 
 	{
 		InputEvent InputEvent;
@@ -531,11 +382,6 @@ void InputManager::ProcessTimePassed(const double TimePassed)
 	{
 		Pointer.second->ProcessTimePassed(TimePassed);
 	}
-
-	/*for (std::vector<PointerInputListener *>::reverse_iterator it0 = m_pInstance->m_PointerListeners.rbegin(); it0 != m_pInstance->m_PointerListeners.rend(); ++it0)
-	{
-		(*it0)->ProcessTimePassed(TimePassed);
-	}*/
 
 	m_InputHandler->ProcessTimePassed(TimePassed);
 }

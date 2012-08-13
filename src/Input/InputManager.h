@@ -62,9 +62,7 @@ private:
 	std::map<uint8, std::unique_ptr<TouchPointer>>		m_TouchPointers;
 
 	InputHandler *	m_InputHandler;		// MAYBE: Change the type to App?
-	//std::vector<PointerInputListener *>		m_PointerListeners;
 
-	//Vector2n			m_MouseCursorPosition;		// TODO: Replace with a more proper list of "cursors"
 	volatile bool		m_MouseCursorVisible;
 	volatile bool		m_MouseIgnorePositionAlways;
 	volatile bool		m_MouseIgnorePositionOnce;
