@@ -1,14 +1,15 @@
 #include "../Main.h"
 
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
-TextFieldWidget::TextFieldWidget(Vector2n Position)
+TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
 	  m_Content(),
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
 	  m_CaretPosition(0),
 	  m_TargetCaretColumnX(0),
-	  m_SelectionPosition(0)
+	  m_SelectionPosition(0),
+	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
@@ -197,6 +198,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 									|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER));
 				auto AltActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LALT)
 								  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RALT));
+
+				bool HandledEvent = true;		// Assume true at first
 
 				switch (ButtonId)
 				{
@@ -390,9 +393,12 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						if (SuperActive)
 						{
-							glfwSetClipboardString(GetSelectionContent());
+							if (!GetSelectionContent().empty())
+							{
+								glfwSetClipboardString(GetSelectionContent());
 
-							EraseSelectionIfAny();
+								EraseSelectionIfAny();
+							}
 						}
 					}
 					break;
@@ -400,7 +406,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						if (SuperActive)
 						{
-							glfwSetClipboardString(GetSelectionContent());
+							if (!GetSelectionContent().empty())
+							{
+								glfwSetClipboardString(GetSelectionContent());
+							}
 						}
 					}
 					break;
@@ -408,15 +417,24 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						if (SuperActive)
 						{
-							EraseSelectionIfAny();
+							if (!glfwGetClipboardString().empty())
+							{
+								EraseSelectionIfAny();
 
-							m_Content.insert(m_CaretPosition, glfwGetClipboardString());
-							MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+								m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+								MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+							}
 						}
 					}
 					break;
 				default:
+					HandledEvent = false;
 					break;
+				}
+
+				if (HandledEvent)
+				{
+					InputEvent.m_Handled = true;
 				}
 			}
 		}
@@ -438,6 +456,17 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 						auto ShiftActive = g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT) || g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT);
 						SetCaretPosition(CaretPosition, !ShiftActive);
+
+						{
+							auto Entry = m_TypingModule.GetString();
+							m_TypingModule.Clear();
+
+							if (!Entry.empty())
+							{
+								m_Content.insert(m_CaretPosition, Entry);
+								SetCaretPosition(GetNearestCaretPosition(LocalPosition), true);
+							}
+						}
 					}
 					break;
 				default:

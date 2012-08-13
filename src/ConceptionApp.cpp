@@ -16,7 +16,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				{
 					auto Entry = m_TypingModule.GetString();
 					m_TypingModule.Clear();
-					//auto Entry = std::string("TypingModule not yet re-enabled");
 
 					if (Entry.length() > 0)
 					{
@@ -30,7 +29,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0)));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0), m_TypingModule));
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100)));
 
 		{

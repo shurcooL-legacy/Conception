@@ -16,6 +16,8 @@ private:
 	ConceptionTestApp & operator =(const ConceptionTestApp &);
 
 	public:Project		m_CurrentProject;private:
+
+	TypingModule	m_TypingModule;
 };
 
 #endif // __ConceptionTestApp_H__

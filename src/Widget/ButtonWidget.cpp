@@ -4,6 +4,8 @@ ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function
 	: Widget(Position, Dimensions),
 	  m_Action(Action)
 {
+	assert(nullptr != m_Action);
+
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 }
 

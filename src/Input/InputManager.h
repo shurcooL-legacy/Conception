@@ -8,9 +8,8 @@ public:
 	InputManager();
 	~InputManager();
 
-	/*void RegisterPointerListener(PointerInputListener * PointerListener);
-	void UnregisterPointerListener(PointerInputListener * PointerListener);*/
 	void SetInputHandler(InputHandler * InputHandler);
+	//ConceptionApp * GetAppTEST() { return reinterpret_cast<ConceptionApp *>(m_InputHandler); }		// Test function to allow global access to app... do this properly
 	void ClearInputHandler();
 
 	void SetMouseCursorVisibility(bool Visible);

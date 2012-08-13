@@ -27,13 +27,13 @@ std::string glfwGetClipboardString()
 
 	if (![[pasteboard types] containsObject:NSStringPboardType])
 	{
-		return NULL;
+		return "";
 	}
-	
+
 	NSString* object = [pasteboard stringForType:NSStringPboardType];
 	if (!object)
 	{
-		return NULL;
+		return "";
 	}
 	
 	/*free(_glfwLibrary.NS.clipboardString);

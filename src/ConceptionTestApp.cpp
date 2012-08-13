@@ -2,7 +2,8 @@
 
 ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	: App(InputManager),
-	  m_CurrentProject()
+	  m_CurrentProject(),
+	  m_TypingModule()
 	  /*OverlayCanvas(Vector2n(0, 0), false),
 	  SystemInputListener(),
 	  ControlModuleMapping0(),
@@ -103,10 +104,10 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	{
 		auto MainCanvas = new Canvas(Vector2n(50, 50), true, true);
 
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), nullptr));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), nullptr));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), []() {} ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() {} ));
 		MainCanvas->AddWidget(new ListWidget<ConceptId>(Vector2n(-200, -292), m_CurrentProject.GetStdIncludes()));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100)));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}
@@ -120,8 +121,8 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	{
 		auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
 
-		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), nullptr));
-		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(50, 10), nullptr));
+		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() {} ));
+		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(50, 10), []() {} ));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 50)));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 100)));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 150)));

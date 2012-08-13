@@ -6,7 +6,7 @@ class TextFieldWidget
 	: public Widget
 {
 public:
-	TextFieldWidget(Vector2n Position);
+	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	virtual ~TextFieldWidget();
 
 	void Render() override;
@@ -39,6 +39,8 @@ private:
 	std::string::size_type				m_CaretPosition;
 	uint32								m_TargetCaretColumnX;
 	decltype(m_CaretPosition)			m_SelectionPosition;
+
+	TypingModule						& m_TypingModule;
 
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);

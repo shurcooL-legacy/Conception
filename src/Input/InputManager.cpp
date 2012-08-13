@@ -512,7 +512,7 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 			InputEvent.m_Axes.push_back(Input::AxisState(static_cast<double>(TouchPosition.X()), -1));
 			InputEvent.m_Axes.push_back(Input::AxisState(static_cast<double>(TouchPosition.Y()), -1));
 			InputEvent.m_Pointer = m_pInstance->m_TouchPointers[TouchButton].get();
-			
+
 			InputEvent.m_Pointer->ProcessEvent(InputEvent);
 		}
 	}
