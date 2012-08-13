@@ -50,7 +50,7 @@ void FunctionWidget::ProcessTap()
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
-void FunctionWidget::ProcessCharacter(const int Character)
+void FunctionWidget::ProcessCharacter(const uint32 Character)
 {
 }
 

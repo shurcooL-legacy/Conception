@@ -2,31 +2,26 @@
 #ifndef __TypingModule_H__
 #define __TypingModule_H__
 
-class TypingModule : public ControlModule
+class TypingModule
+	: public GestureListener
 {
 public:
 	TypingModule();
-	virtual ~TypingModule();
-	
-	virtual bool ShouldActivate() const;
-	
-	//virtual bool IsActiveInternally() { return true; }
-	//virtual bool ShouldMouseCursorVisible() { return false; }
+	~TypingModule();
 
 	void Render();
-	
+
 	std::string GetString();
 	void Clear();
 
-protected:
-	virtual void ModuleProcessButton(InputManager::VirtualInputId ButtonId, bool Pressed);
+	void ProcessCharacter(const uint32 Character) override;
 
-	virtual void ModuleProcessCharacter(int Character);
+	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:
 	TypingModule(const TypingModule &);
-	TypingModule & operator =(const TypingModule &);
-	
+	TypingModule & operator = (const TypingModule &);
+
 	std::string m_Typed;
 };
 

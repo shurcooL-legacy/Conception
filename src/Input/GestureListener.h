@@ -7,7 +7,7 @@ class GestureListener
 {
 public:
 	GestureListener();
-	virtual ~GestureListener();
+	~GestureListener();
 
 	virtual void ProcessTap() {}
 	//virtual void ProcessDrag(Vector2d DragAmount) {}		// TODO: Sort out the floating vs. integer discrepancy
@@ -17,7 +17,7 @@ public:
 	virtual void ProcessManipulationUpdated(const PointerState & PointerState) {}
 	virtual void ProcessManipulationCompleted(const PointerState & PointerState) {}
 
-	virtual void ProcessCharacter(const int Character) {}
+	virtual void ProcessCharacter(const uint32 Character) {}
 
 	//virtual void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed) {}
 	//virtual void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount) {}
@@ -29,7 +29,7 @@ public:
 
 private:
 	GestureListener(const GestureListener &);
-	GestureListener & operator =(const GestureListener &);
+	GestureListener & operator = (const GestureListener &);
 };
 
 #endif // __GestureListener_H__

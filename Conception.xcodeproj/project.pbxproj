@@ -13,11 +13,7 @@
 		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
 		2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
-		2A4FFA9A155465D90021D8EF /* ControlModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5C155465D90021D8EF /* ControlModule.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
-		2A4FFA9C155465D90021D8EF /* UnrealCameraModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */; };
-		2A4FFA9D155465D90021D8EF /* WidgetModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA62155465D90021D8EF /* WidgetModule.cpp */; };
-		2A4FFA9E155465D90021D8EF /* ControlModuleMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */; };
 		2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputResponder.cpp */; };
 		2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA69155465D90021D8EF /* InputManager.cpp */; };
 		2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */; };
@@ -38,7 +34,6 @@
 		2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */; };
 		2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */; };
 		2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA93155465D90021D8EF /* Widget.cpp */; };
-		2A4FFAB4155465D90021D8EF /* WidgetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA95155465D90021D8EF /* WidgetManager.cpp */; };
 		2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */; };
 		2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */; };
 		2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899C155A12A900F5EE37 /* InputListener.cpp */; };
@@ -101,16 +96,8 @@
 		2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionApp.cpp; path = src/ConceptionApp.cpp; sourceTree = SOURCE_ROOT; };
 		2A4FFA59155465D90021D8EF /* ConceptionApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionApp.h; path = src/ConceptionApp.h; sourceTree = SOURCE_ROOT; };
 		2A4FFA5A155465D90021D8EF /* Concepts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concepts.h; path = src/Concepts.h; sourceTree = SOURCE_ROOT; };
-		2A4FFA5C155465D90021D8EF /* ControlModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlModule.cpp; sourceTree = "<group>"; };
-		2A4FFA5D155465D90021D8EF /* ControlModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlModule.h; sourceTree = "<group>"; };
 		2A4FFA5E155465D90021D8EF /* TypingModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TypingModule.cpp; sourceTree = "<group>"; };
 		2A4FFA5F155465D90021D8EF /* TypingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypingModule.h; sourceTree = "<group>"; };
-		2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnrealCameraModule.cpp; sourceTree = "<group>"; };
-		2A4FFA61155465D90021D8EF /* UnrealCameraModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnrealCameraModule.h; sourceTree = "<group>"; };
-		2A4FFA62155465D90021D8EF /* WidgetModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetModule.cpp; sourceTree = "<group>"; };
-		2A4FFA63155465D90021D8EF /* WidgetModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetModule.h; sourceTree = "<group>"; };
-		2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlModuleMapping.cpp; sourceTree = "<group>"; };
-		2A4FFA66155465D90021D8EF /* ControlModuleMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlModuleMapping.h; sourceTree = "<group>"; };
 		2A4FFA67155465D90021D8EF /* InputResponder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputResponder.cpp; sourceTree = "<group>"; };
 		2A4FFA68155465D90021D8EF /* InputResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputResponder.h; sourceTree = "<group>"; };
 		2A4FFA69155465D90021D8EF /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
@@ -154,8 +141,6 @@
 		2A4FFA92155465D90021D8EF /* TextFieldWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWidget.h; sourceTree = "<group>"; };
 		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
 		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
-		2A4FFA95155465D90021D8EF /* WidgetManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WidgetManager.cpp; sourceTree = "<group>"; };
-		2A4FFA96155465D90021D8EF /* WidgetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetManager.h; sourceTree = "<group>"; };
 		2A7B8B701558B25F007A1FA7 /* InputEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputEvent.h; sourceTree = "<group>"; };
 		2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEvent.cpp; sourceTree = "<group>"; };
 		2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
@@ -225,14 +210,8 @@
 		2A4FFA5B155465D90021D8EF /* ControlModules */ = {
 			isa = PBXGroup;
 			children = (
-				2A4FFA5C155465D90021D8EF /* ControlModule.cpp */,
-				2A4FFA5D155465D90021D8EF /* ControlModule.h */,
 				2A4FFA5E155465D90021D8EF /* TypingModule.cpp */,
 				2A4FFA5F155465D90021D8EF /* TypingModule.h */,
-				2A4FFA60155465D90021D8EF /* UnrealCameraModule.cpp */,
-				2A4FFA61155465D90021D8EF /* UnrealCameraModule.h */,
-				2A4FFA62155465D90021D8EF /* WidgetModule.cpp */,
-				2A4FFA63155465D90021D8EF /* WidgetModule.h */,
 			);
 			name = ControlModules;
 			path = src/ControlModules;
@@ -241,8 +220,6 @@
 		2A4FFA64155465D90021D8EF /* Input */ = {
 			isa = PBXGroup;
 			children = (
-				2A4FFA65155465D90021D8EF /* ControlModuleMapping.cpp */,
-				2A4FFA66155465D90021D8EF /* ControlModuleMapping.h */,
 				2ADA2E88155CBAAE00DEAECF /* GestureListener.cpp */,
 				2ADA2E87155CBAA200DEAECF /* GestureListener.h */,
 				2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */,
@@ -305,8 +282,6 @@
 				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
 				2A4FFA93155465D90021D8EF /* Widget.cpp */,
 				2A4FFA94155465D90021D8EF /* Widget.h */,
-				2A4FFA95155465D90021D8EF /* WidgetManager.cpp */,
-				2A4FFA96155465D90021D8EF /* WidgetManager.h */,
 			);
 			name = Widget;
 			path = src/Widget;
@@ -499,11 +474,7 @@
 				2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */,
 				2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */,
 				2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */,
-				2A4FFA9A155465D90021D8EF /* ControlModule.cpp in Sources */,
 				2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */,
-				2A4FFA9C155465D90021D8EF /* UnrealCameraModule.cpp in Sources */,
-				2A4FFA9D155465D90021D8EF /* WidgetModule.cpp in Sources */,
-				2A4FFA9E155465D90021D8EF /* ControlModuleMapping.cpp in Sources */,
 				2A4FFA9F155465D90021D8EF /* InputResponder.cpp in Sources */,
 				2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */,
 				2A4FFAA1155465D90021D8EF /* PointerInputListener.cpp in Sources */,
@@ -524,7 +495,6 @@
 				2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */,
 				2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */,
 				2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */,
-				2A4FFAB4155465D90021D8EF /* WidgetManager.cpp in Sources */,
 				2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */,
 				2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */,
 				2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */,

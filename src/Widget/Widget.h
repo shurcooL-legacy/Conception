@@ -12,13 +12,7 @@ public:
 
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
 
-	virtual bool ShouldActivate() const;
-	virtual bool ShouldDeactivate() const;
-
 	//virtual bool ShouldMouseCursorVisible() const { return true; }
-
-	virtual void ProcessActivation() {}
-	virtual void ProcessDeactivation() {}
 
 	//void SetActiveWidgetPointer(Widget ** ActiveWidgetPointer) { m_ActiveWidgetPointer = ActiveWidgetPointer; }
 	/*void AddHoverPointer(Pointer * Pointer);

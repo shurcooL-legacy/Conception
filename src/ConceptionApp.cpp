@@ -16,7 +16,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 					//auto Entry = g_TypingModuleTEST->GetString();
 					//g_TypingModuleTEST->Clear();
 					std::string Entry = "TypingModule not yet re-enabled";
-					
+
 					if (Entry.length() > 0)
 					{
 						auto ConceptId = FindOrCreateConcept(Entry);

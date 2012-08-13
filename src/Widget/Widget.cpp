@@ -104,17 +104,6 @@ const Vector2n Widget::GlobalToLocal(const Vector2n GlobalPosition) const
 	return ParentToLocal(GlobalToParent(GlobalPosition));
 }
 
-bool Widget::ShouldActivate() const
-{
-	// TODO: Figure this out... I can't quite copy ControlModule's approach, because Widgets become active/inactive based on events, not their internal state. Or do they, maybe it should be based on state, which is less error prone (but then how do you something activate 'on click')? Think about this.
-	return false;
-}
-
-bool Widget::ShouldDeactivate() const
-{
-	return !ShouldActivate();
-}
-
 const Vector2n Widget::GetPosition() const
 {
 	return m_Position;

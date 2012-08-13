@@ -65,10 +65,10 @@ void ConceptStringBoxWidget::ProcessTap()
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
-void ConceptStringBoxWidget::ProcessCharacter(const int Character)
+void ConceptStringBoxWidget::ProcessCharacter(const uint32 Character)
 {
 	// TEST
-	if (static_cast<uint32>(Character) < 128)
+	if (Character < 128)
 	{
 		if (';' == Character)
 			m_Content.push_back(11);

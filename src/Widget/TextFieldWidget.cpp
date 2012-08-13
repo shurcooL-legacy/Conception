@@ -117,9 +117,9 @@ void TextFieldWidget::ProcessTap()
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
-void TextFieldWidget::ProcessCharacter(const int Character)
+void TextFieldWidget::ProcessCharacter(const uint32 Character)
 {
-	if (static_cast<uint32>(Character) < 128)
+	if (Character < 128u)
 	{
 		EraseSelectionIfAny();
 

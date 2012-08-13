@@ -7,6 +7,7 @@ template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T
 				m_List.pop_back();
 			}
 		} )) }),
+	  m_TapAction(),
 	  m_List(List)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
@@ -73,7 +74,10 @@ template <typename T> void ListWidget<T>::Render()
 
 template <typename T> void ListWidget<T>::ProcessTap()
 {
-	m_TapAction();
+	if (nullptr != m_TapAction)
+	{
+		m_TapAction();
+	}
 }
 
 template <typename T> void ListWidget<T>::UpdateDimensions()
