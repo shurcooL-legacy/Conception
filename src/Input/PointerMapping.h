@@ -29,8 +29,8 @@ public:
 
 	void ProcessTimePassed(const double TimePassed) override;
 
-	void RequestPointerCapture(GestureRecognizer * Candidate);
-	void RequestPointerRelease(GestureRecognizer * Candidate);
+	void RequestPointerCapture(GestureRecognizer * Requester);
+	void RequestPointerRelease(GestureRecognizer * Requester);
 
 	GestureRecognizer * GetCapturer() const;
 	GestureRecognizer * GetHoverer() const;

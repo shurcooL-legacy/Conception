@@ -30,7 +30,7 @@ void FunctionWidget::Render()
 	}*/
 	//if (CheckHover())
 	// HACK
-	if (ModifyGestureRecognizer().GetConnected().end() != ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (HasTypingFocus())
 	{
 		BorderColor[0] = 0.898;
 		BorderColor[1] = 0.765;
@@ -45,7 +45,7 @@ void FunctionWidget::Render()
 	OpenGLStream << m_Function;
 }
 
-void FunctionWidget::ProcessTap()
+void FunctionWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }

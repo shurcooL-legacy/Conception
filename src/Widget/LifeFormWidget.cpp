@@ -46,7 +46,7 @@ bool LifeFormWidget::IsHit(const Vector2n ParentPosition) const
 	return Hit;
 }
 
-void LifeFormWidget::ProcessTap()
+void LifeFormWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	++m_Color;
 	if (m_Color >= 6)

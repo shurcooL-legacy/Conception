@@ -13,6 +13,11 @@ Widget::~Widget()
 {
 }
 
+bool Widget::HasTypingFocus() const
+{
+	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));
+}
+
 bool Widget::CheckHover() const
 {
 	//return !m_HoverPointers.empty();

@@ -41,7 +41,7 @@ void MultitouchTestBoxWidget::Render()
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
-void MultitouchTestBoxWidget::ProcessTap()
+void MultitouchTestBoxWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	++m_Color;
 	if (m_Color >= 6)
@@ -128,14 +128,14 @@ void MultitouchTestBoxWidget::ProcessManipulationCompleted(const PointerState & 
 
 void MultitouchTestBoxWidget::ProcessTimePassed(const double TimePassed)
 {
-	for (auto & Connected : GetGestureRecognizer().GetConnected())
+	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
-		if (Pointer::VirtualCategory::TYPING == Connected->GetVirtualCategory())
+		if (Pointer::VirtualCategory::TYPING == Pointer->GetVirtualCategory())
 		{
-			const PointerState & PointerState = Connected->GetPointerState();
-			
+			const PointerState & PointerState = Pointer->GetPointerState();
+
 			const double SpeedMultiplier = 250;
-			
+
 			if (PointerState.GetButtonState(GLFW_KEY_LEFT) && !PointerState.GetButtonState(GLFW_KEY_RIGHT))
 			{
 				ModifyPosition().X() += -SpeedMultiplier * TimePassed;
@@ -144,7 +144,7 @@ void MultitouchTestBoxWidget::ProcessTimePassed(const double TimePassed)
 			{
 				ModifyPosition().X() += SpeedMultiplier * TimePassed;
 			}
-			
+
 			if (PointerState.GetButtonState(GLFW_KEY_UP) && !PointerState.GetButtonState(GLFW_KEY_DOWN))
 			{
 				ModifyPosition().Y() += -SpeedMultiplier * TimePassed;

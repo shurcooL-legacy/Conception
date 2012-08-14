@@ -11,7 +11,7 @@ public:
 
 	void Render() override;
 
-	void ProcessTap() override;
+	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;

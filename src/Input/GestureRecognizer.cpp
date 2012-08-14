@@ -57,7 +57,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 		{
 			printf("Recognized a tap.\n");
 			InputEvent.m_Handled = true;
-			m_Owner.ProcessTap();
+			m_Owner.ProcessTap(InputEvent, Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition()));
 		}
 	}
 

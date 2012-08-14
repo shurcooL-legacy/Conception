@@ -46,6 +46,7 @@ protected:
 
 	bool CheckHover() const;
 	bool CheckActive() const;
+	bool HasTypingFocus() const;
 
 private:
 	Vector2n		m_Position;

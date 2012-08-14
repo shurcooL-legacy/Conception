@@ -138,7 +138,7 @@ void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double Mo
 }
 #endif
 
-void Canvas::ProcessTap()
+void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	printf("Canvas %p::ProcessTap()\n", this);
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
@@ -194,11 +194,11 @@ void Canvas::ProcessManipulationCompleted(const PointerState & PointerState)
 
 void Canvas::ProcessTimePassed(const double TimePassed)
 {
-	for (auto & Connected : GetGestureRecognizer().GetConnected())
+	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
-		if (Pointer::VirtualCategory::TYPING == Connected->GetVirtualCategory())
+		if (Pointer::VirtualCategory::TYPING == Pointer->GetVirtualCategory())
 		{
-			const PointerState & PointerState = Connected->GetPointerState();
+			const PointerState & PointerState = Pointer->GetPointerState();
 
 			const double SpeedMultiplier = 250;
 

@@ -12,6 +12,7 @@ public:
 	void Render(const InputManager & InputManager);
 
 	std::string GetString();
+	void SetString(std::string String);
 	void Clear();
 
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;

@@ -23,7 +23,7 @@ public:
 
 private:
 	GestureRecognizer(const GestureRecognizer &);
-	GestureRecognizer & operator =(const GestureRecognizer &);
+	GestureRecognizer & operator = (const GestureRecognizer &);
 
 	PointerState		m_LastTapStateTEST;
 

@@ -15,7 +15,7 @@ public:
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
 	
-	void ProcessTap() override;
+	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
 
 	/*void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed);
 	void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount);*/

@@ -9,7 +9,7 @@ SentienceApp::SentienceApp(InputManager & InputManager)
 		auto * lf = new LifeFormWidget(Vector2n(0, 0));
 		MainCanvas->AddWidget(lf);
 
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), [=]() { lf->ProcessTap(); } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), [=]() { InputEvent InputEvent; lf->ProcessTap(InputEvent, Vector2n(0, 0)); } ));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}

@@ -42,7 +42,7 @@ void TextFieldWidget::Render()
 	}*/
 	//if (CheckHover())
 	// HACK
-	if (ModifyGestureRecognizer().GetConnected().end() != ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (HasTypingFocus())
 	{
 		BorderColor[0] = 0.898;
 		BorderColor[1] = 0.765;
@@ -71,7 +71,7 @@ void TextFieldWidget::Render()
 
 	//if (CheckHover())
 	// HACK
-	if (ModifyGestureRecognizer().GetConnected().end() != ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (HasTypingFocus())
 	{
 		OpenGLStream.SetBackgroundColor(Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
 	}
@@ -93,7 +93,7 @@ void TextFieldWidget::Render()
 
 	//if (CheckHover())
 	// HACK
-	if (ModifyGestureRecognizer().GetConnected().end() != ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (HasTypingFocus())
 	{
 		// Draw caret
 		//if (static_cast<int>(glfwGetTime() * 2) % 2)
@@ -113,7 +113,7 @@ void TextFieldWidget::Render()
 	}
 }
 
-void TextFieldWidget::ProcessTap()
+void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
@@ -133,7 +133,7 @@ void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Cha
 
 void TextFieldWidget::ProcessManipulationStarted(const PointerState & PointerState)
 {
-	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (!HasTypingFocus())
 	{
 		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
@@ -143,7 +143,7 @@ void TextFieldWidget::ProcessManipulationStarted(const PointerState & PointerSta
 
 void TextFieldWidget::ProcessManipulationUpdated(const PointerState & PointerState)
 {
-	if (ModifyGestureRecognizer().GetConnected().end() == ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	if (!HasTypingFocus())
 	{
 		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
@@ -160,7 +160,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	// DECISION
 	//if (CheckHover())
 	// HACK
-	//if (ModifyGestureRecognizer().GetConnected().end() != ModifyGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()))
+	//if (HasTypingFocus())
 	{
 		// TEST
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)

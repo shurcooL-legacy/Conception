@@ -9,7 +9,7 @@ public:
 	GestureHandler();
 	~GestureHandler();
 
-	virtual void ProcessTap() {}
+	virtual void ProcessTap(InputEvent & InputEvent, Vector2n Position) {}
 	//virtual void ProcessDrag(Vector2d DragAmount) {}		// TODO: Sort out the floating vs. integer discrepancy
 	virtual void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) {}
 

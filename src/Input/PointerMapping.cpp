@@ -135,21 +135,21 @@ void PointerMapping::ProcessTimePassed(const double TimePassed)
 	}
 }
 
-void PointerMapping::RequestPointerCapture(GestureRecognizer * Candidate)
+void PointerMapping::RequestPointerCapture(GestureRecognizer * Requester)
 {
 	printf("PointerMapping::RequestPointerCapture()\n");
 
 	if (nullptr == m_Capturer)
 	{
-		ChangeCapturer(Candidate);
+		ChangeCapturer(Requester);
 	}
 }
 
-void PointerMapping::RequestPointerRelease(GestureRecognizer * Candidate)
+void PointerMapping::RequestPointerRelease(GestureRecognizer * Requester)
 {
 	printf("PointerMapping::RequestPointerRelease()\n");
 
-	if (m_Capturer == Candidate)
+	if (m_Capturer == Requester)
 	{
 		ChangeCapturer(nullptr);
 	}
@@ -188,9 +188,9 @@ else if (typeid(TypingModule) == typeid(*ActiveModule)) printf("ChangeActiveModu
 		throw 0;
 	}
 
-	//if (nullptr != m_Capturer) m_Capturer->ProcessPointerRelease();
+	//if (nullptr != m_Capturer) m_Capturer->ProcessPointerRelease(m_Owner);
 	m_Capturer = Capturer;
-	//if (nullptr != Capturer) Capturer->ProcessPointerCapture();
+	//if (nullptr != Capturer) Capturer->ProcessPointerCapture(m_Owner);
 
 	//g_InputManager->SetMouseCursorVisibility(nullptr == m_Capturer || m_Capturer->ShouldMouseCursorVisible());
 }

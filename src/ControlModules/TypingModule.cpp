@@ -26,10 +26,18 @@ void TypingModule::ProcessEvent(InputEvent & InputEvent)
 				case GLFW_KEY_BACKSPACE:
 					{
 						// Erase the last character in string
-						if (m_Typed.length() > 0)
+						if (!m_Typed.empty())
 						{
 							m_Typed.erase(m_Typed.end() - 1);
 						}
+
+						InputEvent.m_Handled = true;
+					}
+					break;
+				case GLFW_KEY_DEL:
+					{
+						// Erase the entire string
+						m_Typed.clear();
 
 						InputEvent.m_Handled = true;
 					}
@@ -64,7 +72,8 @@ void TypingModule::Render(const InputManager & InputManager)
 	// Draw "m_Typed" string
 	if (m_Typed.length() > 0)
 	{
-		Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) + lineHeight);
+		//Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) + lineHeight);
+		Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) - lineHeight / 2);
 		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
 
 		DrawAroundBox(Position, Dimensions, Color(234 / 255.0, 233 / 255.0, 190 / 255.0));
@@ -76,6 +85,11 @@ void TypingModule::Render(const InputManager & InputManager)
 std::string TypingModule::GetString()
 {
 	return m_Typed;
+}
+
+void TypingModule::SetString(std::string String)
+{
+	m_Typed = String;
 }
 
 void TypingModule::Clear()

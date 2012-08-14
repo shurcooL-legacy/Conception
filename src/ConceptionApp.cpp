@@ -11,7 +11,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
 
 		{
-			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes());
+			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes(), m_TypingModule);
 			StdIncludesList->m_TapAction = [=]()
 				{
 					auto Entry = m_TypingModule.GetString();
@@ -23,6 +23,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 						StdIncludesList->Insert(ConceptId);
 					}
+					else
+					{
+						//auto ListEntry =
+						//StdIncludesList->In
+					}
 				};
 
 			MainCanvas->AddWidget(StdIncludesList);
@@ -33,7 +38,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100)));
 
 		{
-			MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts));
+			//MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts, m_TypingModule));
 		}
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
@@ -93,14 +98,14 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 						}
 						break;
 					// TEST
-					case 'B':
+					/*case 'B':
 						//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
 						{
 							m_CurrentProject.GetStdIncludes().push_back(FindOrCreateConcept("test"));
 
 							InputEvent.m_Handled = true;
 						}
-						break;
+						break;*/
 					default:
 						break;
 					}

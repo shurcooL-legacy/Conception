@@ -11,7 +11,7 @@ public:
 
 	void Render();
 
-	void ProcessTap() override;
+	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 
