@@ -97,7 +97,6 @@ void TextFieldWidget::Render()
 	{
 		// Draw caret
 		//if (static_cast<int>(glfwGetTime() * 2) % 2)
-		if (true)
 		{
 			glPushMatrix();
 			glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);

@@ -145,13 +145,9 @@ int main(int argc, char * argv[])
 		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
 
 		double CurrentTime = glfwGetTime();
-		static double LastTime = CurrentTime;
-		double TimePassed = CurrentTime - LastTime;
+		static auto LastTime = CurrentTime;
+		auto TimePassed = CurrentTime - LastTime;
 		LastTime = CurrentTime;
-
-		{
-			//printf("TimePassed %f\n", TimePassed * 1000);
-		}
 
 		// Process input
 		{

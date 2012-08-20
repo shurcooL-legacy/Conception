@@ -49,13 +49,25 @@ void ConceptStringBoxWidget::Render()
 	OpenGLStream OpenGLStream(GetPosition());
 	OpenGLStream << m_Content;
 
+	Vector2n CaretPosition = OpenGLStream.GetCaretPosition();
+
 	//if (CheckHover())
 	// HACK
 	if (HasTypingFocus())
 	{
-		if (static_cast<int>(glfwGetTime() * 2) % 2)
+		// Draw caret
+		//if (static_cast<int>(glfwGetTime() * 2) % 2)
 		{
-			OpenGLStream << "_";
+			glPushMatrix();
+			glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);
+			glColor3d(0, 0, 0);
+			glBegin(GL_QUADS);
+				glVertex2d(-1, 0);
+				glVertex2d(-1, lineHeight);
+				glVertex2d(+1, lineHeight);
+				glVertex2d(+1, 0);
+			glEnd();
+			glPopMatrix();
 		}
 	}
 }
