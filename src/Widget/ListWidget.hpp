@@ -95,35 +95,9 @@ template <typename T> void ListWidget<T>::Render()
 
 template <typename T> void ListWidget<T>::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
-	/*if (nullptr != m_TapAction)
+	if (nullptr != m_TapAction)
 	{
-		m_TapAction();
-	}*/
-
-	auto LocalPosition = GlobalToLocal(Position);
-
-	auto Entry = m_TypingModule.GetString();
-	m_TypingModule.Clear();
-
-	if (!Entry.empty())
-	{
-		auto ConceptId = FindOrCreateConcept(Entry);
-
-		//Insert(ConceptId);
-		
-		// TEST
-		auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
-		m_List.insert(Spot, ConceptId);
-	}
-	else
-	{
-		auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
-
-		if (ListEntry < m_List.size())
-		{
-			m_TypingModule.SetString(Concepts[m_List[ListEntry]].m_Concept);
-			m_List.erase(m_List.begin() + ListEntry);
-		}
+		m_TapAction(GlobalToLocal(Position), m_List);
 	}
 }
 
@@ -141,13 +115,12 @@ template <typename T> void ListWidget<T>::UpdateDimensions()
 	// TEST
 	if (!m_TypingModule.GetString().empty())
 	{
-		MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
-
 		for (auto & Pointer : GetGestureRecognizer().GetConnected())
 		{
 			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
 			{
 				MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), static_cast<sint32>(m_TypingModule.GetString().length() * charWidth));
+				MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
 			}
 		}
 	}

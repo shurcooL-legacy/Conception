@@ -109,24 +109,30 @@ void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color
 
 	glDisable(GL_TEXTURE_2D);
 
+	const auto OuterDistance = 1.5;
 	glBegin(GL_POLYGON);
 		glColor3dv(BorderColor.GetComponents());
-		glVertex2d(Position.X() + 1.5, Position.Y());
-		glVertex2d(Position.X(), Position.Y() + 1.5);
-		glVertex2d(Position.X(), Position.Y() - 1.5 + Size.Y());
-		glVertex2d(Position.X() + 1.5, Position.Y() + Size.Y());
-		glVertex2d(Position.X() - 1.5 + Size.X(), Position.Y() + Size.Y());
-		glVertex2d(Position.X() + Size.X(), Position.Y() - 1.5 + Size.Y());
-		glVertex2d(Position.X() + Size.X(), Position.Y() + 1.5);
-		glVertex2d(Position.X() - 1.5 + Size.X(), Position.Y());
+		glVertex2d(Position.X() + OuterDistance, Position.Y());
+		glVertex2d(Position.X(), Position.Y() + OuterDistance);
+		glVertex2d(Position.X(), Position.Y() - OuterDistance + Size.Y());
+		glVertex2d(Position.X() + OuterDistance, Position.Y() + Size.Y());
+		glVertex2d(Position.X() - OuterDistance + Size.X(), Position.Y() + Size.Y());
+		glVertex2d(Position.X() + Size.X(), Position.Y() - OuterDistance + Size.Y());
+		glVertex2d(Position.X() + Size.X(), Position.Y() + OuterDistance);
+		glVertex2d(Position.X() - OuterDistance + Size.X(), Position.Y());
 	glEnd();
 
-	glBegin(GL_QUADS);
+	const auto InnerDistance = sqrt(2.0) + 0.5;
+	glBegin(GL_POLYGON);
 		glColor3dv(BackgroundColor.GetComponents());
-		glVertex2i(+1 + Position.X(), +1 + Position.Y());
-		glVertex2i(+1 + Position.X(), -1 + Position.Y() + Size.Y());
-		glVertex2i(-1 + Position.X() + Size.X(), -1 + Position.Y() + Size.Y());
-		glVertex2i(-1 + Position.X() + Size.X(), +1 + Position.Y());
+		glVertex2d(Position.X() + InnerDistance, Position.Y() + 1);
+		glVertex2d(Position.X() + 1, Position.Y() + InnerDistance);
+		glVertex2d(Position.X() + 1, Position.Y() - InnerDistance + Size.Y());
+		glVertex2d(Position.X() + InnerDistance, Position.Y() - 1 + Size.Y());
+		glVertex2d(Position.X() - InnerDistance + Size.X(), Position.Y() - 1 + Size.Y());
+		glVertex2d(Position.X() - 1 + Size.X(), Position.Y() - InnerDistance + Size.Y());
+		glVertex2d(Position.X() - 1 + Size.X(), Position.Y() + InnerDistance);
+		glVertex2d(Position.X() - InnerDistance + Size.X(), Position.Y() + 1);
 	glEnd();
 
 	glEnable(GL_TEXTURE_2D);

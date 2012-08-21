@@ -19,7 +19,7 @@ public:
 	void ProcessManipulationUpdated(const PointerState & PointerState) override;
 	void ProcessManipulationCompleted(const PointerState & PointerState) override;
 
-	std::function<void()>		m_TapAction;
+	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction;
 	
 private:
 	void UpdateDimensions();

@@ -12,10 +12,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		{
 			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes(), m_TypingModule);
-			StdIncludesList->m_TapAction = [=]()
-				{
-					auto Entry = m_TypingModule.GetString();
-					m_TypingModule.Clear();
+			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
+				/*{
+					auto Entry = m_TypingModule.TakeString();
 
 					if (Entry.length() > 0)
 					{
@@ -28,6 +27,30 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 						//auto ListEntry =
 						//StdIncludesList->In
 					}
+				};*/
+				{
+					auto Entry = m_TypingModule.TakeString();
+
+					if (!Entry.empty())
+					{
+						auto ConceptId = FindOrCreateConcept(Entry);
+
+						//Insert(ConceptId);
+						
+						// TEST
+						auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
+						m_List.insert(Spot, ConceptId);
+					}
+					else
+					{
+						auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
+
+						if (ListEntry < m_List.size())
+						{
+							m_TypingModule.SetString(Concepts[m_List[ListEntry]].m_Concept);
+							m_List.erase(m_List.begin() + ListEntry);
+						}
+					}
 				};
 
 			MainCanvas->AddWidget(StdIncludesList);
@@ -35,10 +58,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0), m_TypingModule));
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100)));
+		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100), m_TypingModule));
 
 		{
-			//MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts, m_TypingModule));
+			MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts, m_TypingModule));
 		}
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));

@@ -26,3 +26,5 @@ Concepts.push_back(Concept("", "argv"));
 Concepts.push_back(Concept("C++ keyword"));
 Concepts.push_back(Concept("", "iostream"));
 Concepts.push_back(Concept("Just a random test object", "test"));
+Concepts.push_back(Concept("", "{")); LastConcept().AddLabel(12); LastConcept().AddLabel(15);
+Concepts.push_back(Concept("", "}")); LastConcept().AddLabel(12); LastConcept().AddLabel(16);

@@ -78,7 +78,10 @@ void TypingModule::Render(const InputManager & InputManager)
 
 		DrawAroundBox(Position, Dimensions, Color(234 / 255.0, 233 / 255.0, 190 / 255.0));
 
-		glColor3d(0, 0, 0); OglUtilsPrint(Position.X(), Position.Y(), 0, LEFT, m_Typed.c_str());
+		//glColor3d(0, 0, 0); OglUtilsPrint(Position.X(), Position.Y(), 0, LEFT, m_Typed.c_str());
+		glColor3d(0, 0, 0);
+		OpenGLStream OpenGLStream(Position);
+		OpenGLStream << m_Typed;
 	}
 }
 
@@ -87,12 +90,16 @@ std::string TypingModule::GetString()
 	return m_Typed;
 }
 
+std::string TypingModule::TakeString()
+{
+	auto String = m_Typed;
+
+	m_Typed.clear();
+
+	return String;
+}
+
 void TypingModule::SetString(std::string String)
 {
 	m_Typed = String;
-}
-
-void TypingModule::Clear()
-{
-	m_Typed.clear();
 }

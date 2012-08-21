@@ -6,7 +6,7 @@ class ConceptStringBoxWidget
 	: public Widget
 {
 public:
-	ConceptStringBoxWidget(Vector2n Position);
+	ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule);
 	virtual ~ConceptStringBoxWidget();
 
 	void Render() override;
@@ -18,6 +18,8 @@ public:
 
 private:
 	ConceptString		m_Content;
+
+	TypingModule & m_TypingModule;
 };
 
 #endif // __ConceptStringBoxWidget_H__

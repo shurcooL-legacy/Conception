@@ -13,10 +13,12 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
-	
-	// DEBUG: For testing purposes
-	m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
-	UpdateContentLines();
+
+	// DEBUG: Irregular starting state, for testing
+	{
+		m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
+		UpdateContentLines();
+	}
 }
 
 TextFieldWidget::~TextFieldWidget()
@@ -184,11 +186,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
 	{
+		auto ButtonId = InputEvent.m_InputId;
+		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
+
 		if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			auto ButtonId = InputEvent.m_InputId;
-			bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
 			if (Pressed)
 			{
 				auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
@@ -394,7 +396,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								glfwSetClipboardString(GetSelectionContent());
+								//glfwSetClipboardString(GetSelectionContent());
+								m_TypingModule.SetString(GetSelectionContent());
 
 								EraseSelectionIfAny();
 							}
@@ -407,7 +410,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								glfwSetClipboardString(GetSelectionContent());
+								//glfwSetClipboardString(GetSelectionContent());
+								m_TypingModule.SetString(GetSelectionContent());
 							}
 						}
 					}
@@ -420,8 +424,12 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							{
 								EraseSelectionIfAny();
 
-								m_Content.insert(m_CaretPosition, glfwGetClipboardString());
-								MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+								//m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+								//MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+								auto Entry = m_TypingModule.TakeString();
+
+								m_Content.insert(m_CaretPosition, Entry);
+								MoveCaret(static_cast<sint32>(Entry.length()), true);
 							}
 						}
 					}
@@ -439,9 +447,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		}
 		else if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			auto ButtonId = InputEvent.m_InputId;
-			bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
 			if (Pressed)
 			{
 				switch (ButtonId)
@@ -457,8 +462,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						SetCaretPosition(CaretPosition, !ShiftActive);
 
 						{
-							auto Entry = m_TypingModule.GetString();
-							m_TypingModule.Clear();
+							auto Entry = m_TypingModule.TakeString();
 
 							if (!Entry.empty())
 							{

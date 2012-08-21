@@ -1,10 +1,35 @@
 #include "../Main.h"
 
-ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position)
+ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
-	  m_Content()
+	  m_Content(),
+	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	
+	// DEBUG: Irregular starting state, for testing
+	{
+		m_Content.push_back(FindConcept("int"));
+		m_Content.push_back(FindConcept("main"));
+		m_Content.push_back(FindConcept("("));
+		m_Content.push_back(FindConcept("int"));
+		m_Content.push_back(FindConcept("argc"));
+		m_Content.push_back(FindConcept(","));
+		m_Content.push_back(FindConcept("char"));
+		m_Content.push_back(FindConcept("*"));
+		m_Content.push_back(FindConcept("argv"));
+		m_Content.push_back(FindConcept(")"));
+		m_Content.push_back(FindConcept(";"));
+		m_Content.push_back(FindConcept("{"));
+		m_Content.push_back(17);
+		m_Content.push_back(FindConcept("("));
+		m_Content.push_back(FindConcept(")"));
+		m_Content.push_back(FindConcept(";"));
+		m_Content.push_back(FindConcept("return"));
+		m_Content.push_back(FindConcept("0"));
+		m_Content.push_back(FindConcept(";"));
+		m_Content.push_back(FindConcept("}"));
+	}
 }
 
 ConceptStringBoxWidget::~ConceptStringBoxWidget()
@@ -80,7 +105,7 @@ void ConceptStringBoxWidget::ProcessTap(InputEvent & InputEvent, Vector2n Positi
 void ConceptStringBoxWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
 {
 	// TEST
-	if (Character < 128u)
+	/*if (Character < 128u)
 	{
 		if (';' == Character)
 			m_Content.push_back(11);
@@ -88,18 +113,18 @@ void ConceptStringBoxWidget::ProcessCharacter(InputEvent & InputEvent, const uin
 			m_Content.push_back(17);
 
 		InputEvent.m_Handled = true;
-	}
+	}*/
 }
 
 void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 {
 	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
 	{
+		auto ButtonId = InputEvent.m_InputId;
+		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
+
 		if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			auto ButtonId = InputEvent.m_InputId;
-			bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
 			if (Pressed)
 			{
 				switch (ButtonId)
@@ -111,6 +136,8 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							m_Content.pop_back();
 						}
+
+						InputEvent.m_Handled = true;
 					}
 					break;
 				case GLFW_KEY_ENTER:
@@ -119,6 +146,37 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 					break;
 				case GLFW_KEY_TAB:
 					{
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
+		{
+			if (Pressed)
+			{
+				switch (ButtonId)
+				{
+				case 0:
+					{
+						auto Entry = m_TypingModule.TakeString();
+
+						if (!Entry.empty())
+						{
+							auto ConceptId = FindOrCreateConcept(Entry);
+
+							m_Content.push_back(ConceptId);
+						}
+						else
+						{
+							if (!m_Content.empty())
+							{
+								m_TypingModule.SetString(Concepts[m_Content.back()].m_Concept);
+								m_Content.pop_back();
+							}
+						}
 					}
 					break;
 				default:
