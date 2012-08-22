@@ -57,6 +57,22 @@ template <typename T> Vector2<T> & Vector2<T>::operator = (const Vector2<T> & Ot
 	return *this;
 }
 
+template <typename T> Vector2<T> & Vector2<T>::operator += (const Vector2<T> & Other)
+{
+	m_Tuple[0] += Other.m_Tuple[0];
+	m_Tuple[1] += Other.m_Tuple[1];
+
+	return *this;
+}
+
+template <typename T> Vector2<T> & Vector2<T>::operator -= (const Vector2<T> & Other)
+{
+	m_Tuple[0] -= Other.m_Tuple[0];
+	m_Tuple[1] -= Other.m_Tuple[1];
+	
+	return *this;
+}
+
 template <typename T> Vector2<T> Vector2<T>::operator + (const Vector2<T> & Other) const
 {
 	return Vector2<T>

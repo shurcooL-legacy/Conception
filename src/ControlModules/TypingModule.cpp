@@ -10,6 +10,34 @@ TypingModule::~TypingModule()
 {
 }
 
+void TypingModule::Render(const InputManager & InputManager)
+{
+	// Draw "m_Typed" string
+	if (m_Typed.length() > 0)
+	{
+		Vector2n PointerPosition(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition());
+		auto Position = GetInsertionPosition(PointerPosition);
+		Position.Y() += -lineHeight / 2;
+		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
+
+		DrawInnerBox(Position, Dimensions, Color(static_cast<uint8>(234), 233, 190));
+
+		//glColor3d(0, 0, 0); OglUtilsPrint(Position.X(), Position.Y(), 0, LEFT, m_Typed.c_str());
+		glColor3d(0, 0, 0);
+		OpenGLStream OpenGLStream(Position);
+		OpenGLStream << m_Typed;
+	}
+}
+
+Vector2n TypingModule::GetInsertionPosition(Vector2n PointerPosition) const
+{
+	//Vector2n InsertionOffset(-m_Typed.length() * charWidth / 2 + charWidth, lineHeight * 3 / 2);
+	Vector2n InsertionOffset(-m_Typed.length() * charWidth / 2, 0);
+	//Vector2n InsertionOffset(0, 0);
+
+	return PointerPosition + InsertionOffset;
+}
+
 void TypingModule::ProcessEvent(InputEvent & InputEvent)
 {
 	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
@@ -64,24 +92,6 @@ void TypingModule::ProcessCharacter(InputEvent & InputEvent, const uint32 Charac
 		m_Typed += static_cast<uint8>(Character);
 
 		InputEvent.m_Handled = true;
-	}
-}
-
-void TypingModule::Render(const InputManager & InputManager)
-{
-	// Draw "m_Typed" string
-	if (m_Typed.length() > 0)
-	{
-		//Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2 + charWidth, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) + lineHeight);
-		Vector2n Position(static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition()) - m_Typed.length() * charWidth / 2, static_cast<sint32>(InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()) - lineHeight / 2);
-		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
-
-		DrawAroundBox(Position, Dimensions, Color(234 / 255.0, 233 / 255.0, 190 / 255.0));
-
-		//glColor3d(0, 0, 0); OglUtilsPrint(Position.X(), Position.Y(), 0, LEFT, m_Typed.c_str());
-		glColor3d(0, 0, 0);
-		OpenGLStream OpenGLStream(Position);
-		OpenGLStream << m_Typed;
 	}
 }
 

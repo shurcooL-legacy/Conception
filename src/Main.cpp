@@ -85,7 +85,7 @@ int main(int argc, char * argv[])
 		GLFWvidmode DesktopMode;
 		glfwGetDesktopMode(&DesktopMode);
 
-		///glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
+		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
 
 		const bool Fullscreen = static_cast<bool>(0);
 		const Vector2n WindowDimensons(1024, 768);

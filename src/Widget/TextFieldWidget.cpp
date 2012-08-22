@@ -27,7 +27,7 @@ TextFieldWidget::~TextFieldWidget()
 
 void TextFieldWidget::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -59,9 +59,27 @@ void TextFieldWidget::Render()
 	glEnd();*/
 	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
+	// TEST
+	auto ContentWithInsertion = m_Content;
+	if (!m_TypingModule.GetString().empty())
+	{
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		{
+			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			{
+				Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+				Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+				LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
+
+				auto InsertionPosition = GetNearestCaretPosition(LocalPosition);
+				ContentWithInsertion.insert(InsertionPosition, m_TypingModule.GetString());
+			}
+		}
+	}
+
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
-	OpenGLStream << m_Content.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
+	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
 	Vector2n CaretPosition;
 
@@ -71,19 +89,18 @@ void TextFieldWidget::Render()
 		CaretPosition = OpenGLStream.GetCaretPosition();
 	}
 
-	//if (CheckHover())
-	// HACK
+	// Draw selected text as highlighted
 	if (HasTypingFocus())
 	{
-		OpenGLStream.SetBackgroundColor(Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
+		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(195), 212, 242));
 	}
 	else
 	{
-		OpenGLStream.SetBackgroundColor(Color(212 / 255.0, 212 / 255.0, 212 / 255.0));
+		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(212), 212, 212));
 	}
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
-	OpenGLStream << m_Content.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
-	OpenGLStream.SetBackgroundColor(Color(1, 1, 1));
+	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
+	OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
 
 	// Remember caret position at selection back
 	if (std::max(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
@@ -91,7 +108,7 @@ void TextFieldWidget::Render()
 		CaretPosition = OpenGLStream.GetCaretPosition();
 	}
 
-	OpenGLStream << m_Content.substr(std::max(m_CaretPosition, m_SelectionPosition));
+	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
 
 	//if (CheckHover())
 	// HACK
@@ -396,8 +413,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								//glfwSetClipboardString(GetSelectionContent());
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								glfwSetClipboardString(GetSelectionContent());
+#else
 								m_TypingModule.SetString(GetSelectionContent());
+#endif
 
 								EraseSelectionIfAny();
 							}
@@ -410,8 +430,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								//glfwSetClipboardString(GetSelectionContent());
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								glfwSetClipboardString(GetSelectionContent());
+#else
 								m_TypingModule.SetString(GetSelectionContent());
+#endif
 							}
 						}
 					}
@@ -424,12 +447,15 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							{
 								EraseSelectionIfAny();
 
-								//m_Content.insert(m_CaretPosition, glfwGetClipboardString());
-								//MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+								MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+#else
 								auto Entry = m_TypingModule.TakeString();
 
 								m_Content.insert(m_CaretPosition, Entry);
 								MoveCaret(static_cast<sint32>(Entry.length()), true);
+#endif
 							}
 						}
 					}
@@ -455,6 +481,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 						Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+						LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
 
 						auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 

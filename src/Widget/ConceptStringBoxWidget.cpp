@@ -3,6 +3,7 @@
 ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
 	  m_Content(),
+	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
@@ -19,7 +20,6 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindConcept("*"));
 		m_Content.push_back(FindConcept("argv"));
 		m_Content.push_back(FindConcept(")"));
-		m_Content.push_back(FindConcept(";"));
 		m_Content.push_back(FindConcept("{"));
 		m_Content.push_back(17);
 		m_Content.push_back(FindConcept("("));
@@ -38,7 +38,7 @@ ConceptStringBoxWidget::~ConceptStringBoxWidget()
 
 void ConceptStringBoxWidget::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -72,9 +72,28 @@ void ConceptStringBoxWidget::Render()
 
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
-	OpenGLStream << m_Content;
+	OpenGLStream << m_Content.substr(0, m_CaretPosition);
+
+	// TEST
+	if (!m_TypingModule.GetString().empty())
+	{
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		{
+			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			{
+				//Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+				//Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+
+				//auto ConceptId = FindOrCreateConcept(Entry);
+
+				OpenGLStream << m_TypingModule.GetString();
+			}
+		}
+	}
 
 	Vector2n CaretPosition = OpenGLStream.GetCaretPosition();
+
+	OpenGLStream << m_Content.substr(m_CaretPosition);
 
 	//if (CheckHover())
 	// HACK
@@ -130,7 +149,7 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 				switch (ButtonId)
 				{
 				case GLFW_KEY_BACKSPACE:
-					{
+					/*{
 						// Erase the last concept
 						if (false == m_Content.empty())
 						{
@@ -138,7 +157,7 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 
 						InputEvent.m_Handled = true;
-					}
+					}*/
 					break;
 				case GLFW_KEY_ENTER:
 					{
@@ -146,6 +165,16 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 					break;
 				case GLFW_KEY_TAB:
 					{
+					}
+					break;
+				case GLFW_KEY_LEFT:
+					{
+						MoveCaretTry(-1, true);
+					}
+					break;
+				case GLFW_KEY_RIGHT:
+					{
+						MoveCaretTry(+1, true);
 					}
 					break;
 				default:
@@ -184,5 +213,19 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 				}
 			}
 		}
+	}
+}
+
+void ConceptStringBoxWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)
+{
+	m_CaretPosition = CaretPosition;
+}
+
+void ConceptStringBoxWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
+{
+	if (   (MoveAmount < 0 && -MoveAmount <= m_CaretPosition)
+		|| (MoveAmount > 0 && m_CaretPosition + MoveAmount <= m_Content.length()))
+	{
+		SetCaretPosition(m_CaretPosition + MoveAmount, ResetSelection);
 	}
 }

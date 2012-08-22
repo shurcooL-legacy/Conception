@@ -11,6 +11,8 @@ public:
 
 	void Render(const InputManager & InputManager);
 
+	Vector2n GetInsertionPosition(Vector2n PointerPosition) const;
+
 	std::string GetString();
 	std::string TakeString();
 	void SetString(std::string String);

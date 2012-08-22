@@ -1,5 +1,39 @@
 #include "Main.h"
 
+void Concept::Draw(Vector2n Position) const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+	DrawInnerBox(Position, Vector2n(charWidth * static_cast<sint32>(m_Concept.size()), lineHeight), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+
+	if (HasLabel(26))
+		glColor3d(0, 0, 1);
+	else
+		glColor3d(0, 0, 0);
+
+	OpenGLStream OpenGLStream(Position);
+	OpenGLStream << m_Concept;
+#else
+	DrawInnerRoundedBox(Position, Vector2n(static_cast<sint32>(m_Concept.size() + 1) * charWidth, lineHeight), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+
+	if (HasLabel(26))
+		glColor3d(0, 0, 1);
+	else
+		glColor3d(0, 0, 0);
+
+	OpenGLStream OpenGLStream(Position + Vector2n(charWidth / 2, 0));
+	OpenGLStream << m_Concept;
+#endif
+}
+
+Vector2n Concept::GetDimensions() const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+	return Vector2n(static_cast<sint32>(m_Concept.length()) * charWidth, lineHeight);
+#else
+	return Vector2n(static_cast<sint32>(m_Concept.length() + 1) * charWidth, lineHeight);
+#endif
+}
+
 std::vector<Concept> Concepts;
 
 void PopulateConcepts()
@@ -17,6 +51,7 @@ ConceptId FindConcept(std::string Concept)
 			return (it0 - Concepts.begin());
 	}
 
+	// FIX: It doesn't make sense that FindOrCreateConcept() calls this and gets an error often, does it?
 	std::cerr << "Concept not found: " << Concept << endl;
 	return 0;
 }

@@ -60,6 +60,8 @@ namespace std
 
 // Decisions
 #define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 1
+#define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 0
+#define DECISION_CONCEPTS_DISPLAYED_SMALL 0
 
 class Concept;
 class Function;

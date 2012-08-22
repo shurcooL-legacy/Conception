@@ -28,7 +28,7 @@ template <typename T> void ListWidget<T>::Insert(T & Entry)
 
 template <typename T> void ListWidget<T>::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -80,13 +80,12 @@ template <typename T> void ListWidget<T>::Render()
 		}
 
 		OpenGLStream OpenGLStream(GetPosition());
-		//for (auto & Entry : m_List)
-		for (auto Entry = m_List.begin(); m_List.end() != Entry; ++Entry)
+		for (auto ListEntry = m_List.begin(); m_List.end() != ListEntry; ++ListEntry)
 		{
-			if (Entry == Spot)
+			if (ListEntry == Spot)
 				OpenGLStream << endl;
 
-			OpenGLStream << *Entry << endl;
+			OpenGLStream << *ListEntry << endl;
 		}
 	}
 

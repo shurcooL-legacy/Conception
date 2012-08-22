@@ -23,6 +23,9 @@ public:
 	{
 	}
 
+	void Draw(Vector2n Position) const;
+	Vector2n GetDimensions() const;
+
 	void AddLabel(ConceptId Label)
 	{
 		m_Labels.insert(Label);
@@ -33,16 +36,11 @@ public:
 		return (m_Labels.end() != m_Labels.find(Label));
 	}
 
-	Vector2n GetDimensions() const
+	friend std::ostream & operator << (std::ostream & Out, const Concept & Concept)
 	{
-		return Vector2n(static_cast<sint32>(m_Concept.length()) * charWidth, lineHeight);
-	}
+		Out << Concept.m_Concept;
 
-	friend std::ostream & operator << (std::ostream & out, const Concept & Concept)
-	{
-		out << Concept.m_Concept.c_str();
-
-		return out;
+		return Out;
 	}
 
 	static const Vector2n GetDimensions(ConceptId ConceptId)
@@ -69,43 +67,49 @@ Concept & LastConcept();
 ConceptId LastConceptId();
 void VerifyNoDuplicateConcepts(std::vector<Concept> & Concepts);
 
-//void PrintConceptString(vector<ConceptId> & ConceptString, ostream & out);
-//std::ostream & operator << (std::ostream & out, vector<ConceptId> & ConceptString);
-template <typename StreamT> StreamT & operator << (StreamT & out, const ConceptString & ConceptString)
+//void PrintConceptString(vector<ConceptId> & ConceptString, ostream & Out);
+//std::ostream & operator << (std::ostream & Out, vector<ConceptId> & ConceptString);
+template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptString & ConceptString)
 {
 	for (ConceptString::size_type i = 0; i < ConceptString.size(); ++i)
 	{
 #if 0
-		if ((0 != i)
+		if (   (0 != i)
 			&& (11 != ConceptString[i - 1])
 			&& !Concepts[ConceptString[i]].HasLabel(12)
 			&& !Concepts[ConceptString[i - 1]].HasLabel(15)
 			&& (11 != ConceptString[i]))
 		{
-			out << " ";
+			Out << " ";
 		}
-#else
-		if ((0 != i)
-			&& (11 != ConceptString[i - 1]))
+#elif 0
+		if (   (0 != i)
+			&& (11 != ConceptString[i - 1])
+			&& (29 != ConceptString[i - 1]))
 		{
-			out << " ";
+			Out << " ";
 		}
 #endif
 
-		out << Concepts[ConceptString[i]];
+		// Put a newline before open curley bracket
+		if (29 == ConceptString[i])
+			Out << endl;
 
-		if (11 == ConceptString[i])
+		Out << Concepts[ConceptString[i]];
+
+		if (   11 == ConceptString[i]
+			|| 29 == ConceptString[i])
 		{
-			out << endl;
+			Out << endl;
 #if 0
 			// Add a tab
 			if (i + 1 < ConceptString.size())
-				out << "\t";
+				Out << "\t";
 #endif
 		}
 	}
 
-	return out;
+	return Out;
 }
 
 #endif // __Concept_H__
