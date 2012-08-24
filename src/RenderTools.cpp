@@ -146,6 +146,8 @@ void DrawInnerRoundedBox(Vector2n Position, Vector2n Size, uint32 Radius, Color 
 		return;
 	}
 
+	DrawCircle(Position + Vector2n(Size.X(), 0) + Vector2n(-Radius, Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
+	DrawCircle(Position + Vector2n(0, Size.Y()) + Vector2n(Radius, -Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
 	DrawCircle(Position + Size - Vector2n(Radius, Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
 
 	{
@@ -170,6 +172,34 @@ void DrawInnerRoundedBox(Vector2n Position, Vector2n Size, uint32 Radius, Color 
 				glVertex2i(Position.X(), -1 + Position.Y() + Size.Y());
 				glVertex2i(Position.X() + Size.X(), -1 + Position.Y() + Size.Y());
 				glVertex2i(Position.X() + Size.X(), +1 + Position.Y());
+			glEnd();
+
+			glEnable(GL_TEXTURE_2D);
+		}
+	}
+
+	{
+		Position += Vector2n(-Radius, Radius);
+		Size += Vector2n(Radius * 2, -Radius * 2);
+
+		// DUPLICATION: A tweaked copy of DrawBox()
+		{
+			glDisable(GL_TEXTURE_2D);
+
+			glBegin(GL_QUADS);
+				glColor3dv(BorderColor.GetComponents());
+				glVertex2i(Position.X(), Position.Y());
+				glVertex2i(Position.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y());
+			glEnd();
+
+			glBegin(GL_QUADS);
+				glColor3dv(BackgroundColor.GetComponents());
+				glVertex2i(+1 + Position.X(), Position.Y());
+				glVertex2i(+1 + Position.X(), Position.Y() + Size.Y());
+				glVertex2i(-1 + Position.X() + Size.X(), Position.Y() + Size.Y());
+				glVertex2i(-1 + Position.X() + Size.X(), Position.Y());
 			glEnd();
 
 			glEnable(GL_TEXTURE_2D);

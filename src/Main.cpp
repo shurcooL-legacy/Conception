@@ -168,7 +168,6 @@ int main(int argc, char * argv[])
 		//glFinish();
 
 		///printf("%f ms frame\n", TimePassed * 1000);
-		//glfwSleep(0.009);
 	}
 
 	// Clean up

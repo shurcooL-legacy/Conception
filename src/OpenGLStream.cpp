@@ -23,6 +23,7 @@ OpenGLStream & OpenGLStream::operator << (const Concept & Concept)
 	Concept.Draw(m_CaretPosition);
 
 	m_CaretPosition.X() += Concept.GetDimensions().X();
+	m_CaretPosition.Y() += Concept.GetDimensions().Y() - lineHeight;
 
 	return *this;
 }
@@ -65,6 +66,19 @@ void OpenGLStream::SetBackgroundColor(Color BackgroundColor)
 const Vector2n OpenGLStream::GetCaretPosition() const
 {
 	return m_CaretPosition;
+}
+
+void OpenGLStream::Indent()
+{
+	m_CaretPosition.X() += 4 * charWidth;
+	m_LineStartX += 4 * charWidth;
+}
+
+void OpenGLStream::Unindent()
+{
+	m_CaretPosition.X() -= 4 * charWidth;
+	m_LineStartX -= 4 * charWidth;
+
 }
 
 // Prints a string that doesn't contain line breaks

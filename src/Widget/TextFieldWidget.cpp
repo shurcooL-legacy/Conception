@@ -179,7 +179,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	//if (CheckHover())
 	// HACK
 	//if (HasTypingFocus())
-	{
+	/*{
 		// TEST
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
 			&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
@@ -197,7 +197,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		&& &GetGestureRecognizer() != InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
 	{
 		return;
-	}
+	}*/
 
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
@@ -515,10 +515,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 			{
 				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
-				if (LocalPosition.X() < 0)
-					LocalPosition.X() = 0;
-				if (LocalPosition.Y() < 0)
-					LocalPosition.Y() = 0;
 
 				auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
@@ -688,13 +684,19 @@ uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_t
 
 decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(Vector2n LocalPosition)
 {
-	uint32 LineNumber = LocalPosition.Y() / lineHeight;
+	if (LocalPosition.X() < 0)
+		LocalPosition.X() = 0;
+	if (LocalPosition.Y() < 0)
+		LocalPosition.Y() = 0;
+
+	uint32 LineNumber = static_cast<uint32>(LocalPosition.Y()) / lineHeight;
 
 	return GetNearestCaretPosition(LineNumber, static_cast<uint32>(LocalPosition.X()));
 }
 
 decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX)
 {
+	// TODO: Change it so that this is called only when the content is modified, not every time it is needed
 	UpdateContentLines();
 
 	// Calculate nearest caret position

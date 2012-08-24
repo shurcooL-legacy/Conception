@@ -16,6 +16,9 @@ public:
 	void SetBackgroundColor(Color BackgroundColor);
 
 	const Vector2n GetCaretPosition() const;
+	
+	void Indent();
+	void Unindent();
 
 private:
 	OpenGLStream(const OpenGLStream &) = delete;

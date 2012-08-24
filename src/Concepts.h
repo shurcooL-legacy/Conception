@@ -14,7 +14,7 @@ Concepts.push_back(Concept("", "[")); LastConcept().AddLabel(12); LastConcept().
 Concepts.push_back(Concept("", "]")); LastConcept().AddLabel(12); LastConcept().AddLabel(16);
 Concepts.push_back(Concept("C++ opening bracket"));
 Concepts.push_back(Concept("C++ closing bracket"));
-Concepts.push_back(Concept("", "PrintHi"));
+Concepts.push_back(Concept("", "PrintHi\nWhoa a second line."));
 Concepts.push_back(Concept("", "return")); LastConcept().AddLabel(26);
 Concepts.push_back(Concept("", "0"));
 Concepts.push_back(Concept("", "main"));

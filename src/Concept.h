@@ -68,7 +68,7 @@ ConceptId LastConceptId();
 void VerifyNoDuplicateConcepts(std::vector<Concept> & Concepts);
 
 //void PrintConceptString(vector<ConceptId> & ConceptString, ostream & Out);
-//std::ostream & operator << (std::ostream & Out, vector<ConceptId> & ConceptString);
+//std::ostream & operator << (std::ostream & Out, const ConceptString & ConceptString);
 template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptString & ConceptString)
 {
 	for (ConceptString::size_type i = 0; i < ConceptString.size(); ++i)
@@ -111,5 +111,52 @@ template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptS
 
 	return Out;
 }
+
+/*OpenGLStream & operator << (OpenGLStream & Out, const ConceptString & ConceptString)
+{
+	for (ConceptString::size_type i = 0; i < ConceptString.size(); ++i)
+	{
+#if 0
+		if (   (0 != i)
+			&& (11 != ConceptString[i - 1])
+			&& !Concepts[ConceptString[i]].HasLabel(12)
+			&& !Concepts[ConceptString[i - 1]].HasLabel(15)
+			&& (11 != ConceptString[i]))
+		{
+			Out << " ";
+		}
+#elif 0
+		if (   (0 != i)
+			&& (11 != ConceptString[i - 1])
+			&& (29 != ConceptString[i - 1]))
+		{
+			Out << " ";
+		}
+#endif
+
+		// Put a newline before open curley bracket, and indent
+		if (29 == ConceptString[i])
+		{
+			Out << endl;
+			Out.Indent();
+		}
+
+		Out << Concepts[ConceptString[i]];
+
+		if (   11 == ConceptString[i]
+			|| 29 == ConceptString[i])
+		{
+			Out << endl;
+			Out.Unindent();
+#if 0
+			// Add a tab
+			if (i + 1 < ConceptString.size())
+				Out << "\t";
+#endif
+		}
+	}
+
+	return Out;
+}*/
 
 #endif // __Concept_H__

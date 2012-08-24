@@ -72,23 +72,23 @@ void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 
 void Project::GenerateProgram()
 {
-	std::ofstream out("GenProgram.cpp");
+	std::ofstream Out("GenProgram.cpp");
 
 	for (uint32 i = 0; i < std_includes.size(); ++i)
 	{
-		out << "#include <" << Concepts[std_includes.at(i)] << ">" << endl;
+		Out << "#include <" << Concepts[std_includes.at(i)] << ">" << endl;
 	}
 
 	for (uint32 i = 0; i < functions2.size(); ++i)
 	{
-		out << endl;
+		Out << endl;
 
 		Function & f = functions2.at(i);
 
-		out << f;
+		Out << f;
 	}
 
-	out.close();
+	Out.close();
 }
 
 void GLFWCALL RunProgramThread(void *)
