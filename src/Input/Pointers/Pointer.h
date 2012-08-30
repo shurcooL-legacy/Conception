@@ -39,7 +39,7 @@ private:
 	bool				m_IsActive;
 	PointerState		m_PointerState;
 
-	InputHandler &	m_InputHandler;
+	InputHandler &		m_InputHandler;
 	PointerMapping		m_PointerMapping;
 };
 

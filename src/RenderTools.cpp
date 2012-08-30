@@ -66,13 +66,6 @@ void DrawAroundBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Colo
 {
 	glDisable(GL_TEXTURE_2D);
 
-	/*glBegin(GL_LINE_LOOP);
-		glColor3d(0.3, 0.3, 0.3);
-		glVertex2d(X - 0.5, Y - 0.5);
-		glVertex2d(X - 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y - 0.5);
-	glEnd();*/
 	glBegin(GL_QUADS);
 		glColor3dv(BorderColor.GetComponents());
 		glVertex2i(-1 + Position.X(), -1 + Position.Y());

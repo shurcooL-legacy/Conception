@@ -12,6 +12,7 @@ public:
 	void Render() override;
 
 	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 	void ProcessManipulationStarted(const PointerState & PointerState) override;
@@ -52,6 +53,8 @@ private:
 	uint32 GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber);
 	decltype(m_CaretPosition) GetNearestCaretPosition(Vector2n LocalPosition);
 	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX);
+
+	static bool IsCoreCharacter(uint8 Character);
 };
 
 #endif // __TextFieldWidget_H__

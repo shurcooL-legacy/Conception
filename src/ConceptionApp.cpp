@@ -36,7 +36,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 						auto ConceptId = FindOrCreateConcept(Entry);
 
 						//Insert(ConceptId);
-						
+
 						// TEST
 						auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
 						m_List.insert(Spot, ConceptId);
@@ -55,14 +55,16 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 			MainCanvas->AddWidget(StdIncludesList);
 		}
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(100, -300), []() { std::cout << "Hi from anon func.\n"; } ));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(140, -300), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 0), m_TypingModule));
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, -100), m_TypingModule));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));
+		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100), m_TypingModule));
 
+#if 0
 		{
 			MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts, m_TypingModule));
 		}
+#endif
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}

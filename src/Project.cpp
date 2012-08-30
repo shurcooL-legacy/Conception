@@ -41,7 +41,7 @@ void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 
 	{
 		Function main_func2;
-		main_func2.Position = Vector2n(-450, 100);
+		main_func2.Position = Vector2n(0, -300);
 		main_func2.name.push_back(FindConcept("main"));
 		main_func2.args.push_back(FindConcept("int"));
 		main_func2.args.push_back(FindConcept("argc"));
@@ -64,10 +64,12 @@ void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 		functions2.push_back(main_func2);
 	}
 
+#if 0
 	for (auto & Function : functions2)
 	{
 		CanvasTEST.AddWidget(new FunctionWidget(Function.Position, Function));
 	}
+#endif
 }
 
 void Project::GenerateProgram()

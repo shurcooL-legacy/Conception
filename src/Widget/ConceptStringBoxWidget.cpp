@@ -1,16 +1,16 @@
 #include "../Main.h"
 
 ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
-	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	: Widget(Position, Vector2n(500, 15 * lineHeight)),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	
+
 	// DEBUG: Irregular starting state, for testing
 	{
-		m_Content.push_back(FindConcept("int"));
+		/*m_Content.push_back(FindConcept("int"));
 		m_Content.push_back(FindConcept("main"));
 		m_Content.push_back(FindConcept("("));
 		m_Content.push_back(FindConcept("int"));
@@ -28,7 +28,30 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindConcept("return"));
 		m_Content.push_back(FindConcept("0"));
 		m_Content.push_back(FindConcept(";"));
-		m_Content.push_back(FindConcept("}"));
+		m_Content.push_back(FindConcept("}"));*/
+
+		/*
+		// Skip non-spaces to the right
+		auto LookAt = m_CaretPosition;
+		while (   LookAt < m_Content.length()
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			++LookAt;
+		}
+		
+		SetCaretPosition(LookAt, false);
+		*/
+
+		m_Content.push_back(FindOrCreateConcept("// Skip non-spaces to the right"));
+		m_Content.push_back(FindOrCreateConcept("auto LookAt = m_CaretPosition;"));
+		m_Content.push_back(FindOrCreateConcept("while ("));
+		m_Content.push_back(FindOrCreateConcept("   LookAt < m_Content.length()\n&& IsCoreCharacter(m_Content[LookAt])"));
+		m_Content.push_back(FindOrCreateConcept(")"));
+		m_Content.push_back(FindOrCreateConcept("{"));
+		m_Content.push_back(FindOrCreateConcept("++LookAt;"));
+		m_Content.push_back(FindOrCreateConcept("}"));
+		m_Content.push_back(FindOrCreateConcept(""));
+		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));
 	}
 }
 

@@ -12,11 +12,25 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 
 	// DEBUG: Irregular starting state, for testing
 	{
-		m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
+		//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
+		m_Content =
+"{""\n"
+"	// Skip non-spaces to the right""\n"
+"	auto LookAt = m_CaretPosition;""\n"
+"	while (   LookAt < m_Content.length()""\n"
+"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
+"	{""\n"
+"		++LookAt;""\n"
+"	}""\n"
+"""\n"
+"	SetCaretPosition(LookAt, false);""\n"
+"}"
+		;
 		UpdateContentLines();
 	}
 }
@@ -134,6 +148,34 @@ void TextFieldWidget::Render()
 void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+}
+
+void TextFieldWidget::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+{
+	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
+	// DUPLICATION
+	{
+		// Skip non-spaces to the left
+		auto LookAt = m_CaretPosition - 1;
+		while (   LookAt != -1
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			--LookAt;
+		}
+
+		SetCaretPosition(LookAt + 1, true);
+	}
+	{
+		// Skip non-spaces to the right
+		auto LookAt = m_CaretPosition;
+		while (   LookAt < m_Content.length()
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			++LookAt;
+		}
+
+		SetCaretPosition(LookAt, false);
+	}
 }
 
 void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
@@ -299,14 +341,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 									// Skip spaces to the left
 									auto LookAt = m_CaretPosition - 1;
 									while (   LookAt != -1
-										   && (' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && !IsCoreCharacter(m_Content[LookAt]))
 									{
 										--LookAt;
 									}
 
 									// Skip non-spaces to the left
 									while (   LookAt != -1
-										   && !(' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && IsCoreCharacter(m_Content[LookAt]))
 									{
 										--LookAt;
 									}
@@ -355,14 +397,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 									// Skip spaces to the right
 									auto LookAt = m_CaretPosition;
 									while (   LookAt < m_Content.length()
-										   && (' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && !IsCoreCharacter(m_Content[LookAt]))
 									{
 										++LookAt;
 									}
 
 									// Skip non-spaces to the right
 									while (   LookAt < m_Content.length()
-										   && !(' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && IsCoreCharacter(m_Content[LookAt]))
 									{
 										++LookAt;
 									}
@@ -744,4 +786,12 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	}
 
 	return (m_ContentLines[LineNumber].m_StartPosition + CharacterNumber);
+}
+
+bool TextFieldWidget::IsCoreCharacter(uint8 Character)
+{
+	return (   ('a' <= Character && Character <= 'z')
+			|| ('A' <= Character && Character <= 'Z')
+			|| ('1' <= Character && Character <= '0')
+			|| '_' == Character);
 }

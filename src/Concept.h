@@ -91,14 +91,20 @@ template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptS
 		}
 #endif
 
+		// DECISION
+#if 0
 		// Put a newline before open curley bracket
 		if (29 == ConceptString[i])
 			Out << endl;
+#endif
 
 		Out << Concepts[ConceptString[i]];
 
+		// DECISION
+#if 0
 		if (   11 == ConceptString[i]
 			|| 29 == ConceptString[i])
+#endif
 		{
 			Out << endl;
 #if 0

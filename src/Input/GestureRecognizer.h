@@ -17,6 +17,7 @@ public:
 	GestureHandler & GetOwner();
 
 	bool				m_RecognizeTap;
+	bool				m_RecognizeDoubleTap;
 	bool				m_RecognizeManipulationTranslate;
 
 	Vector2n			m_ManipulationOffset;
@@ -26,6 +27,7 @@ private:
 	GestureRecognizer & operator = (const GestureRecognizer &);
 
 	PointerState		m_LastTapStateTEST;
+	PointerState		m_LastTapCompletedStateTEST;
 
 	bool				m_InManipulation;
 

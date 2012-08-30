@@ -3,16 +3,15 @@
 GestureRecognizer::GestureRecognizer(GestureHandler & Owner)
 	: InputHandler(),
 	  m_RecognizeTap(false),
+	  m_RecognizeDoubleTap(false),
 	  m_RecognizeManipulationTranslate(false),
 	  m_InManipulation(false),
 	  m_Owner(Owner)
 {
-//printf("GESTURE REC Created()!\n");
 }
 
 GestureRecognizer::~GestureRecognizer()
 {
-//printf("GESTURE REC ~Destroyed()!\n");
 }
 
 void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
@@ -40,8 +39,25 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 		InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);
 	}
 
+	// EXPERIMENTAL
+	if (m_RecognizeDoubleTap)
+	{
+		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+			&& 0 == InputEvent.m_InputId
+			&& false == InputEvent.m_Buttons[0]
+			&& std::fabs(InputEvent.m_Pointer->GetPointerState().GetTimestamp() - m_LastTapCompletedStateTEST.GetTimestamp()) <= 0.400
+			&& (Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition()) - Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition())).LengthSquared() <= (3 * 3))
+		{
+			printf("Recognized a double tap of %f ms.\n", std::fabs(InputEvent.m_Pointer->GetPointerState().GetTimestamp() - m_LastTapCompletedStateTEST.GetTimestamp()) * 1000);
+			InputEvent.m_Handled = true;
+			m_Owner.ProcessDoubleTap(InputEvent, Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition()));
+			m_LastTapCompletedStateTEST.InvalidateTEST();
+		}
+	}
+
 	// TODO: Fix bug where dragging the object out of down-event range and then bringing it back still activates the tap (it shouldn't)
-	if (m_RecognizeTap)
+	if (   m_RecognizeTap
+		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
@@ -58,11 +74,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			printf("Recognized a tap.\n");
 			InputEvent.m_Handled = true;
 			m_Owner.ProcessTap(InputEvent, Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition()));
+			m_LastTapCompletedStateTEST = m_LastTapStateTEST;
 		}
-	}
-
-	//if (m_RecognizeDoubleTap)
-	{
 	}
 
 	//if (m_RecognizeDrag)
