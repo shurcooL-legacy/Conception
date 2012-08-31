@@ -13,7 +13,7 @@ OpenGLStream::~OpenGLStream()
 
 OpenGLStream & OpenGLStream::operator << (const ConceptId ConceptId)
 {
-	*this << Concepts[ConceptId];
+	*this << GetConcept(ConceptId);
 
 	return *this;
 }

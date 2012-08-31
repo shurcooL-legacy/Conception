@@ -4,6 +4,120 @@ void Concept::Draw(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#else
+	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#endif
+}
+
+Vector2n Concept::GetDimensions() const
+{
+	return Vector2n(charWidth, lineHeight);
+}
+
+std::string Concept::GetContent() const
+{
+	return "";
+}
+
+std::vector<Concept *> Concepts;
+
+const Concept & GetConcept(ConceptId ConceptId)
+{
+	return *Concepts[ConceptId];
+}
+
+Concept & ModifyConcept(ConceptId ConceptId)
+{
+	return *Concepts[ConceptId];
+}
+
+void PopulateConcepts()
+{
+#	include "Concepts.h"
+
+	/*{
+		std::vector<std::unique_ptr<Concept>> ConceptsX;
+		ConceptsX.push_back(std::unique_ptr<Concept>(new Concept("Null concept")));
+		ConceptsX.push_back(std::unique_ptr<Concept>(new ConceptBasic("", "std::cout")));
+
+		auto & C0 = ConceptsX[0];
+		auto & C1 = ConceptsX[1];
+		printf(">>>>>>>>> '%s'\n", C0->GetContent().c_str());
+		printf(">>>>>>>>> '%s'\n", C1->GetContent().c_str());
+	}*/
+
+	VerifyNoDuplicateConcepts(Concepts);
+}
+
+void CleanConcepts()
+{
+	while (!Concepts.empty())
+	{
+		delete Concepts.back();
+		Concepts.pop_back();
+	}
+}
+
+ConceptId FindConcept(std::string Concept)
+{
+	for (auto it0 = Concepts.begin(); it0 != Concepts.end(); ++it0)
+	{
+		if (Concept == (*it0)->GetContent())
+			return (it0 - Concepts.begin());
+	}
+
+	// FIX: It doesn't make sense that FindOrCreateConcept() calls this and gets an error often, does it?
+	std::cerr << "Concept not found: " << Concept << endl;
+	return 0;
+}
+
+ConceptId FindOrCreateConcept(std::string Concept)
+{
+	auto ConceptId = FindConcept(Concept);
+
+	if (0 == ConceptId)
+	{
+		Concepts.push_back(new ConceptBasic("", Concept));
+		ConceptId = LastConceptId();
+	}
+
+	return ConceptId;
+}
+
+Concept & LastConcept()
+{
+	return *Concepts.back();
+}
+
+ConceptId LastConceptId()
+{
+	return Concepts.size() - 1;
+}
+
+void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
+{
+	std::set<std::string> ConceptSet;
+	uint32 ExpectedConceptCount = 0;
+
+	for (auto & Concept : Concepts)
+	{
+		if (0 != Concept->GetContent().length())
+		{
+			ConceptSet.insert(Concept->GetContent());
+			++ExpectedConceptCount;
+		}
+	}
+
+	if (ConceptSet.size() != ExpectedConceptCount)
+	{
+		throw std::string("Duplicate concepts found!");
+	}
+}
+
+void ConceptBasic::Draw(Vector2n Position) const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 
 	if (HasLabel(26))
 		glColor3d(0, 0, 1);
@@ -21,28 +135,28 @@ void Concept::Draw(Vector2n Position) const
 		glColor3d(0, 0, 0);
 
 	OpenGLStream OpenGLStream(Position + Vector2n(charWidth / 2, 0));
-	OpenGLStream << m_Concept;
+	OpenGLStream << m_Content;
 #endif
 }
 
-Vector2n Concept::GetDimensions() const
+Vector2n ConceptBasic::GetDimensions() const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	return Vector2n(static_cast<sint32>(m_Concept.length()) * charWidth, lineHeight);
 #else
 	//return Vector2n(static_cast<sint32>(m_Concept.length() + 1) * charWidth, lineHeight);
 
-	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it int reusable code
+	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it into reusable code
 	{
 		std::string::size_type MaxLineLength = 1;
 		uint32 Height = 0;
 		std::string::size_type Start = 0, End;
 		do
 		{
-			End = m_Concept.find_first_of('\n', Start);
+			End = m_Content.find_first_of('\n', Start);
 
 			// TODO: Count tabs properly?
-			auto Length = ((std::string::npos != End) ? End : m_Concept.length()) - Start;
+			auto Length = ((std::string::npos != End) ? End : m_Content.length()) - Start;
 			if (MaxLineLength < Length)
 				MaxLineLength = Length;
 
@@ -57,67 +171,48 @@ Vector2n Concept::GetDimensions() const
 #endif
 }
 
-std::vector<Concept> Concepts;
-
-void PopulateConcepts()
+std::string ConceptBasic::GetContent() const
 {
-#	include "Concepts.h"
-
-	VerifyNoDuplicateConcepts(Concepts);
+	return m_Content;
 }
 
-ConceptId FindConcept(std::string Concept)
+void ConceptCompound::Draw(Vector2n Position) const
 {
-	for (auto it0 = Concepts.begin(); it0 != Concepts.end(); ++it0)
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+#else
+	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+
+	OpenGLStream OpenGLStream(Position);
+	OpenGLStream << m_Content;
+#endif
+}
+
+Vector2n ConceptCompound::GetDimensions() const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+#else
+	Vector2n CaretPosition;
+
+	for (ConceptString::size_type i = 0; i < m_Content.size(); ++i)
 	{
-		if (Concept == it0->m_Concept)
-			return (it0 - Concepts.begin());
+		Vector2n InnerDimensions = GetConcept(m_Content[i]).GetDimensions();
+
+		CaretPosition.X() += InnerDimensions.X();
+		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
 	}
 
-	// FIX: It doesn't make sense that FindOrCreateConcept() calls this and gets an error often, does it?
-	std::cerr << "Concept not found: " << Concept << endl;
-	return 0;
+	return Vector2n(CaretPosition.X(), CaretPosition.Y() + lineHeight);
+#endif
 }
 
-ConceptId FindOrCreateConcept(std::string Concept)
+std::string ConceptCompound::GetContent() const
 {
-	auto ConceptId = FindConcept(Concept);
+	std::string Content;
 
-	if (0 == ConceptId)
+	for (ConceptString::size_type i = 0; i < m_Content.size(); ++i)
 	{
-		Concepts.push_back(::Concept("", Concept));
-		ConceptId = LastConceptId();
+		Content += GetConcept(m_Content[i]).GetContent();
 	}
 
-	return ConceptId;
-}
-
-Concept & LastConcept()
-{
-	return Concepts.back();
-}
-
-ConceptId LastConceptId()
-{
-	return Concepts.size() - 1;
-}
-
-void VerifyNoDuplicateConcepts(std::vector<Concept> & Concepts)
-{
-	std::set<std::string> ConceptSet;
-	uint32 ExpectedConceptCount = 0;
-
-	for (auto & Concept : Concepts)
-	{
-		if (0 != Concept.m_Concept.length())
-		{
-			ConceptSet.insert(Concept.m_Concept);
-			++ExpectedConceptCount;
-		}
-	}
-
-	if (ConceptSet.size() != ExpectedConceptCount)
-	{
-		throw std::string("Duplicate concepts found!");
-	}
+	return Content;
 }

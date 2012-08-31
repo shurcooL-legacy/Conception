@@ -4,27 +4,24 @@
 
 typedef std::basic_string<ConceptId> ConceptString;
 
-extern std::vector<Concept> Concepts;
+const Concept & GetConcept(ConceptId ConceptId);
+Concept & ModifyConcept(ConceptId ConceptId);
 
 class Concept
 {
 public:
 	Concept(std::string HumanDescription)
 		: m_HumanDescription(HumanDescription),
-		  m_Concept(),
 		  m_Labels()
 	{
 	}
 
-	Concept(std::string HumanDescription, std::string Concept)
-		: m_HumanDescription(HumanDescription),
-		  m_Concept(Concept),
-		  m_Labels()
-	{
-	}
+	virtual ~Concept() {}
 
-	void Draw(Vector2n Position) const;
-	Vector2n GetDimensions() const;
+	virtual void Draw(Vector2n Position) const;
+	virtual Vector2n GetDimensions() const;
+
+	virtual std::string GetContent() const;
 
 	void AddLabel(ConceptId Label)
 	{
@@ -38,14 +35,14 @@ public:
 
 	friend std::ostream & operator << (std::ostream & Out, const Concept & Concept)
 	{
-		Out << Concept.m_Concept;
+		Out << Concept.GetContent();
 
 		return Out;
 	}
 
 	static const Vector2n GetDimensions(ConceptId ConceptId)
 	{
-		return Concepts[ConceptId].GetDimensions();
+		return GetConcept(ConceptId).GetDimensions();
 	}
 
 	static const Vector2n GetDimensions(Concept & Concept)
@@ -53,19 +50,22 @@ public:
 		return Concept.GetDimensions();
 	}
 
-	std::string		m_HumanDescription;
-	std::string		m_Concept;
-
 private:
+	Concept(const Concept &) = delete;
+	Concept & operator = (const Concept &) = delete;
+
+	std::string		m_HumanDescription;
+
 	std::set<ConceptId>		m_Labels;
 };
 
 void PopulateConcepts();
+void CleanConcepts();
 ConceptId FindConcept(std::string Concept);
 ConceptId FindOrCreateConcept(std::string Concept);
 Concept & LastConcept();
 ConceptId LastConceptId();
-void VerifyNoDuplicateConcepts(std::vector<Concept> & Concepts);
+void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts);
 
 //void PrintConceptString(vector<ConceptId> & ConceptString, ostream & Out);
 //std::ostream & operator << (std::ostream & Out, const ConceptString & ConceptString);
@@ -98,7 +98,7 @@ template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptS
 			Out << endl;
 #endif
 
-		Out << Concepts[ConceptString[i]];
+		Out << GetConcept(ConceptString[i]);
 
 		// DECISION
 #if 0
@@ -106,7 +106,10 @@ template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptS
 			|| 29 == ConceptString[i])
 #endif
 		{
+			// DECISION
+#if 0
 			Out << endl;
+#endif
 #if 0
 			// Add a tab
 			if (i + 1 < ConceptString.size())
@@ -164,5 +167,43 @@ template <typename StreamT> StreamT & operator << (StreamT & Out, const ConceptS
 
 	return Out;
 }*/
+
+class ConceptBasic
+	: public Concept
+{
+public:
+	ConceptBasic(std::string HumanDescription, std::string Content)
+		: Concept(HumanDescription),
+		  m_Content(Content)
+	{
+	}
+
+	void Draw(Vector2n Position) const override;
+	Vector2n GetDimensions() const override;
+
+	std::string GetContent() const override;
+
+private:
+	std::string		m_Content;
+};
+
+class ConceptCompound
+	: public Concept
+{
+public:
+	ConceptCompound(std::string HumanDescription, ConceptString Content)
+		: Concept(HumanDescription),
+		  m_Content(Content)
+	{
+	}
+
+	void Draw(Vector2n Position) const override;
+	Vector2n GetDimensions() const override;
+
+	std::string GetContent() const override;
+
+private:
+	ConceptString		m_Content;
+};
 
 #endif // __Concept_H__

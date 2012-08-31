@@ -175,6 +175,7 @@ int main(int argc, char * argv[])
 	//system("rm ./GenProgram.cpp ./GenProgram.command");		// Clean up temporary files
 #endif
 	OglUtilsKillFont();
+	CleanConcepts();
 	glfwTerminate();
 
 	return 0;

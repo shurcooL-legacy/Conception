@@ -13,7 +13,7 @@ InputEvent::~InputEvent()
 std::string InputEvent::ToString()
 {
 	std::stringstream ss;
-	
+
 	ss << "InputEvent: ";
 
 	ss << m_EventTypes.size() << ", ";

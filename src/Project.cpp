@@ -78,7 +78,7 @@ void Project::GenerateProgram()
 
 	for (uint32 i = 0; i < std_includes.size(); ++i)
 	{
-		Out << "#include <" << Concepts[std_includes.at(i)] << ">" << endl;
+		Out << "#include <" << GetConcept(std_includes.at(i)) << ">" << endl;
 	}
 
 	for (uint32 i = 0; i < functions2.size(); ++i)

@@ -47,7 +47,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 						if (ListEntry < m_List.size())
 						{
-							m_TypingModule.SetString(Concepts[m_List[ListEntry]].m_Concept);
+							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
 							m_List.erase(m_List.begin() + ListEntry);
 						}
 					}

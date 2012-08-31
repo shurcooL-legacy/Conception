@@ -42,7 +42,7 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		SetCaretPosition(LookAt, false);
 		*/
 
-		m_Content.push_back(FindOrCreateConcept("// Skip non-spaces to the right"));
+		/*m_Content.push_back(FindOrCreateConcept("// Skip non-spaces to the right"));
 		m_Content.push_back(FindOrCreateConcept("auto LookAt = m_CaretPosition;"));
 		m_Content.push_back(FindOrCreateConcept("while ("));
 		m_Content.push_back(FindOrCreateConcept("   LookAt < m_Content.length()\n&& IsCoreCharacter(m_Content[LookAt])"));
@@ -51,7 +51,9 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindOrCreateConcept("++LookAt;"));
 		m_Content.push_back(FindOrCreateConcept("}"));
 		m_Content.push_back(FindOrCreateConcept(""));
-		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));
+		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));*/
+
+		m_Content.push_back(37);
 	}
 }
 
@@ -225,7 +227,12 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!m_Content.empty())
 							{
-								m_TypingModule.SetString(Concepts[m_Content.back()].m_Concept);
+								if (m_CaretPosition >= m_Content.length())
+								{
+									MoveCaretTry(-1, true);
+								}
+
+								m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
 								m_Content.pop_back();
 							}
 						}

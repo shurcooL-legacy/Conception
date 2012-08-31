@@ -64,6 +64,8 @@ namespace std
 #define DECISION_CONCEPTS_DISPLAYED_SMALL 0
 
 class Concept;
+class ConceptBasic;
+class ConceptCompound;
 class Function;
 class Project;
 class InputEvent;
