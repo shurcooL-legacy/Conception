@@ -60,9 +60,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100), m_TypingModule));
 
-#if 0
+#if 1
 		{
-			MainCanvas->AddWidget(new ListWidget<Concept>(Vector2n(-730, -250), Concepts, m_TypingModule));
+			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730, -250), Concepts, m_TypingModule));
 		}
 #endif
 
@@ -77,6 +77,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 ConceptionApp::~ConceptionApp()
 {
+	CleanConcepts();
 }
 
 void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)

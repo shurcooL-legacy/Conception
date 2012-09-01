@@ -102,14 +102,13 @@ template <typename T> void ListWidget<T>::ProcessTap(InputEvent & InputEvent, Ve
 
 template <typename T> void ListWidget<T>::UpdateDimensions()
 {
-	Vector2n MinDimensions(3 * charWidth, lineHeight);
+	Vector2n Dimensions;
 
-	Vector2n MaxDimensions(MinDimensions);
 	for (auto & Entry : m_List)
 	{
-		MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), Concept::GetDimensions(Entry).X());
+		Dimensions.X() = std::max<sint32>(Dimensions.X(), Concept::GetDimensions(Entry).X());
+		Dimensions.Y() += Concept::GetDimensions(Entry).Y();
 	}
-	MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 0) * lineHeight);
 
 	// TEST
 	if (!m_TypingModule.GetString().empty())
@@ -118,13 +117,16 @@ template <typename T> void ListWidget<T>::UpdateDimensions()
 		{
 			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
 			{
-				MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), static_cast<sint32>(m_TypingModule.GetString().length() * charWidth));
-				MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
+				Dimensions.X() = std::max<sint32>(Dimensions.X(), static_cast<sint32>(m_TypingModule.GetString().length() * charWidth));
+				Dimensions.Y() += 1 * lineHeight;
+				break;
 			}
 		}
 	}
 
-	Vector2n Dimensions = MaxDimensions;
+	Vector2n MinDimensions(3 * charWidth, lineHeight);
+	Dimensions.X() = std::max<sint32>(Dimensions.X(), MinDimensions.X());
+	Dimensions.Y() = std::max<sint32>(Dimensions.Y(), MinDimensions.Y());
 
 	SetDimensions(Dimensions);
 }

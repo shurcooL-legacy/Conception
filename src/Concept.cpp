@@ -58,26 +58,26 @@ void CleanConcepts()
 	}
 }
 
-ConceptId FindConcept(std::string Concept)
+ConceptId FindConcept(std::string Content)
 {
 	for (auto it0 = Concepts.begin(); it0 != Concepts.end(); ++it0)
 	{
-		if (Concept == (*it0)->GetContent())
+		if (Content == (*it0)->GetContent())
 			return (it0 - Concepts.begin());
 	}
 
 	// FIX: It doesn't make sense that FindOrCreateConcept() calls this and gets an error often, does it?
-	std::cerr << "Concept not found: " << Concept << endl;
+	std::cerr << "Concept not found: " << Content << endl;
 	return 0;
 }
 
-ConceptId FindOrCreateConcept(std::string Concept)
+ConceptId FindOrCreateConcept(std::string Content)
 {
-	auto ConceptId = FindConcept(Concept);
+	auto ConceptId = FindConcept(Content);
 
 	if (0 == ConceptId)
 	{
-		Concepts.push_back(new ConceptBasic("", Concept));
+		Concepts.push_back(new ConceptBasic("", Content));
 		ConceptId = LastConceptId();
 	}
 

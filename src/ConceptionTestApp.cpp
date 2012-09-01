@@ -140,6 +140,7 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 
 ConceptionTestApp::~ConceptionTestApp()
 {
+	CleanConcepts();
 }
 
 void ConceptionTestApp::UpdateWindowDimensions(Vector2n WindowDimensions)

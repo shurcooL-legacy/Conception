@@ -31,7 +31,7 @@ Concepts.push_back(new ConceptBasic("", "}")); LastConcept().AddLabel(12); LastC
 Concepts.push_back(new ConceptBasic("", "<")); LastConcept().AddLabel(12); LastConcept().AddLabel(15);
 Concepts.push_back(new ConceptBasic("", ">")); LastConcept().AddLabel(12); LastConcept().AddLabel(16);
 Concepts.push_back(new ConceptBasic("HTML title tag", "title"));
-Concepts.push_back(new ConceptCompound("", {31, 33, 32}));
+Concepts.push_back(new ConceptCompound("", {FindConcept("<"), 33, FindConcept(">")}));
 Concepts.push_back(new ConceptBasic("", "/"));
-Concepts.push_back(new ConceptCompound("", {31, 35, 33, 32}));
+Concepts.push_back(new ConceptCompound("", {FindConcept("<"), FindConcept("/"), 33, FindConcept(">")}));
 Concepts.push_back(new ConceptCompound("", {34, 36}));

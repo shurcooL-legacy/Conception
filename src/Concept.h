@@ -4,6 +4,8 @@
 
 typedef std::basic_string<ConceptId> ConceptString;
 
+extern std::vector<Concept *> Concepts;
+
 const Concept & GetConcept(ConceptId ConceptId);
 Concept & ModifyConcept(ConceptId ConceptId);
 
@@ -45,9 +47,9 @@ public:
 		return GetConcept(ConceptId).GetDimensions();
 	}
 
-	static const Vector2n GetDimensions(Concept & Concept)
+	static const Vector2n GetDimensions(Concept * Concept)
 	{
-		return Concept.GetDimensions();
+		return Concept->GetDimensions();
 	}
 
 private:
@@ -61,8 +63,8 @@ private:
 
 void PopulateConcepts();
 void CleanConcepts();
-ConceptId FindConcept(std::string Concept);
-ConceptId FindOrCreateConcept(std::string Concept);
+ConceptId FindConcept(std::string Content);
+ConceptId FindOrCreateConcept(std::string Content);
 Concept & LastConcept();
 ConceptId LastConceptId();
 void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts);

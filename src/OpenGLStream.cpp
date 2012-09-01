@@ -18,6 +18,13 @@ OpenGLStream & OpenGLStream::operator << (const ConceptId ConceptId)
 	return *this;
 }
 
+OpenGLStream & OpenGLStream::operator << (const Concept * Concept)
+{
+	*this << *Concept;
+
+	return *this;
+}
+
 OpenGLStream & OpenGLStream::operator << (const Concept & Concept)
 {
 	Concept.Draw(m_CaretPosition);
