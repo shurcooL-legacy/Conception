@@ -193,9 +193,9 @@ class ConceptCompound
 	: public Concept
 {
 public:
-	ConceptCompound(std::string HumanDescription, ConceptString Content)
+	ConceptCompound(std::string HumanDescription, const std::function<ConceptString(const std::initializer_list<ConceptId> &)> & Content, const std::initializer_list<ConceptId> & Parameters)
 		: Concept(HumanDescription),
-		  m_Content(Content)
+		  m_Content(Content(Parameters))
 	{
 	}
 

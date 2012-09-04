@@ -125,7 +125,7 @@ void ConceptBasic::Draw(Vector2n Position) const
 		glColor3d(0, 0, 0);
 
 	OpenGLStream OpenGLStream(Position);
-	OpenGLStream << m_Concept;
+	OpenGLStream << m_Content;
 #else
 	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 
@@ -142,9 +142,32 @@ void ConceptBasic::Draw(Vector2n Position) const
 Vector2n ConceptBasic::GetDimensions() const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
-	return Vector2n(static_cast<sint32>(m_Concept.length()) * charWidth, lineHeight);
+	//return Vector2n(static_cast<sint32>(m_Content.length()) * charWidth, lineHeight);
+
+	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it into reusable code
+	{
+		std::string::size_type MaxLineLength = 1;
+		uint32 Height = 0;
+		std::string::size_type Start = 0, End;
+		do
+		{
+			End = m_Content.find_first_of('\n', Start);
+
+			// TODO: Count tabs properly?
+			auto Length = ((std::string::npos != End) ? End : m_Content.length()) - Start;
+			if (MaxLineLength < Length)
+				MaxLineLength = Length;
+
+			++Height;
+
+			Start = End + 1;
+		}
+		while (std::string::npos != End);
+
+		return Vector2n(static_cast<sint32>(MaxLineLength) * charWidth, Height * lineHeight);
+	}
 #else
-	//return Vector2n(static_cast<sint32>(m_Concept.length() + 1) * charWidth, lineHeight);
+	//return Vector2n(static_cast<sint32>(m_Content.length() + 1) * charWidth, lineHeight);
 
 	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it into reusable code
 	{
@@ -179,18 +202,17 @@ std::string ConceptBasic::GetContent() const
 void ConceptCompound::Draw(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
+	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 #else
 	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#endif
 
 	OpenGLStream OpenGLStream(Position);
 	OpenGLStream << m_Content;
-#endif
 }
 
 Vector2n ConceptCompound::GetDimensions() const
 {
-#if DECISION_CONCEPTS_DISPLAYED_SMALL
-#else
 	Vector2n CaretPosition;
 
 	for (ConceptString::size_type i = 0; i < m_Content.size(); ++i)
@@ -202,7 +224,6 @@ Vector2n ConceptCompound::GetDimensions() const
 	}
 
 	return Vector2n(CaretPosition.X(), CaretPosition.Y() + lineHeight);
-#endif
 }
 
 std::string ConceptCompound::GetContent() const

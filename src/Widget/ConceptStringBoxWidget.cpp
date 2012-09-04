@@ -53,7 +53,8 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindOrCreateConcept(""));
 		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));*/
 
-		m_Content.push_back(37);
+		//m_Content.push_back(37);
+		m_Content.push_back(LastConceptId());
 	}
 }
 

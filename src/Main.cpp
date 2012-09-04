@@ -141,13 +141,13 @@ int main(int argc, char * argv[])
 	// Main loop
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
-		// DEBUG: Moved to top of loop to enable debug printing from input handling code
-		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
-
-		double CurrentTime = glfwGetTime();
+		auto CurrentTime = glfwGetTime();
 		static auto LastTime = CurrentTime;
 		auto TimePassed = CurrentTime - LastTime;
 		LastTime = CurrentTime;
+
+		// DEBUG: Moved to top of loop to enable debug printing from input handling code
+		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
 
 		// Process input
 		{
