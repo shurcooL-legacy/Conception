@@ -2,50 +2,6 @@
 #ifndef __Concept_H__
 #define __Concept_H__
 
-//typedef std::pair<ConceptId, std::vector<ConceptId>> ConceptInstance;
-class ConceptInstance
-{
-public:
-	ConceptInstance(ConceptId ConceptId);
-	ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters);
-	/*ConceptInstance(const ConceptInstance & Other);
-	ConceptInstance & operator = (const ConceptInstance & Other);*/
-
-	void Draw(Vector2n Position) const;
-	Vector2n GetDimensions() const;
-
-	std::string GetContent() const;
-
-	ConceptId GetParameterIfExists(std::vector<ConceptId>::size_type ParameterId) const
-	{
-		if (   nullptr != GetParameters()
-			&& ParameterId < GetParameters()->size())
-		{
-			return (*GetParameters())[ParameterId];
-		}
-		else
-		{
-			return 0;		// Null concept
-		}
-	}
-
-	/*ConceptId operator () () const
-	{
-		return m_ConceptId;
-	}*/
-
-private:
-	const std::vector<ConceptId> * const GetParameters() const
-	{
-		//return m_Parameters.get();
-		return &m_Parameters;
-	}
-
-	ConceptId									m_ConceptId;
-	//std::unique_ptr<std::vector<ConceptId>>		m_Parameters;
-	std::vector<ConceptId>						m_Parameters;
-};
-
 //typedef std::basic_string<ConceptId> ConceptString;
 //typedef std::basic_string<ConceptInstance> ConceptInstanceString;
 typedef std::vector<ConceptInstance> ConceptInstanceString;
@@ -57,6 +13,8 @@ Concept & ModifyConcept(ConceptId ConceptId);
 
 class Concept
 {
+	friend class ConceptInstance;
+
 public:
 	Concept(std::string HumanDescription)
 		: m_HumanDescription(HumanDescription),
@@ -65,11 +23,6 @@ public:
 	}
 
 	virtual ~Concept() {}
-
-	virtual void Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const;
-	virtual Vector2n GetDimensions(const ConceptInstance & ConceptInstance) const;
-
-	virtual std::string GetContent(const ConceptInstance & ConceptInstance) const;
 
 	void AddLabel(ConceptId Label)
 	{
@@ -91,6 +44,12 @@ public:
 	static const Vector2n GetDimensions(ConceptId ConceptId);
 	static const Vector2n GetDimensions(Concept * Concept);
 	//static const Vector2n GetDimensions(const ConceptInstance & ConceptInstance);
+
+protected:
+	virtual void Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const;
+	virtual Vector2n GetDimensions(const ConceptInstance & ConceptInstance) const;
+
+	virtual std::string GetContent(const ConceptInstance & ConceptInstance) const;
 
 private:
 	Concept(const Concept &) = delete;
@@ -247,6 +206,50 @@ public:
 private:
 	ConceptString		m_Content;
 };*/
+
+//typedef std::pair<ConceptId, std::vector<ConceptId>> ConceptInstance;
+class ConceptInstance
+{
+public:
+	ConceptInstance(ConceptId ConceptId);
+	ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters);
+	ConceptInstance(const ConceptInstance & Other);
+	/*ConceptInstance & operator = (const ConceptInstance & Other);*/
+
+	void Draw(Vector2n Position) const;
+	Vector2n GetDimensions() const;
+
+	std::string GetContent() const;
+
+	ConceptId GetParameterIfExists(std::vector<ConceptId>::size_type ParameterId) const
+	{
+		if (   nullptr != GetParameters()
+			&& ParameterId < GetParameters()->size())
+		{
+			return (*GetParameters())[ParameterId];
+		}
+		else
+		{
+			return 0;		// Null concept
+		}
+	}
+
+	/*ConceptId operator () () const
+	{
+		return m_ConceptId;
+	}*/
+
+private:
+	const std::vector<ConceptId> * const GetParameters() const
+	{
+		return m_Parameters.get();
+		//return &m_Parameters;
+	}
+
+	ConceptId									m_ConceptId;
+	std::unique_ptr<std::vector<ConceptId>>		m_Parameters;
+	//std::vector<ConceptId>						m_Parameters;
+};
 
 class ConceptParameterized
 	: public Concept

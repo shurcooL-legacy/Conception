@@ -2,69 +2,6 @@
 
 std::vector<Concept *> Concepts;
 
-ConceptInstance::ConceptInstance(ConceptId ConceptId)
-	: m_ConceptId(ConceptId),
-	  m_Parameters()
-{}
-
-ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters)
-	: m_ConceptId(ConceptId),
-	  m_Parameters(Parameters)
-{}
-/*ConceptInstance::ConceptInstance(ConceptId ConceptId)
-	: m_ConceptId(ConceptId),
-	  m_Parameters(nullptr)
-{}
-
-ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters)
-	: m_ConceptId(ConceptId),
-	  m_Parameters(std::unique_ptr<std::vector<::ConceptId>>(new std::vector<::ConceptId>(Parameters)))
-{}
-
-ConceptInstance::ConceptInstance(const ConceptInstance & Other)
-	: m_ConceptId(Other.m_ConceptId)
-{
-	if (nullptr != Other.GetParameters())
-	{
-		m_Parameters = std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters()));
-	}
-	else
-	{
-		m_Parameters = nullptr;
-	}
-}
-
-ConceptInstance & ConceptInstance::operator = (const ConceptInstance & Other)
-{
-	m_ConceptId = Other.m_ConceptId;
-
-	if (nullptr != Other.GetParameters())
-	{
-		m_Parameters = std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters()));
-	}
-	else
-	{
-		m_Parameters = nullptr;
-	}
-
-	return *this;
-}*/
-
-void ConceptInstance::Draw(Vector2n Position) const
-{
-	GetConcept(m_ConceptId).Draw(*this, Position);
-}
-
-Vector2n ConceptInstance::GetDimensions() const
-{
-	return GetConcept(m_ConceptId).GetDimensions(*this);
-}
-
-std::string ConceptInstance::GetContent() const
-{
-	return GetConcept(m_ConceptId).GetContent(*this);
-}
-
 void Concept::Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
@@ -148,18 +85,13 @@ void CleanConcepts()
 
 ConceptId FindConcept(std::string Content)
 {
-	// HACK
-	ConceptInstance ConceptInstance(0);
-
-	for (auto it0 = Concepts.begin(); it0 != Concepts.end(); ++it0)
+	for (ConceptId ConceptId = 0; ConceptId < Concepts.size(); ++ConceptId)
 	{
-		if (Content == (*it0)->GetContent(ConceptInstance))
-			return (it0 - Concepts.begin());
+		if (Content == ConceptInstance(ConceptId).GetContent())
+			return ConceptId;
 	}
 
-	// FIX: It doesn't make sense that FindOrCreateConcept() calls this and gets an error often, does it?
-	std::cerr << "Concept not found: " << Content << endl;
-	return 0;
+	return 0;		// Concept not found, return null concept
 }
 
 ConceptId FindOrCreateConcept(std::string Content)
@@ -187,17 +119,16 @@ ConceptId LastConceptId()
 
 void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
 {
-	// HACK
-	ConceptInstance ConceptInstance(0);
-
 	std::set<std::string> ConceptSet;
 	uint32 ExpectedConceptCount = 0;
 
-	for (auto & Concept : Concepts)
+	for (ConceptId ConceptId = 0; ConceptId < Concepts.size(); ++ConceptId)
 	{
-		if (0 != Concept->GetContent(ConceptInstance).length())
+		auto Content = ConceptInstance(ConceptId).GetContent();
+
+		if (0 != Content.length())
 		{
-			ConceptSet.insert(Concept->GetContent(ConceptInstance));
+			ConceptSet.insert(Content);
 			++ExpectedConceptCount;
 		}
 	}
@@ -306,6 +237,70 @@ std::string ConceptCompound::GetContent() const
 
 	return Content;
 }*/
+
+/*ConceptInstance::ConceptInstance(ConceptId ConceptId)
+	: m_ConceptId(ConceptId),
+	  m_Parameters()
+{}
+
+ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters)
+	: m_ConceptId(ConceptId),
+	  m_Parameters(Parameters)
+{}*/
+ConceptInstance::ConceptInstance(ConceptId ConceptId)
+	: m_ConceptId(ConceptId),
+	  m_Parameters(nullptr)
+{}
+
+ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters)
+	: m_ConceptId(ConceptId),
+	  m_Parameters(std::unique_ptr<std::vector<::ConceptId>>(new std::vector<::ConceptId>(Parameters)))
+{}
+
+ConceptInstance::ConceptInstance(const ConceptInstance & Other)
+	: m_ConceptId(Other.m_ConceptId),
+	  m_Parameters((nullptr == Other.GetParameters()) ? nullptr : std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters())))
+{
+	/*if (nullptr != Other.GetParameters())
+	{
+		m_Parameters = std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters()));
+	}
+	else
+	{
+		m_Parameters = nullptr;
+	}*/
+}
+
+/*ConceptInstance & ConceptInstance::operator = (const ConceptInstance & Other)
+{
+	m_ConceptId = Other.m_ConceptId;
+
+	if (nullptr != Other.GetParameters())
+	{
+		m_Parameters = std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters()));
+	}
+	else
+	{
+		m_Parameters = nullptr;
+	}
+
+	return *this;
+}*/
+
+void ConceptInstance::Draw(Vector2n Position) const
+{
+	GetConcept(m_ConceptId).Draw(*this, Position);
+}
+
+Vector2n ConceptInstance::GetDimensions() const
+{
+	return GetConcept(m_ConceptId).GetDimensions(*this);
+}
+
+std::string ConceptInstance::GetContent() const
+{
+	return GetConcept(m_ConceptId).GetContent(*this);
+}
 
 void ConceptParameterized::Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const
 {

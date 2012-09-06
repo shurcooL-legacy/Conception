@@ -51,7 +51,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 							// HACK
 							ConceptInstance ConceptInstance(m_List[ListEntry]);
 
-							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent(ConceptInstance));
+							m_TypingModule.SetString(ConceptInstance.GetContent());
 							m_List.erase(m_List.begin() + ListEntry);
 						}
 					}
