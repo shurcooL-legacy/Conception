@@ -74,7 +74,7 @@ void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 
 void Project::GenerateProgram()
 {
-	std::ofstream Out("GenProgram.cpp");
+	/*std::ofstream Out("GenProgram.cpp");
 
 	for (uint32 i = 0; i < std_includes.size(); ++i)
 	{
@@ -90,7 +90,7 @@ void Project::GenerateProgram()
 		Out << f;
 	}
 
-	Out.close();
+	Out.close();*/
 }
 
 void GLFWCALL RunProgramThread(void *)

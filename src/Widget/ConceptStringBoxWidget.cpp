@@ -54,7 +54,10 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));*/
 
 		//m_Content.push_back(37);
-		m_Content.push_back(LastConceptId());
+		/*m_Content.push_back(38);
+		m_Content.push_back(ConceptInstance(38, {33}));
+		m_Content.push_back(ConceptInstance(39, {33}));*/
+		m_Content.push_back(ConceptInstance(40, {36, 28}));
 	}
 }
 
@@ -98,7 +101,9 @@ void ConceptStringBoxWidget::Render()
 
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
-	OpenGLStream << m_Content.substr(0, m_CaretPosition);
+	//OpenGLStream << m_Content.substr(0, m_CaretPosition);
+	// TODO: Optimize this somehow?
+	OpenGLStream << decltype(m_Content)(m_Content.begin(), m_Content.begin() + m_CaretPosition);
 
 	// TEST
 	if (!m_TypingModule.GetString().empty())
@@ -119,7 +124,9 @@ void ConceptStringBoxWidget::Render()
 
 	Vector2n CaretPosition = OpenGLStream.GetCaretPosition();
 
-	OpenGLStream << m_Content.substr(m_CaretPosition);
+	//OpenGLStream << m_Content.substr(m_CaretPosition);
+	// TODO: Optimize this somehow?
+	OpenGLStream << decltype(m_Content)(m_Content.begin() + m_CaretPosition, m_Content.end());
 
 	//if (CheckHover())
 	// HACK
@@ -228,12 +235,12 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!m_Content.empty())
 							{
-								if (m_CaretPosition >= m_Content.length())
+								if (m_CaretPosition >= m_Content.size())
 								{
 									MoveCaretTry(-1, true);
 								}
 
-								m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
+								m_TypingModule.SetString(m_Content.back().GetContent());
 								m_Content.pop_back();
 							}
 						}
@@ -255,7 +262,7 @@ void ConceptStringBoxWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPos
 void ConceptStringBoxWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
 {
 	if (   (MoveAmount < 0 && -MoveAmount <= m_CaretPosition)
-		|| (MoveAmount > 0 && m_CaretPosition + MoveAmount <= m_Content.length()))
+		|| (MoveAmount > 0 && m_CaretPosition + MoveAmount <= m_Content.size()))
 	{
 		SetCaretPosition(m_CaretPosition + MoveAmount, ResetSelection);
 	}

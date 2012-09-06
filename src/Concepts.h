@@ -30,11 +30,22 @@ Concepts.push_back(new ConceptBasic("", "{")); LastConcept().AddLabel(12); LastC
 Concepts.push_back(new ConceptBasic("", "}")); LastConcept().AddLabel(12); LastConcept().AddLabel(16);
 Concepts.push_back(new ConceptBasic("", "<")); LastConcept().AddLabel(12); LastConcept().AddLabel(15);
 Concepts.push_back(new ConceptBasic("", ">")); LastConcept().AddLabel(12); LastConcept().AddLabel(16);
-Concepts.push_back(new ConceptBasic("HTML title tag", "title"));
+Concepts.push_back(new ConceptBasic("HTML tag", "html"));
+Concepts.push_back(new ConceptBasic("HTML tag", "head"));
+Concepts.push_back(new ConceptBasic("HTML tag", "body"));
+Concepts.push_back(new ConceptBasic("HTML tag", "title"));
+//Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), GetParameterIfExists(Parameters, 0), FindConcept(">")}); }, {}));
+Concepts.push_back(new ConceptBasic("", "/"));
+Concepts.push_back(new ConceptParameterized("", [](const ConceptInstance & ConceptInstance){ return ConceptInstanceString({FindConcept("<"), ConceptInstance.GetParameterIfExists(0), FindConcept(">")}); }));
+Concepts.push_back(new ConceptParameterized("", [](const ConceptInstance & ConceptInstance){ return ConceptInstanceString({FindConcept("<"), FindConcept("/"), ConceptInstance.GetParameterIfExists(0), FindConcept(">")}); }));
+Concepts.push_back(new ConceptParameterized("", [](const ConceptInstance & ConceptInstance){ return ConceptInstanceString({::ConceptInstance(38, {ConceptInstance.GetParameterIfExists(0)}), ConceptInstance.GetParameterIfExists(1), ::ConceptInstance(39, {ConceptInstance.GetParameterIfExists(0)})}); }));
+//Concepts.push_back(new ConceptParameterized("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({37}); }, {33}));
+/*Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("head")}));
+Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("body")}));
 //Concepts.push_back(new ConceptCompound("", {FindConcept("<"), FindConcept("title"), FindConcept(">")}));
 Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("title")}));
-Concepts.push_back(new ConceptBasic("", "/"));
 //Concepts.push_back(new ConceptCompound("", {FindConcept("<"), FindConcept("/"), FindConcept("title"), FindConcept(">")}));
 Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), FindConcept("/"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("title")}));
 //Concepts.push_back(new ConceptCompound("", {34, FindConcept("<"), 36}));
-Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">"), *(Parameters.begin() + 1), FindConcept("<"), FindConcept("/"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("title"), FindConcept("test")}));		// DEBUG
+Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">"), *(Parameters.begin() + 1), FindConcept("<"), FindConcept("/"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("body"), FindConcept("test")}));		// DEBUG
+*/

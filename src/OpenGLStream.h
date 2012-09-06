@@ -11,6 +11,7 @@ public:
 	OpenGLStream & operator << (const ConceptId ConceptId);
 	OpenGLStream & operator << (const Concept * Concept);
 	OpenGLStream & operator << (const Concept & Concept);
+	OpenGLStream & operator << (const ConceptInstance & ConceptInstance);
 	OpenGLStream & operator << (const std::string & String);
 	OpenGLStream & operator << (OpenGLStream & (* Function)(OpenGLStream &));
 
@@ -23,7 +24,7 @@ public:
 
 private:
 	OpenGLStream(const OpenGLStream &) = delete;
-	OpenGLStream & operator =(const OpenGLStream &) = delete;
+	OpenGLStream & operator = (const OpenGLStream &) = delete;
 
 	void PrintLine(const std::string & Line);
 	void PrintSegment(const std::string & String);

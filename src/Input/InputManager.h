@@ -41,7 +41,7 @@ public:
 			this->Id = Id;
 		}
 
-		bool operator <(const InputId & Other) const {
+		bool operator < (const InputId & Other) const {
 			uint32 ThisValue = (static_cast<uint32>(this->Device) << 16) | (this->Id);
 			uint32 OtherValue = (static_cast<uint32>(Other.Device) << 16) | (Other.Id);
 			return ThisValue < OtherValue;

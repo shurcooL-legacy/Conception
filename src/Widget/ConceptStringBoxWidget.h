@@ -17,9 +17,9 @@ public:
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:
-	ConceptString					m_Content;
+	ConceptInstanceString					m_Content;
 
-	ConceptString::size_type		m_CaretPosition;
+	ConceptInstanceString::size_type		m_CaretPosition;
 
 	TypingModule & m_TypingModule;
 

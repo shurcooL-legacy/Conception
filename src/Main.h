@@ -66,6 +66,8 @@ namespace std
 class Concept;
 class ConceptBasic;
 class ConceptCompound;
+class ConceptParameterized;
+class ConceptInstance;
 class Function;
 class Project;
 class InputEvent;

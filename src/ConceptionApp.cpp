@@ -10,6 +10,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	{
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
 
+#if 1
 		{
 			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes(), m_TypingModule);
 			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
@@ -47,7 +48,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 						if (ListEntry < m_List.size())
 						{
-							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
+							// HACK
+							ConceptInstance ConceptInstance(m_List[ListEntry]);
+
+							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent(ConceptInstance));
 							m_List.erase(m_List.begin() + ListEntry);
 						}
 					}
@@ -55,6 +59,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 			MainCanvas->AddWidget(StdIncludesList);
 		}
+#endif
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));

@@ -44,10 +44,13 @@ int main(int argc, char * argv[])
 	}*/
 #if 0
 	{
-		auto Test = []() { std::cout << "Hi from anon func.\n"; };
+		std::function<void()> Test = []() { std::cout << "Hi from anon func.\n"; };
+		//std::function<ConceptString(const std::vector<ConceptId> &)> Test = [](const std::vector<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), GetParameterIfExists(Parameters, 0), FindConcept(">")}); };
 
 		// Call Test()
-		Test();
+		//Test();
+
+		printf("size of func %ld\n", sizeof(Test));
 
 		return 0;
 	}

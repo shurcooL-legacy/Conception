@@ -10,10 +10,10 @@ public:
 
 	Vector2n Position;
 
-	ConceptString name;
-	ConceptString args;
-	ConceptString return_type;
-	ConceptString body_lines;
+	ConceptInstanceString name;
+	ConceptInstanceString args;
+	ConceptInstanceString return_type;
+	ConceptInstanceString body_lines;
 
 	template <typename StreamT> friend StreamT & operator << (StreamT & out, const Function & f)
 	{
