@@ -27,13 +27,10 @@ OpenGLStream & OpenGLStream::operator << (const Concept * Concept)
 
 OpenGLStream & OpenGLStream::operator << (const Concept & Concept)
 {
-	// HACK
-	/*ConceptInstance ConceptInstance(&Concept - &Concepts.front());
+	Concept.Draw(m_CaretPosition);
 
-	Concept.Draw(ConceptInstance, m_CaretPosition);
-
-	m_CaretPosition.X() += ConceptInstance.GetDimensions().X();
-	m_CaretPosition.Y() += ConceptInstance.GetDimensions().Y() - lineHeight;*/
+	m_CaretPosition.X() += Concept.GetDimensions().X();
+	m_CaretPosition.Y() += Concept.GetDimensions().Y() - lineHeight;
 
 	return *this;
 }

@@ -57,7 +57,8 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		/*m_Content.push_back(38);
 		m_Content.push_back(ConceptInstance(38, {33}));
 		m_Content.push_back(ConceptInstance(39, {33}));*/
-		m_Content.push_back(ConceptInstance(40, {36, 28}));
+		//m_Content.push_back(ConceptInstance(40, {36, 28}));
+		m_Content.push_back(LastConceptId());
 	}
 }
 
@@ -240,7 +241,7 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 									MoveCaretTry(-1, true);
 								}
 
-								m_TypingModule.SetString(m_Content.back().GetContent());
+								m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
 								m_Content.pop_back();
 							}
 						}

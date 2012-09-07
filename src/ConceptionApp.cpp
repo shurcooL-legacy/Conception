@@ -9,6 +9,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 	{
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
+		MainCanvas->MoveView(0, 336);
+		MainCanvas->MoveView(1, -64);
 
 #if 1
 		{
@@ -48,10 +50,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 						if (ListEntry < m_List.size())
 						{
-							// HACK
-							ConceptInstance ConceptInstance(m_List[ListEntry]);
-
-							m_TypingModule.SetString(ConceptInstance.GetContent());
+							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
 							m_List.erase(m_List.begin() + ListEntry);
 						}
 					}

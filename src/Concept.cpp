@@ -2,16 +2,16 @@
 
 std::vector<Concept *> Concepts;
 
-void Concept::Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const
+void Concept::Draw(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
-	DrawInnerBox(Position, GetDimensions(ConceptInstance), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 #else
-	DrawInnerRoundedBox(Position, GetDimensions(ConceptInstance), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 #endif
 }
 
-Vector2n Concept::GetDimensions(const ConceptInstance & ConceptInstance) const
+Vector2n Concept::GetDimensions() const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	return Vector2n(charWidth, lineHeight);
@@ -20,28 +20,22 @@ Vector2n Concept::GetDimensions(const ConceptInstance & ConceptInstance) const
 #endif
 }
 
-std::string Concept::GetContent(const ConceptInstance & ConceptInstance) const
+std::string Concept::GetContent() const
 {
 	return "";
 }
 
 const Vector2n Concept::GetDimensions(ConceptId ConceptId)
 {
-	// HACK
-	ConceptInstance ConceptInstance(ConceptId);
-
-	return ConceptInstance.GetDimensions();
+	return GetConcept(ConceptId).GetDimensions();
 }
 
 const Vector2n Concept::GetDimensions(Concept * Concept)
 {
-	// HACK
-	ConceptInstance ConceptInstance(0);
-
-	return Concept->GetDimensions(ConceptInstance);
+	return Concept->GetDimensions();
 }
 
-/*static const Vector2n Concept::GetDimensions(const ConceptInstance & ConceptInstance)
+/*const Vector2n Concept::GetDimensions(const ConceptInstance & ConceptInstance)
 {
 	return ConceptInstance.GetDimensions();
 }*/
@@ -87,7 +81,7 @@ ConceptId FindConcept(std::string Content)
 {
 	for (ConceptId ConceptId = 0; ConceptId < Concepts.size(); ++ConceptId)
 	{
-		if (Content == ConceptInstance(ConceptId).GetContent())
+		if (Content == GetConcept(ConceptId).GetContent())
 			return ConceptId;
 	}
 
@@ -124,7 +118,7 @@ void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
 
 	for (ConceptId ConceptId = 0; ConceptId < Concepts.size(); ++ConceptId)
 	{
-		auto Content = ConceptInstance(ConceptId).GetContent();
+		auto Content = GetConcept(ConceptId).GetContent();
 
 		if (0 != Content.length())
 		{
@@ -135,14 +129,14 @@ void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
 
 	if (ConceptSet.size() != ExpectedConceptCount)
 	{
-		throw std::string("Duplicate concepts found!");
+		//throw std::string("Duplicate concepts found!");
 	}
 }
 
-void ConceptBasic::Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const
+void ConceptBasic::Draw(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
-	DrawInnerBox(Position, GetDimensions(ConceptInstance), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 
 	if (HasLabel(26))
 		glColor3d(0, 0, 1);
@@ -152,7 +146,7 @@ void ConceptBasic::Draw(const ConceptInstance & ConceptInstance, Vector2n Positi
 	OpenGLStream OpenGLStream(Position);
 	OpenGLStream << m_Content;
 #else
-	DrawInnerRoundedBox(Position, GetDimensions(ConceptInstance), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 
 	if (HasLabel(26))
 		glColor3d(0, 0, 1);
@@ -164,7 +158,7 @@ void ConceptBasic::Draw(const ConceptInstance & ConceptInstance, Vector2n Positi
 #endif
 }
 
-Vector2n ConceptBasic::GetDimensions(const ConceptInstance & ConceptInstance) const
+Vector2n ConceptBasic::GetDimensions() const
 {
 	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it into reusable code
 	{
@@ -194,7 +188,7 @@ Vector2n ConceptBasic::GetDimensions(const ConceptInstance & ConceptInstance) co
 	}
 }
 
-std::string ConceptBasic::GetContent(const ConceptInstance & ConceptInstance) const
+std::string ConceptBasic::GetContent() const
 {
 	return m_Content;
 }
@@ -238,6 +232,64 @@ std::string ConceptCompound::GetContent() const
 	return Content;
 }*/
 
+ConceptParameters ConceptParameterized::EmptyParameters;
+
+void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+	DrawInnerBox(Position, GetDimensions(ConceptParameters), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#else
+	DrawInnerRoundedBox(Position, GetDimensions(ConceptParameters), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#endif
+
+	//OpenGLStream OpenGLStream(Position);
+	//OpenGLStream << m_Content(ConceptParameters);
+	// TEST, DUPLICATION
+	auto Content = m_Content(ConceptParameters);
+	Vector2n CaretPosition = Position;
+
+	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
+	{
+		//OpenGLStream << GetConcept(ConceptString[i]).GetContent(ConceptParameters);
+		GetConcept(Content[i]).Draw(ConceptParameters, CaretPosition);
+
+		Vector2n InnerDimensions = GetConcept(Content[i]).GetDimensions(ConceptParameters);
+
+		CaretPosition.X() += InnerDimensions.X();
+		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
+	}
+}
+
+Vector2n ConceptParameterized::GetDimensions(const ConceptParameters & ConceptParameters) const
+{
+	auto Content = m_Content(ConceptParameters);
+	Vector2n CaretPosition;
+
+	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
+	{
+		Vector2n InnerDimensions = GetConcept(Content[i]).GetDimensions();
+
+		CaretPosition.X() += InnerDimensions.X();
+		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
+	}
+
+	return Vector2n(CaretPosition.X(), CaretPosition.Y() + lineHeight);
+}
+
+std::string ConceptParameterized::GetContent(const ConceptParameters & ConceptParameters) const
+{
+	auto Content = m_Content(ConceptParameters);
+	std::string ContentString;
+
+	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
+	{
+		// TODO: Use ConceptInstance?
+		ContentString += GetConcept(Content[i]).GetContent();
+	}
+
+	return ContentString;
+}
+
 /*ConceptInstance::ConceptInstance(ConceptId ConceptId)
 	: m_ConceptId(ConceptId),
 	  m_Parameters()
@@ -247,29 +299,28 @@ ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::Co
 	: m_ConceptId(ConceptId),
 	  m_Parameters(Parameters)
 {}*/
-ConceptInstance::ConceptInstance(ConceptId ConceptId)
-	: m_ConceptId(ConceptId),
-	  m_Parameters(nullptr)
-{}
+/*ConceptInstance::ConceptInstance(std::string HumanDescription, ConceptId ConceptId)
+	: Concept()
+	  m_ConceptId(ConceptId),
+//	  m_Parameters(nullptr)
+	  m_Parameters()
+{}*/
 
-ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::ConceptId> Parameters)
-	: m_ConceptId(ConceptId),
-	  m_Parameters(std::unique_ptr<std::vector<::ConceptId>>(new std::vector<::ConceptId>(Parameters)))
-{}
-
-ConceptInstance::ConceptInstance(const ConceptInstance & Other)
-	: m_ConceptId(Other.m_ConceptId),
-	  m_Parameters((nullptr == Other.GetParameters()) ? nullptr : std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters())))
+/*ConceptInstance::ConceptInstance(const ConceptInstance & Other)
+	: Concept("TODO: FIX, this should be an identical copy?"),
+	  m_ConceptId(Other.m_ConceptId),
+//	  m_Parameters((nullptr == Other.GetParameters()) ? nullptr : std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters())))
+	  m_Parameters(Other.m_Parameters)
 {
-	/*if (nullptr != Other.GetParameters())
+	/ *if (nullptr != Other.GetParameters())
 	{
 		m_Parameters = std::unique_ptr<std::vector<ConceptId>>(new std::vector<ConceptId>(*Other.GetParameters()));
 	}
 	else
 	{
 		m_Parameters = nullptr;
-	}*/
-}
+	}* /
+}*/
 
 /*ConceptInstance & ConceptInstance::operator = (const ConceptInstance & Other)
 {
@@ -289,58 +340,30 @@ ConceptInstance::ConceptInstance(const ConceptInstance & Other)
 
 void ConceptInstance::Draw(Vector2n Position) const
 {
-	GetConcept(m_ConceptId).Draw(*this, Position);
+	GetConcept(m_ConceptId).Draw(GetParameters(), Position);
 }
 
 Vector2n ConceptInstance::GetDimensions() const
 {
-	return GetConcept(m_ConceptId).GetDimensions(*this);
+	return GetConcept(m_ConceptId).GetDimensions(GetParameters());
 }
 
 std::string ConceptInstance::GetContent() const
 {
-	return GetConcept(m_ConceptId).GetContent(*this);
+	return GetConcept(m_ConceptId).GetContent(GetParameters());
 }
 
-void ConceptParameterized::Draw(const ConceptInstance & ConceptInstance, Vector2n Position) const
+void ConceptInstance::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
 {
-#if DECISION_CONCEPTS_DISPLAYED_SMALL
-	DrawInnerBox(Position, GetDimensions(ConceptInstance), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
-#else
-	DrawInnerRoundedBox(Position, GetDimensions(ConceptInstance), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
-#endif
-
-	OpenGLStream OpenGLStream(Position);
-	OpenGLStream << m_Content(ConceptInstance);
+	GetConcept(m_ConceptId).Draw(GetParameters() + ConceptParameters, Position);
 }
 
-Vector2n ConceptParameterized::GetDimensions(const ConceptInstance & ConceptInstance) const
+Vector2n ConceptInstance::GetDimensions(const ConceptParameters & ConceptParameters) const
 {
-	auto Content = m_Content(ConceptInstance);
-	Vector2n CaretPosition;
-
-	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
-	{
-		// TODO: Use ConceptInstance?
-		Vector2n InnerDimensions = Content[i].GetDimensions();
-
-		CaretPosition.X() += InnerDimensions.X();
-		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
-	}
-
-	return Vector2n(CaretPosition.X(), CaretPosition.Y() + lineHeight);
+	return GetConcept(m_ConceptId).GetDimensions(GetParameters() + ConceptParameters);
 }
 
-std::string ConceptParameterized::GetContent(const ConceptInstance & ConceptInstance) const
+std::string ConceptInstance::GetContent(const ConceptParameters & ConceptParameters) const
 {
-	auto Content = m_Content(ConceptInstance);
-	std::string ContentString;
-
-	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
-	{
-		// TODO: Use ConceptInstance?
-		ContentString += Content[i].GetContent();
-	}
-
-	return ContentString;
+	return GetConcept(m_ConceptId).GetContent(GetParameters() + ConceptParameters);
 }
