@@ -636,13 +636,15 @@ static int convertMacKeyCode( unsigned int macKeyCode )
 
 - (void)scrollWheel:(NSEvent *)event
 {
-    _glfwInput.WheelPosFloating += [event deltaY];
-	printf("Wheel float %f\n", _glfwInput.WheelPosFloating);
+    _glfwInput.WheelPosFloating += [event scrollingDeltaY] * ([event hasPreciseScrollingDeltas] ? 1 : 10);
+	_glfwInput.WheelPosFloating2 += [event scrollingDeltaX] * ([event hasPreciseScrollingDeltas] ? 1 : 10);
+	//printf("Wheel float %f\n", _glfwInput.WheelPosFloating);
     _glfwInput.WheelPos = (int)lrint( _glfwInput.WheelPosFloating );
+	_glfwInput.WheelPos2 = (int)lrint( _glfwInput.WheelPosFloating2 );		// Dmitri: Scroll second axis
 
     if( _glfwWin.mouseWheelCallback )
     {
-        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos, _glfwInput.WheelPos2 );
     }
 }
 

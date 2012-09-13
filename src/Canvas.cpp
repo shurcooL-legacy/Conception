@@ -153,6 +153,7 @@ void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 
 void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
+#if 1
 	auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
 	double A[2] = { WidgetLocalPosition.X() - 0.5 * GetDimensions().X(),
 					WidgetLocalPosition.Y() - 0.5 * GetDimensions().Y() };
@@ -160,6 +161,10 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 	auto ParentLocalPosition = GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition()));
 
 	MoveView(2, ScrollAmount[0], A, ParentLocalPosition);
+#else
+	MoveView(0, ScrollAmount[1]);
+	MoveView(1, ScrollAmount[0]);
+#endif
 }
 
 void Canvas::ProcessManipulationStarted(const PointerState & PointerState)

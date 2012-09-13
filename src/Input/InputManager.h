@@ -25,7 +25,7 @@ public:
 	static void GLFWCALL ProcessChar(int Character, int Action);
 	static void GLFWCALL ProcessMouseButton(int MouseButton, int Action);
 	static void GLFWCALL ProcessMousePos(int MousePositionX, int MousePositionY);
-	static void GLFWCALL ProcessMouseWheel(int MouseWheelPosition);
+	static void GLFWCALL ProcessMouseWheel(int MouseWheelPosition, int MouseWheel2Position);
 #ifdef _GLFW_DMITRI_WINDOWS_TOUCH_ENABLED
 	static void GLFWCALL ProcessTouch(int TouchButton, int Action, int TouchPositionX, int TouchPositionY);		// Action: 0 = Down, 1 = Move, 2 = Up
 #endif // _GLFW_DMITRI_WINDOWS_TOUCH_ENABLED

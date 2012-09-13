@@ -100,7 +100,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			&& 2 == InputEvent.m_InputId)
 		{
 			//printf("Recognized a wheel move by %d.\n", InputEvent.m_Sliders[0]);
-			m_Owner.ProcessScroll(InputEvent, Vector2n(InputEvent.m_Sliders[0], 0));
+			m_Owner.ProcessScroll(InputEvent, Vector2n(InputEvent.m_Sliders[0], InputEvent.m_Sliders[1]));
 		}
 	}
 
