@@ -88,10 +88,10 @@ int main(int argc, char * argv[])
 		GLFWvidmode DesktopMode;
 		glfwGetDesktopMode(&DesktopMode);
 
-		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
+		//glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
 
 		const bool Fullscreen = static_cast<bool>(0);
-		const Vector2n WindowDimensons(1024, 768);
+		const Vector2n WindowDimensons(1280, 600);
 
 		if (!Fullscreen) {
 			glfwOpenWindow(WindowDimensons.X(), WindowDimensons.Y(), DesktopMode.RedBits, DesktopMode.GreenBits, DesktopMode.BlueBits, 0, 0, 0, GLFW_WINDOW);
@@ -118,6 +118,14 @@ int main(int argc, char * argv[])
 		}
 
 		glfwSetWindowTitle("Conception");
+
+		if (GLEW_OK != glewInit())
+		{
+			std::cerr << "ERROR: Failed to init GLEW.\n";
+			glfwTerminate();
+			return 0;
+		}
+
 		glfwSwapInterval(1);					// Set Vsync
 		glfwDisable(GLFW_AUTO_POLL_EVENTS);
 
@@ -128,10 +136,11 @@ int main(int argc, char * argv[])
 	InputManager InputManager;
 	g_InputManager = &InputManager;
 
-	ConceptionApp MainApp(InputManager);
+	//ConceptionApp MainApp(InputManager);
 	//ConceptionTestApp MainApp(InputManager);
 	//MultitouchTestApp MainApp(InputManager);
 	//SentienceApp MainApp(InputManager);
+	MotionBlurTestApp MainApp(InputManager);
 
 	// Perform the layout of UI widgets
 	MainApp.Layout();
@@ -170,7 +179,7 @@ int main(int argc, char * argv[])
 		glfwSwapBuffers();
 		//glFinish();
 
-		///printf("%f ms frame\n", TimePassed * 1000);
+		//printf("%f ms frame\n", TimePassed * 1000);
 	}
 
 	// Clean up

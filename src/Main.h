@@ -26,6 +26,8 @@
 #include <Windows.h>		// Needed for creating a process to compile projects
 #endif // WIN32
 
+#define GLEW_STATIC 1
+#include <GL/glew.h>
 #include <GL/glfw.h>
 
 #ifdef WIN32
@@ -168,6 +170,8 @@ extern InputManager * g_InputManager;
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
 #include "RenderTools.h"
+#include "Shaders/GLSLProgramObject.h"
+#include "Shaders/ShaderTools.h"
 #include "OpenGLStream.h"
 #include "Concept.h"
 #include "Conception/Function.h"
@@ -187,6 +191,7 @@ extern InputManager * g_InputManager;
 #include "Input/GestureRecognizer.h"
 #include "ControlModules/TypingModule.h"
 #include "Widget/Widget.h"
+#include "Widget/LabelWidget.h"
 #include "Widget/CompositeWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
@@ -201,6 +206,7 @@ extern InputManager * g_InputManager;
 #include "ConceptionTestApp.h"
 #include "MultitouchTestApp.h"
 #include "SentienceApp.h"
+#include "MotionBlurTestApp.h"
 
 #ifdef WIN32
 #elif defined(__APPLE__) && defined(__MACH__)

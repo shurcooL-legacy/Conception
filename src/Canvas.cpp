@@ -153,7 +153,7 @@ void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 
 void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
-#if 1
+#if 0
 	auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
 	double A[2] = { WidgetLocalPosition.X() - 0.5 * GetDimensions().X(),
 					WidgetLocalPosition.Y() - 0.5 * GetDimensions().Y() };
@@ -162,7 +162,7 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 
 	MoveView(2, ScrollAmount[0], A, ParentLocalPosition);
 #else
-	MoveView(0, ScrollAmount[1]);
+	//MoveView(0, ScrollAmount[1]);
 	MoveView(1, ScrollAmount[0]);
 #endif
 }
@@ -290,7 +290,7 @@ void Canvas::RenderBackground()
 	// HACK: Black background
 	if (m_BlackBackgroundTEST/*dynamic_cast<MultitouchTestApp *>(pMainApp)*/ && m_HasBackground)
 	{
-		DrawAroundBox(GetPosition(), GetDimensions(), Color(0.0, 0.0, 0.0), Color(1.0, 1.0, 1.0));
+		DrawAroundBox(GetPosition(), GetDimensions(), Color(static_cast<uint8>(255), 255, 255), Color(1.0, 1.0, 1.0));
 
 		return;
 	}
@@ -313,10 +313,20 @@ void Canvas::RenderBackground()
 		glTexCoord2d(-0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(-0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, -0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], -0.5 * m_CanvasSize[1]);*/
-		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
-		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
-		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
-		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
+		if (m_Centered)
+		{
+			glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
+			glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
+			glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
+			glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
+		}
+		else
+		{
+			glTexCoord2d((0 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
+			glTexCoord2d((0 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (1 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
+			glTexCoord2d((1 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (1 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
+			glTexCoord2d((1 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
+		}
 	glEnd();
 }
 

@@ -93,7 +93,7 @@ bool InputManager::IsMouseCursorVisible()
 	return m_MouseCursorVisible;
 }
 
-Vector2n InputManager::GetWindowDimensions()
+Vector2n InputManager::GetWindowDimensions() const
 {
 	return m_WindowDimensions;
 }

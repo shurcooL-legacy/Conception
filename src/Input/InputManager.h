@@ -15,7 +15,7 @@ public:
 	void SetMouseCursorVisibility(bool Visible);
 	bool IsMouseCursorVisible();
 
-	Vector2n GetWindowDimensions();
+	Vector2n GetWindowDimensions() const;
 
 	void RequestTypingPointer(GestureRecognizer & Target);
 

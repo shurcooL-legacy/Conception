@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1394BC1602D123007FA1D6 /* GLSLProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1394B81602D123007FA1D6 /* GLSLProgramObject.cpp */; };
+		2A1394BE1602D21A007FA1D6 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1394BD1602D21A007FA1D6 /* libGLEW.a */; };
+		2A1394C11602D405007FA1D6 /* ShaderTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1394BF1602D405007FA1D6 /* ShaderTools.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
@@ -67,6 +70,8 @@
 		2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */; };
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
+		2ADCAF5C160285DE0025A499 /* MotionBlurTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADCAF5B160285DE0025A499 /* MotionBlurTestApp.cpp */; };
+		2ADCAF5F16028A5D0025A499 /* LabelWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADCAF5D16028A5D0025A499 /* LabelWidget.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +88,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A1394B61602D123007FA1D6 /* motion_blur_fragment.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = motion_blur_fragment.glsl; path = src/Shaders/motion_blur_fragment.glsl; sourceTree = SOURCE_ROOT; };
+		2A1394B71602D123007FA1D6 /* motion_blur_vertex.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = motion_blur_vertex.glsl; path = src/Shaders/motion_blur_vertex.glsl; sourceTree = SOURCE_ROOT; };
+		2A1394B81602D123007FA1D6 /* GLSLProgramObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GLSLProgramObject.cpp; path = src/Shaders/GLSLProgramObject.cpp; sourceTree = SOURCE_ROOT; };
+		2A1394B91602D123007FA1D6 /* GLSLProgramObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GLSLProgramObject.h; path = src/Shaders/GLSLProgramObject.h; sourceTree = SOURCE_ROOT; };
+		2A1394BA1602D123007FA1D6 /* nvSDKPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nvSDKPath.h; path = src/Shaders/nvSDKPath.h; sourceTree = SOURCE_ROOT; };
+		2A1394BB1602D123007FA1D6 /* nvShaderUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nvShaderUtils.h; path = src/Shaders/nvShaderUtils.h; sourceTree = SOURCE_ROOT; };
+		2A1394BD1602D21A007FA1D6 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = include/libGLEW.a; sourceTree = "<group>"; };
+		2A1394BF1602D405007FA1D6 /* ShaderTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ShaderTools.cpp; path = src/Shaders/ShaderTools.cpp; sourceTree = SOURCE_ROOT; };
+		2A1394C01602D405007FA1D6 /* ShaderTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderTools.h; path = src/Shaders/ShaderTools.h; sourceTree = SOURCE_ROOT; };
 		2A21998A15C8857100867486 /* SentienceApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SentienceApp.cpp; path = src/SentienceApp.cpp; sourceTree = SOURCE_ROOT; };
 		2A21998B15C8857100867486 /* SentienceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentienceApp.h; path = src/SentienceApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998E15C8895400867486 /* LifeFormWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LifeFormWidget.cpp; sourceTree = "<group>"; };
@@ -190,6 +204,10 @@
 		2ADBF3C815840A19007BDF94 /* FunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionWidget.h; sourceTree = "<group>"; };
 		2ADBF3CF15841AF3007BDF94 /* Function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Function.cpp; sourceTree = "<group>"; };
 		2ADBF3D015841AF3007BDF94 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = Function.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2ADCAF59160285B80025A499 /* MotionBlurTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MotionBlurTestApp.h; path = src/MotionBlurTestApp.h; sourceTree = SOURCE_ROOT; };
+		2ADCAF5B160285DE0025A499 /* MotionBlurTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MotionBlurTestApp.cpp; path = src/MotionBlurTestApp.cpp; sourceTree = SOURCE_ROOT; };
+		2ADCAF5D16028A5D0025A499 /* LabelWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelWidget.cpp; sourceTree = "<group>"; };
+		2ADCAF5E16028A5D0025A499 /* LabelWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelWidget.h; sourceTree = "<group>"; };
 		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
 		2AF419651563F81C0076E6E5 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = src/Vector2.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -201,12 +219,28 @@
 			files = (
 				2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */,
 				2A807460153F06C700649628 /* OpenGL.framework in Frameworks */,
+				2A1394BE1602D21A007FA1D6 /* libGLEW.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A1394B41602D110007FA1D6 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				2A1394B61602D123007FA1D6 /* motion_blur_fragment.glsl */,
+				2A1394B71602D123007FA1D6 /* motion_blur_vertex.glsl */,
+				2A1394B81602D123007FA1D6 /* GLSLProgramObject.cpp */,
+				2A1394B91602D123007FA1D6 /* GLSLProgramObject.h */,
+				2A1394BA1602D123007FA1D6 /* nvSDKPath.h */,
+				2A1394BB1602D123007FA1D6 /* nvShaderUtils.h */,
+				2A1394BF1602D405007FA1D6 /* ShaderTools.cpp */,
+				2A1394C01602D405007FA1D6 /* ShaderTools.h */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
 		2A4FFA5B155465D90021D8EF /* ControlModules */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +306,8 @@
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
+				2ADCAF5D16028A5D0025A499 /* LabelWidget.cpp */,
+				2ADCAF5E16028A5D0025A499 /* LabelWidget.h */,
 				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,
 				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
@@ -290,6 +326,7 @@
 		2A807406153F052200649628 = {
 			isa = PBXGroup;
 			children = (
+				2A1394BD1602D21A007FA1D6 /* libGLEW.a */,
 				2A807461153F06CD00649628 /* Cocoa.framework */,
 				2A80745F153F06C700649628 /* OpenGL.framework */,
 				2A96BDA21540AF300010D618 /* glfw */,
@@ -325,6 +362,8 @@
 				2A4FFA64155465D90021D8EF /* Input */,
 				2A4FFA7A155465D90021D8EF /* Main.cpp */,
 				2A4FFA7B155465D90021D8EF /* Main.h */,
+				2ADCAF5B160285DE0025A499 /* MotionBlurTestApp.cpp */,
+				2ADCAF59160285B80025A499 /* MotionBlurTestApp.h */,
 				2A4FFA7C155465D90021D8EF /* MultitouchTestApp.cpp */,
 				2A4FFA7D155465D90021D8EF /* MultitouchTestApp.h */,
 				2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */,
@@ -339,6 +378,7 @@
 				2A4FFA85155465D90021D8EF /* RenderTools.h */,
 				2A21998A15C8857100867486 /* SentienceApp.cpp */,
 				2A21998B15C8857100867486 /* SentienceApp.h */,
+				2A1394B41602D110007FA1D6 /* Shaders */,
 				2AD87E9B15A7600F007719FA /* Utilities.cpp */,
 				2AD87E9915A75FF3007719FA /* Utilities.h */,
 				2AD87E9D15A7624F007719FA /* Utilities.mm */,
@@ -510,6 +550,10 @@
 				2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */,
 				2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */,
 				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
+				2ADCAF5C160285DE0025A499 /* MotionBlurTestApp.cpp in Sources */,
+				2ADCAF5F16028A5D0025A499 /* LabelWidget.cpp in Sources */,
+				2A1394BC1602D123007FA1D6 /* GLSLProgramObject.cpp in Sources */,
+				2A1394C11602D405007FA1D6 /* ShaderTools.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +598,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
+					"\"$(SRCROOT)/include\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -582,6 +627,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
+					"\"$(SRCROOT)/include\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
