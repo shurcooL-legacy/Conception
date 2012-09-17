@@ -2,7 +2,7 @@
 
 MotionBlurTestApp::MotionBlurTestApp(InputManager & InputManager)
 	: App(InputManager),
-	  m_ShaderTools(),
+	  m_ShaderTools(InputManager),
 	  m_MovedTEST(0),
 	  m_JustMovedTEST(false)
 {
@@ -15,7 +15,8 @@ MotionBlurTestApp::MotionBlurTestApp(InputManager & InputManager)
 			MainCanvas->MoveView(2, -1, A);
 		}*/
 
-		MainCanvas->AddWidget(new LabelWidget(Vector2n(0, 0), FromFileToString("src/Input/PointerMapping.cpp")));
+		//MainCanvas->AddWidget(new LabelWidget(Vector2n(0, 0), FromFileToString("src/Input/PointerMapping.cpp")));
+		MainCanvas->AddWidget(new LabelWidget(Vector2n(0, 0), FromFileToString("src/Concepts.h")));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}

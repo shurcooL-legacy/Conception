@@ -1,10 +1,10 @@
 #include "../Main.h"
 
-ShaderTools::ShaderTools()
+ShaderTools::ShaderTools(InputManager & InputManager)
 {
 	{
-		m_MotionBlurImageWidth = 1280/2;
-		m_MotionBlurImageHeight = 600;
+		m_MotionBlurImageWidth = InputManager.GetWindowDimensions().X() / 2;
+		m_MotionBlurImageHeight = InputManager.GetWindowDimensions().Y();
 		//m_MotionBlurImageWidth = std::min<uint32>(400, nViewportWidth);
 		//m_MotionBlurImageHeight = m_MotionBlurImageWidth * nViewportHeight / nViewportWidth;
 

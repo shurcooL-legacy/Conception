@@ -11,7 +11,7 @@
 class ShaderTools
 {
 public:
-	ShaderTools();
+	ShaderTools(InputManager & InputManager);
 	~ShaderTools();
 
 	void ReloadShaders();
