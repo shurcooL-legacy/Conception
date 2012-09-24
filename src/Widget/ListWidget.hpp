@@ -62,7 +62,7 @@ template <typename T> void ListWidget<T>::Render()
 		std::string Description[2] = { "#include <", ">" };
 		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X(), GetPosition().Y(), 0, RIGHT, Description[0].c_str());
 		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X() + GetDimensions().X(), GetPosition().Y(), 0, LEFT, Description[1].c_str());
-		
+
 		// TEST
 		auto Spot = m_List.end();
 		if (!m_TypingModule.GetString().empty())

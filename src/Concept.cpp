@@ -267,7 +267,7 @@ Vector2n ConceptParameterized::GetDimensions(const ConceptParameters & ConceptPa
 
 	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
 	{
-		Vector2n InnerDimensions = GetConcept(Content[i]).GetDimensions();
+		Vector2n InnerDimensions = GetConcept(Content[i]).GetDimensions(ConceptParameters);
 
 		CaretPosition.X() += InnerDimensions.X();
 		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
@@ -284,7 +284,7 @@ std::string ConceptParameterized::GetContent(const ConceptParameters & ConceptPa
 	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
 	{
 		// TODO: Use ConceptInstance?
-		ContentString += GetConcept(Content[i]).GetContent();
+		ContentString += GetConcept(Content[i]).GetContent(ConceptParameters);
 	}
 
 	return ContentString;
