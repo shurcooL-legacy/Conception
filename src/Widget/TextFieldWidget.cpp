@@ -3,6 +3,7 @@
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
 TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	  m_OnChange(),
 	  m_Content(),
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
@@ -15,24 +16,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 
-	// DEBUG: Irregular starting state, for testing
-	{
-		//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
-		m_Content =
-"{""\n"
-"	// Skip non-spaces to the right""\n"
-"	auto LookAt = m_CaretPosition;""\n"
-"	while (   LookAt < m_Content.length()""\n"
-"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
-"	{""\n"
-"		++LookAt;""\n"
-"	}""\n"
-"""\n"
-"	SetCaretPosition(LookAt, false);""\n"
-"}"
-		;
-		UpdateContentLines();
-	}
+	UpdateContentLines();		// This is here at least for resize
 }
 
 TextFieldWidget::~TextFieldWidget()
@@ -566,6 +550,17 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	}
 }
 
+std::string TextFieldWidget::GetContent() const
+{
+	return m_Content;
+}
+
+void TextFieldWidget::SetContent(std::string Content)
+{
+	m_Content = Content;
+	UpdateContentLines();
+}
+
 void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)
 {
 	m_CaretPosition = CaretPosition;
@@ -693,6 +688,11 @@ void TextFieldWidget::UpdateContentLines()
 	// TEST: Resize the widget to accomodate text width
 	ModifyDimensions().X() = std::max<sint32>(static_cast<sint32>(m_MaxLineLength * charWidth), 3 * charWidth);
 	ModifyDimensions().Y() = std::max<sint32>(static_cast<sint32>(m_ContentLines.size()) * lineHeight, 1 * lineHeight);
+
+	if (nullptr != m_OnChange)
+	{
+		m_OnChange();
+	}
 }
 
 uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)

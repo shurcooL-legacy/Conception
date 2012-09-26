@@ -10,8 +10,8 @@ public:
 
 	void LoadSampleGenProgram(Canvas & CanvasTEST);
 
-	void GenerateProgram();
-	void RunProgram();
+	void GenerateProgram(std::string ProgramContent);
+	std::string RunProgram();
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 

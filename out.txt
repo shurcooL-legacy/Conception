@@ -1,0 +1,5 @@
+0: >echo<
+1: >-n<
+2: >hello<
+3: >there,<
+4: >how are you?<

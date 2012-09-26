@@ -21,6 +21,11 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	std::string GetContent() const;
+	void SetContent(std::string Content);
+
+	std::function<void()>				m_OnChange;
+
 private:
 	struct ContentLine
 	{

@@ -9,7 +9,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 	{
 		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
-		MainCanvas->MoveView(0, 336);
+		//MainCanvas->MoveView(0, 336);
 		MainCanvas->MoveView(1, -64);
 
 #if 1
@@ -61,12 +61,45 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100), m_TypingModule));
+		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(200, -200), m_TypingModule));
+		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-400, -200), m_TypingModule));
+
+		// DEBUG: Irregular starting state, for testing
+		{
+			m_SourceWidget->m_OnChange = [&]()
+			{
+				//printf("m_SourceWidget->m_OnChange\n");
+				//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
+
+				m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
+				m_OutputWidget->SetContent(m_CurrentProject.RunProgram());
+			};
+
+			//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
+			m_SourceWidget->SetContent(
+#if 0
+			"{""\n"
+			"	// Skip non-spaces to the right""\n"
+			"	auto LookAt = m_CaretPosition;""\n"
+			"	while (   LookAt < m_Content.length()""\n"
+			"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
+			"	{""\n"
+			"		++LookAt;""\n"
+			"	}""\n"
+			"""\n"
+			"	SetCaretPosition(LookAt, false);""\n"
+			"}"
+#else
+			FromFileToString("GenProgram.go")
+#endif
+			);
+		}
+
+		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
 
 #if 1
 		{
-			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730, -250), Concepts, m_TypingModule));
+			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 300, -250), Concepts, m_TypingModule));
 		}
 #endif
 
@@ -121,8 +154,8 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
 							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
 						{
-							m_CurrentProject.GenerateProgram();
-							m_CurrentProject.RunProgram();
+							m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
+							m_OutputWidget->SetContent(m_CurrentProject.RunProgram());
 
 							InputEvent.m_Handled = true;
 						}

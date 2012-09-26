@@ -117,12 +117,14 @@ int main(int argc, char * argv[])
 			std::cout << x.str();
 		}
 
-		glfwSetWindowTitle("Conception");
-		glfwSwapInterval(1);					// Set Vsync
-		glfwDisable(GLFW_AUTO_POLL_EVENTS);
+		{
+			glfwSetWindowTitle("Conception");
+			glfwSwapInterval(1);					// Set Vsync
+			glfwDisable(GLFW_AUTO_POLL_EVENTS);
 
-		glfwEnable(GLFW_KEY_REPEAT);
-		glfwDisable(GLFW_SYSTEM_KEYS);
+			glfwEnable(GLFW_KEY_REPEAT);
+			glfwDisable(GLFW_SYSTEM_KEYS);
+		}
 	}
 
 	InputManager InputManager;
@@ -171,6 +173,12 @@ int main(int argc, char * argv[])
 		//glFinish();
 
 		///printf("%f ms frame\n", TimePassed * 1000);
+
+		// Use less CPU in background
+		if (!glfwGetWindowParam(GLFW_ACTIVE))
+		{
+			glfwSleep(0.100);
+		}
 	}
 
 	// Clean up

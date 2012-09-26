@@ -20,11 +20,17 @@
 #include <string.h>
 #include <array>
 #include <memory>
+#include <cstdlib>
 
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>		// Needed for creating a process to compile projects
+#	define WIN32_LEAN_AND_MEAN
+#	include <Windows.h>		// Needed for creating a process to compile projects
 #endif // WIN32
+
+#if defined(__APPLE__) && defined(__MACH__)
+#	include <sys/types.h>
+#	include <unistd.h>
+#endif
 
 #include <GL/glfw.h>
 
@@ -60,7 +66,7 @@ namespace std
 
 // Decisions
 #define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 1
-#define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 0
+#define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 1
 #define DECISION_CONCEPTS_DISPLAYED_SMALL 0
 
 class Concept;
