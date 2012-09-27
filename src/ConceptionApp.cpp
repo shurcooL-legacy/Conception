@@ -68,6 +68,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		{
 			m_SourceWidget->m_OnChange = [&]()
 			{
+				Beep();
+
 				//printf("m_SourceWidget->m_OnChange\n");
 				//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
 

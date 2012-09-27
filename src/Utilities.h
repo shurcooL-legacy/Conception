@@ -34,4 +34,6 @@ template <typename T> reverse_adapter<T> reverse(T & c)
 
 std::string FromFileToString(std::string Path);
 
+void Beep();
+
 #endif // __Utilities_H__

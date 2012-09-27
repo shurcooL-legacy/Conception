@@ -9,6 +9,6 @@ func foo(x int) int {
 }
 
 func main() {
-	fmt.Print("Hello there!\n")
+	fmt.Print("Hello there.\n")
 	fmt.Printf("The value is %v.", foo(5))
 }
