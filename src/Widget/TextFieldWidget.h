@@ -52,7 +52,7 @@ private:
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection);
-	std::string GetSelectionContent();
+	std::string GetSelectionContent() const;
 	bool EraseSelectionIfAny();
 	void UpdateContentLines();
 	uint32 GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber);

@@ -169,6 +169,7 @@ void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Cha
 		EraseSelectionIfAny();
 
 		m_Content.insert(m_CaretPosition, 1, static_cast<uint8>(Character));
+		UpdateContentLines();
 		MoveCaret(+1, true);
 
 		InputEvent.m_Handled = true;
@@ -256,6 +257,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (m_CaretPosition > 0)
 							{
 								m_Content.erase(m_CaretPosition - 1, 1);
+								UpdateContentLines();
 								MoveCaret(-1, true);
 							}
 						}
@@ -270,6 +272,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (m_CaretPosition < m_Content.length())
 							{
 								m_Content.erase(m_CaretPosition, 1);
+								UpdateContentLines();
 							}
 						}
 					}
@@ -280,6 +283,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						EraseSelectionIfAny();
 
 						m_Content.insert(m_CaretPosition, 1, '\n');
+						UpdateContentLines();
 						MoveCaret(+1, true);
 					}
 					break;
@@ -288,6 +292,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						EraseSelectionIfAny();
 
 						m_Content.insert(m_CaretPosition, 1, '\t');
+						UpdateContentLines();
 						MoveCaret(+1, true);
 					}
 					break;
@@ -301,8 +306,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								UpdateContentLines();
-
 								std::vector<class ContentLine>::size_type LineNumber = 0;
 								std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -357,8 +360,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								UpdateContentLines();
-
 								std::vector<class ContentLine>::size_type LineNumber = 0;
 								std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -410,7 +411,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							SetCaretPosition(std::min(m_CaretPosition, m_SelectionPosition), true);
 						}
 
-						MoveCaretVerticallyTry(-1, !ShiftActive);
+						if (SuperActive)
+						{
+							SetCaretPosition(0, !ShiftActive);		// Go to home
+						}
+						else
+						{
+							MoveCaretVerticallyTry(-1, !ShiftActive);
+						}
 					}
 					break;
 				case GLFW_KEY_DOWN:
@@ -420,7 +428,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							SetCaretPosition(std::max(m_CaretPosition, m_SelectionPosition), true);
 						}
 
-						MoveCaretVerticallyTry(+1, !ShiftActive);
+						if (SuperActive)
+						{
+							SetCaretPosition(m_Content.length(), !ShiftActive);		// Go to end
+						}
+						else
+						{
+							MoveCaretVerticallyTry(+1, !ShiftActive);
+						}
 					}
 					break;
 				case 'A':
@@ -475,11 +490,13 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 #if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
 								m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+								UpdateContentLines();
 								MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
 #else
 								auto Entry = m_TypingModule.TakeString();
 
 								m_Content.insert(m_CaretPosition, Entry);
+								UpdateContentLines();
 								MoveCaret(static_cast<sint32>(Entry.length()), true);
 #endif
 							}
@@ -520,6 +537,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (!Entry.empty())
 							{
 								m_Content.insert(m_CaretPosition, Entry);
+								UpdateContentLines();
 								SetCaretPosition(GetNearestCaretPosition(LocalPosition), true);
 							}
 						}
@@ -557,6 +575,12 @@ std::string TextFieldWidget::GetContent() const
 
 void TextFieldWidget::SetContent(std::string Content)
 {
+	/*if (m_SelectionPosition > Content.length())
+		m_SelectionPosition = Content.length();
+	if (m_CaretPosition > Content.length())
+		SetCaretPosition(Content.length(), false);*/
+	SetCaretPosition(0, true);		// Reset caret position to home
+
 	m_Content = Content;
 	UpdateContentLines();
 }
@@ -572,8 +596,6 @@ void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, 
 
 	if (UpdateTargetCaretColumn)
 	{
-		UpdateContentLines();
-
 		std::vector<class ContentLine>::size_type LineNumber = 0;
 		std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -608,8 +630,6 @@ void TextFieldWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
 
 void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection)
 {
-	UpdateContentLines();
-
 	std::vector<class ContentLine>::size_type LineNumber = 0;
 	std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -642,7 +662,7 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 	}
 }
 
-std::string TextFieldWidget::GetSelectionContent()
+std::string TextFieldWidget::GetSelectionContent() const
 {
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
@@ -657,6 +677,7 @@ bool TextFieldWidget::EraseSelectionIfAny()
 	if (0 != SelectionLength)
 	{
 		m_Content.erase(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
+		UpdateContentLines();
 
 		SetCaretPosition(std::min(m_CaretPosition, m_SelectionPosition), true);
 	}
@@ -738,9 +759,6 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 
 decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX)
 {
-	// TODO: Change it so that this is called only when the content is modified, not every time it is needed
-	UpdateContentLines();
-
 	// Calculate nearest caret position
 	if (LineNumber > m_ContentLines.size() - 1)
 		LineNumber = m_ContentLines.size() - 1;
