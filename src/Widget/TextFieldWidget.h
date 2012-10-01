@@ -24,6 +24,8 @@ public:
 	std::string GetContent() const;
 	void SetContent(std::string Content);
 
+	void SetBackground(Color BackgroundColor);
+
 	std::function<void()>				m_OnChange;
 
 private:
@@ -47,6 +49,8 @@ private:
 	decltype(m_CaretPosition)			m_SelectionPosition;
 
 	TypingModule						& m_TypingModule;
+
+	Color								m_BackgroundColor;
 
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);

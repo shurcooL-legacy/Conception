@@ -116,7 +116,7 @@ void GLFWCALL RunProgramThread(void *)
 	std::system(Command);
 }
 
-std::string Project::RunProgram()
+std::string Project::RunProgram(uint8 & Status)
 {
 	std::string str;
 
@@ -142,12 +142,6 @@ std::string Project::RunProgram()
 
 		if (0 == pid)
 		{
-			std::cout << "Child process!\n";
-			//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/launcher", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/launcher", (char *)0);
-			//execl("/usr/bin/touch", "touch", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/out4_ffs.txt", (char *)0);
-			//execl("/usr/local/go/bin/go", "go", "run", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/launcher.go", (char *)0);
-			//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "print-args", "run", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/launcher.go", (char *)0);
-
 			close(pipefd[0]);    // close reading end in the child
 
 			dup2(pipefd[1], 1);  // send stdout to the pipe
@@ -170,13 +164,17 @@ std::string Project::RunProgram()
 		{
 			std::cout << "In parent, created pid " << pid << ".\n";
 
-			char buffer[1024];
-
 			close(pipefd[1]);  // close the write end of the pipe in the parent
 
-			//sleep(100000);
-			//sleep(1);
+			// Wait for child process to complete
+			{
+				int status;
+				waitpid(pid, &status, 0);
 
+				Status = static_cast<uint8>(status >> 8);
+			}
+
+			char buffer[1024];
 			ssize_t n;
 			while (0 != (n = read(pipefd[0], buffer, sizeof(buffer))))
 			{
@@ -184,17 +182,15 @@ std::string Project::RunProgram()
 					std::cout << "Error: " << errno << std::endl;
 				else
 				{
-					std::cout << "Read " << n << " chars from pipe: >";
+					/*std::cout << "Read " << n << " chars from pipe: >";
 					for (int i = 0; i < n; ++i) {
 						std::cout << buffer[i];
 					}
-					std::cout << "<\n";
+					std::cout << "<\n";*/
 
 					str.append(buffer, n);
 				}
 			}
-
-			//sleep(3);
 
 			std::cout << "Done in parent!\n";
 		}

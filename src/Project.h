@@ -11,7 +11,7 @@ public:
 	void LoadSampleGenProgram(Canvas & CanvasTEST);
 
 	void GenerateProgram(std::string ProgramContent);
-	std::string RunProgram();
+	std::string RunProgram(uint8 & Status);
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 

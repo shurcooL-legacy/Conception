@@ -10,7 +10,8 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_CaretPosition(0),
 	  m_TargetCaretColumnX(0),
 	  m_SelectionPosition(0),
-	  m_TypingModule(TypingModule)
+	  m_TypingModule(TypingModule),
+	  m_BackgroundColor(static_cast<uint8>(255), 255, 255)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
@@ -25,7 +26,8 @@ TextFieldWidget::~TextFieldWidget()
 
 void TextFieldWidget::Render()
 {
-	Color BackgroundColor(1.0, 1.0, 1.0);
+	//Color BackgroundColor(1.0, 1.0, 1.0);
+	Color BackgroundColor = m_BackgroundColor;
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -583,6 +585,11 @@ void TextFieldWidget::SetContent(std::string Content)
 
 	m_Content = Content;
 	UpdateContentLines();
+}
+
+void TextFieldWidget::SetBackground(Color BackgroundColor)
+{
+	m_BackgroundColor = BackgroundColor;
 }
 
 void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)

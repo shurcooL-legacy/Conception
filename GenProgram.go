@@ -26,7 +26,7 @@ func main() {
 			if f, ok := d.(*ast.FuncDecl); ok {
 				fmt.Println(f)
 				PrintCode(fset, f)
-				break
+				/break
 			}
 		}
 	}

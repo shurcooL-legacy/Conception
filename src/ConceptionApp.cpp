@@ -72,25 +72,30 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
 
 				m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-				m_OutputWidget->SetContent(m_CurrentProject.RunProgram());
+				uint8 Status;
+				m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
+				if (0 == Status)
+					m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+				else
+					m_OutputWidget->SetBackground(Color(1.0, 0, 0));
 			};
 
 			//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
 			m_SourceWidget->SetContent(
 #if 0
-			"{""\n"
-			"	// Skip non-spaces to the right""\n"
-			"	auto LookAt = m_CaretPosition;""\n"
-			"	while (   LookAt < m_Content.length()""\n"
-			"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
-			"	{""\n"
-			"		++LookAt;""\n"
-			"	}""\n"
-			"""\n"
-			"	SetCaretPosition(LookAt, false);""\n"
-			"}"
+				"{""\n"
+				"	// Skip non-spaces to the right""\n"
+				"	auto LookAt = m_CaretPosition;""\n"
+				"	while (   LookAt < m_Content.length()""\n"
+				"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
+				"	{""\n"
+				"		++LookAt;""\n"
+				"	}""\n"
+				"""\n"
+				"	SetCaretPosition(LookAt, false);""\n"
+				"}"
 #else
-			FromFileToString("GenProgram.go")
+				FromFileToString("GenProgram.go")
 #endif
 			);
 		}
@@ -155,7 +160,8 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
 						{
 							m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-							m_OutputWidget->SetContent(m_CurrentProject.RunProgram());
+							uint8 Status;
+							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
 
 							InputEvent.m_Handled = true;
 						}
