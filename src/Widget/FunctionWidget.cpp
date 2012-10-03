@@ -13,7 +13,7 @@ FunctionWidget::~FunctionWidget()
 
 void FunctionWidget::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))

@@ -27,8 +27,8 @@ public:
 	std::string ToString();
 
 private:
-	InputEvent(const InputEvent &);
-	//InputEvent & operator =(const InputEvent &);
+	InputEvent(const InputEvent &) = delete;
+	//InputEvent & operator = (const InputEvent &) = delete;
 };
 
 #endif // __InputEvent_H__

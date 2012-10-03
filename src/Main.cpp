@@ -44,10 +44,13 @@ int main(int argc, char * argv[])
 	}*/
 #if 0
 	{
-		auto Test = []() { std::cout << "Hi from anon func.\n"; };
+		std::function<void()> Test = []() { std::cout << "Hi from anon func.\n"; };
+		//std::function<ConceptString(const std::vector<ConceptId> &)> Test = [](const std::vector<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), GetParameterIfExists(Parameters, 0), FindConcept(">")}); };
 
 		// Call Test()
-		Test();
+		//Test();
+
+		printf("size of func %ld\n", sizeof(Test));
 
 		return 0;
 	}
@@ -85,7 +88,7 @@ int main(int argc, char * argv[])
 		GLFWvidmode DesktopMode;
 		glfwGetDesktopMode(&DesktopMode);
 
-		///glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
+		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
 
 		const bool Fullscreen = static_cast<bool>(0);
 		const Vector2n WindowDimensons(1024, 768);
@@ -114,12 +117,14 @@ int main(int argc, char * argv[])
 			std::cout << x.str();
 		}
 
-		glfwSetWindowTitle("Conception");
-		glfwSwapInterval(1);					// Set Vsync
-		glfwDisable(GLFW_AUTO_POLL_EVENTS);
+		{
+			glfwSetWindowTitle("Conception");
+			glfwSwapInterval(1);					// Set Vsync
+			glfwDisable(GLFW_AUTO_POLL_EVENTS);
 
-		glfwEnable(GLFW_KEY_REPEAT);
-		glfwDisable(GLFW_SYSTEM_KEYS);
+			glfwEnable(GLFW_KEY_REPEAT);
+			glfwDisable(GLFW_SYSTEM_KEYS);
+		}
 	}
 
 	InputManager InputManager;
@@ -141,13 +146,13 @@ int main(int argc, char * argv[])
 	// Main loop
 	while (glfwGetWindowParam(GLFW_OPENED))
 	{
-		// DEBUG: Moved to top of loop to enable debug printing from input handling code
-		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
-
-		double CurrentTime = glfwGetTime();
+		auto CurrentTime = glfwGetTime();
 		static auto LastTime = CurrentTime;
 		auto TimePassed = CurrentTime - LastTime;
 		LastTime = CurrentTime;
+
+		// DEBUG: Moved to top of loop to enable debug printing from input handling code
+		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
 
 		// Process input
 		{
@@ -168,7 +173,12 @@ int main(int argc, char * argv[])
 		//glFinish();
 
 		///printf("%f ms frame\n", TimePassed * 1000);
-		//glfwSleep(0.009);
+
+		// Use less CPU in background
+		if (!glfwGetWindowParam(GLFW_ACTIVE))
+		{
+			glfwSleep(0.100);
+		}
 	}
 
 	// Clean up

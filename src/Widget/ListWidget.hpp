@@ -28,7 +28,7 @@ template <typename T> void ListWidget<T>::Insert(T & Entry)
 
 template <typename T> void ListWidget<T>::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -62,7 +62,7 @@ template <typename T> void ListWidget<T>::Render()
 		std::string Description[2] = { "#include <", ">" };
 		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X(), GetPosition().Y(), 0, RIGHT, Description[0].c_str());
 		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X() + GetDimensions().X(), GetPosition().Y(), 0, LEFT, Description[1].c_str());
-		
+
 		// TEST
 		auto Spot = m_List.end();
 		if (!m_TypingModule.GetString().empty())
@@ -80,13 +80,12 @@ template <typename T> void ListWidget<T>::Render()
 		}
 
 		OpenGLStream OpenGLStream(GetPosition());
-		//for (auto & Entry : m_List)
-		for (auto Entry = m_List.begin(); m_List.end() != Entry; ++Entry)
+		for (auto ListEntry = m_List.begin(); m_List.end() != ListEntry; ++ListEntry)
 		{
-			if (Entry == Spot)
+			if (ListEntry == Spot)
 				OpenGLStream << endl;
 
-			OpenGLStream << *Entry << endl;
+			OpenGLStream << *ListEntry << endl;
 		}
 	}
 
@@ -103,14 +102,13 @@ template <typename T> void ListWidget<T>::ProcessTap(InputEvent & InputEvent, Ve
 
 template <typename T> void ListWidget<T>::UpdateDimensions()
 {
-	Vector2n MinDimensions(3 * charWidth, lineHeight);
+	Vector2n Dimensions;
 
-	Vector2n MaxDimensions(MinDimensions);
 	for (auto & Entry : m_List)
 	{
-		MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), Concept::GetDimensions(Entry).X());
+		Dimensions.X() = std::max<sint32>(Dimensions.X(), Concept::GetDimensions(Entry).X());
+		Dimensions.Y() += Concept::GetDimensions(Entry).Y();
 	}
-	MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 0) * lineHeight);
 
 	// TEST
 	if (!m_TypingModule.GetString().empty())
@@ -119,13 +117,16 @@ template <typename T> void ListWidget<T>::UpdateDimensions()
 		{
 			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
 			{
-				MaxDimensions.X() = std::max<sint32>(MaxDimensions.X(), static_cast<sint32>(m_TypingModule.GetString().length() * charWidth));
-				MaxDimensions.Y() = std::max<sint32>(MaxDimensions.Y(), static_cast<sint32>(m_List.size() + 1) * lineHeight);
+				Dimensions.X() = std::max<sint32>(Dimensions.X(), static_cast<sint32>(m_TypingModule.GetString().length() * charWidth));
+				Dimensions.Y() += 1 * lineHeight;
+				break;
 			}
 		}
 	}
 
-	Vector2n Dimensions = MaxDimensions;
+	Vector2n MinDimensions(3 * charWidth, lineHeight);
+	Dimensions.X() = std::max<sint32>(Dimensions.X(), MinDimensions.X());
+	Dimensions.Y() = std::max<sint32>(Dimensions.Y(), MinDimensions.Y());
 
 	SetDimensions(Dimensions);
 }

@@ -11,7 +11,7 @@ PointerState::~PointerState()
 {
 }
 
-auto PointerState::GetTimestamp() const -> decltype(m_Timestamp)
+decltype(PointerState::m_Timestamp) PointerState::GetTimestamp() const
 {
 	return m_Timestamp;
 }
@@ -39,6 +39,8 @@ void PointerState::UpdateTimestamp()
 
 auto PointerState::UpdateButtonState(Input::InputId ButtonId) -> decltype((m_ButtonStates[ButtonId]))
 {
+	UpdateTimestamp();
+	
 	// Expand the buttons array to fit this button, if neccessary
 	while (m_ButtonStates.size() <= ButtonId)
 		m_ButtonStates.push_back(false);
@@ -48,6 +50,8 @@ auto PointerState::UpdateButtonState(Input::InputId ButtonId) -> decltype((m_But
 
 auto PointerState::UpdateAxisState(Input::InputId AxisId) -> decltype((m_AxisStates[AxisId]))
 {
+	UpdateTimestamp();
+
 	// Expand the array to fit this, if neccessary
 	while (m_AxisStates.size() <= AxisId)
 		m_AxisStates.push_back(Input::AxisState());
@@ -56,7 +60,7 @@ auto PointerState::UpdateAxisState(Input::InputId AxisId) -> decltype((m_AxisSta
 }
 
 // Returns true if any of the buttons are pressed, otherwise false
-bool PointerState::AnyButtonsPressed() const
+bool PointerState::IsAnyButtonsPressed() const
 {
 	for (const auto & ButtonState : m_ButtonStates)
 	{
@@ -65,4 +69,9 @@ bool PointerState::AnyButtonsPressed() const
 	}
 	
 	return false;
+}
+
+void PointerState::InvalidateTEST()
+{
+	m_Timestamp = -1000;
 }

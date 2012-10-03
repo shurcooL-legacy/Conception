@@ -25,7 +25,7 @@ void InitializeOpenGL()
 
 void DrawBox(Vector2n Position, Vector2n Size)
 {
-	DrawBox(Position, Size, Color(1, 1, 1));
+	DrawBox(Position, Size, Color(1.0, 1.0, 1.0));
 }
 void DrawBox(Vector2n Position, Vector2n Size, Color BackgroundColor)
 {
@@ -35,13 +35,6 @@ void DrawBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color Bord
 {
 	glDisable(GL_TEXTURE_2D);
 
-	/*glBegin(GL_LINE_LOOP);
-		glColor3d(0.3, 0.3, 0.3);
-		glVertex2d(X - 0.5, Y - 0.5);
-		glVertex2d(X - 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y - 0.5);
-	glEnd();*/
 	glBegin(GL_QUADS);
 		glColor3dv(BorderColor.GetComponents());
 		glVertex2i(Position.X(), Position.Y());
@@ -63,7 +56,7 @@ void DrawBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color Bord
 
 void DrawAroundBox(Vector2n Position, Vector2n Size)
 {
-	DrawAroundBox(Position, Size, Color(1, 1, 1));
+	DrawAroundBox(Position, Size, Color(1.0, 1.0, 1.0));
 }
 void DrawAroundBox(Vector2n Position, Vector2n Size, Color BackgroundColor)
 {
@@ -73,13 +66,6 @@ void DrawAroundBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Colo
 {
 	glDisable(GL_TEXTURE_2D);
 
-	/*glBegin(GL_LINE_LOOP);
-		glColor3d(0.3, 0.3, 0.3);
-		glVertex2d(X - 0.5, Y - 0.5);
-		glVertex2d(X - 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y + Height + 0.5);
-		glVertex2d(X + Width + 0.5, Y - 0.5);
-	glEnd();*/
 	glBegin(GL_QUADS);
 		glColor3dv(BorderColor.GetComponents());
 		glVertex2i(-1 + Position.X(), -1 + Position.Y());
@@ -99,6 +85,10 @@ void DrawAroundBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Colo
 	glEnable(GL_TEXTURE_2D);
 }
 
+void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor)
+{
+	DrawInnerBox(Position, Size, BackgroundColor, Color(0.3, 0.3, 0.3));
+}
 void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color BorderColor)
 {
 	if (   0 == Size.X()
@@ -138,18 +128,91 @@ void DrawInnerBox(Vector2n Position, Vector2n Size, Color BackgroundColor, Color
 	glEnable(GL_TEXTURE_2D);
 }
 
+// TODO: Make a more direct implementation
+void DrawInnerRoundedBox(Vector2n Position, Vector2n Size, uint32 Radius, Color BackgroundColor, Color BorderColor)
+{
+	DrawCircle(Position + Vector2n(Radius, Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
+	
+	if (   Size.X() < Radius * 2
+		|| Size.Y() < Radius * 2)
+	{
+		return;
+	}
+
+	DrawCircle(Position + Vector2n(Size.X(), 0) + Vector2n(-Radius, Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
+	DrawCircle(Position + Vector2n(0, Size.Y()) + Vector2n(Radius, -Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
+	DrawCircle(Position + Size - Vector2n(Radius, Radius), Vector2n(Radius * 2, Radius * 2), BackgroundColor, BorderColor);
+
+	{
+		Position += Vector2n(Radius, 0);
+		Size -= Vector2n(Radius * 2, 0);
+
+		// DUPLICATION: A tweaked copy of DrawBox()
+		{
+			glDisable(GL_TEXTURE_2D);
+
+			glBegin(GL_QUADS);
+				glColor3dv(BorderColor.GetComponents());
+				glVertex2i(Position.X(), Position.Y());
+				glVertex2i(Position.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y());
+			glEnd();
+
+			glBegin(GL_QUADS);
+				glColor3dv(BackgroundColor.GetComponents());
+				glVertex2i(Position.X(), +1 + Position.Y());
+				glVertex2i(Position.X(), -1 + Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), -1 + Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), +1 + Position.Y());
+			glEnd();
+
+			glEnable(GL_TEXTURE_2D);
+		}
+	}
+
+	{
+		Position += Vector2n(-Radius, Radius);
+		Size += Vector2n(Radius * 2, -Radius * 2);
+
+		// DUPLICATION: A tweaked copy of DrawBox()
+		{
+			glDisable(GL_TEXTURE_2D);
+
+			glBegin(GL_QUADS);
+				glColor3dv(BorderColor.GetComponents());
+				glVertex2i(Position.X(), Position.Y());
+				glVertex2i(Position.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y() + Size.Y());
+				glVertex2i(Position.X() + Size.X(), Position.Y());
+			glEnd();
+
+			glBegin(GL_QUADS);
+				glColor3dv(BackgroundColor.GetComponents());
+				glVertex2i(+1 + Position.X(), Position.Y());
+				glVertex2i(+1 + Position.X(), Position.Y() + Size.Y());
+				glVertex2i(-1 + Position.X() + Size.X(), Position.Y() + Size.Y());
+				glVertex2i(-1 + Position.X() + Size.X(), Position.Y());
+			glEnd();
+
+			glEnable(GL_TEXTURE_2D);
+		}
+	}
+}
+
 void DrawCircle(Vector2n Position, Vector2n Size)
 {
-	DrawCircle(Position, Size, Color(1, 1, 1));
+	DrawCircle(Position, Size, Color(1.0, 1.0, 1.0));
 }
 void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor)
 {
 	DrawCircle(Position, Size, BackgroundColor, Color(0.3, 0.3, 0.3));
 }
+// TODO: Make border radius true 1-point wide, even for low poly scenarios (by adjusting the inner radius intelligently, not just -1)
 void DrawCircle(Vector2n Position, Vector2n Size, Color BackgroundColor, Color BorderColor)
 {
 	glDisable(GL_TEXTURE_2D);
-	
+
 	const auto TwoPi = std::atan(1) * 8;
 
 	const uint32 x = 64;

@@ -12,7 +12,6 @@
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
 		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
-		2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
 		2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputHandler.cpp */; };
 		2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA69155465D90021D8EF /* InputManager.cpp */; };
@@ -62,6 +61,7 @@
 		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
 		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
+		2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
 		2AD87E9E15A7624F007719FA /* Utilities.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9D15A7624F007719FA /* Utilities.mm */; };
 		2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */; };
@@ -473,7 +473,6 @@
 				2A96BDF91540B0040010D618 /* window.c in Sources */,
 				2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */,
 				2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */,
-				2A4FFA99155465D90021D8EF /* ConceptionApp.cpp in Sources */,
 				2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */,
 				2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */,
 				2A4FFAA0155465D90021D8EF /* InputManager.cpp in Sources */,
@@ -510,6 +509,7 @@
 				2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */,
 				2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */,
 				2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */,
+				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

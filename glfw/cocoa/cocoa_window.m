@@ -636,12 +636,15 @@ static int convertMacKeyCode( unsigned int macKeyCode )
 
 - (void)scrollWheel:(NSEvent *)event
 {
-    _glfwInput.WheelPosFloating += [event deltaY];
-    _glfwInput.WheelPos = lrint( _glfwInput.WheelPosFloating );
+    _glfwInput.WheelPosFloating += [event scrollingDeltaY] * ([event hasPreciseScrollingDeltas] ? 1 : 10);
+	_glfwInput.WheelPosFloating2 += [event scrollingDeltaX] * ([event hasPreciseScrollingDeltas] ? 1 : 10);
+	//printf("Wheel float %f\n", _glfwInput.WheelPosFloating);
+    _glfwInput.WheelPos = (int)lrint( _glfwInput.WheelPosFloating );
+	_glfwInput.WheelPos2 = (int)lrint( _glfwInput.WheelPosFloating2 );		// Dmitri: Scroll second axis
 
     if( _glfwWin.mouseWheelCallback )
     {
-        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos, _glfwInput.WheelPos2 );
     }
 }
 
@@ -875,8 +878,8 @@ int  _glfwPlatformOpenWindow( int width, int height,
     NSPoint point = [_glfwWin.window mouseLocationOutsideOfEventStream];
 
     // Cocoa coordinate system has origin at lower left
-    _glfwInput.MousePosX = lround(floor(point.x));                      // Dmitri: Convert from floating point to integer values
-    _glfwInput.MousePosY = _glfwWin.height - lround(ceil(point.y));     // Dmitri: Using _glfwWin.height for consistency
+    _glfwInput.MousePosX = (int)lround(floor(point.x));                      // Dmitri: Convert from floating point to integer values
+    _glfwInput.MousePosY = _glfwWin.height - (int)lround(ceil(point.y));     // Dmitri: Using _glfwWin.height for consistency
 
     return GL_TRUE;
 }
