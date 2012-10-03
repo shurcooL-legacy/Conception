@@ -43,3 +43,8 @@ std::string glfwGetClipboardString()
 
 	return std::string([object UTF8String]);
 }
+
+void Beep()
+{
+	NSBeep();
+}

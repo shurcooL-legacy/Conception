@@ -120,6 +120,7 @@ void _glfwClearInput( void )
 
     // Set mouse wheel position to 0
     _glfwInput.WheelPos = 0;
+	_glfwInput.WheelPos2 = 0;
 
     // The default is to use non sticky keys and mouse buttons
     _glfwInput.StickyKeys = GL_FALSE;

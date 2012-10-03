@@ -17,9 +17,14 @@ public:
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:
-	ConceptString		m_Content;
+	ConceptString					m_Content;
+
+	ConceptString::size_type		m_CaretPosition;
 
 	TypingModule & m_TypingModule;
+
+	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
+	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
 };
 
 #endif // __ConceptStringBoxWidget_H__

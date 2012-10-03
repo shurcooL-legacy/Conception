@@ -12,6 +12,7 @@ public:
 	void Render() override;
 
 	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 	void ProcessManipulationStarted(const PointerState & PointerState) override;
@@ -19,6 +20,13 @@ public:
 	void ProcessManipulationCompleted(const PointerState & PointerState) override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
+
+	std::string GetContent() const;
+	void SetContent(std::string Content);
+
+	void SetBackground(Color BackgroundColor);
+
+	std::function<void()>				m_OnChange;
 
 private:
 	struct ContentLine
@@ -42,16 +50,20 @@ private:
 
 	TypingModule						& m_TypingModule;
 
+	Color								m_BackgroundColor;
+
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection);
-	std::string GetSelectionContent();
+	std::string GetSelectionContent() const;
 	bool EraseSelectionIfAny();
 	void UpdateContentLines();
 	uint32 GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber);
 	decltype(m_CaretPosition) GetNearestCaretPosition(Vector2n LocalPosition);
 	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX);
+
+	static bool IsCoreCharacter(uint8 Character);
 };
 
 #endif // __TextFieldWidget_H__

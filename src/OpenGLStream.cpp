@@ -3,7 +3,7 @@
 OpenGLStream::OpenGLStream(Vector2n CaretPosition)
 	: m_CaretPosition(CaretPosition),
 	  m_LineStartX(CaretPosition.X()),
-	  m_BackgroundColor(1, 1, 1)
+	  m_BackgroundColor(1.0, 1.0, 1.0)
 {
 }
 
@@ -13,21 +13,34 @@ OpenGLStream::~OpenGLStream()
 
 OpenGLStream & OpenGLStream::operator << (const ConceptId ConceptId)
 {
-	*this << Concepts[ConceptId];
+	*this << GetConcept(ConceptId);
+
+	return *this;
+}
+
+OpenGLStream & OpenGLStream::operator << (const Concept * Concept)
+{
+	*this << *Concept;
 
 	return *this;
 }
 
 OpenGLStream & OpenGLStream::operator << (const Concept & Concept)
 {
-	DrawInnerBox(m_CaretPosition, Vector2n(charWidth * static_cast<sint32>(Concept.m_Concept.size()), lineHeight), Color(233 / 255.0, 239 / 255.0, 250 / 255.0), Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
+	Concept.Draw(m_CaretPosition);
 
-	if (Concept.HasLabel(26))
-		glColor3d(0, 0, 1);
-	else
-		glColor3d(0, 0, 0);
+	m_CaretPosition.X() += Concept.GetDimensions().X();
+	m_CaretPosition.Y() += Concept.GetDimensions().Y() - lineHeight;
 
-	PrintLine(Concept.m_Concept.c_str());
+	return *this;
+}
+
+OpenGLStream & OpenGLStream::operator << (const ConceptInstance & ConceptInstance)
+{
+	ConceptInstance.Draw(m_CaretPosition);
+
+	m_CaretPosition.X() += ConceptInstance.GetDimensions().X();
+	m_CaretPosition.Y() += ConceptInstance.GetDimensions().Y() - lineHeight;
 
 	return *this;
 }
@@ -72,6 +85,19 @@ const Vector2n OpenGLStream::GetCaretPosition() const
 	return m_CaretPosition;
 }
 
+void OpenGLStream::Indent()
+{
+	m_CaretPosition.X() += 4 * charWidth;
+	m_LineStartX += 4 * charWidth;
+}
+
+void OpenGLStream::Unindent()
+{
+	m_CaretPosition.X() -= 4 * charWidth;
+	m_LineStartX -= 4 * charWidth;
+
+}
+
 // Prints a string that doesn't contain line breaks
 void OpenGLStream::PrintLine(const std::string & Line)
 {
@@ -95,7 +121,7 @@ void OpenGLStream::PrintLine(const std::string & Line)
 // Prints a segment that doesn't contain line breaks, tabs
 void OpenGLStream::PrintSegment(const std::string & Segment)
 {
-	if (Color(1, 1, 1) != m_BackgroundColor)
+	if (Color(1.0, 1.0, 1.0) != m_BackgroundColor)
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 		DrawBox(m_CaretPosition, Vector2n(static_cast<sint32>(Segment.length()) * charWidth, lineHeight), m_BackgroundColor, m_BackgroundColor);
@@ -108,7 +134,7 @@ void OpenGLStream::PrintSegment(const std::string & Segment)
 
 void OpenGLStream::NewLine()
 {
-	if (Color(1, 1, 1) != m_BackgroundColor)
+	if (Color(1.0, 1.0, 1.0) != m_BackgroundColor)
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 		DrawBox(m_CaretPosition, Vector2n(charWidth, lineHeight), m_BackgroundColor, m_BackgroundColor);
@@ -123,7 +149,7 @@ void OpenGLStream::Tab()
 {
 	auto NewCaretPositionX = m_LineStartX + (((m_CaretPosition.X() - m_LineStartX) / charWidth / 4) + 1) * 4 * charWidth;
 
-	if (Color(1, 1, 1) != m_BackgroundColor)
+	if (Color(1.0, 1.0, 1.0) != m_BackgroundColor)
 	{
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 		DrawBox(m_CaretPosition, Vector2n(NewCaretPositionX - m_CaretPosition.X(), lineHeight), m_BackgroundColor, m_BackgroundColor);
@@ -136,6 +162,6 @@ void OpenGLStream::Tab()
 OpenGLStream & endl(OpenGLStream & stream)
 {
 	stream.NewLine();
-	
+
 	return stream;
 }

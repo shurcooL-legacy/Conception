@@ -3,22 +3,21 @@
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
 TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	  m_OnChange(),
 	  m_Content(),
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
 	  m_CaretPosition(0),
 	  m_TargetCaretColumnX(0),
 	  m_SelectionPosition(0),
-	  m_TypingModule(TypingModule)
+	  m_TypingModule(TypingModule),
+	  m_BackgroundColor(static_cast<uint8>(255), 255, 255)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 
-	// DEBUG: Irregular starting state, for testing
-	{
-		m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
-		UpdateContentLines();
-	}
+	UpdateContentLines();		// This is here at least for resize
 }
 
 TextFieldWidget::~TextFieldWidget()
@@ -27,7 +26,8 @@ TextFieldWidget::~TextFieldWidget()
 
 void TextFieldWidget::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	//Color BackgroundColor(1.0, 1.0, 1.0);
+	Color BackgroundColor = m_BackgroundColor;
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -59,9 +59,27 @@ void TextFieldWidget::Render()
 	glEnd();*/
 	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
+	// TEST
+	auto ContentWithInsertion = m_Content;
+	if (!m_TypingModule.GetString().empty())
+	{
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		{
+			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			{
+				Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+				Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+				LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
+
+				auto InsertionPosition = GetNearestCaretPosition(LocalPosition);
+				ContentWithInsertion.insert(InsertionPosition, m_TypingModule.GetString());
+			}
+		}
+	}
+
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
-	OpenGLStream << m_Content.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
+	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
 	Vector2n CaretPosition;
 
@@ -71,19 +89,18 @@ void TextFieldWidget::Render()
 		CaretPosition = OpenGLStream.GetCaretPosition();
 	}
 
-	//if (CheckHover())
-	// HACK
+	// Draw selected text as highlighted
 	if (HasTypingFocus())
 	{
-		OpenGLStream.SetBackgroundColor(Color(195 / 255.0, 212 / 255.0, 242 / 255.0));
+		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(195), 212, 242));
 	}
 	else
 	{
-		OpenGLStream.SetBackgroundColor(Color(212 / 255.0, 212 / 255.0, 212 / 255.0));
+		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(212), 212, 212));
 	}
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
-	OpenGLStream << m_Content.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
-	OpenGLStream.SetBackgroundColor(Color(1, 1, 1));
+	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
+	OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
 
 	// Remember caret position at selection back
 	if (std::max(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
@@ -91,7 +108,7 @@ void TextFieldWidget::Render()
 		CaretPosition = OpenGLStream.GetCaretPosition();
 	}
 
-	OpenGLStream << m_Content.substr(std::max(m_CaretPosition, m_SelectionPosition));
+	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
 
 	//if (CheckHover())
 	// HACK
@@ -119,6 +136,34 @@ void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
+void TextFieldWidget::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+{
+	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
+	// DUPLICATION
+	{
+		// Skip non-spaces to the left
+		auto LookAt = m_CaretPosition - 1;
+		while (   LookAt != -1
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			--LookAt;
+		}
+
+		SetCaretPosition(LookAt + 1, true);
+	}
+	{
+		// Skip non-spaces to the right
+		auto LookAt = m_CaretPosition;
+		while (   LookAt < m_Content.length()
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			++LookAt;
+		}
+
+		SetCaretPosition(LookAt, false);
+	}
+}
+
 void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
 {
 	if (Character < 128u)
@@ -126,6 +171,7 @@ void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Cha
 		EraseSelectionIfAny();
 
 		m_Content.insert(m_CaretPosition, 1, static_cast<uint8>(Character));
+		UpdateContentLines();
 		MoveCaret(+1, true);
 
 		InputEvent.m_Handled = true;
@@ -162,7 +208,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	//if (CheckHover())
 	// HACK
 	//if (HasTypingFocus())
-	{
+	/*{
 		// TEST
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
 			&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
@@ -180,7 +226,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		&& &GetGestureRecognizer() != InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
 	{
 		return;
-	}
+	}*/
 
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
@@ -213,6 +259,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (m_CaretPosition > 0)
 							{
 								m_Content.erase(m_CaretPosition - 1, 1);
+								UpdateContentLines();
 								MoveCaret(-1, true);
 							}
 						}
@@ -227,6 +274,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (m_CaretPosition < m_Content.length())
 							{
 								m_Content.erase(m_CaretPosition, 1);
+								UpdateContentLines();
 							}
 						}
 					}
@@ -237,6 +285,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						EraseSelectionIfAny();
 
 						m_Content.insert(m_CaretPosition, 1, '\n');
+						UpdateContentLines();
 						MoveCaret(+1, true);
 					}
 					break;
@@ -245,6 +294,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						EraseSelectionIfAny();
 
 						m_Content.insert(m_CaretPosition, 1, '\t');
+						UpdateContentLines();
 						MoveCaret(+1, true);
 					}
 					break;
@@ -258,8 +308,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								UpdateContentLines();
-
 								std::vector<class ContentLine>::size_type LineNumber = 0;
 								std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -282,14 +330,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 									// Skip spaces to the left
 									auto LookAt = m_CaretPosition - 1;
 									while (   LookAt != -1
-										   && (' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && !IsCoreCharacter(m_Content[LookAt]))
 									{
 										--LookAt;
 									}
 
 									// Skip non-spaces to the left
 									while (   LookAt != -1
-										   && !(' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && IsCoreCharacter(m_Content[LookAt]))
 									{
 										--LookAt;
 									}
@@ -314,8 +362,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								UpdateContentLines();
-
 								std::vector<class ContentLine>::size_type LineNumber = 0;
 								std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -338,14 +384,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 									// Skip spaces to the right
 									auto LookAt = m_CaretPosition;
 									while (   LookAt < m_Content.length()
-										   && (' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && !IsCoreCharacter(m_Content[LookAt]))
 									{
 										++LookAt;
 									}
 
 									// Skip non-spaces to the right
 									while (   LookAt < m_Content.length()
-										   && !(' ' == m_Content[LookAt] || '\n' == m_Content[LookAt] || '\t' == m_Content[LookAt]))
+										   && IsCoreCharacter(m_Content[LookAt]))
 									{
 										++LookAt;
 									}
@@ -367,7 +413,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							SetCaretPosition(std::min(m_CaretPosition, m_SelectionPosition), true);
 						}
 
-						MoveCaretVerticallyTry(-1, !ShiftActive);
+						if (SuperActive)
+						{
+							SetCaretPosition(0, !ShiftActive);		// Go to home
+						}
+						else
+						{
+							MoveCaretVerticallyTry(-1, !ShiftActive);
+						}
 					}
 					break;
 				case GLFW_KEY_DOWN:
@@ -377,7 +430,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							SetCaretPosition(std::max(m_CaretPosition, m_SelectionPosition), true);
 						}
 
-						MoveCaretVerticallyTry(+1, !ShiftActive);
+						if (SuperActive)
+						{
+							SetCaretPosition(m_Content.length(), !ShiftActive);		// Go to end
+						}
+						else
+						{
+							MoveCaretVerticallyTry(+1, !ShiftActive);
+						}
 					}
 					break;
 				case 'A':
@@ -396,8 +456,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								//glfwSetClipboardString(GetSelectionContent());
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								glfwSetClipboardString(GetSelectionContent());
+#else
 								m_TypingModule.SetString(GetSelectionContent());
+#endif
 
 								EraseSelectionIfAny();
 							}
@@ -410,8 +473,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!GetSelectionContent().empty())
 							{
-								//glfwSetClipboardString(GetSelectionContent());
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								glfwSetClipboardString(GetSelectionContent());
+#else
 								m_TypingModule.SetString(GetSelectionContent());
+#endif
 							}
 						}
 					}
@@ -424,12 +490,17 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							{
 								EraseSelectionIfAny();
 
-								//m_Content.insert(m_CaretPosition, glfwGetClipboardString());
-								//MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+								m_Content.insert(m_CaretPosition, glfwGetClipboardString());
+								UpdateContentLines();
+								MoveCaret(static_cast<sint32>(glfwGetClipboardString().length()), true);
+#else
 								auto Entry = m_TypingModule.TakeString();
 
 								m_Content.insert(m_CaretPosition, Entry);
+								UpdateContentLines();
 								MoveCaret(static_cast<sint32>(Entry.length()), true);
+#endif
 							}
 						}
 					}
@@ -455,6 +526,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 						Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+						LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
 
 						auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
@@ -467,6 +539,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							if (!Entry.empty())
 							{
 								m_Content.insert(m_CaretPosition, Entry);
+								UpdateContentLines();
 								SetCaretPosition(GetNearestCaretPosition(LocalPosition), true);
 							}
 						}
@@ -488,10 +561,6 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 			{
 				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
-				if (LocalPosition.X() < 0)
-					LocalPosition.X() = 0;
-				if (LocalPosition.Y() < 0)
-					LocalPosition.Y() = 0;
 
 				auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
@@ -499,6 +568,28 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 			}
 		}
 	}
+}
+
+std::string TextFieldWidget::GetContent() const
+{
+	return m_Content;
+}
+
+void TextFieldWidget::SetContent(std::string Content)
+{
+	/*if (m_SelectionPosition > Content.length())
+		m_SelectionPosition = Content.length();
+	if (m_CaretPosition > Content.length())
+		SetCaretPosition(Content.length(), false);*/
+	SetCaretPosition(0, true);		// Reset caret position to home
+
+	m_Content = Content;
+	UpdateContentLines();
+}
+
+void TextFieldWidget::SetBackground(Color BackgroundColor)
+{
+	m_BackgroundColor = BackgroundColor;
 }
 
 void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)
@@ -512,8 +603,6 @@ void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, 
 
 	if (UpdateTargetCaretColumn)
 	{
-		UpdateContentLines();
-
 		std::vector<class ContentLine>::size_type LineNumber = 0;
 		std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -548,8 +637,6 @@ void TextFieldWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
 
 void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection)
 {
-	UpdateContentLines();
-
 	std::vector<class ContentLine>::size_type LineNumber = 0;
 	std::vector<class ContentLine>::size_type ColumnNumber = 0;
 
@@ -582,7 +669,7 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 	}
 }
 
-std::string TextFieldWidget::GetSelectionContent()
+std::string TextFieldWidget::GetSelectionContent() const
 {
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
@@ -597,6 +684,7 @@ bool TextFieldWidget::EraseSelectionIfAny()
 	if (0 != SelectionLength)
 	{
 		m_Content.erase(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
+		UpdateContentLines();
 
 		SetCaretPosition(std::min(m_CaretPosition, m_SelectionPosition), true);
 	}
@@ -628,6 +716,11 @@ void TextFieldWidget::UpdateContentLines()
 	// TEST: Resize the widget to accomodate text width
 	ModifyDimensions().X() = std::max<sint32>(static_cast<sint32>(m_MaxLineLength * charWidth), 3 * charWidth);
 	ModifyDimensions().Y() = std::max<sint32>(static_cast<sint32>(m_ContentLines.size()) * lineHeight, 1 * lineHeight);
+
+	if (nullptr != m_OnChange)
+	{
+		m_OnChange();
+	}
 }
 
 uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)
@@ -661,15 +754,18 @@ uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_t
 
 decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(Vector2n LocalPosition)
 {
-	uint32 LineNumber = LocalPosition.Y() / lineHeight;
+	if (LocalPosition.X() < 0)
+		LocalPosition.X() = 0;
+	if (LocalPosition.Y() < 0)
+		LocalPosition.Y() = 0;
+
+	uint32 LineNumber = static_cast<uint32>(LocalPosition.Y()) / lineHeight;
 
 	return GetNearestCaretPosition(LineNumber, static_cast<uint32>(LocalPosition.X()));
 }
 
 decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX)
 {
-	UpdateContentLines();
-
 	// Calculate nearest caret position
 	if (LineNumber > m_ContentLines.size() - 1)
 		LineNumber = m_ContentLines.size() - 1;
@@ -715,4 +811,12 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	}
 
 	return (m_ContentLines[LineNumber].m_StartPosition + CharacterNumber);
+}
+
+bool TextFieldWidget::IsCoreCharacter(uint8 Character)
+{
+	return (   ('a' <= Character && Character <= 'z')
+			|| ('A' <= Character && Character <= 'Z')
+			|| ('1' <= Character && Character <= '0')
+			|| '_' == Character);
 }

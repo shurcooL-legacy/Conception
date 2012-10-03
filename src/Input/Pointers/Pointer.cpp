@@ -56,7 +56,7 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
 
 				// If no buttons were pressed thus far, then the pointer is getting activated
-				if (Pressed && !InputEvent.m_Pointer->GetPointerState().AnyButtonsPressed())
+				if (Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessActivation(InputEvent);
 				}
@@ -64,7 +64,7 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				InputEvent.m_Pointer->ModifyPointerState().UpdateButtonState(ButtonId) = Pressed;
 
 				// If no buttons are pressed anymore, then the pointer is getting deactivated
-				if (!Pressed && !InputEvent.m_Pointer->GetPointerState().AnyButtonsPressed())
+				if (!Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessDeactivation(InputEvent);
 				}
@@ -96,13 +96,15 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 
 void Pointer::ProcessTimePassed(const double TimePassed)
 {
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::CANVAS_MOVED_TEST);
-	InputEvent.m_Pointer = this;
-
 	// TODO: Make this event only occur when needed rather than always
 	// DECISION
-	InputEvent.m_Pointer->ProcessEvent(InputEvent);
+	{
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::CANVAS_MOVED_TEST);
+		InputEvent.m_Pointer = this;
+
+		InputEvent.m_Pointer->ProcessEvent(InputEvent);
+	}
 }
 
 const PointerMapping & Pointer::GetPointerMapping()

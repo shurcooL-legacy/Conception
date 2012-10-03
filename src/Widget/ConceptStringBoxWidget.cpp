@@ -1,15 +1,16 @@
 #include "../Main.h"
 
 ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
-	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	: Widget(Position, Vector2n(500, 15 * lineHeight)),
 	  m_Content(),
+	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	
+
 	// DEBUG: Irregular starting state, for testing
 	{
-		m_Content.push_back(FindConcept("int"));
+		/*m_Content.push_back(FindConcept("int"));
 		m_Content.push_back(FindConcept("main"));
 		m_Content.push_back(FindConcept("("));
 		m_Content.push_back(FindConcept("int"));
@@ -19,7 +20,6 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindConcept("*"));
 		m_Content.push_back(FindConcept("argv"));
 		m_Content.push_back(FindConcept(")"));
-		m_Content.push_back(FindConcept(";"));
 		m_Content.push_back(FindConcept("{"));
 		m_Content.push_back(17);
 		m_Content.push_back(FindConcept("("));
@@ -28,7 +28,37 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(FindConcept("return"));
 		m_Content.push_back(FindConcept("0"));
 		m_Content.push_back(FindConcept(";"));
-		m_Content.push_back(FindConcept("}"));
+		m_Content.push_back(FindConcept("}"));*/
+
+		/*
+		// Skip non-spaces to the right
+		auto LookAt = m_CaretPosition;
+		while (   LookAt < m_Content.length()
+			   && IsCoreCharacter(m_Content[LookAt]))
+		{
+			++LookAt;
+		}
+		
+		SetCaretPosition(LookAt, false);
+		*/
+
+		/*m_Content.push_back(FindOrCreateConcept("// Skip non-spaces to the right"));
+		m_Content.push_back(FindOrCreateConcept("auto LookAt = m_CaretPosition;"));
+		m_Content.push_back(FindOrCreateConcept("while ("));
+		m_Content.push_back(FindOrCreateConcept("   LookAt < m_Content.length()\n&& IsCoreCharacter(m_Content[LookAt])"));
+		m_Content.push_back(FindOrCreateConcept(")"));
+		m_Content.push_back(FindOrCreateConcept("{"));
+		m_Content.push_back(FindOrCreateConcept("++LookAt;"));
+		m_Content.push_back(FindOrCreateConcept("}"));
+		m_Content.push_back(FindOrCreateConcept(""));
+		m_Content.push_back(FindOrCreateConcept("SetCaretPosition(LookAt, false);"));*/
+
+		//m_Content.push_back(37);
+		/*m_Content.push_back(38);
+		m_Content.push_back(ConceptInstance(38, {33}));
+		m_Content.push_back(ConceptInstance(39, {33}));*/
+		//m_Content.push_back(ConceptInstance(40, {36, 28}));
+		m_Content.push_back(LastConceptId());
 	}
 }
 
@@ -38,7 +68,7 @@ ConceptStringBoxWidget::~ConceptStringBoxWidget()
 
 void ConceptStringBoxWidget::Render()
 {
-	Color BackgroundColor(1, 1, 1);
+	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -72,9 +102,32 @@ void ConceptStringBoxWidget::Render()
 
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
-	OpenGLStream << m_Content;
+	//OpenGLStream << m_Content.substr(0, m_CaretPosition);
+	// TODO: Optimize this somehow?
+	OpenGLStream << decltype(m_Content)(m_Content.begin(), m_Content.begin() + m_CaretPosition);
+
+	// TEST
+	if (!m_TypingModule.GetString().empty())
+	{
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		{
+			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			{
+				//Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+				//Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+
+				//auto ConceptId = FindOrCreateConcept(Entry);
+
+				OpenGLStream << m_TypingModule.GetString();
+			}
+		}
+	}
 
 	Vector2n CaretPosition = OpenGLStream.GetCaretPosition();
+
+	//OpenGLStream << m_Content.substr(m_CaretPosition);
+	// TODO: Optimize this somehow?
+	OpenGLStream << decltype(m_Content)(m_Content.begin() + m_CaretPosition, m_Content.end());
 
 	//if (CheckHover())
 	// HACK
@@ -130,7 +183,7 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 				switch (ButtonId)
 				{
 				case GLFW_KEY_BACKSPACE:
-					{
+					/*{
 						// Erase the last concept
 						if (false == m_Content.empty())
 						{
@@ -138,7 +191,7 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 
 						InputEvent.m_Handled = true;
-					}
+					}*/
 					break;
 				case GLFW_KEY_ENTER:
 					{
@@ -146,6 +199,16 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 					break;
 				case GLFW_KEY_TAB:
 					{
+					}
+					break;
+				case GLFW_KEY_LEFT:
+					{
+						MoveCaretTry(-1, true);
+					}
+					break;
+				case GLFW_KEY_RIGHT:
+					{
+						MoveCaretTry(+1, true);
 					}
 					break;
 				default:
@@ -173,7 +236,12 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (!m_Content.empty())
 							{
-								m_TypingModule.SetString(Concepts[m_Content.back()].m_Concept);
+								if (m_CaretPosition >= m_Content.size())
+								{
+									MoveCaretTry(-1, true);
+								}
+
+								m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
 								m_Content.pop_back();
 							}
 						}
@@ -184,5 +252,19 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 				}
 			}
 		}
+	}
+}
+
+void ConceptStringBoxWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)
+{
+	m_CaretPosition = CaretPosition;
+}
+
+void ConceptStringBoxWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
+{
+	if (   (MoveAmount < 0 && -MoveAmount <= m_CaretPosition)
+		|| (MoveAmount > 0 && m_CaretPosition + MoveAmount <= m_Content.size()))
+	{
+		SetCaretPosition(m_CaretPosition + MoveAmount, ResetSelection);
 	}
 }

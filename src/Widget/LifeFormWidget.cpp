@@ -19,12 +19,12 @@ void LifeFormWidget::Render()
 {
 	const Color Colors[] =
 	{
-		Color(0 / 255.0, 140 / 255.0, 0 / 255.0),
-		Color(0 / 255.0, 98 / 255.0, 140 / 255.0),
-		Color(194 / 255.0, 74 / 255.0, 0 / 255.0),
-		Color(89 / 255.0, 0 / 255.0, 140 / 255.0),
-		Color(191 / 255.0, 150 / 255.0, 0 / 255.0),
-		Color(140 / 255.0, 0 / 255.0, 0 / 255.0)
+		Color(static_cast<uint8>(0), 140, 0),
+		Color(static_cast<uint8>(0), 98, 140),
+		Color(static_cast<uint8>(194), 74, 0),
+		Color(static_cast<uint8>(89), 0, 140),
+		Color(static_cast<uint8>(191), 150, 0),
+		Color(static_cast<uint8>(140), 0, 0)
 	};
 	
 	Color BackgroundColor(Colors[m_Color]);
