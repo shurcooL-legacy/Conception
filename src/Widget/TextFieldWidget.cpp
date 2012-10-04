@@ -577,13 +577,19 @@ std::string TextFieldWidget::GetContent() const
 
 void TextFieldWidget::SetContent(std::string Content)
 {
-	/*if (m_SelectionPosition > Content.length())
-		m_SelectionPosition = Content.length();
 	if (m_CaretPosition > Content.length())
-		SetCaretPosition(Content.length(), false);*/
-	SetCaretPosition(0, true);		// Reset caret position to home
+		SetCaretPosition(Content.length(), false);
+	if (m_SelectionPosition > Content.length())
+		m_SelectionPosition = Content.length();
+	//SetCaretPosition(0, true);		// Reset caret position to home
 
 	m_Content = Content;
+	UpdateContentLines();
+}
+
+void TextFieldWidget::AppendContent(std::string ExtraContent)
+{
+	m_Content += ExtraContent;
 	UpdateContentLines();
 }
 

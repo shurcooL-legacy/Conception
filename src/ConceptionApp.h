@@ -25,6 +25,13 @@ private:
 
 	TextFieldWidget * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
+
+	volatile uint8	m_BackgroundState;
+	volatile pid_t	m_LastPid;
+	int				m_PipeFd[2];
+	Thread			m_BackgroundThread;
+
+	static void GLFWCALL BackgroundThread(void * pArgument);
 };
 
 #endif // __ConceptionApp_H__

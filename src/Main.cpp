@@ -127,57 +127,59 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	InputManager InputManager;
-	g_InputManager = &InputManager;
-
-	ConceptionApp MainApp(InputManager);
-	//ConceptionTestApp MainApp(InputManager);
-	//MultitouchTestApp MainApp(InputManager);
-	//SentienceApp MainApp(InputManager);
-
-	// Perform the layout of UI widgets
-	MainApp.Layout();
-
-	// OpenGL settings
-	InitializeOpenGL();
-
-	std::cout << std::endl;		// Done loading
-
-	// Main loop
-	while (glfwGetWindowParam(GLFW_OPENED))
 	{
-		auto CurrentTime = glfwGetTime();
-		static auto LastTime = CurrentTime;
-		auto TimePassed = CurrentTime - LastTime;
-		LastTime = CurrentTime;
+		InputManager InputManager;
+		g_InputManager = &InputManager;
 
-		// DEBUG: Moved to top of loop to enable debug printing from input handling code
-		glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
+		ConceptionApp MainApp(InputManager);
+		//ConceptionTestApp MainApp(InputManager);
+		//MultitouchTestApp MainApp(InputManager);
+		//SentienceApp MainApp(InputManager);
 
-		// Process input
+		// Perform the layout of UI widgets
+		MainApp.Layout();
+
+		// OpenGL settings
+		InitializeOpenGL();
+
+		std::cout << std::endl;		// Done loading
+
+		// Main loop
+		while (glfwGetWindowParam(GLFW_OPENED))
 		{
-			glfwPollEvents();
-			InputManager.ProcessTimePassed(TimePassed);
-		}
+			auto CurrentTime = glfwGetTime();
+			static auto LastTime = CurrentTime;
+			auto TimePassed = CurrentTime - LastTime;
+			LastTime = CurrentTime;
 
-		// Render
-		{
 			// DEBUG: Moved to top of loop to enable debug printing from input handling code
-			///glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
+			glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
 
-			MainApp.Render();
-		}
+			// Process input
+			{
+				glfwPollEvents();
+				InputManager.ProcessTimePassed(TimePassed);
+			}
 
-		// Display new frame
-		glfwSwapBuffers();
-		//glFinish();
+			// Render
+			{
+				// DEBUG: Moved to top of loop to enable debug printing from input handling code
+				///glClear(GL_COLOR_BUFFER_BIT);		// Clear frame
 
-		///printf("%f ms frame\n", TimePassed * 1000);
+				MainApp.Render();
+			}
 
-		// Use less CPU in background
-		if (!glfwGetWindowParam(GLFW_ACTIVE))
-		{
-			glfwSleep(0.100);
+			// Display new frame
+			glfwSwapBuffers();
+			//glFinish();
+
+			///printf("%f ms frame\n", TimePassed * 1000);
+
+			// Use less CPU in background
+			if (!glfwGetWindowParam(GLFW_ACTIVE))
+			{
+				glfwSleep(0.100);
+			}
 		}
 	}
 
@@ -188,5 +190,6 @@ int main(int argc, char * argv[])
 	OglUtilsKillFont();
 	glfwTerminate();
 
+	std::cout << "\nReturning 0 from main().\n";
 	return 0;
 }

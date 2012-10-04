@@ -23,6 +23,7 @@ public:
 
 	std::string GetContent() const;
 	void SetContent(std::string Content);
+	void AppendContent(std::string ExtraContent);
 
 	void SetBackground(Color BackgroundColor);
 

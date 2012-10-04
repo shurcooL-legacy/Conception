@@ -30,6 +30,7 @@
 #if defined(__APPLE__) && defined(__MACH__)
 #	include <sys/types.h>
 #	include <unistd.h>
+#	include <signal.h>
 #endif
 
 #include <GL/glfw.h>
@@ -202,6 +203,7 @@ extern InputManager * g_InputManager;
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
 #include "Canvas.h"
+#include "Thread.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "ConceptionTestApp.h"

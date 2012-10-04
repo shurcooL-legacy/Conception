@@ -1,10 +1,20 @@
 #include "Main.h"
 
+#include <fcntl.h>
+
 ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject(),
-	  m_TypingModule()
+	  m_TypingModule(),
+	  m_SourceWidget(nullptr),
+	  m_OutputWidget(nullptr),
+	  m_BackgroundState(0),
+	  m_LastPid(0),
+	  m_PipeFd(),
+	  m_BackgroundThread(&ConceptionApp::BackgroundThread, this, "Background")
 {
+	m_PipeFd[0] = m_PipeFd[1] = -1;
+
 	PopulateConcepts();
 
 	{
@@ -72,12 +82,40 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
 
 				m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-				uint8 Status;
+				/*uint8 Status;
 				m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
 				if (0 == Status)
 					m_OutputWidget->SetBackground(Color(1.0, 1, 1));
 				else
-					m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+					m_OutputWidget->SetBackground(Color(1.0, 0, 0));*/
+
+				//m_CurrentProject.RunProgram(m_OutputWidget);
+
+				m_BackgroundState = 0;
+
+				// Kill child processes
+				if (0 != m_LastPid)
+				{
+					std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
+					//auto Result = kill(0, SIGTERM);
+					auto Result = killpg(m_LastPid, SIGKILL);
+					//waitpid(m_LastPid, NULL, 0);
+
+					if (0 != Result) {
+						std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+						//throw 0;
+					}
+				}
+
+				std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
+				close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
+				m_PipeFd[0] = m_PipeFd[1] = -1;
+				pipe(m_PipeFd);
+				fcntl(m_PipeFd[0], F_SETFL, O_NONBLOCK);
+				std::cout << "opened " << m_PipeFd[0] << " and " << m_PipeFd[1] << ".\n";
+
+				m_OutputWidget->SetContent("");
+				m_BackgroundState = 1;
 			};
 
 			//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
@@ -111,6 +149,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 	}
 
+	// Prepare and start the thread
+	{
+		m_BackgroundThread.Start();
+	}
+
 	{
 		// Load program
 		m_CurrentProject.LoadSampleGenProgram(*static_cast<Canvas *>(m_Widgets[0].get()));
@@ -119,7 +162,131 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 ConceptionApp::~ConceptionApp()
 {
+	// Close pipes
+	{
+		close(m_PipeFd[0]);
+		close(m_PipeFd[1]);
+
+		// Kill child processes
+		if (0 != m_LastPid)
+		{
+			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
+			//auto Result = kill(0, SIGTERM);
+			auto Result = killpg(m_LastPid, SIGKILL);
+			//waitpid(m_LastPid, NULL, 0);
+
+			if (0 != Result) {
+				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+				//throw 0;
+			}
+		}
+	}
+
 	CleanConcepts();
+}
+
+void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
+{
+	Thread * Thread = Thread::GetThisThreadAndRevertArgument(pArgument);
+
+	auto App = static_cast<ConceptionApp *>(pArgument);
+
+	// Main loop
+	while (Thread->ShouldBeRunning())
+	{
+		glfwSleep(0);
+
+		if (0 == App->m_BackgroundState)
+			continue;
+
+		if (1 == App->m_BackgroundState)
+			App->m_BackgroundState = 2;
+
+		auto PipeFd = App->m_PipeFd[1];
+		auto Write = [&](std::string String) {
+			//App->m_OutputWidget->AppendContent(String);
+			write(PipeFd, String.c_str(), String.length());
+		};
+
+		/*Write("Compiling ");
+		for (int i = 0; i < 15; ++i) {
+			Write(".");
+			glfwSleep(0.2);
+		}
+		Write(" Done.\n");*/
+		{
+			auto pid = fork();
+
+			if (0 == pid)
+			{
+				close(App->m_PipeFd[0]);    // close reading end in the child
+
+				dup2(App->m_PipeFd[1], 1);  // send stdout to the pipe
+				dup2(App->m_PipeFd[1], 2);  // send stderr to the pipe
+
+				close(App->m_PipeFd[1]);    // this descriptor is no longer needed
+
+				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
+				execl("/usr/local/go/bin/go", "go", "run", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/GenProgram.go", (char *)0);
+
+				//exit(1);		// Not needed, just in case I comment out the above
+			}
+			else if (-1 == pid)
+			{
+				std::cout << "Error forking.\n";
+			}
+			else
+			{
+				App->m_LastPid = pid;
+
+				std::cout << "Before: " << getpgid(pid) << ".\n";
+				//setpgrp();
+				setpgid(pid, pid);
+				std::cout << "After: " << getpgid(pid) << ".\n";
+
+				std::string str;
+
+				std::cout << "In parent, created pid " << pid << ".\n";
+
+				//OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
+
+				close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
+
+				// Wait for child process to complete
+				{
+					//sleep(3);
+					int status;
+					waitpid(pid, &status, 0);
+					App->m_LastPid = 0;
+
+					std::cout << "Child finished with status " << status << ".\n";
+
+					// If killed, just skip
+					if (   WIFSIGNALED(status)
+						&& 9 == WTERMSIG(status))
+					{
+						continue;
+					}
+
+					uint8 Status = static_cast<uint8>(status >> 8);
+
+					if (0 == Status)
+						App->m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+					else
+						App->m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+				}
+				
+				std::cout << "Done in parent!\n";
+			}
+		}
+
+		if (2 == App->m_BackgroundState)
+			App->m_BackgroundState = 0;
+	}
+
+	Thread->ThreadEnded();
 }
 
 void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
@@ -130,6 +297,28 @@ void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 
 void ConceptionApp::Render()
 {
+	// TEST: This should go to ProcessTimePassed() or something
+	{
+		char buffer[1024];
+		ssize_t n;
+		while (0 != (n = read(m_PipeFd[0], buffer, sizeof(buffer))))
+		{
+			if (-1 == n) {
+				if (EAGAIN == errno)
+					break;
+				else {
+					std::cerr << "Error: " << errno << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::string str(buffer, n);
+				m_OutputWidget->AppendContent(str);
+			}
+		}
+	}
+
 	App::Render();
 
 	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()
@@ -155,17 +344,16 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 					switch (ButtonId)
 					{
 					//case GLFW_KEY_F5:
-					case 'R':
+					/*case 'R':
 						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
 							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
 						{
 							m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-							uint8 Status;
-							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
+							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));
 
 							InputEvent.m_Handled = true;
 						}
-						break;
+						break;*/
 					// TEST
 					/*case 'B':
 						//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))

@@ -67,6 +67,7 @@
 		2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */; };
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
+		2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF414EC161C9674002BDC1B /* Thread.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
 /* End PBXBuildFile section */
 
@@ -190,6 +191,8 @@
 		2ADBF3C815840A19007BDF94 /* FunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionWidget.h; sourceTree = "<group>"; };
 		2ADBF3CF15841AF3007BDF94 /* Function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Function.cpp; sourceTree = "<group>"; };
 		2ADBF3D015841AF3007BDF94 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = Function.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2AF414EC161C9674002BDC1B /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = src/Thread.cpp; sourceTree = SOURCE_ROOT; };
+		2AF414ED161C9674002BDC1B /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = src/Thread.h; sourceTree = SOURCE_ROOT; };
 		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
 		2AF419651563F81C0076E6E5 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = src/Vector2.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -339,6 +342,8 @@
 				2A4FFA85155465D90021D8EF /* RenderTools.h */,
 				2A21998A15C8857100867486 /* SentienceApp.cpp */,
 				2A21998B15C8857100867486 /* SentienceApp.h */,
+				2AF414EC161C9674002BDC1B /* Thread.cpp */,
+				2AF414ED161C9674002BDC1B /* Thread.h */,
 				2AD87E9B15A7600F007719FA /* Utilities.cpp */,
 				2AD87E9915A75FF3007719FA /* Utilities.h */,
 				2AD87E9D15A7624F007719FA /* Utilities.mm */,
@@ -510,6 +515,7 @@
 				2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */,
 				2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */,
 				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
+				2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

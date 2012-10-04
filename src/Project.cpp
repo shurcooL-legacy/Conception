@@ -97,11 +97,13 @@ void Project::GenerateProgram(std::string ProgramContent = "")
 	Out << ProgramContent;
 }
 
-void GLFWCALL RunProgramThread(void *)
+volatile pid_t LastPid = 0;
+
+void GLFWCALL RunProgramThread(void * Parameter)
 {
 	// TODO: Figure out if I can clean up the temporary files after execution finishes (i.e. by waiting for ./GenProgram.command process to finish)
 	//auto Command = "clang++ ./GenProgram.cpp -o ./GenProgram.command ; open ./GenProgram.command ; sleep 1 ; rm ./GenProgram.cpp ./GenProgram.command";
-	auto Command = "/usr/local/go/bin/go run ./GenProgram.go > out.txt";// ; sleep 1 ; rm ./GenProgram.go";
+	//auto Command = "/usr/local/go/bin/go run ./GenProgram.go > out.txt";// ; sleep 1 ; rm ./GenProgram.go";
 	//auto Command = "go run GenProgram.go > out.txt";
 	//auto Command = "echo -n conc > out.txt";
 	//auto Command = "./print-args -n \"Conc eption\" > out.txt";
@@ -113,28 +115,24 @@ void GLFWCALL RunProgramThread(void *)
 
 	//std::cout << "Launching " << Command << std::endl;
 	//throw 0;
-	std::system(Command);
-}
+	//std::system(Command);
 
-std::string Project::RunProgram(uint8 & Status)
-{
-	std::string str;
+	TextFieldWidget * OutputWidget = static_cast<TextFieldWidget *>(Parameter);
 
-#ifdef WIN32
-	STARTUPINFO StartupInfo;
-	memset(&StartupInfo, 0, sizeof(StartupInfo));
-	StartupInfo.cb = sizeof(StartupInfo);
-
-	PROCESS_INFORMATION ProcessInfo;
-	memset(&ProcessInfo, 0, sizeof(ProcessInfo));
-
-	LPTSTR CommandLine = "cmd.exe /C \"C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat\" amd64 & (cl GenProgram.cpp >NUL 2>NUL && GenProgram || echo Compilation error.) & pause & del GenProgram.*";
-	auto Result = CreateProcess(NULL, CommandLine, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &StartupInfo, &ProcessInfo);
-#elif defined(__APPLE__) && defined(__MACH__)
-	//glfwCreateThread(&RunProgramThread, nullptr);
-	//system("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/launcher");
-	if (1)
 	{
+		if (0 != LastPid)
+		{
+			std::cout << "Sending kill to last child pid " << LastPid << ".\n";
+			//auto Result = kill(0, SIGTERM);
+			auto Result = killpg(LastPid, SIGKILL);
+			waitpid(LastPid, NULL, 0);
+
+			if (0 != Result) {
+				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+				//throw 0;
+			}
+		}
+
 		int pipefd[2];
 		pipe(pipefd);
 
@@ -152,7 +150,7 @@ std::string Project::RunProgram(uint8 & Status)
 			//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 			//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 			//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-			execl("/usr/local/go/bin/go", "go", "run", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/GenProgram.go", (char *)0);
+			execl("/usr/local/go/bin/go", "go", "build", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/GenProgram.go", (char *)0);
 
 			//exit(1);		// Not needed, just in case I comment out the above
 		}
@@ -162,17 +160,20 @@ std::string Project::RunProgram(uint8 & Status)
 		}
 		else
 		{
+			LastPid = pid;
+
+			std::cout << "Before: " << getpgid(pid) << ".\n";
+			//setpgrp();
+			setpgid(pid, pid);
+			std::cout << "After: " << getpgid(pid) << ".\n";
+
+			std::string str;
+
 			std::cout << "In parent, created pid " << pid << ".\n";
 
+			//OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
+
 			close(pipefd[1]);  // close the write end of the pipe in the parent
-
-			// Wait for child process to complete
-			{
-				int status;
-				waitpid(pid, &status, 0);
-
-				Status = static_cast<uint8>(status >> 8);
-			}
 
 			char buffer[1024];
 			ssize_t n;
@@ -182,26 +183,53 @@ std::string Project::RunProgram(uint8 & Status)
 					std::cout << "Error: " << errno << std::endl;
 				else
 				{
-					/*std::cout << "Read " << n << " chars from pipe: >";
-					for (int i = 0; i < n; ++i) {
-						std::cout << buffer[i];
-					}
-					std::cout << "<\n";*/
-
 					str.append(buffer, n);
+					OutputWidget->SetContent(str);
 				}
+			}
+
+			// Wait for child process to complete
+			{
+				//sleep(3);
+				int status;
+				waitpid(pid, &status, 0);
+				LastPid = 0;
+
+				std::cout << "Child finished with status " << status << ".\n";
+
+				// If killed, just return
+				if (   WIFSIGNALED(status)
+					&& 9 == WTERMSIG(status))
+				{
+					return;
+				}
+
+				uint8 Status = static_cast<uint8>(status >> 8);
+
+				if (0 == Status)
+					OutputWidget->SetBackground(Color(1.0, 1, 1));
+				else
+					OutputWidget->SetBackground(Color(1.0, 0, 0));
 			}
 
 			std::cout << "Done in parent!\n";
 		}
 	}
-	/*else
-	{
-		//system("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args I dont know\\ whatever");
-		auto Result = system("/usr/local/go/bin/go run /Users/Dmitri/Desktop/launcher.go");
-		std::cout << "System returns " << Result << endl;
-	}*/
-#endif
+}
 
-	return str;
+void Project::RunProgram(TextFieldWidget * OutputWidget)
+{
+#ifdef WIN32
+	STARTUPINFO StartupInfo;
+	memset(&StartupInfo, 0, sizeof(StartupInfo));
+	StartupInfo.cb = sizeof(StartupInfo);
+
+	PROCESS_INFORMATION ProcessInfo;
+	memset(&ProcessInfo, 0, sizeof(ProcessInfo));
+
+	LPTSTR CommandLine = "cmd.exe /C \"C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\vcvarsall.bat\" amd64 & (cl GenProgram.cpp >NUL 2>NUL && GenProgram || echo Compilation error.) & pause & del GenProgram.*";
+	auto Result = CreateProcess(NULL, CommandLine, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &StartupInfo, &ProcessInfo);
+#elif defined(__APPLE__) && defined(__MACH__)
+	//glfwCreateThread(&RunProgramThread, OutputWidget);
+#endif
 }
