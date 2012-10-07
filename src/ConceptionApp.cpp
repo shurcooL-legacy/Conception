@@ -74,6 +74,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(200, -200), m_TypingModule));
 		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-400, -200), m_TypingModule));
 
+		/*auto Test = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule);
+		MainCanvas->AddWidget(Test);
+		Test->m_OnChange = [](){ std::cout << "Change.\n"; };*/
+
 		// DEBUG: Irregular starting state, for testing
 		{
 			m_SourceWidget->m_OnChange = [&]()
@@ -110,9 +114,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
 				close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
 				m_PipeFd[0] = m_PipeFd[1] = -1;
-				pipe(m_PipeFd);
-				fcntl(m_PipeFd[0], F_SETFL, O_NONBLOCK);
-				std::cout << "opened " << m_PipeFd[0] << " and " << m_PipeFd[1] << ".\n";
 
 				m_OutputWidget->SetContent("");
 				m_BackgroundState = 1;
@@ -194,6 +195,8 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 	// Main loop
 	while (Thread->ShouldBeRunning())
 	{
+		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
+		//glfwSleep(0.5);
 		glfwSleep(0);
 
 		if (0 == App->m_BackgroundState)
@@ -202,11 +205,11 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		if (1 == App->m_BackgroundState)
 			App->m_BackgroundState = 2;
 
-		auto PipeFd = App->m_PipeFd[1];
+		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
 			//App->m_OutputWidget->AppendContent(String);
 			write(PipeFd, String.c_str(), String.length());
-		};
+		};*/
 
 		/*Write("Compiling ");
 		for (int i = 0; i < 15; ++i) {
@@ -214,10 +217,18 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 			glfwSleep(0.2);
 		}
 		Write(" Done.\n");*/
-		{
-			auto pid = fork();
 
-			if (0 == pid)
+		close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
+		pipe(App->m_PipeFd);
+		fcntl(App->m_PipeFd[0], F_SETFL, O_NONBLOCK);
+		std::cout << "opened " << App->m_PipeFd[0] << " and " << App->m_PipeFd[1] << ".\n";
+
+		uint8 CompilationResult;
+
+		{
+			App->m_LastPid = fork();
+
+			if (0 == App->m_LastPid)
 			{
 				close(App->m_PipeFd[0]);    // close reading end in the child
 
@@ -229,36 +240,30 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-				execl("/usr/local/go/bin/go", "go", "run", "/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/GenProgram.go", (char *)0);
+				execl("/usr/local/go/bin/go", "go", "build", "GenProgram.go", (char *)0);
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}
-			else if (-1 == pid)
+			else if (-1 == App->m_LastPid)
 			{
-				std::cout << "Error forking.\n";
+				std::cerr << "Error forking.\n";
+				throw 0;
 			}
 			else
 			{
-				App->m_LastPid = pid;
-
-				std::cout << "Before: " << getpgid(pid) << ".\n";
+				std::cout << "Before: " << getpgid(App->m_LastPid) << ".\n";
 				//setpgrp();
-				setpgid(pid, pid);
-				std::cout << "After: " << getpgid(pid) << ".\n";
+				setpgid(App->m_LastPid, App->m_LastPid);
+				std::cout << "After: " << getpgid(App->m_LastPid) << ".\n";
 
-				std::string str;
-
-				std::cout << "In parent, created pid " << pid << ".\n";
+				std::cout << "In parent, created pid " << App->m_LastPid << ".\n";
 
 				//OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
 
-				close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
-
 				// Wait for child process to complete
 				{
-					//sleep(3);
 					int status;
-					waitpid(pid, &status, 0);
+					waitpid(App->m_LastPid, &status, 0);
 					App->m_LastPid = 0;
 
 					std::cout << "Child finished with status " << status << ".\n";
@@ -270,12 +275,70 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 						continue;
 					}
 
-					uint8 Status = static_cast<uint8>(status >> 8);
+					CompilationResult = static_cast<uint8>(status >> 8);
+				}
+				
+				std::cout << "Done in parent!\n";
+			}
+		}
 
-					if (0 == Status)
-						App->m_OutputWidget->SetBackground(Color(1.0, 1, 1));
-					else
-						App->m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+		if (0 == CompilationResult)
+			App->m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+		else {
+			App->m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+			App->m_BackgroundState = 0;
+		}
+
+		if (2 != App->m_BackgroundState)
+			continue;
+
+		{
+			App->m_LastPid = fork();
+
+			if (0 == App->m_LastPid)
+			{
+				close(App->m_PipeFd[0]);    // close reading end in the child
+
+				dup2(App->m_PipeFd[1], 1);  // send stdout to the pipe
+				dup2(App->m_PipeFd[1], 2);  // send stderr to the pipe
+
+				close(App->m_PipeFd[1]);    // this descriptor is no longer needed
+
+				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
+				execl("GenProgram", "GenProgram", (char *)0);
+
+				//exit(1);		// Not needed, just in case I comment out the above
+			}
+			else if (-1 == App->m_LastPid)
+			{
+				std::cerr << "Error forking.\n";
+				throw 0;
+			}
+			else
+			{
+				std::cout << "Before: " << getpgid(App->m_LastPid) << ".\n";
+				//setpgrp();
+				setpgid(App->m_LastPid, App->m_LastPid);
+				std::cout << "After: " << getpgid(App->m_LastPid) << ".\n";
+
+				std::cout << "In parent, created pid " << App->m_LastPid << ".\n";
+
+				// Wait for child process to complete
+				{
+					int status;
+					waitpid(App->m_LastPid, &status, 0);
+					App->m_LastPid = 0;
+
+					std::cout << "Child finished with status " << status << ".\n";
+
+					// If killed, just skip
+					if (   WIFSIGNALED(status)
+						&& 9 == WTERMSIG(status))
+					{
+						continue;
+					}
 				}
 				
 				std::cout << "Done in parent!\n";
@@ -298,6 +361,7 @@ void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 void ConceptionApp::Render()
 {
 	// TEST: This should go to ProcessTimePassed() or something
+	if (-1 != m_PipeFd[0])
 	{
 		char buffer[1024];
 		ssize_t n;
@@ -307,7 +371,7 @@ void ConceptionApp::Render()
 				if (EAGAIN == errno)
 					break;
 				else {
-					std::cerr << "Error: " << errno << std::endl;
+					std::cerr << "Error: Reading from pipe " << m_PipeFd[0] << " failed with errno " << errno << ".\n";
 					break;
 				}
 			}

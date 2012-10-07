@@ -263,6 +263,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								MoveCaret(-1, true);
 							}
 						}
+						else
+						{
+							UpdateContentLines();
+						}
 					}
 					break;
 				case GLFW_KEY_DEL:
@@ -276,6 +280,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								m_Content.erase(m_CaretPosition, 1);
 								UpdateContentLines();
 							}
+						}
+						else
+						{
+							UpdateContentLines();
 						}
 					}
 					break;
@@ -463,6 +471,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 #endif
 
 								EraseSelectionIfAny();
+								UpdateContentLines();
 							}
 						}
 					}
@@ -690,7 +699,6 @@ bool TextFieldWidget::EraseSelectionIfAny()
 	if (0 != SelectionLength)
 	{
 		m_Content.erase(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
-		UpdateContentLines();
 
 		SetCaretPosition(std::min(m_CaretPosition, m_SelectionPosition), true);
 	}
