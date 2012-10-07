@@ -8,8 +8,8 @@ import (
 
 func slow_print() {
 	for i := 1; i <= 5; i++ {
-		//time.Sleep(time.Second)
-		fmt.Println(i*1000)
+		time.Sleep(time.Second / 10)
+		fmt.Println(i*100)
 	}
 }
 

@@ -10,6 +10,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	  m_OutputWidget(nullptr),
 	  m_BackgroundState(0),
 	  m_LastPid(0),
+	  m_ExpiredOutput(false),
 	  m_PipeFd(),
 	  m_BackgroundThread(&ConceptionApp::BackgroundThread, this, "Background")
 {
@@ -115,7 +116,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
 				m_PipeFd[0] = m_PipeFd[1] = -1;
 
-				m_OutputWidget->SetContent("");
+				//m_OutputWidget->SetContent("");
+				m_ExpiredOutput = true;
 				m_BackgroundState = 1;
 			};
 
@@ -202,8 +204,8 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		if (0 == App->m_BackgroundState)
 			continue;
 
-		if (1 == App->m_BackgroundState)
-			App->m_BackgroundState = 2;
+		App->m_BackgroundState = 2;
+		App->m_OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
 
 		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
@@ -345,6 +347,8 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 			}
 		}
 
+		App->m_OutputWidget->SetBackground(Color(0.0, 1, 0));
+
 		if (2 == App->m_BackgroundState)
 			App->m_BackgroundState = 0;
 	}
@@ -378,7 +382,15 @@ void ConceptionApp::Render()
 			else
 			{
 				std::string str(buffer, n);
-				m_OutputWidget->AppendContent(str);
+				if (m_ExpiredOutput)
+				{
+					m_OutputWidget->SetContent(str);
+					m_ExpiredOutput = false;
+				}
+				else
+				{
+					m_OutputWidget->AppendContent(str);
+				}
 			}
 		}
 	}
