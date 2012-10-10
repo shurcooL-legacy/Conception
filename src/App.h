@@ -23,6 +23,8 @@ public:
 
 	void ProcessTimePassed(const double TimePassed) override;
 
+	virtual std::string GetTitle() { return "Conception"; };
+
 protected:
 	// DEBUG: Made m_Widgets public for temporary debugging purposes
 	public:std::vector<std::unique_ptr<Widget>>		m_Widgets;

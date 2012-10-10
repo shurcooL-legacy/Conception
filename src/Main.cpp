@@ -118,7 +118,7 @@ int main(int argc, char * argv[])
 		}
 
 		{
-			glfwSetWindowTitle("Conception");
+			//glfwSetWindowTitle("Conception");
 			glfwSwapInterval(1);					// Set Vsync
 			glfwDisable(GLFW_AUTO_POLL_EVENTS);
 
@@ -131,10 +131,13 @@ int main(int argc, char * argv[])
 		InputManager InputManager;
 		g_InputManager = &InputManager;
 
-		ConceptionApp MainApp(InputManager);
+		//ConceptionApp MainApp(InputManager);
+		LiveEditorApp MainApp(InputManager);
 		//ConceptionTestApp MainApp(InputManager);
 		//MultitouchTestApp MainApp(InputManager);
 		//SentienceApp MainApp(InputManager);
+
+		glfwSetWindowTitle(MainApp.GetTitle().c_str());
 
 		// Perform the layout of UI widgets
 		MainApp.Layout();

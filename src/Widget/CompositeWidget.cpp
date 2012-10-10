@@ -35,8 +35,6 @@ bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hit
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
 		if (Result)
 			return true;
-#else
-#	error Not implemented.
 #endif
 	}
 

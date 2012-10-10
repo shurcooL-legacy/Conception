@@ -15,7 +15,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
+	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	UpdateContentLines();		// This is here at least for resize
 }

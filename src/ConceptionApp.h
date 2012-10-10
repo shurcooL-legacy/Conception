@@ -28,7 +28,7 @@ private:
 
 	volatile uint8	m_BackgroundState;
 	volatile pid_t	m_LastPid;
-	bool			m_ExpiredOutput;
+	volatile bool	m_ExpiredOutput;
 	int				m_PipeFd[2];
 	Thread			m_BackgroundThread;
 

@@ -6,16 +6,17 @@ import (
 	"time"
 )
 
-func slow_print() {
+func SlowPrint() {
 	for i := 1; i <= 5; i++ {
-		time.Sleep(time.Second / 10)
+		//time.Sleep(time.Second / 1)
 		fmt.Println(i*100)
 	}
 }
 
 func main() {
-	fmt.Println("Started server...!")
-	slow_print()
+	//time.Sleep(5 * time.Second)
+	fmt.Println("Started app...!")
+	SlowPrint()
 	time.Sleep(0)
-	fmt.Println("Ended server.")
+	fmt.Println("Ended app.")
 }

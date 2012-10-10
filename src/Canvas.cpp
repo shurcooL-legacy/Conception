@@ -11,7 +11,7 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground)
 	  m_Widgets()
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
+	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	if (m_HasBackground)
 	{
@@ -153,7 +153,7 @@ void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 
 void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
-#if 1
+#if 0
 	auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
 	double A[2] = { WidgetLocalPosition.X() - 0.5 * GetDimensions().X(),
 					WidgetLocalPosition.Y() - 0.5 * GetDimensions().Y() };
@@ -162,7 +162,7 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 
 	MoveView(2, ScrollAmount[0], A, ParentLocalPosition);
 #else
-	MoveView(0, ScrollAmount[1]);
+	//MoveView(0, ScrollAmount[1]);
 	MoveView(1, ScrollAmount[0]);
 #endif
 }

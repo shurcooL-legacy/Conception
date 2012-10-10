@@ -1,6 +1,6 @@
 #include "Main.h"
 
-ConceptionApp::ConceptionApp(InputManager & InputManager)
+LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject(),
 	  m_TypingModule(),
@@ -8,81 +8,30 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	  m_OutputWidget(nullptr),
 	  m_BackgroundState(0),
 	  m_LastPid(0),
+	  m_ProcessStartedTime(0),
 	  m_ExpiredOutput(false),
 	  m_PipeFd(),
-	  m_BackgroundThread(&ConceptionApp::BackgroundThread, this, "Background")
+	  m_BackgroundThread(&LiveEditorApp::BackgroundThread, this, "Background")
 {
 	m_PipeFd[0] = m_PipeFd[1] = -1;
 
 	PopulateConcepts();
 
 	{
-		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
-		//MainCanvas->MoveView(0, 336);
-		MainCanvas->MoveView(1, -64);
+		auto LeftCanvas = new Canvas(Vector2n(0, 0), false, true);
+		auto RightCanvas = new Canvas(Vector2n(0, 0), false, true);
 
-#if 1
+		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
+		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
+
 		{
-			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes(), m_TypingModule);
-			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
-				/*{
-					auto Entry = m_TypingModule.TakeString();
-
-					if (Entry.length() > 0)
-					{
-						auto ConceptId = FindOrCreateConcept(Entry);
-
-						StdIncludesList->Insert(ConceptId);
-					}
-					else
-					{
-						//auto ListEntry =
-						//StdIncludesList->In
-					}
-				};*/
-				{
-					auto Entry = m_TypingModule.TakeString();
-
-					if (!Entry.empty())
-					{
-						auto ConceptId = FindOrCreateConcept(Entry);
-
-						//Insert(ConceptId);
-
-						// TEST
-						auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
-						m_List.insert(Spot, ConceptId);
-					}
-					else
-					{
-						auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
-
-						if (ListEntry < m_List.size())
-						{
-							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
-							m_List.erase(m_List.begin() + ListEntry);
-						}
-					}
-				};
-
-			MainCanvas->AddWidget(StdIncludesList);
-		}
-#endif
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(200, -200), m_TypingModule));
-		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-400, -200), m_TypingModule));
-
-		/*auto Test = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule);
-		MainCanvas->AddWidget(Test);
-		Test->m_OnChange = [](){ std::cout << "Change.\n"; };*/
-
-		// DEBUG: Irregular starting state, for testing
-		{
-			m_SourceWidget->m_OnChange = [&]()
+			m_SourceWidget->m_OnChange = [&, LeftCanvas, RightCanvas]()
 			{
 				//printf("m_SourceWidget->m_OnChange\n");
 				//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
+
+				LeftCanvas->ModifyDimensions().X() = m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1;
+				RightCanvas->ModifyPosition().X() = m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1;
 
 				m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
 				/*uint8 Status;
@@ -115,53 +64,31 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				m_PipeFd[0] = m_PipeFd[1] = -1;
 
 				//m_OutputWidget->SetContent("");
+				m_ProcessStartedTime = glfwGetTime();
 				m_ExpiredOutput = true;
 				m_BackgroundState = 1;
 			};
 
-			//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
-			m_SourceWidget->SetContent(
-#if 0
-				"{""\n"
-				"	// Skip non-spaces to the right""\n"
-				"	auto LookAt = m_CaretPosition;""\n"
-				"	while (   LookAt < m_Content.length()""\n"
-				"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
-				"	{""\n"
-				"		++LookAt;""\n"
-				"	}""\n"
-				"""\n"
-				"	SetCaretPosition(LookAt, false);""\n"
-				"}"
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+			m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
 #else
-				FromFileToString("./GenProgram.cpp")
+			m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
 #endif
-			);
 		}
 
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
+		m_Widgets.push_back(std::unique_ptr<Widget>(LeftCanvas));
+		m_Widgets.push_back(std::unique_ptr<Widget>(RightCanvas));
 
-#if 1
-		{
-			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 300, -250), Concepts, m_TypingModule));
-		}
-#endif
-
-		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
+		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}
 
 	// Prepare and start the thread
 	{
 		m_BackgroundThread.Start();
 	}
-
-	{
-		// Load program
-		m_CurrentProject.LoadSampleGenProgram(*static_cast<Canvas *>(m_Widgets[0].get()));
-	}
 }
 
-ConceptionApp::~ConceptionApp()
+LiveEditorApp::~LiveEditorApp()
 {
 	// Close pipes
 	{
@@ -186,11 +113,20 @@ ConceptionApp::~ConceptionApp()
 	CleanConcepts();
 }
 
-void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
+void LiveEditorApp::UpdateWindowDimensions(Vector2n WindowDimensions)
+{
+	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
+	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(Vector2n(m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1, WindowDimensions.Y()));
+	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(WindowDimensions);
+
+	//m_OutputWidget->SetPosition(Vector2n(WindowDimensions.X() / 2, 0));
+}
+
+void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 {
 	Thread * Thread = Thread::GetThisThreadAndRevertArgument(pArgument);
 
-	auto App = static_cast<ConceptionApp *>(pArgument);
+	auto App = static_cast<LiveEditorApp *>(pArgument);
 
 	// Main loop
 	while (Thread->ShouldBeRunning())
@@ -203,7 +139,7 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 			continue;
 
 		App->m_BackgroundState = 2;
-		App->m_OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
+		App->m_OutputWidget->SetBackground(App->m_CompilingColor);
 
 		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
@@ -241,7 +177,11 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
+#if DECISION_USE_CPP_INSTEAD_OF_GO
 				execl("/usr/bin/clang++", "clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
+#else
+				execl("/usr/local/go/bin/go", "go", "build", "./GenProgram.go", (char *)0);
+#endif
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}
@@ -284,9 +224,16 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		}
 
 		if (0 == ProcessResult) {
-			App->m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+			App->m_OutputWidget->SetBackground(App->m_RunningColor);
+
+			// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex (but too lazy ATM to add all the code for a mutex)
+			/*if (App->m_ExpiredOutput)
+			{
+				App->m_OutputWidget->SetContent("");
+				App->m_ExpiredOutput = false;
+			}*/
 		} else {
-			App->m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+			App->m_OutputWidget->SetBackground(App->m_ErrorCompileColor);
 			App->m_BackgroundState = 0;
 		}
 
@@ -362,9 +309,9 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		if (0 == ProcessResult) {
-			App->m_OutputWidget->SetBackground(Color(0.0, 1, 0));
+			App->m_OutputWidget->SetBackground(App->m_FinishedSuccessColor);
 		} else {
-			App->m_OutputWidget->SetBackground(Color(0.0, 0, 1));
+			App->m_OutputWidget->SetBackground(App->m_FinishedErrorColor);
 		}
 
 		if (2 == App->m_BackgroundState)
@@ -374,13 +321,7 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 	Thread->ThreadEnded();
 }
 
-void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
-}
-
-void ConceptionApp::Render()
+void LiveEditorApp::Render()
 {
 	// TEST: This should go to ProcessTimePassed() or something
 	if (-1 != m_PipeFd[0])
@@ -417,6 +358,16 @@ void ConceptionApp::Render()
 				}
 			}
 		}
+
+		// If the output is still expired after a second since process started, just clear the output
+		if (glfwGetTime() >= m_ProcessStartedTime + 1.0)
+		{
+			if (m_ExpiredOutput)
+			{
+				m_OutputWidget->SetContent("");
+				m_ExpiredOutput = false;
+			}
+		}
 	}
 
 	App::Render();
@@ -427,7 +378,7 @@ void ConceptionApp::Render()
 	}
 }
 
-void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
+void LiveEditorApp::ProcessEvent(InputEvent & InputEvent)
 {
 	// DEBUG, TEST: System key handling
 	if (false == InputEvent.m_Handled)

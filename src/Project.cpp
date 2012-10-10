@@ -92,7 +92,11 @@ void Project::GenerateProgram(std::string ProgramContent = "")
 
 	Out.close();*/
 
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+	std::ofstream Out("./GenProgram.cpp");
+#else
 	std::ofstream Out("./GenProgram.go");
+#endif
 
 	Out << ProgramContent;
 }

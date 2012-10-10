@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
@@ -84,6 +85,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A2084D5162480D900AE524C /* LiveEditorApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LiveEditorApp.cpp; path = src/LiveEditorApp.cpp; sourceTree = SOURCE_ROOT; };
+		2A2084D6162480D900AE524C /* LiveEditorApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LiveEditorApp.h; path = src/LiveEditorApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998A15C8857100867486 /* SentienceApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SentienceApp.cpp; path = src/SentienceApp.cpp; sourceTree = SOURCE_ROOT; };
 		2A21998B15C8857100867486 /* SentienceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentienceApp.h; path = src/SentienceApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998E15C8895400867486 /* LifeFormWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LifeFormWidget.cpp; sourceTree = "<group>"; };
@@ -326,6 +329,8 @@
 				2A4FFA5A155465D90021D8EF /* Concepts.h */,
 				2A4FFA5B155465D90021D8EF /* ControlModules */,
 				2A4FFA64155465D90021D8EF /* Input */,
+				2A2084D5162480D900AE524C /* LiveEditorApp.cpp */,
+				2A2084D6162480D900AE524C /* LiveEditorApp.h */,
 				2A4FFA7A155465D90021D8EF /* Main.cpp */,
 				2A4FFA7B155465D90021D8EF /* Main.h */,
 				2A4FFA7C155465D90021D8EF /* MultitouchTestApp.cpp */,
@@ -516,6 +521,7 @@
 				2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */,
 				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
 				2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */,
+				2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,6 +31,7 @@
 #	include <sys/types.h>
 #	include <unistd.h>
 #	include <signal.h>
+#	include <fcntl.h>
 #endif
 
 #include <GL/glfw.h>
@@ -66,9 +67,10 @@ namespace std
 #endif // WIN32
 
 // Decisions
-#define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 1
+#define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 0
 #define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 1
 #define DECISION_CONCEPTS_DISPLAYED_SMALL 1
+#define DECISION_USE_CPP_INSTEAD_OF_GO 0
 
 class Concept;
 class ConceptBasic;
@@ -206,6 +208,7 @@ extern InputManager * g_InputManager;
 #include "Thread.h"
 #include "App.h"
 #include "ConceptionApp.h"
+#include "LiveEditorApp.h"
 #include "ConceptionTestApp.h"
 #include "MultitouchTestApp.h"
 #include "SentienceApp.h"
