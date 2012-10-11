@@ -17,7 +17,7 @@ The Xcode project is up to date and should allow you to compile and run right aw
 
 It should also work on Linux if you write a Makefile.
 
-Can be compiled on Windows, but since I use a lot of C++11 features that even Visual Studio 12 doesn't support yet, it will take effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
+Can be compiled on Windows, but since I use a lot of C++11 features that even Visual Studio 2012 doesn't support yet, it will take effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
 
 Since it executes code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
 
