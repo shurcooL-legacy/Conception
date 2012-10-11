@@ -2,7 +2,7 @@ Conception/Live Editor App
 ==========================
 
 This is a simple live editor (by default for Go language, but can easily be changed to C++ or any other compiled language).
-
+<img src=http://img19.imageshack.us/img19/4638/imagesyi.png><br>
 Short Video: http://www.youtube.com/watch?v=0msv60-qujs
 
 Requirements
