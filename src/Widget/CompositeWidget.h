@@ -7,6 +7,7 @@ class CompositeWidget
 {
 public:
 	CompositeWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets);
+	CompositeWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets);
 	~CompositeWidget();
 
 	void Render() override;
@@ -17,7 +18,7 @@ private:
 	std::vector<std::shared_ptr<Widget>>		m_Widgets;
 
 protected:
-	decltype(m_Widgets) & GetWidgets() { return m_Widgets; }
+	public:decltype(m_Widgets) & GetWidgets() { return m_Widgets; }
 };
 
 #endif // __CompositeWidget_H__

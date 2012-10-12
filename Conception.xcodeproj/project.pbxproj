@@ -93,6 +93,8 @@
 		2A21998F15C8895400867486 /* LifeFormWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeFormWidget.h; sourceTree = "<group>"; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
+		2A42D9F616289823001DC834 /* ContextMenuWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContextMenuWidget.h; sourceTree = "<group>"; };
+		2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContextMenuWidget.hpp; sourceTree = "<group>"; };
 		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; };
 		2A4FFA55155465D90021D8EF /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Canvas.h; path = src/Canvas.h; sourceTree = SOURCE_ROOT; };
 		2A4FFA56155465D90021D8EF /* Concept.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Concept.cpp; path = src/Concept.cpp; sourceTree = SOURCE_ROOT; };
@@ -276,6 +278,8 @@
 				2A91C74B15D349AD0070E981 /* CompositeWidget.h */,
 				2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */,
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
+				2A42D9F616289823001DC834 /* ContextMenuWidget.h */,
+				2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
 				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,

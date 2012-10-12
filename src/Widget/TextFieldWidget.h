@@ -3,32 +3,8 @@
 #define __TextFieldWidget_H__
 
 class TextFieldWidget
-	: public Widget
+	: public CompositeWidget
 {
-public:
-	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
-	virtual ~TextFieldWidget();
-
-	void Render() override;
-
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
-	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
-	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
-
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
-
-	void ProcessEvent(InputEvent & InputEvent) override;
-
-	std::string GetContent() const;
-	void SetContent(std::string Content);
-	void AppendContent(std::string ExtraContent);
-
-	void SetBackground(Color BackgroundColor);
-
-	std::function<void()>				m_OnChange;
-
 private:
 	std::string							m_Content;
 
@@ -54,6 +30,34 @@ private:
 
 	Color								m_BackgroundColor;
 
+public:
+	std::function<void()>							m_OnChange;
+	std::function<std::vector<std::string>()>		m_GetAutocompletions;
+
+	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
+	virtual ~TextFieldWidget();
+
+	void Render() override;
+
+	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
+
+	void ProcessManipulationStarted(const PointerState & PointerState) override;
+	void ProcessManipulationUpdated(const PointerState & PointerState) override;
+	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+
+	void ProcessEvent(InputEvent & InputEvent) override;
+
+	std::string GetContent() const;
+	void SetContent(std::string Content);
+	void AppendContent(std::string ExtraContent);
+
+	decltype(m_CaretPosition) GetCaretPosition() const;
+
+	void SetBackground(Color BackgroundColor);
+
+private:
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
@@ -61,11 +65,12 @@ private:
 	std::string GetSelectionContent() const;
 	bool EraseSelectionIfAny();
 	void UpdateContentLines();
-	uint32 GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber);
-	decltype(m_CaretPosition) GetNearestCaretPosition(Vector2n LocalPosition);
-	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX);
+	uint32 GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber) const;
+	decltype(m_CaretPosition) GetNearestCaretPosition(Vector2n LocalPosition) const;
+	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX) const;
 	void GetLineAndColumnNumber(std::vector<ContentLine>::size_type & LineNumber, std::vector<ContentLine>::size_type & ColumnNumber) const;
 	std::vector<ContentLine>::size_type GetLineNumber() const;
+	const Vector2n GetCaretLocalPosition() const;
 	uint32 GetLeadingTabCount() const;
 
 	static bool IsCoreCharacter(uint8 Character);

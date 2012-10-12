@@ -1,7 +1,11 @@
 #include "../Main.h"
 
 CompositeWidget::CompositeWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets)
-	: Widget(Position, Vector2n::ZERO),
+	: CompositeWidget(Position, Vector2n::ZERO, Widgets)
+{}
+
+CompositeWidget::CompositeWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets)
+	: Widget(Position, Dimensions),
 	  m_Widgets(Widgets)
 {
 	for (auto & Widget : m_Widgets)

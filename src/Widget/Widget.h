@@ -20,8 +20,9 @@ public:
 
 	virtual void ProcessCanvasUpdated();
 
-	void SetParent(Widget & Parent);
 	const Widget * GetParent() const;
+	Widget * ModifyParent();
+	void SetParent(Widget & Parent);
 
 	const GestureRecognizer & GetGestureRecognizer() const { return m_GestureRecognizer; }
 	GestureRecognizer & ModifyGestureRecognizer() { return m_GestureRecognizer; }

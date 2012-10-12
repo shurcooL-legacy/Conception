@@ -101,6 +101,7 @@ public:
 		return Out;
 	}*/
 
+	static const Vector2n GetDimensions(std::string & Content);
 	static const Vector2n GetDimensions(ConceptId ConceptId);
 	static const Vector2n GetDimensions(Concept * Concept);
 	//static const Vector2n GetDimensions(const ConceptInstance & ConceptInstance);

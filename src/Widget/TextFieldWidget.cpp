@@ -2,8 +2,7 @@
 
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
 TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
-	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
-	  m_OnChange(),
+	: CompositeWidget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_SelectionPosition(0),
@@ -11,7 +10,9 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
 	  m_TypingModule(TypingModule),
-	  m_BackgroundColor(static_cast<uint8>(255), 255, 255)
+	  m_BackgroundColor(static_cast<uint8>(255), 255, 255),
+	  m_OnChange(),
+	  m_GetAutocompletions()
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
@@ -129,6 +130,8 @@ void TextFieldWidget::Render()
 			glPopMatrix();
 		}
 	}
+
+	CompositeWidget::Render();
 }
 
 void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
@@ -239,6 +242,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
+				auto ControlActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LCTRL)
+									  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RCTRL));
 				auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
 									|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT));
 				auto SuperActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
@@ -307,6 +312,30 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						m_Content.insert(m_CaretPosition, 1, '\t');
 						UpdateContentLines();
 						MoveCaret(+1, true);
+					}
+					break;
+				case GLFW_KEY_SPACE:
+					{
+						if (ControlActive)
+						{
+							// Popup autocompletion list
+							if (nullptr != m_GetAutocompletions)
+							{
+								auto Autocompletions = m_GetAutocompletions();
+
+								/*std::cout << "--- Autocompletions ---\n";
+								for (auto & Entry : m_Autocompletions)
+								{
+									std::cout << Entry << "\n";
+								}
+								std::cout << "-----------------------\n";*/
+
+								auto ContextMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions, m_TypingModule);
+								ContextMenu->SetParent(*this);
+								g_InputManager->RequestTypingPointer(ContextMenu->ModifyGestureRecognizer());
+								GetWidgets().push_back(std::unique_ptr<Widget>(ContextMenu));
+							}
+						}
 					}
 					break;
 				case GLFW_KEY_LEFT:
@@ -581,6 +610,11 @@ void TextFieldWidget::AppendContent(std::string ExtraContent)
 	UpdateContentLines();
 }
 
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetCaretPosition() const
+{
+	return m_CaretPosition;
+}
+
 void TextFieldWidget::SetBackground(Color BackgroundColor)
 {
 	m_BackgroundColor = BackgroundColor;
@@ -694,7 +728,7 @@ void TextFieldWidget::UpdateContentLines()
 	}
 }
 
-uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber)
+uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber) const
 {
 	uint32 CaretPositionX = 0;
 
@@ -723,7 +757,7 @@ uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type Li
 	return CaretPositionX;
 }
 
-decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(Vector2n LocalPosition)
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(Vector2n LocalPosition) const
 {
 	if (LocalPosition.X() < 0)
 		LocalPosition.X() = 0;
@@ -735,7 +769,7 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	return GetNearestCaretPosition(LineNumber, static_cast<uint32>(LocalPosition.X()));
 }
 
-decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX)
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX) const
 {
 	// Calculate nearest caret position
 	if (LineNumber > m_ContentLines.size() - 1)
@@ -816,6 +850,14 @@ std::vector<TextFieldWidget::ContentLine>::size_type TextFieldWidget::GetLineNum
 	}
 
 	return LineNumber;
+}
+
+const Vector2n TextFieldWidget::GetCaretLocalPosition() const
+{
+	std::vector<ContentLine>::size_type LineNumber, ColumnNumber;
+	GetLineAndColumnNumber(LineNumber, ColumnNumber);
+
+	return Vector2n(GetCaretPositionX(LineNumber, ColumnNumber), static_cast<sint32>(LineNumber * lineHeight));
 }
 
 uint32 TextFieldWidget::GetLeadingTabCount() const

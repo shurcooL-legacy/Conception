@@ -202,6 +202,7 @@ extern InputManager * g_InputManager;
 #include "Widget/TextFieldWidget.h"
 #include "Widget/ConceptStringBoxWidget.h"
 #include "Widget/ListWidget.h"
+#include "Widget/ContextMenuWidget.h"
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
 #include "Canvas.h"

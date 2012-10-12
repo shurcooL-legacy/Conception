@@ -69,6 +69,11 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 				m_BackgroundState = 1;
 			};
 
+			m_SourceWidget->m_GetAutocompletions = []()
+			{
+				return std::vector<std::string>( { "Line 1", "Line 2", "Line 3" } );
+			};
+
 #if DECISION_USE_CPP_INSTEAD_OF_GO
 			m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
 #else
@@ -255,7 +260,8 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-				execl("GenProgram", "GenProgram", (char *)0);
+				//execl("./GenProgram", "GenProgram", (char *)0);
+				execl("./gocode", "gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(App->m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}
@@ -395,16 +401,17 @@ void LiveEditorApp::ProcessEvent(InputEvent & InputEvent)
 					switch (ButtonId)
 					{
 					//case GLFW_KEY_F5:
-					/*case 'R':
+					case 'R':
 						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
 							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
 						{
-							m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));
+							/*m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
+							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));*/
+							m_SourceWidget->m_OnChange();
 
 							InputEvent.m_Handled = true;
 						}
-						break;*/
+						break;
 					// TEST
 					/*case 'B':
 						//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))

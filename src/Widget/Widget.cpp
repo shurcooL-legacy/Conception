@@ -48,14 +48,19 @@ void Widget::ProcessCanvasUpdated()
 	ModifyGestureRecognizer().ProcessCanvasUpdated();
 }
 
-void Widget::SetParent(Widget & Parent)
-{
-	m_Parent = &Parent;
-}
-
 const Widget * Widget::GetParent() const
 {
 	return m_Parent;
+}
+
+Widget * Widget::ModifyParent()
+{
+	return m_Parent;
+}
+
+void Widget::SetParent(Widget & Parent)
+{
+	m_Parent = &Parent;
 }
 
 // Returns true if there is any (even partial) hit
