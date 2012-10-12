@@ -5,11 +5,11 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
 	  m_OnChange(),
 	  m_Content(),
+	  m_CaretPosition(0),
+	  m_SelectionPosition(0),
+	  m_TargetCaretColumnX(0),
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
-	  m_CaretPosition(0),
-	  m_TargetCaretColumnX(0),
-	  m_SelectionPosition(0),
 	  m_TypingModule(TypingModule),
 	  m_BackgroundColor(static_cast<uint8>(255), 255, 255)
 {
@@ -292,9 +292,12 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					{
 						EraseSelectionIfAny();
 
+						auto TabCount = GetLeadingTabCount();
+
 						m_Content.insert(m_CaretPosition, 1, '\n');
+						m_Content.insert(m_CaretPosition + 1, TabCount, '\t');
 						UpdateContentLines();
-						MoveCaret(+1, true);
+						MoveCaret(+1 + TabCount, true);
 					}
 					break;
 				case GLFW_KEY_TAB:
@@ -316,19 +319,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								std::vector<class ContentLine>::size_type LineNumber = 0;
-								std::vector<class ContentLine>::size_type ColumnNumber = 0;
-
-								for (auto & ContentLine : m_ContentLines)
-								{
-									if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
-									{
-										ColumnNumber = m_CaretPosition - ContentLine.m_StartPosition;
-										break;
-									}
-
-									++LineNumber;
-								}
+								auto LineNumber = GetLineNumber();
 
 								SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition, !ShiftActive);
 							}
@@ -370,19 +361,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							if (SuperActive && !AltActive)
 							{
-								std::vector<class ContentLine>::size_type LineNumber = 0;
-								std::vector<class ContentLine>::size_type ColumnNumber = 0;
-
-								for (auto & ContentLine : m_ContentLines)
-								{
-									if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
-									{
-										ColumnNumber = m_CaretPosition - ContentLine.m_StartPosition;
-										break;
-									}
-
-									++LineNumber;
-								}
+								auto LineNumber = GetLineNumber();
 
 								SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + m_ContentLines[LineNumber].m_Length, !ShiftActive);
 							}
@@ -618,19 +597,8 @@ void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, 
 
 	if (UpdateTargetCaretColumn)
 	{
-		std::vector<class ContentLine>::size_type LineNumber = 0;
-		std::vector<class ContentLine>::size_type ColumnNumber = 0;
-
-		for (auto & ContentLine : m_ContentLines)
-		{
-			if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
-			{
-				ColumnNumber = m_CaretPosition - ContentLine.m_StartPosition;
-				break;
-			}
-
-			++LineNumber;
-		}
+		std::vector<ContentLine>::size_type LineNumber, ColumnNumber;
+		GetLineAndColumnNumber(LineNumber, ColumnNumber);
 
 		m_TargetCaretColumnX = GetCaretPositionX(LineNumber, ColumnNumber);
 	}
@@ -652,19 +620,8 @@ void TextFieldWidget::MoveCaretTry(sint32 MoveAmount, bool ResetSelection)
 
 void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection)
 {
-	std::vector<class ContentLine>::size_type LineNumber = 0;
-	std::vector<class ContentLine>::size_type ColumnNumber = 0;
-
-	for (auto & ContentLine : m_ContentLines)
-	{
-		if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
-		{
-			ColumnNumber = m_CaretPosition - ContentLine.m_StartPosition;
-			break;
-		}
-
-		++LineNumber;
-	}
+	std::vector<ContentLine>::size_type LineNumber, ColumnNumber;
+	GetLineAndColumnNumber(LineNumber, ColumnNumber);
 
 	if (-1 == MoveAmount)
 	{
@@ -737,7 +694,7 @@ void TextFieldWidget::UpdateContentLines()
 	}
 }
 
-uint32 TextFieldWidget::GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber)
+uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber)
 {
 	uint32 CaretPositionX = 0;
 
@@ -778,7 +735,7 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	return GetNearestCaretPosition(LineNumber, static_cast<uint32>(LocalPosition.X()));
 }
 
-decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX)
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX)
 {
 	// Calculate nearest caret position
 	if (LineNumber > m_ContentLines.size() - 1)
@@ -825,6 +782,55 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetNearestCaretPosit
 	}
 
 	return (m_ContentLines[LineNumber].m_StartPosition + CharacterNumber);
+}
+
+void TextFieldWidget::GetLineAndColumnNumber(std::vector<ContentLine>::size_type & LineNumber, std::vector<ContentLine>::size_type & ColumnNumber) const
+{
+	LineNumber = 0;
+	ColumnNumber = 0;
+
+	for (auto & ContentLine : m_ContentLines)
+	{
+		if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
+		{
+			ColumnNumber = m_CaretPosition - ContentLine.m_StartPosition;
+			break;
+		}
+
+		++LineNumber;
+	}
+}
+
+std::vector<TextFieldWidget::ContentLine>::size_type TextFieldWidget::GetLineNumber() const
+{
+	std::vector<ContentLine>::size_type LineNumber = 0;
+
+	for (auto & ContentLine : m_ContentLines)
+	{
+		if (ContentLine.m_StartPosition + ContentLine.m_Length >= m_CaretPosition)
+		{
+			break;
+		}
+
+		++LineNumber;
+	}
+
+	return LineNumber;
+}
+
+uint32 TextFieldWidget::GetLeadingTabCount() const
+{
+	uint32 TabCount = 0;
+
+	auto LookAt = m_ContentLines[GetLineNumber()].m_StartPosition;
+	while (   LookAt < m_Content.length()
+		   && '\t' == m_Content[LookAt])
+	{
+		++LookAt;
+		++TabCount;
+	}
+
+	return TabCount;
 }
 
 bool TextFieldWidget::IsCoreCharacter(uint8 Character)

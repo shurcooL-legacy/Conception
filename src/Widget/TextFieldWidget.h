@@ -30,9 +30,15 @@ public:
 	std::function<void()>				m_OnChange;
 
 private:
+	std::string							m_Content;
+
+	decltype(m_Content)::size_type		m_CaretPosition;
+	decltype(m_CaretPosition)			m_SelectionPosition;
+	uint32								m_TargetCaretColumnX;
+
 	struct ContentLine
 	{
-		std::string::size_type			m_StartPosition;
+		decltype(m_CaretPosition)		m_StartPosition;
 		decltype(m_StartPosition)		m_Length;
 
 		ContentLine(decltype(m_StartPosition) StartPosition, decltype(m_Length) Length)
@@ -41,15 +47,10 @@ private:
 		{}
 	};
 
-	std::string							m_Content;
 	std::vector<ContentLine>			m_ContentLines;
 	decltype(ContentLine::m_Length)		m_MaxLineLength;
 
-	std::string::size_type				m_CaretPosition;
-	uint32								m_TargetCaretColumnX;
-	decltype(m_CaretPosition)			m_SelectionPosition;
-
-	TypingModule						& m_TypingModule;
+	TypingModule &						m_TypingModule;
 
 	Color								m_BackgroundColor;
 
@@ -60,9 +61,12 @@ private:
 	std::string GetSelectionContent() const;
 	bool EraseSelectionIfAny();
 	void UpdateContentLines();
-	uint32 GetCaretPositionX(std::vector<class ContentLine>::size_type LineNumber, std::vector<class ContentLine>::size_type ColumnNumber);
+	uint32 GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber);
 	decltype(m_CaretPosition) GetNearestCaretPosition(Vector2n LocalPosition);
-	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<class ContentLine>::size_type LineNumber, uint32 LocalPositionX);
+	decltype(m_CaretPosition) GetNearestCaretPosition(std::vector<ContentLine>::size_type LineNumber, uint32 LocalPositionX);
+	void GetLineAndColumnNumber(std::vector<ContentLine>::size_type & LineNumber, std::vector<ContentLine>::size_type & ColumnNumber) const;
+	std::vector<ContentLine>::size_type GetLineNumber() const;
+	uint32 GetLeadingTabCount() const;
 
 	static bool IsCoreCharacter(uint8 Character);
 };
