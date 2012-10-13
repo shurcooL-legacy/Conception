@@ -6,6 +6,7 @@ template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position,
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	UpdateDimensions();
@@ -56,7 +57,10 @@ template <typename T> void ContextMenuWidget<T>::Render()
 			else
 				OpenGLStream.SetBackgroundColor(m_UnselectedColor);
 
-			OpenGLStream << *Entry << endl;
+			OpenGLStream << *Entry;
+
+			OpenGLStream.SetBackgroundColor(m_UnselectedColor);
+			OpenGLStream << endl;
 		}
 	}
 }
@@ -67,6 +71,16 @@ template <typename T> void ContextMenuWidget<T>::ProcessTap(InputEvent & InputEv
 	{
 		m_TapAction(GlobalToLocal(Position), m_Entries);
 	}
+}
+
+template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+{
+	// TODO: Do something on double-tap, like insert the selected autocompletion into parent
+
+	g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
+	InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(ModifyGestureRecognizer());
+	ModifyParent()->RemoveWidget(this);		// TODO: Maybe this is wrong to do, verify
+	InputEvent.m_Handled = true;		// TOOD: I can't even remember if I need to do this? Should do this? Does it make any difference... *sigh*
 }
 
 template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
@@ -86,13 +100,17 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 				{
 				case GLFW_KEY_ESC:
 					{
-						static_cast<CompositeWidget *>(ModifyParent())->GetWidgets().clear();
+						ModifyParent()->RemoveWidget(this);
 						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
 					}
 					break;
 				case GLFW_KEY_ENTER:
 				case GLFW_KEY_KP_ENTER:
 					{
+						// TODO: Do something on enter, like insert the selected autocompletion into parent
+
+						ModifyParent()->RemoveWidget(this);
+						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
 					}
 					break;
 				case GLFW_KEY_TAB:
@@ -100,11 +118,11 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 					}
 					break;
 				case GLFW_KEY_LEFT:
-					{
-					}
-					break;
 				case GLFW_KEY_RIGHT:
 					{
+						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
+						ModifyParent()->RemoveWidget(this);		// TODO: Maybe this is wrong to do, verify
+						HandledEvent = false;		// TODO: Make this work
 					}
 					break;
 				case GLFW_KEY_UP:
@@ -134,6 +152,10 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 		{
 			if (Pressed)
 			{
+				{
+					InputEvent.m_Handled = true;
+				}
+
 				switch (ButtonId)
 				{
 				case 0:
@@ -147,12 +169,13 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 		}
 	}
 
+	// TODO: Re-enable this but debug the crashing it causes, etc.
 	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
 		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			//if (false == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
+			if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
 			{
 				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);

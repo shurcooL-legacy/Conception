@@ -69,9 +69,105 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 				m_BackgroundState = 1;
 			};
 
-			m_SourceWidget->m_GetAutocompletions = []()
+			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
-				return std::vector<std::string>( { "Line 1", "Line 2", "Line 3" } );
+				std::vector<std::string> Autocompletions;
+
+				//Autocompletions = { "Line 1", "Line 2", "Line 3" };
+
+				// Get autocompletion using gocode
+				std::string Output = "";
+				{
+					int PipeFd[2];
+					pipe(PipeFd);
+					fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
+					std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+
+					uint8 ProcessResult;
+
+					{
+						auto Pid = fork();
+
+						if (0 == Pid)
+						{
+							close(PipeFd[0]);    // close reading end in the child
+
+							dup2(PipeFd[1], 1);  // send stdout to the pipe
+							dup2(PipeFd[1], 2);  // send stderr to the pipe
+
+							close(PipeFd[1]);    // this descriptor is no longer needed
+
+							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+
+							//exit(1);		// Not needed, just in case I comment out the above
+						}
+						else if (-1 == Pid)
+						{
+							std::cerr << "Error forking.\n";
+							throw 0;
+						}
+						else
+						{
+							// Wait for child process to complete
+							{
+								int status;
+								waitpid(Pid, &status, 0);
+								Pid = 0;
+
+								std::cout << "Child finished with status " << status << ".\n";
+
+								ProcessResult = static_cast<uint8>(status >> 8);
+							}
+
+							// Read output from pipe and put it into Output
+							if (0 == ProcessResult)
+							{
+								char buffer[1024];
+								ssize_t n;
+								while (0 != (n = read(PipeFd[0], buffer, sizeof(buffer))))
+								{
+									if (-1 == n) {
+										if (EAGAIN == errno) {
+											break;
+										} else {
+											std::cerr << "Error: Reading from pipe " << PipeFd[0] << " failed with errno " << errno << ".\n";
+											break;
+										}
+									}
+									else
+									{
+										Output.append(buffer, n);
+									}
+								}
+							}
+
+							std::cout << "Done in parent!\n";
+						}
+					}
+
+					close(PipeFd[0]);
+					close(PipeFd[1]);
+				}
+
+				// Parse Output and populate Autocompletions
+				// TODO: Clean up
+				{
+					std::stringstream ss;
+					ss << Output;
+					std::string Line;
+
+					std::getline(ss, Line);
+					std::getline(ss, Line);
+					while (!Line.empty() && !ss.eof())
+					{
+						Autocompletions.push_back(Line);
+						std::getline(ss, Line);
+					}
+					if (!Line.empty())
+						Autocompletions.push_back(Line);
+				}
+
+				return Autocompletions;
 			};
 
 #if DECISION_USE_CPP_INSTEAD_OF_GO
@@ -183,9 +279,9 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
 #if DECISION_USE_CPP_INSTEAD_OF_GO
-				execl("/usr/bin/clang++", "clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
+				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
 #else
-				execl("/usr/local/go/bin/go", "go", "build", "./GenProgram.go", (char *)0);
+				execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
 #endif
 
 				//exit(1);		// Not needed, just in case I comment out the above
@@ -260,8 +356,8 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-				//execl("./GenProgram", "GenProgram", (char *)0);
-				execl("./gocode", "gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(App->m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+				execl("./GenProgram", "./GenProgram", (char *)0);
+				//execl("./gocode", "gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(App->m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}

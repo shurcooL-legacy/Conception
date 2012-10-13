@@ -3,15 +3,13 @@
 #define __Canvas_H__
 
 class Canvas
-	: public Widget
+	: public CompositeWidget
 {
 public:
 	Canvas(Vector2n Position, bool Centered, bool HasBackground);
 	~Canvas();
 
 	void Render() override;
-
-	void AddWidget(Widget * Widget);
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
 	
@@ -58,7 +56,7 @@ private:
 
 	Rectanglen	m_ScissorBox;
 
-	std::vector<std::unique_ptr<Widget>>		m_Widgets;
+	//std::vector<std::unique_ptr<Widget>>		m_Widgets;
 };
 
 #endif // __Canvas_H__

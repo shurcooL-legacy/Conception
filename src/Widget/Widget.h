@@ -20,9 +20,8 @@ public:
 
 	virtual void ProcessCanvasUpdated();
 
-	const Widget * GetParent() const;
-	Widget * ModifyParent();
-	void SetParent(Widget & Parent);
+	const CompositeWidget * GetParent() const;
+	CompositeWidget * ModifyParent();
 
 	const GestureRecognizer & GetGestureRecognizer() const { return m_GestureRecognizer; }
 	GestureRecognizer & ModifyGestureRecognizer() { return m_GestureRecognizer; }
@@ -47,9 +46,12 @@ protected:
 
 	bool CheckHover() const;
 	bool CheckActive() const;
-	bool HasTypingFocus() const;
+	virtual bool HasTypingFocus() const;
 
 private:
+	Widget(const Widget &) = delete;
+	Widget & operator = (const Widget &) = delete;
+
 	Vector2n		m_Position;
 	Vector2n		m_Dimensions;
 
@@ -58,7 +60,11 @@ private:
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
 
-	Widget *			m_Parent;
+	CompositeWidget *		m_Parent;
+
+	void SetParent(CompositeWidget & Parent);
+
+	friend class CompositeWidget;		// For SetParent() access
 
 	friend class App;		// DEBUG: For debug printing
 };

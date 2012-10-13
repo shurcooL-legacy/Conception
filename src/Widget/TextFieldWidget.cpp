@@ -25,6 +25,12 @@ TextFieldWidget::~TextFieldWidget()
 {
 }
 
+bool TextFieldWidget::HasTypingFocus() const
+{
+	return (   GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())
+			|| (!GetWidgets().empty() && GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() != GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())));
+}
+
 void TextFieldWidget::Render()
 {
 	//Color BackgroundColor(1.0, 1.0, 1.0);
@@ -330,10 +336,9 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								}
 								std::cout << "-----------------------\n";*/
 
-								auto ContextMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions, m_TypingModule);
-								ContextMenu->SetParent(*this);
-								g_InputManager->RequestTypingPointer(ContextMenu->ModifyGestureRecognizer());
-								GetWidgets().push_back(std::unique_ptr<Widget>(ContextMenu));
+								auto AutocompletionsMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions, m_TypingModule);
+								AddWidget(AutocompletionsMenu);
+								g_InputManager->RequestTypingPointer(AutocompletionsMenu->ModifyGestureRecognizer());
 							}
 						}
 					}
@@ -537,6 +542,18 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
+				// If the context menu is visible and mouse goes down outside it, close it
+				// TODO
+				{
+					if (   !GetWidgets().empty()
+						&& GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() == GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(InputEvent.m_Pointer))
+					{
+						g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+						InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(GetWidgets()[0]->ModifyGestureRecognizer());
+						RemoveWidget(GetWidgets()[0].get());
+					}
+				}
+
 				switch (ButtonId)
 				{
 				case 0:

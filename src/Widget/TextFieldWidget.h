@@ -57,6 +57,9 @@ public:
 
 	void SetBackground(Color BackgroundColor);
 
+protected:
+	bool HasTypingFocus() const override;
+
 private:
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
