@@ -52,7 +52,7 @@ template <typename T> void ContextMenuWidget<T>::Render()
 		//for (auto & Entry : m_Entries)
 		for (auto Entry = m_Entries.begin(); m_Entries.end() != Entry; ++Entry)
 		{
-			if (Entry - m_Entries.begin() == m_SelectedEntry)
+			/*if (Entry - m_Entries.begin() == m_SelectedEntry)
 				OpenGLStream.SetBackgroundColor(m_SelectedColor);
 			else
 				OpenGLStream.SetBackgroundColor(m_UnselectedColor);
@@ -60,7 +60,16 @@ template <typename T> void ContextMenuWidget<T>::Render()
 			OpenGLStream << *Entry;
 
 			OpenGLStream.SetBackgroundColor(m_UnselectedColor);
-			OpenGLStream << endl;
+			OpenGLStream << endl;*/
+
+			if (Entry - m_Entries.begin() == m_SelectedEntry)
+			{
+				glPushAttrib(GL_ALL_ATTRIB_BITS);
+				DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>(m_SelectedEntry * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
+				glPopAttrib();
+			}
+
+			OpenGLStream << *Entry << endl;
 		}
 	}
 }
@@ -180,7 +189,13 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-				m_SelectedEntry = LocalPosition.Y() / lineHeight;
+				if (LocalPosition.Y() < 0)
+					m_SelectedEntry = 0;
+				else
+					m_SelectedEntry = LocalPosition.Y() / lineHeight;
+				if (m_SelectedEntry > m_Entries.size() - 1)
+					m_SelectedEntry = m_Entries.size() - 1;
+
 			}
 		}
 	}

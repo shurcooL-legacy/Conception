@@ -27,7 +27,6 @@ private:
 
 	TypingModule &				m_TypingModule;
 
-	const Color		m_UnselectedColor = Color(1.0, 1, 1);
 	const Color		m_SelectedColor = Color(0.3529, 0.5686, 0.8235);
 };
 
