@@ -190,11 +190,13 @@ int main(int argc, char * argv[])
 	}
 
 	// Clean up
-#if defined(__APPLE__) && defined(__MACH__)
-	//system("rm ./GenProgram.cpp ./GenProgram.command");		// Clean up temporary files
-#endif
 	OglUtilsKillFont();
 	glfwTerminate();
+#if defined(__APPLE__) && defined(__MACH__)
+	system("rm ./GenProgram");		// Clean up temporary files
+	system("./bin/gocode/gocode drop-cache");
+	system("./bin/gocode/gocode close");
+#endif
 
 	std::cout << "\nReturning 0 from main().\n";
 	return 0;
