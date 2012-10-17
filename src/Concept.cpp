@@ -25,6 +25,12 @@ std::string Concept::GetContent() const
 	return "";
 }
 
+const Vector2n Concept::GetDimensions(std::string & Content)
+{
+	// TODO: Support newlines? Tabs? Etc.
+	return Vector2n(charWidth * Content.length(), lineHeight);
+}
+
 const Vector2n Concept::GetDimensions(ConceptId ConceptId)
 {
 	return GetConcept(ConceptId).GetDimensions();

@@ -29,9 +29,29 @@ void PointerMapping::DoneAdding()
 	// TODO
 }
 
-void PointerMapping::RemoveAllMappings()
+void PointerMapping::RemoveMapping(GestureRecognizer & Target)
 {
 	// Deactivate the current m_Capturer if it was removed
+	if (&Target == m_Capturer)
+	{
+		ChangeCapturer(nullptr);
+	}
+
+	for (auto Entry = m_Entries.begin(); m_Entries.end() != Entry; ++Entry)
+	{
+		if (*Entry == &Target)
+		{
+			m_Entries.erase(Entry);
+			break;
+		}
+	}
+
+	MutuallyConnectable<Pointer, class GestureRecognizer>::Disconnect(m_Owner, Target);
+}
+
+void PointerMapping::RemoveAllMappings()
+{
+	// Deactivate the current m_Capturer one existed
 	if (nullptr != m_Capturer)
 	{
 		ChangeCapturer(nullptr);

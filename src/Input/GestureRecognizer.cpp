@@ -40,7 +40,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}
 
 	// EXPERIMENTAL
-	if (m_RecognizeDoubleTap)
+	if (   m_RecognizeDoubleTap
+		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
@@ -95,6 +96,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}*/
 
 	//if (m_RecognizeScroll)
+	if (   true
+		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
 			&& 2 == InputEvent.m_InputId)
@@ -105,7 +108,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}
 
 	// TODO: Support for manipulation with >1 pointer simultaneously (including translation, as well as rotation/scale)
-	if (m_RecognizeManipulationTranslate)
+	if (   m_RecognizeManipulationTranslate
+		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
@@ -140,6 +144,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}
 
 	//if (...)
+	if (   true
+		&& !InputEvent.m_Handled)
 	{
 		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CHARACTER_EVENT))
 		{
@@ -149,7 +155,10 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 
 	// TODO: There might be duplication here this way, I think I should eliminate it (by providing a complete alternative gesture-level api for all events
 	// Low-level event passthrough
-	m_Owner.ProcessEvent(InputEvent);
+	if (!InputEvent.m_Handled)
+	{
+		m_Owner.ProcessEvent(InputEvent);
+	}
 }
 
 void GestureRecognizer::ProcessCanvasUpdated()

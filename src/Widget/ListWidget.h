@@ -12,7 +12,7 @@ public:
 	void Insert(T & Entry);
 
 	void Render() override;
-	
+
 	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
 
 	void ProcessManipulationStarted(const PointerState & PointerState) override;
@@ -20,7 +20,7 @@ public:
 	void ProcessManipulationCompleted(const PointerState & PointerState) override;
 
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction;
-	
+
 private:
 	void UpdateDimensions();
 

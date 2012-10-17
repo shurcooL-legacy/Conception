@@ -11,6 +11,7 @@ public:
 
 	void AddMapping(GestureRecognizer & GestureRecognizer);
 	void DoneAdding();
+	void RemoveMapping(GestureRecognizer & GestureRecognizer);
 	void RemoveAllMappings();
 
 	/*void ProcessPointerCreation(Pointer * Pointer);

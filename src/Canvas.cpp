@@ -1,14 +1,13 @@
 #include "Main.h"
 
 Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground)
-	: Widget(Position, Vector2n(0, 0)),
+	: CompositeWidget(Position, Vector2n::ZERO, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
 	  CameraZ(1),
 	  m_Centered(Centered),
 	  m_HasBackground(HasBackground),
-	  m_ScissorBox(),
-	  m_Widgets()
+	  m_ScissorBox()
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
@@ -32,18 +31,12 @@ void Canvas::Render()
 
 	SetupTransform();
 	{
-		for (auto & Widget : m_Widgets)
+		for (auto & Widget : GetWidgets())
 		{
 			Widget->Render();
 		}
 	}
 	EndTransform();
-}
-
-void Canvas::AddWidget(Widget * Widget)
-{
-	m_Widgets.push_back(std::unique_ptr<class Widget>(Widget));
-	Widget->SetParent(*this);
 }
 
 bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
@@ -67,8 +60,7 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 		Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
 		auto LocalPosition = ParentToLocal(ParentPosition);
 
-		//for (auto & Widget : reverse_adapt_container(m_Widgets))
-		for (auto & Widget : reverse(m_Widgets))
+		for (auto & Widget : reverse(GetWidgets()))
 		{
 			if (Widget->HitTest(LocalPosition, Hits))
 			{
@@ -227,7 +219,7 @@ void Canvas::ProcessTimePassed(const double TimePassed)
 		}
 	}
 
-	for (auto & Widget : m_Widgets)
+	for (auto & Widget : GetWidgets())
 	{
 		Widget->ProcessTimePassed(TimePassed);
 	}
@@ -237,7 +229,7 @@ void Canvas::ProcessCanvasUpdated()
 {
 	Widget::ProcessCanvasUpdated();
 
-	for (auto & Widget : m_Widgets)
+	for (auto & Widget : GetWidgets())
 	{
 		Widget->ProcessCanvasUpdated();
 	}
@@ -278,7 +270,7 @@ void Canvas::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector2n Par
 
 	if (0 == Degree || 1 == Degree)
 	{
-		for (auto & Widget : m_Widgets)
+		for (auto & Widget : GetWidgets())
 		{
 			Widget->ProcessCanvasUpdated();
 		}

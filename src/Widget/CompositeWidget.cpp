@@ -1,10 +1,14 @@
 #include "../Main.h"
 
 CompositeWidget::CompositeWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets)
-	: Widget(Position, Vector2n::ZERO),
+	: CompositeWidget(Position, Vector2n::ZERO, Widgets)
+{}
+
+CompositeWidget::CompositeWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets)
+	: Widget(Position, Dimensions),
 	  m_Widgets(Widgets)
 {
-	for (auto & Widget : m_Widgets)
+	for (auto & Widget : GetWidgets())
 	{
 		Widget->SetParent(*this);
 	}
@@ -14,12 +18,25 @@ CompositeWidget::~CompositeWidget()
 {
 }
 
+void CompositeWidget::AddWidget(Widget * Widget)
+{
+	m_Widgets.push_back(std::unique_ptr<class Widget>(Widget));
+	Widget->SetParent(*this);
+}
+
+void CompositeWidget::RemoveWidget(Widget * Widget)
+{
+	// TODO: Finish
+	// HACK: This removes all widgets, not just the specified one
+	m_Widgets.clear();
+}
+
 void CompositeWidget::Render()
 {
 	glPushMatrix();
 	glTranslated(GetPosition().X(), GetPosition().Y(), 0);
 	{
-		for (auto & Widget : m_Widgets)
+		for (auto & Widget : GetWidgets())
 		{
 			Widget->Render();
 		}
@@ -29,7 +46,7 @@ void CompositeWidget::Render()
 
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-	for (auto & Widget : reverse(m_Widgets))
+	for (auto & Widget : reverse(GetWidgets()))
 	{
 		auto Result = Widget->HitTest(ParentToLocal(ParentPosition), Hits);
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
