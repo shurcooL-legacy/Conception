@@ -197,7 +197,7 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 	{
 		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
 		//glfwSleep(0.5);
-		glfwSleep(0);
+		glfwSleep(0.001);
 
 		if (0 == App->m_BackgroundState)
 			continue;

@@ -162,3 +162,15 @@ void App::ProcessTimePassed(const double TimePassed)
 		OpenGLStream(Vector2n::ZERO) << out.str();
 	}
 }
+
+// Return true if the app should render the next frame right away, instead of waiting for next input event
+bool App::ShouldRedrawRegardless()
+{
+	// By default, apps always keep redrawing each frame
+	return true;
+}
+
+std::string App::GetTitle()
+{
+	return "Conception";
+}

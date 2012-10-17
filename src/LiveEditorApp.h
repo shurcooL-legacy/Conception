@@ -15,7 +15,9 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
-	std::string GetTitle() override { return "Conception: Live Editor App"; }
+	bool ShouldRedrawRegardless() override;
+
+	std::string GetTitle() override;
 
 private:
 	LiveEditorApp(const LiveEditorApp &);
@@ -31,6 +33,7 @@ private:
 	volatile uint8	m_BackgroundState;
 	volatile pid_t	m_LastPid;
 	volatile double m_ProcessStartedTime;
+	volatile double m_ProcessEndedTime;
 	volatile bool	m_ExpiredOutput;
 	int				m_PipeFd[2];
 	Thread			m_BackgroundThread;

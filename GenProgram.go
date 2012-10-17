@@ -2,72 +2,45 @@ package main
 
 import (
 	"fmt"
-	"go/token"
-	"go/parser"
-	"go/printer"
-	"bytes"
-	"go/ast"
-//	"strings"
+	"sort"
 	"reflect"
-	"time"
 )
 
-func PrintCode(fset *token.FileSet, node interface{}) {
-	var buf bytes.Buffer
-	buf.String()
-	time.Sl
-	printer.Fprint(&buf, fset, node)
-	fmt.Println(buf.String())
+func MySort(a []int) (int, uint8) {
+	sort.IntSlice(a).Sort()
+
+	return len(a), 'x'
 }
 
-func SlowPrint() {
-	time.Sleep(0)
-
-	// Hey2
-	const time = 6
-	/*var time int
-	time = 6*/
-
-	for i := 1; i <= time; i++ {
-		//time.Sleep(time.Second / 1)
-		fmt.Println(i*100)
+func MyPrint(args ...interface{}) {
+	//fmt.Println(args...)
+	fmt.Print(" -> ")
+	for index, arg := range args {
+		fmt.Printf("%#v", arg)
+		if (len(args) - 1 != index) {
+			fmt.Print(", ")
+		}
 	}
+	fmt.Println()
 }
-
-func foo(x int) int { return x * 2 }
 
 func main() {
-	reflect.TypeOf(0)
-
-	fset := token.NewFileSet()	// Comment
-	if file, err := parser.ParseFile(fset, "../Simple.go", nil, 1*parser.ParseComments); nil == err {
-		//PrintCode(fset, file)
-		
-		for _, u := range file.Unresolved {
-			fmt.Println(u)
-		}
-		fmt.Println()
-		//fmt.Println(file)
-		for _, d := range file.Decls {
-			if f, ok := d.(*ast.FuncDecl); ok {
-				//PrintCode(fset, f)
-				for _, l := range f.Body.List {
-					//PrintCode(fset, l)
-					if expr, ok := l.(*ast.ExprStmt); ok {
-						//PrintCode(fset, expr)
-						if call, ok := expr.X.(*ast.CallExpr); ok {
-							PrintCode(fset, call.Fun)
-							//fmt.Println(reflect.TypeOf(call.Fun))
-							if sel, ok := call.Fun.(*ast.SelectorExpr); ok {
-								//PrintCode(fset, sel.X)
-								fmt.Print(reflect.TypeOf(sel.X), " - ")
-								fmt.Println(sel.X)
-							}
-						}
-					}
-				}
-				//break
-			}
-		}
+	// Testing with types
+	{
+		x := uint8('x')
+		fmt.Printf("%#v\n", x)
+		fmt.Println(reflect.TypeOf(x))
 	}
+
+
+	fmt.Print("\n\n\n\n\n\n\n")
+
+	a := []int{2, 5, 3, 4, 1}
+	//var a []int
+
+	fmt.Printf("MySort(%#v)", a)
+
+	MyPrint(MySort(a))
+
+	fmt.Printf("       %#v", a)
 }

@@ -23,7 +23,9 @@ public:
 
 	void ProcessTimePassed(const double TimePassed) override;
 
-	virtual std::string GetTitle() { return "Conception"; };
+	virtual bool ShouldRedrawRegardless();
+
+	virtual std::string GetTitle();
 
 protected:
 	// DEBUG: Made m_Widgets public for temporary debugging purposes
