@@ -1,18 +1,26 @@
-Conception
-==========
+Conception/Live Editor App
+==========================
 
-Conception is an experimental research project, meant to become a modern IDE/Language package. It experiments with discarding old conventions that were based on computational limitations (e.g. breaking code into files on a file system), and tries to make the process of coding as efficient as possible. I'm a fan of ideas from Bret Victor's talks, Light Table, Code Bubbles, Subtext, and of course I have ideas of my own.
+This is a simple live editor (by default for Go language, but can easily be changed to C++ or any other compiled language).
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Go%20Live%20Editor%201.png)<br>
+Short Video: http://www.youtube.com/watch?v=0msv60-qujs
 
-My main guiding principle is to eliminate unnecessary duplication.
+Requirements
+------------
+- Go must be installed (it uses the /usr/local/go/bin/go binary to compile Go source code).
 
-It started off from [this tweet](https://twitter.com/shurcooL/status/173110768726839296).
+Notes
+-----
+The Xcode project is up to date and should allow you to compile and run right away.
 
-Please steal any good ideas you see here. I'd rather have them benefit the world than die in obscurity.
+It should also work on Linux if you write a Makefile.
 
-Motivation
-----------
-- Right now it's often easier to write code from scratch to do something, rather than find existing code that already does it. Conception is about flipping that.
+Can be compiled on Windows, but since I use a lot of C++11 features that even Visual Studio 2012 doesn't support yet, it will take effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
 
-- Conversely, code you write today is dead on arrival, no one (not even you) is likely to ever reuse it. Millions of ppl's efforts are wasted. Must make Conception so that we can encode complicated things in available formats. Make data-mining, machine-learning, computer vision algorithms as easily accessible as file.open, sort, hashmaps, other stuff available via standard libraries. Let the underlying technological improvements (new tools) propogate to current/old/future apps. Consider writing graphics code for latest ATI video card w/ new extensions, vs. "for the average user" - intention might be the same, just a difference of available tools.
+Since it executes code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
 
-- Instead of dumbing down code for the existing tools, why not make more advanced tools to read code as if debugging the program. (https://twitter.com/shurcooL/status/156526541214457856)
+It assumes golang is installed (i.e. /usr/local/go/bin/go exists). You might have to change this path if your go binary is elswhere.
+
+Known Issues
+------------
+- <del>The program is not power/CPU/GPU-efficient. It runs at 100% CPU usage even when it's not neccessary. Fixing this is not hard, but it's not a priority during development. Best to run while on AC power.</del> Fixed (there was a bug causing a background thread to use 100% CPU).
