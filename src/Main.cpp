@@ -160,7 +160,10 @@ int main(int argc, char * argv[])
 
 			// Process input
 			{
-				glfwPollEvents();
+				if (MainApp.ShouldRedrawRegardless())
+					glfwPollEvents();
+				else
+					glfwWaitEvents();
 				InputManager.ProcessTimePassed(TimePassed);
 			}
 

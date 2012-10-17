@@ -63,7 +63,7 @@ Thread * Thread::GetThisThreadAndRevertArgument(void *& pArgument)
 
 	// Delay the thread from starting until the end of its Thread object constructor
 	while (!pThread->m_bCanStart && pThread->ShouldBeRunning())
-		glfwSleep(0);
+		glfwSleep(0.001);
 
 	return pThread;
 }

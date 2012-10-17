@@ -9,6 +9,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	  m_BackgroundState(0),
 	  m_LastPid(0),
 	  m_ProcessStartedTime(0),
+	  m_ProcessEndedTime(0),
 	  m_ExpiredOutput(false),
 	  m_PipeFd(),
 	  m_BackgroundThread(&LiveEditorApp::BackgroundThread, this, "Background")
@@ -43,6 +44,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 				//m_CurrentProject.RunProgram(m_OutputWidget);
 
+				m_ProcessEndedTime = glfwGetTime();
 				m_BackgroundState = 0;
 
 				// Kill child processes
@@ -234,7 +236,7 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 	{
 		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
 		//glfwSleep(0.5);
-		glfwSleep(0);
+		glfwSleep(0.001);
 
 		if (0 == App->m_BackgroundState)
 			continue;
@@ -335,6 +337,7 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 			}*/
 		} else {
 			App->m_OutputWidget->SetBackground(App->m_ErrorCompileColor);
+			App->m_ProcessEndedTime = glfwGetTime();
 			App->m_BackgroundState = 0;
 		}
 
@@ -416,8 +419,10 @@ void GLFWCALL LiveEditorApp::BackgroundThread(void * pArgument)
 			App->m_OutputWidget->SetBackground(App->m_FinishedErrorColor);
 		}
 
-		if (2 == App->m_BackgroundState)
+		if (2 == App->m_BackgroundState) {
+			App->m_ProcessEndedTime = glfwGetTime();
 			App->m_BackgroundState = 0;
+		}
 	}
 
 	Thread->ThreadEnded();
@@ -542,4 +547,17 @@ void LiveEditorApp::ProcessEvent(InputEvent & InputEvent)
 
 		m_TypingModule.ProcessEvent(InputEvent);
 	}
+}
+
+bool LiveEditorApp::ShouldRedrawRegardless()
+{
+	if (0 == m_BackgroundState && glfwGetTime() >= m_ProcessEndedTime + 1)
+		return false;		// If idle, don't redraw regardless of input
+	else
+		return true;		// If background thread is doing something, we should redraw
+}
+
+std::string LiveEditorApp::GetTitle()
+{
+	return "Conception: Live Editor App";
 }
