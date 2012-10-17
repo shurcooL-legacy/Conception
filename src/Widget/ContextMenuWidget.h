@@ -6,8 +6,10 @@ template <typename T> class ContextMenuWidget
 	: public Widget
 {
 public:
-	ContextMenuWidget(Vector2n Position, std::vector<T> & List, TypingModule & TypingModule);
+	ContextMenuWidget(Vector2n Position, std::vector<T> & List);
 	virtual ~ContextMenuWidget();
+
+	const T & GetSelectedEntry() const;
 
 	void Render() override;
 
@@ -24,8 +26,6 @@ private:
 	std::vector<T>				m_Entries;
 
 	typename decltype(m_Entries)::size_type		m_SelectedEntry;
-
-	TypingModule &				m_TypingModule;
 
 	const Color		m_SelectedColor = Color(0.3529, 0.5686, 0.8235);
 };

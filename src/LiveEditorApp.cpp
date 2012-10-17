@@ -97,7 +97,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 							close(PipeFd[1]);    // this descriptor is no longer needed
 
-							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
 
 							//exit(1);		// Not needed, just in case I comment out the above
 						}
@@ -156,7 +156,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 					ss << Output;
 					std::string Line;
 
-					std::getline(ss, Line);
+					std::getline(ss, Line);		// Skip first line
 					std::getline(ss, Line);
 					while (!Line.empty() && !ss.eof())
 					{

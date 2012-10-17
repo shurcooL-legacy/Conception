@@ -1,9 +1,8 @@
-template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position, std::vector<T> & Entries, TypingModule & TypingModule)
+template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position, std::vector<T> & Entries)
 	: Widget(Position, Vector2n::ZERO),
 	  m_TapAction(),
 	  m_Entries(Entries),
-	  m_SelectedEntry(0),
-	  m_TypingModule(TypingModule)
+	  m_SelectedEntry(0)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
@@ -14,6 +13,11 @@ template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position,
 
 template <typename T> ContextMenuWidget<T>::~ContextMenuWidget()
 {
+}
+
+template <typename T> const T & ContextMenuWidget<T>::GetSelectedEntry() const
+{
+	return m_Entries[m_SelectedEntry];
 }
 
 template <typename T> void ContextMenuWidget<T>::Render()
@@ -52,21 +56,9 @@ template <typename T> void ContextMenuWidget<T>::Render()
 		//for (auto & Entry : m_Entries)
 		for (auto Entry = m_Entries.begin(); m_Entries.end() != Entry; ++Entry)
 		{
-			/*if (Entry - m_Entries.begin() == m_SelectedEntry)
-				OpenGLStream.SetBackgroundColor(m_SelectedColor);
-			else
-				OpenGLStream.SetBackgroundColor(m_UnselectedColor);
-
-			OpenGLStream << *Entry;
-
-			OpenGLStream.SetBackgroundColor(m_UnselectedColor);
-			OpenGLStream << endl;*/
-
 			if (Entry - m_Entries.begin() == m_SelectedEntry)
 			{
-				glPushAttrib(GL_ALL_ATTRIB_BITS);
-				DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>(m_SelectedEntry * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
-				glPopAttrib();
+				DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
 			}
 
 			OpenGLStream << *Entry << endl;

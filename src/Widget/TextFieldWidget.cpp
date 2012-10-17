@@ -83,6 +83,12 @@ void TextFieldWidget::Render()
 			}
 		}
 	}
+	if (!GetWidgets().empty())
+	{
+		auto Autocompletion = static_cast<ContextMenuWidget<std::string> *>(GetWidgets()[0].get())->GetSelectedEntry();
+
+		ContentWithInsertion.insert(m_CaretPosition, Autocompletion);
+	}
 
 	glColor3d(0, 0, 0);
 	OpenGLStream OpenGLStream(GetPosition());
@@ -336,7 +342,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								}
 								std::cout << "-----------------------\n";*/
 
-								auto AutocompletionsMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions, m_TypingModule);
+								auto AutocompletionsMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions);
 								AddWidget(AutocompletionsMenu);
 								g_InputManager->RequestTypingPointer(AutocompletionsMenu->ModifyGestureRecognizer());
 							}
@@ -896,6 +902,6 @@ bool TextFieldWidget::IsCoreCharacter(uint8 Character)
 {
 	return (   ('a' <= Character && Character <= 'z')
 			|| ('A' <= Character && Character <= 'Z')
-			|| ('1' <= Character && Character <= '0')
+			|| ('0' <= Character && Character <= '9')
 			|| '_' == Character);
 }
