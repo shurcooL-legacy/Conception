@@ -15,9 +15,12 @@ template <typename T> ContextMenuWidget<T>::~ContextMenuWidget()
 {
 }
 
-template <typename T> const T & ContextMenuWidget<T>::GetSelectedEntry() const
+template <typename T> const T * ContextMenuWidget<T>::GetSelectedEntry() const
 {
-	return m_Entries[m_SelectedEntry];
+	if (!m_Entries.empty())
+		return &m_Entries[m_SelectedEntry];
+	else
+		return nullptr;
 }
 
 template <typename T> void ContextMenuWidget<T>::Render()

@@ -9,7 +9,7 @@ public:
 	ContextMenuWidget(Vector2n Position, std::vector<T> & List);
 	virtual ~ContextMenuWidget();
 
-	const T & GetSelectedEntry() const;
+	const T * GetSelectedEntry() const;
 
 	void Render() override;
 

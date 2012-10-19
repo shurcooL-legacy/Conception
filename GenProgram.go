@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
-	"reflect"
+	//"reflect"
 )
 
 func MySort(a []int) (int, uint8) {
@@ -24,12 +24,28 @@ func MyPrint(args ...interface{}) {
 	fmt.Println()
 }
 
+type Lang struct {
+	Name string
+	Year int
+	URL  string
+}
+
+type Blah uint8
+
+func (blah * Blah) GoString() string {
+	return "z"
+}
+
 func main() {
 	// Testing with types
 	{
 		x := uint8('x')
+		//x := Blah('y')
 		fmt.Printf("%#v\n", x)
-		fmt.Println(reflect.TypeOf(x))
+	}
+	{
+		x := Lang{Name: "Go", Year: 2009, URL: "http"}
+		fmt.Printf("%#v\n", x)
 	}
 
 
@@ -39,7 +55,6 @@ func main() {
 	//var a []int
 
 	fmt.Printf("MySort(%#v)", a)
-
 	MyPrint(MySort(a))
 
 	fmt.Printf("       %#v", a)

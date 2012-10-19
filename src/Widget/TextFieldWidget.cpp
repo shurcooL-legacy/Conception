@@ -87,7 +87,9 @@ void TextFieldWidget::Render()
 	{
 		auto Autocompletion = static_cast<ContextMenuWidget<std::string> *>(GetWidgets()[0].get())->GetSelectedEntry();
 
-		ContentWithInsertion.insert(m_CaretPosition, Autocompletion);
+		if (nullptr != Autocompletion) {
+			ContentWithInsertion.insert(m_CaretPosition, *Autocompletion);
+		}
 	}
 
 	glColor3d(0, 0, 0);
