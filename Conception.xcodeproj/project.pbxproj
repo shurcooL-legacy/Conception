@@ -61,6 +61,7 @@
 		2A96BDF71540B0040010D618 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE31540B0040010D618 /* thread.c */; };
 		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
 		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
+		2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */; };
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
 		2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
@@ -182,6 +183,8 @@
 		2A96BDE31540B0040010D618 /* thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thread.c; path = glfw/thread.c; sourceTree = SOURCE_ROOT; };
 		2A96BDE41540B0040010D618 /* time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = time.c; path = glfw/time.c; sourceTree = SOURCE_ROOT; };
 		2A96BDE51540B0040010D618 /* window.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = window.c; path = glfw/window.c; sourceTree = SOURCE_ROOT; };
+		2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveFunctionWidget.cpp; sourceTree = "<group>"; };
+		2A9C33EB1633A08300942CFD /* LiveFunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFunctionWidget.h; sourceTree = "<group>"; };
 		2AAAF4D21562E84C00BFD81D /* MutuallyConnectable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MutuallyConnectable.hpp; path = src/MutuallyConnectable.hpp; sourceTree = SOURCE_ROOT; };
 		2AB805B9155966E90052572D /* glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glfw.h; path = include/GL/glfw.h; sourceTree = SOURCE_ROOT; };
 		2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionTestApp.cpp; path = src/ConceptionTestApp.cpp; sourceTree = SOURCE_ROOT; };
@@ -286,6 +289,8 @@
 				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
 				2A4FFA8D155465D90021D8EF /* ListWidget.hpp */,
+				2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */,
+				2A9C33EB1633A08300942CFD /* LiveFunctionWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
 				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
@@ -526,6 +531,7 @@
 				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
 				2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */,
 				2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */,
+				2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

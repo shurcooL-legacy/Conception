@@ -12,24 +12,29 @@ func MySort(a []int) (int, bool) {
 	return len(a), true
 }
 
-func MyPrint(args ...interface{}) {
+func MyGetString(args ...interface{}) string {
 	//fmt.Println(args...)
-	fmt.Print(" -> ")
+	str := ""
 	for index, arg := range args {
-		fmt.Printf("%#v", arg)
+		str = str + fmt.Sprintf("%#v", arg)
 		if (len(args) - 1 != index) {
-			fmt.Print(", ")
+			str = str + fmt.Sprint(", ")
 		}
 	}
-	fmt.Println()
+	return str
 }
 
 func main() {
 	a := []int{2, 5, 3, 4, 1}
+	
+	in := MyGetString(a)
+	ret := MyGetString(MySort(a))
+	out := MyGetString(a)
 
-	fmt.Printf("MySort(%#v)", a)
+	fmt.Printf("       %s\n", out)
 
-	MyPrint(MySort(a))
+	fmt.Printf("MySort(%s) -> ", in)
 
-	fmt.Printf("       %#v", a)
+	fmt.Print(ret)
+
 }

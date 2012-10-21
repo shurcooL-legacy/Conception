@@ -72,6 +72,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
+		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -300), m_TypingModule));
 		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(300, -200), m_TypingModule));
 		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule));
 

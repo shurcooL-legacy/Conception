@@ -205,6 +205,7 @@ extern InputManager * g_InputManager;
 #include "Widget/ContextMenuWidget.h"
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
+#include "Widget/LiveFunctionWidget.h"
 #include "Canvas.h"
 #include "Thread.h"
 #include "App.h"

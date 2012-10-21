@@ -35,7 +35,7 @@ public:
 	std::function<std::vector<std::string>()>		m_GetAutocompletions;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
-	virtual ~TextFieldWidget();
+	~TextFieldWidget();
 
 	void Render() override;
 
@@ -61,6 +61,9 @@ protected:
 	bool HasTypingFocus() const override;
 
 private:
+	TextFieldWidget(const TextFieldWidget &) = delete;
+	TextFieldWidget & operator = (const TextFieldWidget &) = delete;
+
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
