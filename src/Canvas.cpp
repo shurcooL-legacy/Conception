@@ -1,16 +1,21 @@
 #include "Main.h"
 
-Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground)
+Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
 	: CompositeWidget(Position, Vector2n::ZERO, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
 	  CameraZ(1),
 	  m_Centered(Centered),
 	  m_HasBackground(HasBackground),
-	  m_ScissorBox()
+	  m_ScissorBox(),
+	  m_BehaviourScrolling(BehaviourScrolling)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
+	if (   Canvas::BehaviourScrolling::Zooming == m_BehaviourScrolling
+		|| Canvas::BehaviourScrolling::Freeform == m_BehaviourScrolling)
+		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
+	else if (Canvas::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
+		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	if (m_HasBackground)
 	{
@@ -132,7 +137,7 @@ void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double Mo
 
 void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
-	printf("Canvas %p::ProcessTap()\n", this);
+	//printf("Canvas %p::ProcessTap()\n", this);
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
@@ -145,18 +150,20 @@ void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 
 void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
-#if 0
-	auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
-	double A[2] = { WidgetLocalPosition.X() - 0.5 * GetDimensions().X(),
-					WidgetLocalPosition.Y() - 0.5 * GetDimensions().Y() };
+	if (BehaviourScrolling::Zooming == m_BehaviourScrolling) {
+		auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
+		double A[2] = { WidgetLocalPosition.X() - m_Centered * 0.5 * GetDimensions().X(),
+						WidgetLocalPosition.Y() - m_Centered * 0.5 * GetDimensions().Y() };
 
-	auto ParentLocalPosition = GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition()));
+		auto ParentLocalPosition = GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition()));
 
-	MoveView(2, ScrollAmount[0], A, ParentLocalPosition);
-#else
-	//MoveView(0, ScrollAmount[1]);
-	MoveView(1, ScrollAmount[0]);
-#endif
+		MoveView(2, ScrollAmount[0], A, ParentLocalPosition);
+	} else if (BehaviourScrolling::Freeform == m_BehaviourScrolling) {
+		MoveView(0, ScrollAmount[1]);
+		MoveView(1, ScrollAmount[0]);
+	} else if (BehaviourScrolling::VerticalOnly == m_BehaviourScrolling) {
+		MoveView(1, ScrollAmount[0]);
+	}
 }
 
 void Canvas::ProcessManipulationStarted(const PointerState & PointerState)

@@ -19,8 +19,8 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	PopulateConcepts();
 
 	{
-		auto LeftCanvas = new Canvas(Vector2n(0, 0), false, true);
-		auto RightCanvas = new Canvas(Vector2n(0, 0), false, true);
+		auto LeftCanvas = new Canvas(Vector2n(0, 0), false, true, Canvas::BehaviourScrolling::VerticalOnly);
+		auto RightCanvas = new Canvas(Vector2n(0, 0), false, true, Canvas::BehaviourScrolling::VerticalOnly);
 
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));

@@ -6,13 +6,19 @@ class Canvas
 	: public CompositeWidget
 {
 public:
-	Canvas(Vector2n Position, bool Centered, bool HasBackground);
+	enum class BehaviourScrolling {
+		Zooming,
+		Freeform,
+		VerticalOnly
+	};
+
+	Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming);
 	~Canvas();
 
 	void Render() override;
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
-	
+
 	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
 
 	/*void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed);
@@ -55,6 +61,8 @@ private:
 	bool		m_HasBackground;
 
 	Rectanglen	m_ScissorBox;
+
+	BehaviourScrolling		m_BehaviourScrolling;
 
 	//std::vector<std::unique_ptr<Widget>>		m_Widgets;
 };

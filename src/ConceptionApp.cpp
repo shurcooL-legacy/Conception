@@ -8,6 +8,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	  m_OutputWidget(nullptr),
 	  m_BackgroundState(0),
 	  m_LastPid(0),
+	  m_ProcessStartedTime(0),
+	  m_ProcessEndedTime(0),
 	  m_ExpiredOutput(false),
 	  m_PipeFd(),
 	  m_BackgroundThread(&ConceptionApp::BackgroundThread, this, "Background")
@@ -70,8 +72,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(200, -200), m_TypingModule));
-		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-400, -200), m_TypingModule));
+		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(300, -200), m_TypingModule));
+		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule));
 
 		/*auto Test = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule);
 		MainCanvas->AddWidget(Test);
@@ -94,6 +96,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 				//m_CurrentProject.RunProgram(m_OutputWidget);
 
+				m_ProcessEndedTime = glfwGetTime();
 				m_BackgroundState = 0;
 
 				// Kill child processes
@@ -115,28 +118,117 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				m_PipeFd[0] = m_PipeFd[1] = -1;
 
 				//m_OutputWidget->SetContent("");
+				m_ProcessStartedTime = glfwGetTime();
 				m_ExpiredOutput = true;
 				m_BackgroundState = 1;
 			};
 
-			//m_Content = "int main(int argc, char * argv[])\n{\n\tPrintHi();\n\treturn 0;\n}";
-			m_SourceWidget->SetContent(
-#if 0
-				"{""\n"
-				"	// Skip non-spaces to the right""\n"
-				"	auto LookAt = m_CaretPosition;""\n"
-				"	while (   LookAt < m_Content.length()""\n"
-				"		   && IsCoreCharacter(m_Content[LookAt]))""\n"
-				"	{""\n"
-				"		++LookAt;""\n"
-				"	}""\n"
-				"""\n"
-				"	SetCaretPosition(LookAt, false);""\n"
-				"}"
+			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
+			{
+				std::vector<std::string> Autocompletions;
+
+				//Autocompletions = { "Line 1", "Line 2", "Line 3" };
+
+				// Get autocompletion using gocode
+				std::string Output = "";
+				{
+					int PipeFd[2];
+					pipe(PipeFd);
+					fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
+					std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+
+					uint8 ProcessResult;
+
+					{
+						auto Pid = fork();
+
+						if (0 == Pid)
+						{
+							close(PipeFd[0]);    // close reading end in the child
+
+							dup2(PipeFd[1], 1);  // send stdout to the pipe
+							dup2(PipeFd[1], 2);  // send stderr to the pipe
+
+							close(PipeFd[1]);    // this descriptor is no longer needed
+
+							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+
+							//exit(1);		// Not needed, just in case I comment out the above
+						}
+						else if (-1 == Pid)
+						{
+							std::cerr << "Error forking.\n";
+							throw 0;
+						}
+						else
+						{
+							// Wait for child process to complete
+							{
+								int status;
+								waitpid(Pid, &status, 0);
+								Pid = 0;
+
+								std::cout << "Child finished with status " << status << ".\n";
+
+								ProcessResult = static_cast<uint8>(status >> 8);
+							}
+
+							// Read output from pipe and put it into Output
+							if (0 == ProcessResult)
+							{
+								char buffer[1024];
+								ssize_t n;
+								while (0 != (n = read(PipeFd[0], buffer, sizeof(buffer))))
+								{
+									if (-1 == n) {
+										if (EAGAIN == errno) {
+											break;
+										} else {
+											std::cerr << "Error: Reading from pipe " << PipeFd[0] << " failed with errno " << errno << ".\n";
+											break;
+										}
+									}
+									else
+									{
+										Output.append(buffer, n);
+									}
+								}
+							}
+
+							std::cout << "Done in parent!\n";
+						}
+					}
+
+					close(PipeFd[0]);
+					close(PipeFd[1]);
+				}
+
+				// Parse Output and populate Autocompletions
+				// TODO: Clean up
+				{
+					std::stringstream ss;
+					ss << Output;
+					std::string Line;
+
+					std::getline(ss, Line);		// Skip first line
+					std::getline(ss, Line);
+					while (!Line.empty() && !ss.eof())
+					{
+						Autocompletions.push_back(Line);
+						std::getline(ss, Line);
+					}
+					if (!Line.empty())
+						Autocompletions.push_back(Line);
+				}
+
+				return Autocompletions;
+			};
+
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+			m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
 #else
-				FromFileToString("./GenProgram.cpp")
+			m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
 #endif
-			);
 		}
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
@@ -148,6 +240,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
+
+		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}
 
 	// Prepare and start the thread
@@ -186,6 +280,12 @@ ConceptionApp::~ConceptionApp()
 	CleanConcepts();
 }
 
+void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
+{
+	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
+	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
+}
+
 void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 {
 	Thread * Thread = Thread::GetThisThreadAndRevertArgument(pArgument);
@@ -203,7 +303,7 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 			continue;
 
 		App->m_BackgroundState = 2;
-		App->m_OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
+		App->m_OutputWidget->SetBackground(App->m_CompilingColor);
 
 		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
@@ -241,7 +341,11 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-				execl("/usr/bin/clang++", "clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
+#else
+				execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
+#endif
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}
@@ -284,9 +388,17 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		}
 
 		if (0 == ProcessResult) {
-			App->m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+			App->m_OutputWidget->SetBackground(App->m_RunningColor);
+
+			// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex (but too lazy ATM to add all the code for a mutex)
+			/*if (App->m_ExpiredOutput)
+			{
+				App->m_OutputWidget->SetContent("");
+				App->m_ExpiredOutput = false;
+			}*/
 		} else {
-			App->m_OutputWidget->SetBackground(Color(1.0, 0, 0));
+			App->m_OutputWidget->SetBackground(App->m_ErrorCompileColor);
+			App->m_ProcessEndedTime = glfwGetTime();
 			App->m_BackgroundState = 0;
 		}
 
@@ -308,7 +420,8 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
-				execl("GenProgram", "GenProgram", (char *)0);
+				execl("./GenProgram", "./GenProgram", (char *)0);
+				//execl("./gocode", "gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(App->m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
 
 				//exit(1);		// Not needed, just in case I comment out the above
 			}
@@ -362,22 +475,18 @@ void GLFWCALL ConceptionApp::BackgroundThread(void * pArgument)
 		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		if (0 == ProcessResult) {
-			App->m_OutputWidget->SetBackground(Color(0.0, 1, 0));
+			App->m_OutputWidget->SetBackground(App->m_FinishedSuccessColor);
 		} else {
-			App->m_OutputWidget->SetBackground(Color(0.0, 0, 1));
+			App->m_OutputWidget->SetBackground(App->m_FinishedErrorColor);
 		}
 
-		if (2 == App->m_BackgroundState)
+		if (2 == App->m_BackgroundState) {
+			App->m_ProcessEndedTime = glfwGetTime();
 			App->m_BackgroundState = 0;
+		}
 	}
 
 	Thread->ThreadEnded();
-}
-
-void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
 }
 
 void ConceptionApp::Render()
@@ -417,6 +526,16 @@ void ConceptionApp::Render()
 				}
 			}
 		}
+
+		// If the output is still expired after a second since process started, just clear the output
+		if (glfwGetTime() >= m_ProcessStartedTime + 1.0)
+		{
+			if (m_ExpiredOutput)
+			{
+				m_OutputWidget->SetContent("");
+				m_ExpiredOutput = false;
+			}
+		}
 	}
 
 	App::Render();
@@ -444,16 +563,17 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 					switch (ButtonId)
 					{
 					//case GLFW_KEY_F5:
-					/*case 'R':
+					case 'R':
 						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
 							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
 						{
-							m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
-							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));
+							/*m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
+							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));*/
+							m_SourceWidget->m_OnChange();
 
 							InputEvent.m_Handled = true;
 						}
-						break;*/
+						break;
 					// TEST
 					/*case 'B':
 						//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
@@ -488,4 +608,12 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 
 		m_TypingModule.ProcessEvent(InputEvent);
 	}
+}
+
+bool ConceptionApp::ShouldRedrawRegardless()
+{
+	if (0 == m_BackgroundState && glfwGetTime() >= m_ProcessEndedTime + 1)
+		return false;		// If idle, don't redraw regardless of input
+	else
+		return true;		// If background thread is doing something, we should redraw
 }

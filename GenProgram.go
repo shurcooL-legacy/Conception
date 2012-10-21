@@ -2,43 +2,34 @@ package main
 
 import (
 	"fmt"
-	"go/token"
-	"go/parser"
-	"go/printer"
-//	"go/ast"
-	"bytes"
-//	"strings"
-//	"reflect"
-//	"time"
+	"sort"
+	//"reflect"
 )
 
-func CodeToString(fset *token.FileSet, node interface{}) string {
-	var buf bytes.Buffer
-	printer.Fprint(&buf, fset, node)
-	return buf.String()
+func MySort(a []int) (int, bool) {
+	sort.IntSlice(a).Sort()
+
+	return len(a), true
 }
 
-func VariableToGoSyntax(variable interface{}) string {
-	return fmt.Sprintf("%#v", variable)
-}
-
-func VariableToGoSyntaxFormatted(variable interface{}) string {
-	str := VariableToGoSyntax(variable)
-
-	if expr, err := parser.ParseExpr(str); nil == err {
-		return CodeToString(token.NewFileSet(), expr)
+func MyPrint(args ...interface{}) {
+	//fmt.Println(args...)
+	fmt.Print(" -> ")
+	for index, arg := range args {
+		fmt.Printf("%#v", arg)
+		if (len(args) - 1 != index) {
+			fmt.Print(", ")
+		}
 	}
-	return ""
-}
-
-type Lang struct {
-	Name string
-	Year int
-	URL  string
+	fmt.Println()
 }
 
 func main() {
-	x := Lang{Name: "Go", Year: 2009, URL: "http"}
-	fmt.Println(VariableToGoSyntax(x))
-	fmt.Println(VariableToGoSyntaxFormatted(x))
+	a := []int{2, 5, 3, 4, 1}
+
+	fmt.Printf("MySort(%#v)", a)
+
+	MyPrint(MySort(a))
+
+	fmt.Printf("       %#v", a)
 }
