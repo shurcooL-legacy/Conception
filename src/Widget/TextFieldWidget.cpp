@@ -548,47 +548,50 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		}
 		else if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			if (Pressed)
+			if (HasTypingFocus())
 			{
-				// If the context menu is visible and mouse goes down outside it, close it
-				// TODO
+				if (Pressed)
 				{
-					if (   !GetWidgets().empty()
-						&& GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() == GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(InputEvent.m_Pointer))
+					// If the context menu is visible and mouse goes down outside it, close it
+					// TODO: Make this general, it should also close when widget loses focus, etc.
 					{
-						g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
-						InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(GetWidgets()[0]->ModifyGestureRecognizer());
-						RemoveWidget(GetWidgets()[0].get());
-					}
-				}
-
-				switch (ButtonId)
-				{
-				case 0:
-					{
-						Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-						Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
-						LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
-
-						auto CaretPosition = GetNearestCaretPosition(LocalPosition);
-
-						auto ShiftActive = g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT) || g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT);
-						SetCaretPosition(CaretPosition, !ShiftActive);
-
+						if (   !GetWidgets().empty()
+							&& GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() == GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(InputEvent.m_Pointer))
 						{
-							auto Entry = m_TypingModule.TakeString();
-
-							if (!Entry.empty())
-							{
-								m_Content.insert(m_CaretPosition, Entry);
-								UpdateContentLines();
-								SetCaretPosition(GetNearestCaretPosition(LocalPosition), true);
-							}
+							g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+							InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(GetWidgets()[0]->ModifyGestureRecognizer());
+							RemoveWidget(GetWidgets()[0].get());
 						}
 					}
-					break;
-				default:
-					break;
+
+					switch (ButtonId)
+					{
+					case 0:
+						{
+							Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+							Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+							LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
+
+							auto CaretPosition = GetNearestCaretPosition(LocalPosition);
+
+							auto ShiftActive = g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT) || g_InputManager->m_TypingPointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT);
+							SetCaretPosition(CaretPosition, !ShiftActive);
+
+							{
+								auto Entry = m_TypingModule.TakeString();
+
+								if (!Entry.empty())
+								{
+									m_Content.insert(m_CaretPosition, Entry);
+									UpdateContentLines();
+									SetCaretPosition(GetNearestCaretPosition(LocalPosition), true);
+								}
+							}
+						}
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
@@ -599,14 +602,17 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
+			if (HasTypingFocus())
 			{
-				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+				if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
+				{
+					Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+					Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-				auto CaretPosition = GetNearestCaretPosition(LocalPosition);
+					auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
-				SetCaretPosition(CaretPosition, false);
+					SetCaretPosition(CaretPosition, false);
+				}
 			}
 		}
 	}

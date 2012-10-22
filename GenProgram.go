@@ -28,13 +28,13 @@ func main() {
 	a := []int{2, 5, 3, 4, 1}
 	
 	in := MyGetString(a)
-	ret := MyGetString(MySort(a))
-	out := MyGetString(a)
+	out := MyGetString(MySort(a))
+	aft := MyGetString(a)
 
-	fmt.Printf("       %s\n", out)
+	fmt.Printf("       %s\n", aft)
 
 	fmt.Printf("MySort(%s) -> ", in)
 
-	fmt.Print(ret)
+	fmt.Print(out)
 
 }

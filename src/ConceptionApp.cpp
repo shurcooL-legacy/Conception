@@ -241,8 +241,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
-
-		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}
 
 	// Prepare and start the thread
