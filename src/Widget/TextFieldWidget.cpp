@@ -2,7 +2,7 @@
 
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
 TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
-	: CompositeWidget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}),
+	: CompositeWidget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}, {}),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_SelectionPosition(0),
@@ -16,7 +16,6 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	UpdateContentLines();		// This is here at least for resize
 }
@@ -193,30 +192,6 @@ void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Cha
 
 		InputEvent.m_Handled = true;
 	}
-}
-
-void TextFieldWidget::ProcessManipulationStarted(const PointerState & PointerState)
-{
-	if (!HasTypingFocus())
-	{
-		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
-
-		ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
-	}
-}
-
-void TextFieldWidget::ProcessManipulationUpdated(const PointerState & PointerState)
-{
-	if (!HasTypingFocus())
-	{
-		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
-
-		ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
-	}
-}
-
-void TextFieldWidget::ProcessManipulationCompleted(const PointerState & PointerState)
-{
 }
 
 void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)

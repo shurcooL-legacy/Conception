@@ -1,12 +1,18 @@
 #include "../Main.h"
 
-Widget::Widget(Vector2n Position, Vector2n Dimensions)
-	: m_Position(Position),
+Widget::Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors)
+	: GestureHandler(),
+	  m_Position(Position),
 	  m_Dimensions(Dimensions),
 	  //m_HoverPointers()
 	  m_GestureRecognizer(*this),
+	  m_Behaviors(Behaviors),
 	  m_Parent(nullptr)
 {
+	for (auto Behavior : m_Behaviors)
+	{
+		Behavior->SetupGestureRecognizer();
+	}
 }
 
 Widget::~Widget()
@@ -153,3 +159,27 @@ void Widget::RemoveHoverPointer(Pointer * Pointer)
 {
 	m_HoverPointers.erase(Pointer);
 }*/
+
+void Widget::ProcessManipulationStarted(const PointerState & PointerState)
+{
+	for (auto & Behavior : m_Behaviors)
+	{
+		Behavior->ProcessManipulationStarted(PointerState);
+	}
+}
+
+void Widget::ProcessManipulationUpdated(const PointerState & PointerState)
+{
+	for (auto & Behavior : m_Behaviors)
+	{
+		Behavior->ProcessManipulationUpdated(PointerState);
+	}
+}
+
+void Widget::ProcessManipulationCompleted(const PointerState & PointerState)
+{
+	for (auto & Behavior : m_Behaviors)
+	{
+		Behavior->ProcessManipulationCompleted(PointerState);
+	}
+}

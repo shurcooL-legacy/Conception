@@ -118,6 +118,7 @@ private:
 void PopulateConcepts();
 void CleanConcepts();
 ConceptId FindConcept(std::string Content);
+ConceptId CreateConcept(std::string Content);
 ConceptId FindOrCreateConcept(std::string Content);
 Concept & LastConcept();
 ConceptId LastConceptId();

@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action)
-	: Widget(Position, Dimensions),
+	: Widget(Position, Dimensions, {}),
 	  m_Action(Action)
 {
 	assert(nullptr != m_Action);

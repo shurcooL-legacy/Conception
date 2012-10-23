@@ -195,6 +195,8 @@ extern InputManager * g_InputManager;
 #include "Input/InputManager.h"
 #include "Input/GestureRecognizer.h"
 #include "ControlModules/TypingModule.h"
+#include "Behavior/Behavior.h"
+#include "Behavior/DraggablePositionBehavior.h"
 #include "Widget/Widget.h"
 #include "Widget/CompositeWidget.h"
 #include "Widget/ButtonWidget.h"

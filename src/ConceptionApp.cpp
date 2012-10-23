@@ -236,7 +236,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 #if 1
 		{
-			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 300, -250), Concepts, m_TypingModule));
+			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, m_TypingModule));
 		}
 #endif
 

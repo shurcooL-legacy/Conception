@@ -6,7 +6,7 @@ class Canvas
 	: public CompositeWidget
 {
 public:
-	enum class BehaviourScrolling {
+	enum class BehaviourScrolling : uint8 {
 		Zooming,
 		Freeform,
 		VerticalOnly

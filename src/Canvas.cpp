@@ -1,7 +1,7 @@
 #include "Main.h"
 
 Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
-	: CompositeWidget(Position, Vector2n::ZERO, {}),
+	: CompositeWidget(Position, Vector2n::ZERO, {}, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
 	  CameraZ(1),

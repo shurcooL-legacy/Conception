@@ -43,10 +43,6 @@ public:
 	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
-
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	std::string GetContent() const;

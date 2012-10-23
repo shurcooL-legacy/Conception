@@ -6,13 +6,12 @@ template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T
 			{
 				m_List.pop_back();
 			}
-		} ))*/ }),
+		} ))*/ }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	  m_TapAction(),
 	  m_List(List),
 	  m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 
 	UpdateDimensions();
 }
@@ -129,28 +128,4 @@ template <typename T> void ListWidget<T>::UpdateDimensions()
 	Dimensions.Y() = std::max<sint32>(Dimensions.Y(), MinDimensions.Y());
 
 	SetDimensions(Dimensions);
-}
-
-template <typename T> void ListWidget<T>::ProcessManipulationStarted(const PointerState & PointerState)
-{
-	if (!HasTypingFocus())
-	{
-		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
-		
-		ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
-	}
-}
-
-template <typename T> void ListWidget<T>::ProcessManipulationUpdated(const PointerState & PointerState)
-{
-	if (!HasTypingFocus())
-	{
-		auto ParentLocalPosition = GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
-		
-		ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
-	}
-}
-
-template <typename T> void ListWidget<T>::ProcessManipulationCompleted(const PointerState & PointerState)
-{
 }

@@ -36,5 +36,4 @@ func main() {
 	fmt.Printf("MySort(%s) -> ", in)
 
 	fmt.Print(out)
-
 }

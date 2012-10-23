@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CA1635B10000C7DD67 /* Behavior.cpp */; };
+		2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */; };
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
@@ -86,6 +88,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A0D47CA1635B10000C7DD67 /* Behavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Behavior.cpp; path = src/Behavior/Behavior.cpp; sourceTree = SOURCE_ROOT; };
+		2A0D47CB1635B10000C7DD67 /* Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Behavior.h; path = src/Behavior/Behavior.h; sourceTree = SOURCE_ROOT; };
+		2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DraggablePositionBehavior.cpp; path = src/Behavior/DraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; };
+		2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DraggablePositionBehavior.h; path = src/Behavior/DraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; };
 		2A2084D5162480D900AE524C /* LiveEditorApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = LiveEditorApp.cpp; path = src/LiveEditorApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A2084D6162480D900AE524C /* LiveEditorApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LiveEditorApp.h; path = src/LiveEditorApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998A15C8857100867486 /* SentienceApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SentienceApp.cpp; path = src/SentienceApp.cpp; sourceTree = SOURCE_ROOT; };
@@ -218,6 +224,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A0D47C81635B0BB00C7DD67 /* Behavior */ = {
+			isa = PBXGroup;
+			children = (
+				2A0D47CA1635B10000C7DD67 /* Behavior.cpp */,
+				2A0D47CB1635B10000C7DD67 /* Behavior.h */,
+				2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */,
+				2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */,
+			);
+			name = Behavior;
+			sourceTree = "<group>";
+		};
 		2A4FFA5B155465D90021D8EF /* ControlModules */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +341,7 @@
 		2A807416153F058500649628 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				2A0D47C81635B0BB00C7DD67 /* Behavior */,
 				2A4FFA86155465D90021D8EF /* App.cpp */,
 				2A4FFA87155465D90021D8EF /* App.h */,
 				2A4FFA54155465D90021D8EF /* Canvas.cpp */,
@@ -532,6 +550,8 @@
 				2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */,
 				2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */,
 				2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */,
+				2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */,
+				2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

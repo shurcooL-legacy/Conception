@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 LifeFormWidget::LifeFormWidget(Vector2n Position)
-	: Widget(Position, Vector2n(100, 100)),
+	: Widget(Position, Vector2n(100, 100), {}),
 //	  m_GestureRecognizerTEST(),
 	  m_Color(0),
 	  m_PositionD(Position.X(), Position.Y()), 

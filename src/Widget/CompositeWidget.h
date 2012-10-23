@@ -6,8 +6,8 @@ class CompositeWidget
 	: public Widget
 {
 public:
-	CompositeWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets);
-	CompositeWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets);
+	CompositeWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors);
+	CompositeWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors);
 	~CompositeWidget();
 
 	void AddWidget(Widget * Widget);

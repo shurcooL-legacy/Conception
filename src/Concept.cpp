@@ -94,14 +94,19 @@ ConceptId FindConcept(std::string Content)
 	return 0;		// Concept not found, return null concept
 }
 
+ConceptId CreateConcept(std::string Content)
+{
+	Concepts.push_back(new ConceptBasic("", Content));
+	return LastConceptId();
+}
+
 ConceptId FindOrCreateConcept(std::string Content)
 {
 	auto ConceptId = FindConcept(Content);
 
 	if (0 == ConceptId)
 	{
-		Concepts.push_back(new ConceptBasic("", Content));
-		ConceptId = LastConceptId();
+		ConceptId = CreateConcept(Content);
 	}
 
 	return ConceptId;
@@ -135,7 +140,8 @@ void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
 
 	if (ConceptSet.size() != ExpectedConceptCount)
 	{
-		//throw std::string("Duplicate concepts found!");
+		std::cerr << "WARNING: Duplicate concepts found!\n";
+		throw 0;
 	}
 }
 

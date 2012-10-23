@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 FunctionWidget::FunctionWidget(Vector2n Position, Function & Function)
-	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}),
 	  m_Function(Function)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;

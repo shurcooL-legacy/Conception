@@ -33,8 +33,12 @@ public:
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
+	void ProcessManipulationStarted(const PointerState & PointerState) override;
+	void ProcessManipulationUpdated(const PointerState & PointerState) override;
+	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+
 protected:
-	Widget(Vector2n Position, Vector2n Dimensions);
+	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);
 
 	//bool IsActiveExternally() { return (this == *m_ActiveWidgetPointer); }
 
@@ -60,11 +64,14 @@ private:
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
 
+	std::vector<std::shared_ptr<Behavior>>			m_Behaviors;
+
 	CompositeWidget *		m_Parent;
 
 	void SetParent(CompositeWidget & Parent);
 
-	friend class CompositeWidget;		// For SetParent() access
+	friend class CompositeWidget;				// For SetParent() access
+	friend class DraggablePositionBehavior;		// For GlobalToParent() access
 
 	friend class App;		// DEBUG: For debug printing
 };

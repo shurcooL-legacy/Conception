@@ -1,5 +1,5 @@
 template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position, std::vector<T> & Entries)
-	: Widget(Position, Vector2n::ZERO),
+	: Widget(Position, Vector2n::ZERO, {}),
 	  m_TapAction(),
 	  m_Entries(Entries),
 	  m_SelectedEntry(0)
