@@ -59,71 +59,11 @@ void PointerMapping::RemoveAllMappings()
 
 	m_Entries.clear();
 
-	// TODO: There is duplication of information between m_Entries and GetConnected(), so remove one of them
 	while (!m_Owner.GetConnected().empty())
 	{
 		MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, **m_Owner.GetConnected().begin());
 	}
 }
-
-/*void PointerMapping::ProcessPointerCreation(Pointer * Pointer)
-{
-}
-
-void PointerMapping::ProcessPointerDeletion(Pointer * Pointer)
-{
-	RemoveHoverPointer(Pointer);
-}
-
-void PointerMapping::ProcessPointerActivation(Pointer * Pointer)
-{
-}
-
-void PointerMapping::ProcessPointerDeactivation(Pointer * Pointer)
-{
-}
-
-void PointerMapping::ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed)
-{
-	if (nullptr == m_ActiveWidget)
-	{
-		for (auto & Entry : m_Entries)
-		{
-			Entry->ProcessButton(Pointer, ButtonId, Pressed);
-		}
-	}
-	else
-	{
-		m_ActiveWidget->ProcessButton(Pointer, ButtonId, Pressed);
-	}
-}
-
-void PointerMapping::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount)
-{
-	if (nullptr == m_ActiveWidget)
-	{
-		for (auto & Entry : m_Entries)
-		{
-			Entry->ProcessSlider(Pointer, SliderId, MovedAmount);
-		}
-	}
-	else
-	{
-		m_ActiveWidget->ProcessSlider(Pointer, SliderId, MovedAmount);
-	}
-}
-
-void PointerMapping::ProcessAxis(Pointer * Pointer, Input::InputId AxisId, Input::AxisState AxisState)
-{
-}
-
-void PointerMapping::Process2Axes(Pointer * Pointer, Input::InputId FirstAxisId, Input::AxisState AxisState[2])
-{
-}
-
-void PointerMapping::ProcessCharacter(Pointer * Pointer, int Character)
-{
-}*/
 
 void PointerMapping::ProcessEvent(InputEvent & InputEvent)
 {

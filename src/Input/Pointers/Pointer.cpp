@@ -7,20 +7,24 @@ Pointer::Pointer(InputHandler & MyInputHandler)
 	  m_InputHandler(MyInputHandler),
 	  m_PointerMapping(*this)
 {
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
-	InputEvent.m_Pointer = this;
+	{
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
+		InputEvent.m_Pointer = this;
 
-	m_InputHandler.ProcessEvent(InputEvent);
+		m_InputHandler.ProcessEvent(InputEvent);
+	}
 }
 
 Pointer::~Pointer()
 {
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
-	InputEvent.m_Pointer = this;
+	{
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
+		InputEvent.m_Pointer = this;
 
-	m_InputHandler.ProcessEvent(InputEvent);
+		m_InputHandler.ProcessEvent(InputEvent);
+	}
 }
 
 void Pointer::ProcessActivation(InputEvent & InputEvent)
@@ -91,7 +95,7 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 
 	m_PointerState = InputEvent.m_Pointer->GetPointerState();
 
-	return m_InputHandler.ProcessEvent(InputEvent);
+	m_InputHandler.ProcessEvent(InputEvent);
 }
 
 void Pointer::ProcessTimePassed(const double TimePassed)

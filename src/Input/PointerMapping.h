@@ -14,18 +14,6 @@ public:
 	void RemoveMapping(GestureRecognizer & GestureRecognizer);
 	void RemoveAllMappings();
 
-	/*void ProcessPointerCreation(Pointer * Pointer);
-	void ProcessPointerDeletion(Pointer * Pointer);
-	void ProcessPointerActivation(Pointer * Pointer);
-	void ProcessPointerDeactivation(Pointer * Pointer);
-
-	void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed);
-	void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount);
-	void ProcessAxis(Pointer * Pointer, Input::InputId AxisId, Input::AxisState AxisState);
-	void Process2Axes(Pointer * Pointer, Input::InputId FirstAxisId, Input::AxisState AxisState[2]);
-
-	void ProcessCharacter(Pointer * Pointer, int Character);*/
-
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
@@ -47,6 +35,8 @@ private:
 	//GestureRecognizer *		m_Hoverer;
 	GestureRecognizer *		m_Capturer;
 
+	// There is duplication of information between m_Entries and GetConnected(), but m_Entries has additional information (order of elements)
+	// that GetConnected() doesn't, so removing m_Entries outright won't work (perhaps I can change MutuallyConnectable to use std::vector instead of set?)
 	std::vector<GestureRecognizer *>		m_Entries;
 
 	Pointer &				m_Owner;
