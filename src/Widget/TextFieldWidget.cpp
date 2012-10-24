@@ -150,6 +150,16 @@ void TextFieldWidget::Render()
 void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+
+	// Set cursor at tapped position
+	{
+		Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+		Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+
+		auto CaretPosition = GetNearestCaretPosition(LocalPosition);
+
+		SetCaretPosition(CaretPosition, true);
+	}
 }
 
 void TextFieldWidget::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
