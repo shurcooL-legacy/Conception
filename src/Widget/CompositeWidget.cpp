@@ -46,7 +46,7 @@ void CompositeWidget::Render()
 
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-#if 1
+#if 0
 	for (auto & Widget : reverse(GetWidgets()))
 	{
 		auto Result = Widget->HitTest(ParentToLocal(ParentPosition), Hits);

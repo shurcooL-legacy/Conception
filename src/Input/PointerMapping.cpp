@@ -19,7 +19,7 @@ void PointerMapping::AddMapping(GestureRecognizer & Target)
 
 	m_Entries.push_back(&Target);
 
-	MutuallyConnectable<Pointer, class GestureRecognizer>::Connect(m_Owner, Target);
+	MutuallyConnectable<Pointer, GestureRecognizer>::Connect(m_Owner, Target);
 }
 
 // TODO: Consider moving this to AddMapping()
@@ -46,7 +46,7 @@ void PointerMapping::RemoveMapping(GestureRecognizer & Target)
 		}
 	}
 
-	MutuallyConnectable<Pointer, class GestureRecognizer>::Disconnect(m_Owner, Target);
+	MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, Target);
 }
 
 void PointerMapping::RemoveAllMappings()
