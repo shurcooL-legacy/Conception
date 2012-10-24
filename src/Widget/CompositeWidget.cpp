@@ -46,9 +46,10 @@ void CompositeWidget::Render()
 
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-#if 0
+#if 1
 	for (auto & Widget : reverse(GetWidgets()))
 	{
+		auto Result = Widget->HitTest(ParentToLocal(ParentPosition), Hits);
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
 		if (Result)
 			return true;
