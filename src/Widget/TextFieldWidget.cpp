@@ -212,8 +212,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	//if (HasTypingFocus())
 	/*{
 		// TEST
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
-			&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
+			&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 				&& 0 == InputEvent.m_InputId
 				&& true == InputEvent.m_Buttons[0]))
 		{
@@ -232,7 +232,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		auto ButtonId = InputEvent.m_InputId;
 		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
@@ -582,8 +582,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{

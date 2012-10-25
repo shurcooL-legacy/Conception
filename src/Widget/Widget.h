@@ -11,6 +11,7 @@ public:
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
+	virtual void HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const;		// REWRITE of HitTest()
 
 	//virtual bool ShouldMouseCursorVisible() const { return true; }
 
@@ -63,6 +64,8 @@ private:
 	//std::set<Pointer *>		m_HoverPointers;
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
+
+	std::vector<GestureType>	m_GestureTypes;
 
 	std::vector<std::shared_ptr<Behavior>>			m_Behaviors;
 

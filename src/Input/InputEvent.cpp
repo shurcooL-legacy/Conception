@@ -10,6 +10,11 @@ InputEvent::~InputEvent()
 {
 }
 
+bool InputEvent::HasType(EventType EventType) const
+{
+	return (m_EventTypes.end() != m_EventTypes.find(EventType));
+}
+
 std::string InputEvent::ToString()
 {
 	std::stringstream ss;

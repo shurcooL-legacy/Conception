@@ -83,6 +83,22 @@ bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 	return Hit;
 }
 
+void Widget::HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const
+{
+	auto Hit = IsHit(ParentPosition);
+
+	if (Hit)
+	{
+		for (auto GestureType : m_GestureTypes)
+		{
+			;
+		}
+	}
+
+	// TODO: Finish
+	throw 0;
+}
+
 bool Widget::IsHit(const Vector2n ParentPosition) const
 {
 	bool Hit = (   ParentPosition.X() >= m_Position.X()

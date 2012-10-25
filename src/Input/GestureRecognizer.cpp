@@ -24,8 +24,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	// DECISION
 #if 1
 	// TEST: Capture the pointer if the pointer is activated (via primary button)
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
-		&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+	if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
+		&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& true == InputEvent.m_Buttons[0]))
 	{
@@ -34,7 +34,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 #endif
 
 	// Release the pointer capture if the pointer is deactivated
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_DEACTIVATION))
+	if (InputEvent.HasType(InputEvent::EventType::POINTER_DEACTIVATION))
 	{
 		InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);
 	}
@@ -43,7 +43,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	if (   m_RecognizeDoubleTap
 		&& !InputEvent.m_Handled)
 	{
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& false == InputEvent.m_Buttons[0]
 			&& std::fabs(InputEvent.m_Pointer->GetPointerState().GetTimestamp() - m_LastTapCompletedStateTEST.GetTimestamp()) <= 0.400
@@ -60,13 +60,13 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	if (   m_RecognizeTap
 		&& !InputEvent.m_Handled)
 	{
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& true == InputEvent.m_Buttons[0])
 		{
 			m_LastTapStateTEST = InputEvent.m_Pointer->GetPointerState();
 		}
-		else if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		else if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 				 && 0 == InputEvent.m_InputId
 				 && false == InputEvent.m_Buttons[0]
 				 //&& std::fabs(InputEvent.m_Timestamp - m_LastTapEventTEST.m_Timestamp) <= 1.0)
@@ -81,7 +81,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 
 	//if (m_RecognizeDrag)
 	/*{
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& true == InputEvent.GetPointerState().GetButtonState(0))
 		{
@@ -99,7 +99,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	if (   true
 		&& !InputEvent.m_Handled)
 	{
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
 			&& 2 == InputEvent.m_InputId)
 		{
 			//printf("Recognized a wheel move by %d.\n", InputEvent.m_Sliders[0]);
@@ -111,7 +111,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	if (   m_RecognizeManipulationTranslate
 		&& !InputEvent.m_Handled)
 	{
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& true == InputEvent.m_Buttons[0])
 		{
@@ -121,7 +121,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(this);		// TEST
 		}
 
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
 		{
@@ -132,7 +132,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(this);		// TEST
 		}
 
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& 0 == InputEvent.m_InputId
 			&& false == InputEvent.m_Buttons[0])
 		{
@@ -147,7 +147,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	if (   true
 		&& !InputEvent.m_Handled)
 	{
-		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CHARACTER_EVENT))
+		if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
 		{
 			m_Owner.ProcessCharacter(InputEvent, InputEvent.m_InputId);
 		}

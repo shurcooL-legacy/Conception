@@ -89,7 +89,7 @@ template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(InputEvent & I
 
 template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 {
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		auto ButtonId = InputEvent.m_InputId;
 		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
@@ -174,8 +174,8 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 	}
 
 	// TODO: Re-enable this but debug the crashing it causes, etc.
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{

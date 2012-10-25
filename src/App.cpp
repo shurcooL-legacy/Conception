@@ -46,8 +46,8 @@ void App::Render()
 
 void App::ProcessEvent(InputEvent & InputEvent)
 {
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
@@ -79,7 +79,7 @@ void App::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::PARENT_SIZE))
+	if (InputEvent.HasType(InputEvent::EventType::PARENT_SIZE))
 	{
 		UpdateWindowDimensions(ModifyInputManager().GetWindowDimensions());
 	}
@@ -92,7 +92,7 @@ void App::ProcessEvent(InputEvent & InputEvent)
 	// DEBUG, TEST: System key handling
 	if (false == InputEvent.m_Handled)
 	{
-		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 		{
 			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 			{
@@ -131,8 +131,6 @@ void App::ProcessEvent(InputEvent & InputEvent)
 			}
 		}
 	}
-
-	//return true;
 }
 
 void App::ProcessTimePassed(const double TimePassed)

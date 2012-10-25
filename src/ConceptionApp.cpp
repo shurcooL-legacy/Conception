@@ -550,7 +550,7 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 	// DEBUG, TEST: System key handling
 	if (false == InputEvent.m_Handled)
 	{
-		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 		{
 			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 			{
@@ -595,7 +595,7 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 	// TODO, LOWER_PRIORITY: Perhaps generalize and standardize this back into App, removing need for overloaded ProcessEvent()
 	if (false == InputEvent.m_Handled)
 	{
-		if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CHARACTER_EVENT))
+		if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
 		{
 			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 			{
