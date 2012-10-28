@@ -277,6 +277,13 @@ ConceptionApp::~ConceptionApp()
 	}
 
 	CleanConcepts();
+
+	// Clean up temporary files
+#if defined(__APPLE__) && defined(__MACH__)
+	system("rm ./GenProgram");
+	system("./bin/gocode/gocode drop-cache");
+	system("./bin/gocode/gocode close");
+#endif
 }
 
 void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)

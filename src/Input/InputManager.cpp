@@ -8,6 +8,7 @@ InputManager::InputManager()
 	: m_TypingPointer(),
 	  m_MousePointer(),
 	  m_TouchPointers(),
+	  m_InputEventQueue(),
 	  m_InputHandler(nullptr),
 	  m_MouseCursorVisible(true),
 	  m_MouseIgnorePositionOnce(false),
@@ -27,10 +28,12 @@ InputManager::~InputManager()
 	m_pInstance = nullptr;
 }
 
+// TODO: Clean this up... this function is legacy for external input handler setting, not needed if I'll be using internal input handler (InputEventQueue).
 void InputManager::SetInputHandler(InputHandler * InputHandler)
 {
 	assert(nullptr == m_InputHandler);
-	m_InputHandler = InputHandler;
+	m_InputHandler = &m_InputEventQueue;
+	//m_InputHandler = InputHandler;
 
 	SetGlfwCallbacks();
 }

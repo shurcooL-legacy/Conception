@@ -52,7 +52,7 @@ public:
 
 private:
 	InputManager(const InputManager &);
-	InputManager & operator =(const InputManager &);
+	InputManager & operator = (const InputManager &);
 
 	void SetGlfwCallbacks();
 	void RemoveGlfwCallbacks();
@@ -60,6 +60,8 @@ private:
 	public:std::unique_ptr<TypingPointer>						m_TypingPointer;private:	// HACK
 	public:std::unique_ptr<MousePointer>						m_MousePointer;private:		// HACK
 	std::map<uint8, std::unique_ptr<TouchPointer>>		m_TouchPointers;
+
+	InputEventQueue		m_InputEventQueue;
 
 	InputHandler *	m_InputHandler;		// MAYBE: Change the type to App?
 
@@ -70,6 +72,8 @@ private:
 	Vector2n			m_WindowDimensions;
 
 	static InputManager *		m_pInstance;
+
+	friend class App;		// DEBUG: For info printing
 };
 
 #endif // __InputManager_H__

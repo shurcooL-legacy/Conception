@@ -36,7 +36,7 @@ public:
 	std::string ToString();
 
 private:
-	InputEvent(const InputEvent &) = delete;
+	//InputEvent(const InputEvent &) = delete;
 	//InputEvent & operator = (const InputEvent &) = delete;
 };
 

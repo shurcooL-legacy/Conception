@@ -131,10 +131,10 @@ int main(int argc, char * argv[])
 		InputManager InputManager;
 		g_InputManager = &InputManager;
 
-		ConceptionApp MainApp(InputManager);
+		//ConceptionApp MainApp(InputManager);
 		//LiveEditorApp MainApp(InputManager);
 		//ConceptionTestApp MainApp(InputManager);
-		//MultitouchTestApp MainApp(InputManager);
+		MultitouchTestApp MainApp(InputManager);
 		//SentienceApp MainApp(InputManager);
 
 		glfwSetWindowTitle(MainApp.GetTitle().c_str());
@@ -164,7 +164,8 @@ int main(int argc, char * argv[])
 					glfwPollEvents();
 				else
 					glfwWaitEvents();
-				InputManager.ProcessTimePassed(TimePassed);
+//				InputManager.ProcessTimePassed(TimePassed);
+MainApp.ProcessTimePassed(TimePassed);
 			}
 
 			// Render
@@ -192,11 +193,6 @@ int main(int argc, char * argv[])
 	// Clean up
 	OglUtilsKillFont();
 	glfwTerminate();
-#if defined(__APPLE__) && defined(__MACH__)
-	system("rm ./GenProgram");		// Clean up temporary files
-	system("./bin/gocode/gocode drop-cache");
-	system("./bin/gocode/gocode close");
-#endif
 
 	std::cout << "\nReturning 0 from main().\n";
 	return 0;

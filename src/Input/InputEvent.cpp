@@ -1,7 +1,13 @@
 #include "../Main.h"
 
 InputEvent::InputEvent()
-	: m_Pointer(nullptr),
+	: m_EventTypes(),
+	  m_DeviceId(-1),
+	  m_InputId(-1),
+	  m_Buttons(),
+	  m_Sliders(),
+	  m_Axes(),
+	  m_Pointer(nullptr),
 	  m_Handled(false)
 {
 }
@@ -19,9 +25,12 @@ std::string InputEvent::ToString()
 {
 	std::stringstream ss;
 
-	ss << "InputEvent: ";
+	ss << "IE.{";
 
-	ss << m_EventTypes.size() << ", ";
+	for (auto & EventType : m_EventTypes)
+		ss << static_cast<sint32>(EventType) << "/";
+	//ss << m_EventTypes.size() << ", ";
+	ss << ", ";
 	ss << static_cast<sint32>(m_DeviceId) << ", ";
 	ss << m_InputId << ", ";
 
@@ -31,7 +40,7 @@ std::string InputEvent::ToString()
 
 	ss << m_Pointer << ", ";
 
-	ss << m_Handled << std::endl;
+	ss << m_Handled << "}";
 
 	return ss.str();
 }

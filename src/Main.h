@@ -12,6 +12,7 @@
 #include <set>
 #include <map>
 #include <list>
+#include <forward_list>
 #include <cmath>
 #include <string>
 #include <vector>
@@ -80,6 +81,7 @@ class ConceptInstance;
 class Function;
 class Project;
 class InputEvent;
+class InputEventQueue;
 class InputManager;
 class InputHandler;
 class InputListener;
@@ -188,6 +190,7 @@ extern InputManager * g_InputManager;
 #include "Input/GestureHandler.h"
 #include "Input/PointerState.h"
 #include "Input/InputEvent.h"
+#include "Input/InputEventQueue.h"
 #include "Input/Pointers/Pointer.h"
 #include "Input/Pointers/MousePointer.h"
 #include "Input/Pointers/TouchPointer.h"
