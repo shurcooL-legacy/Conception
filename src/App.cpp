@@ -44,6 +44,9 @@ void App::Render()
 	}
 }
 
+const double TapTime = 0.25;
+const double DoubleTapTime = 2 * TapTime;
+
 uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator InputEventIterator, InputEventQueue::Queue::const_iterator & InputEventIteratorEnd)
 {
 	if (   nullptr != InputEventIterator->m_Pointer
@@ -71,7 +74,7 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 				auto UpTime = InputEventIterator2->GetTimestamp();
 
 				if (   (UpPosition - DownPosition).LengthSquared() <= (3 * 3)
-					&& (UpTime - DownTime) <= 1.0)
+					&& (UpTime - DownTime) <= DoubleTapTime)
 				{
 					if (0 == NumberOfTaps)
 						++NumberOfTaps;
@@ -105,7 +108,11 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 			}
 		}
 
-		return 1;
+		// Only if there's still a chance a new event can come in time to make a match
+		if ((glfwGetTime() - DownTime) <= DoubleTapTime)
+		{
+			return 1;
+		}
 	}
 
 	return 0;
@@ -136,9 +143,8 @@ uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::con
 				auto UpTime = InputEventIterator2->GetTimestamp();
 
 				if (   (UpPosition - DownPosition).LengthSquared() <= (3 * 3)
-					&& (UpTime - DownTime) <= 1.0)
+					&& (UpTime - DownTime) <= TapTime)
 				{
-					//printf("uptime was %f, down time was %f\n", UpTime, DownTime);
 					++InputEventIterator2;
 					InputEventIteratorEnd = InputEventIterator2;
 					return 2;
@@ -166,7 +172,11 @@ uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::con
 			}
 		}
 
-		return 1;
+		// Only if there's still a chance a new event can come in time to make a match
+		if ((glfwGetTime() - DownTime) <= TapTime)
+		{
+			return 1;
+		}
 	}
 
 	return 0;

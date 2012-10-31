@@ -7,7 +7,7 @@ class InputEventQueue
 {
 public:
 	typedef std::list<InputEvent> Queue;
-	typedef std::list<std::list<InputEvent>::const_iterator> FilteredQueue;
+	typedef std::list<Queue::const_iterator> FilteredQueue;
 
 	InputEventQueue();
 	~InputEventQueue();
