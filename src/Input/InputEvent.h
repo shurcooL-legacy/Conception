@@ -29,11 +29,16 @@ public:
 
 	Pointer *				m_Pointer;
 
+	PointerState			m_PreEventState;		// State of pointer before this event, needed for queue processing
+	double					m_Timestamp;			// Timestamp of event
+
 	bool					m_Handled;		// TEST
+
+	decltype(m_Timestamp) GetTimestamp() const { return m_Timestamp; }
 
 	bool HasType(EventType EventType) const;
 
-	std::string ToString();
+	std::string ToString() const;
 
 private:
 	//InputEvent(const InputEvent &) = delete;

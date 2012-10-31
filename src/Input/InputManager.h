@@ -4,6 +4,9 @@
 
 class InputManager
 {
+private:
+	InputEventQueue		m_InputEventQueue;
+
 public:
 	InputManager();
 	~InputManager();
@@ -16,6 +19,9 @@ public:
 	bool IsMouseCursorVisible();
 
 	Vector2n GetWindowDimensions();
+
+	const decltype(m_InputEventQueue) & InputEventQueue() const { return m_InputEventQueue; }
+	decltype(m_InputEventQueue) & ModifyInputEventQueue() { return m_InputEventQueue; }
 
 	void RequestTypingPointer(GestureRecognizer & Target);
 
@@ -60,8 +66,6 @@ private:
 	public:std::unique_ptr<TypingPointer>						m_TypingPointer;private:	// HACK
 	public:std::unique_ptr<MousePointer>						m_MousePointer;private:		// HACK
 	std::map<uint8, std::unique_ptr<TouchPointer>>		m_TouchPointers;
-
-	InputEventQueue		m_InputEventQueue;
 
 	InputHandler *	m_InputHandler;		// MAYBE: Change the type to App?
 

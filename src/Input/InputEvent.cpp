@@ -8,6 +8,8 @@ InputEvent::InputEvent()
 	  m_Sliders(),
 	  m_Axes(),
 	  m_Pointer(nullptr),
+	  m_PreEventState(),
+	  m_Timestamp(glfwGetTime()),
 	  m_Handled(false)
 {
 }
@@ -21,7 +23,7 @@ bool InputEvent::HasType(EventType EventType) const
 	return (m_EventTypes.end() != m_EventTypes.find(EventType));
 }
 
-std::string InputEvent::ToString()
+std::string InputEvent::ToString() const
 {
 	std::stringstream ss;
 
@@ -37,6 +39,8 @@ std::string InputEvent::ToString()
 	ss << m_Buttons.size() << ", ";
 	ss << m_Sliders.size() << ", ";
 	ss << m_Axes.size() << ", ";
+
+	ss << m_PreEventState.GetTimestamp() << ", ";
 
 	ss << m_Pointer << ", ";
 

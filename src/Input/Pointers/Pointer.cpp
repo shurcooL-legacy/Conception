@@ -60,15 +60,15 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
 
 				// If no buttons were pressed thus far, then the pointer is getting activated
-				if (Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
+				if (Pressed && !/*InputEvent.m_Pointer->*/GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessActivation(InputEvent);
 				}
 
-				InputEvent.m_Pointer->ModifyPointerState().UpdateButtonState(ButtonId) = Pressed;
+				/*InputEvent.m_Pointer->*/ModifyPointerState().UpdateButtonState(ButtonId) = Pressed;
 
 				// If no buttons are pressed anymore, then the pointer is getting deactivated
-				if (!Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
+				if (!Pressed && !/*InputEvent.m_Pointer->*/GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessDeactivation(InputEvent);
 				}
@@ -79,10 +79,10 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				for (Input::InputId AxisId = 0; AxisId < InputEvent.m_Axes.size(); ++AxisId)
 				{
 					int AxisPosition = InputEvent.m_Axes[AxisId].GetPosition();
-					int PreviousAxisPosition = InputEvent.m_Pointer->GetPointerState().GetAxisState(InputEvent.m_InputId + AxisId, InputEvent.m_Axes[AxisId]).GetPosition();
+					int PreviousAxisPosition = /*InputEvent.m_Pointer->*/GetPointerState().GetAxisState(InputEvent.m_InputId + AxisId, InputEvent.m_Axes[AxisId]).GetPosition();
 					int SliderValue = AxisPosition - PreviousAxisPosition;
 
-					InputEvent.m_Pointer->ModifyPointerState().UpdateAxisState(InputEvent.m_InputId + AxisId) = InputEvent.m_Axes[AxisId];
+					/*InputEvent.m_Pointer->*/ModifyPointerState().UpdateAxisState(InputEvent.m_InputId + AxisId) = InputEvent.m_Axes[AxisId];
 
 					InputEvent.m_Sliders.push_back(SliderValue);
 				}
@@ -93,7 +93,8 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	m_PointerState = InputEvent.m_Pointer->GetPointerState();
+	// TODO: Figure out if this does anything... it looks like a NOOP, so I'm disabling it
+	//m_PointerState = InputEvent.m_Pointer->GetPointerState();
 
 	m_InputHandler.ProcessEvent(InputEvent);
 }

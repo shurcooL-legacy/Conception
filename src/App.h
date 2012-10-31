@@ -18,7 +18,7 @@ public:
 
 	virtual void Render();
 
-	//void ProcessPosition(Pointer * Pointer, Vector2n Position);
+	void ProcessEventQueue(InputEventQueue & InputEventQueue);
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;

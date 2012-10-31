@@ -6,10 +6,20 @@ class InputEventQueue
 	: public InputHandler
 {
 public:
+	typedef std::list<InputEvent> Queue;
+	typedef std::list<std::list<InputEvent>::const_iterator> FilteredQueue;
+
 	InputEventQueue();
 	~InputEventQueue();
 
 	void ProcessEvent(InputEvent & InputEvent) override;
+
+	const Queue & GetQueue() const { return m_Queue; }
+	Queue & ModifyQueue() { return m_Queue; }
+
+	FilteredQueue CreateFilteredQueue() const;
+
+	static FilteredQueue FilterByPointer(const FilteredQueue & In, const Pointer * Pointer);
 
 private:
 	InputEventQueue(const InputEventQueue &) = delete;
@@ -18,7 +28,7 @@ private:
 	void EnqueueEvent(InputEvent & InputEvent);
 
 	// TODO: A circular buffer might be more appropriate here
-	std::forward_list<InputEvent>		m_Queue;
+	Queue		m_Queue;
 
 	friend class App;		// DEBUG: For info printing
 };
