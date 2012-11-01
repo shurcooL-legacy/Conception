@@ -44,12 +44,14 @@ void App::Render()
 	}
 }
 
-const double TapTime = 0.25;
-const double DoubleTapTime = 2 * TapTime;
+// DEBUG: Values changed for testing
+const double TapTime = 10.25;
+const double DoubleTapTime = 2 * 0.25;//TapTime;
 
 uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator InputEventIterator, InputEventQueue::Queue::const_iterator & InputEventIteratorEnd)
 {
-	if (   nullptr != InputEventIterator->m_Pointer
+	if (   Queue.end() != InputEventIterator
+		&& nullptr != InputEventIterator->m_Pointer
 		&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
 		&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
 		&& 0 == InputEventIterator->m_InputId
@@ -76,14 +78,14 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 				if (   (UpPosition - DownPosition).LengthSquared() <= (3 * 3)
 					&& (UpTime - DownTime) <= DoubleTapTime)
 				{
-					if (0 == NumberOfTaps)
-						++NumberOfTaps;
-					else
+					if (1 == NumberOfTaps)
 					{
 						++InputEventIterator2;
 						InputEventIteratorEnd = InputEventIterator2;
 						return 2;
 					}
+					else
+						++NumberOfTaps;
 				}
 				else
 				{
@@ -106,6 +108,16 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 					return 0;
 				}
 			}
+			else if (   nullptr != InputEventIterator2->m_Pointer
+					 && Pointer::VirtualCategory::POINTING == InputEventIterator2->m_Pointer->GetVirtualCategory()
+					 && InputEventIterator2->HasType(InputEvent::EventType::BUTTON_EVENT)
+					 && 0 == InputEventIterator2->m_InputId
+					 && true == InputEventIterator2->m_Buttons[0])
+			{}
+			else
+			{
+				return 0;
+			}
 		}
 
 		// Only if there's still a chance a new event can come in time to make a match
@@ -120,7 +132,8 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 
 uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator InputEventIterator, InputEventQueue::Queue::const_iterator & InputEventIteratorEnd)
 {
-	if (   nullptr != InputEventIterator->m_Pointer
+	if (   Queue.end() != InputEventIterator
+		&& nullptr != InputEventIterator->m_Pointer
 		&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
 		&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
 		&& 0 == InputEventIterator->m_InputId
@@ -170,6 +183,10 @@ uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::con
 					return 0;
 				}
 			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		// Only if there's still a chance a new event can come in time to make a match
@@ -184,7 +201,8 @@ uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::con
 
 uint8 MatchDown(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator InputEventIterator, InputEventQueue::Queue::const_iterator & InputEventIteratorEnd)
 {
-	if (   nullptr != InputEventIterator->m_Pointer
+	if (   Queue.end() != InputEventIterator
+		&& nullptr != InputEventIterator->m_Pointer
 		&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
 		&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
 		&& 0 == InputEventIterator->m_InputId
@@ -200,7 +218,8 @@ uint8 MatchDown(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::co
 
 uint8 MatchUp(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator InputEventIterator, InputEventQueue::Queue::const_iterator & InputEventIteratorEnd)
 {
-	if (   nullptr != InputEventIterator->m_Pointer
+	if (   Queue.end() != InputEventIterator
+		&& nullptr != InputEventIterator->m_Pointer
 		&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
 		&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
 		&& 0 == InputEventIterator->m_InputId
@@ -216,6 +235,8 @@ uint8 MatchUp(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::cons
 
 void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 {
+//return;
+
 	// Pass it through widgets
 
 	{
@@ -251,105 +272,6 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				}
 			}
 #endif
-
-			/*uint8 Status = 0;
-
-			if (   nullptr != InputEventIterator->m_Pointer
-				&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
-				&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
-				&& 0 == InputEventIterator->m_InputId
-				&& true == InputEventIterator->m_Buttons[0])
-			{
-				Vector2n DownPosition(InputEventIterator->m_PreEventState.GetAxisState(0).GetPosition(), InputEventIterator->m_PreEventState.GetAxisState(1).GetPosition());
-
-				Status = 1;
-
-				auto InputEventIterator2 = InputEventIterator;
-				++InputEventIterator2;
-				for (; InputEventQueue.GetQueue().end() != InputEventIterator2; ++InputEventIterator2)
-				{
-					if (   nullptr != InputEventIterator2->m_Pointer
-						&& Pointer::VirtualCategory::POINTING == InputEventIterator2->m_Pointer->GetVirtualCategory()
-						&& InputEventIterator2->HasType(InputEvent::EventType::BUTTON_EVENT)
-						&& 0 == InputEventIterator2->m_InputId
-						&& false == InputEventIterator2->m_Buttons[0])
-					{
-						Vector2n UpPosition(InputEventIterator2->m_PreEventState.GetAxisState(0).GetPosition(), InputEventIterator2->m_PreEventState.GetAxisState(1).GetPosition());
-
-						if ((UpPosition - DownPosition).LengthSquared() <= (3 * 3))
-						{
-							Status = 2;
-							std::cout << "Mouse Tap?\n";
-							// Consume gesture events
-							{
-								++InputEventIterator2;
-								InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator, InputEventIterator2);
-							}
-							break;
-						}
-						else
-						{
-							Status = 2;
-							// Consume gesture events
-							{
-								++InputEventIterator2;
-								InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator, InputEventIterator2);
-							}
-							break;
-						}
-					}
-					else if (   nullptr != InputEventIterator2->m_Pointer
-							 && Pointer::VirtualCategory::POINTING == InputEventIterator2->m_Pointer->GetVirtualCategory()
-							 && (   InputEventIterator2->HasType(InputEvent::EventType::AXIS_EVENT)
-								 || InputEventIterator2->HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
-							 && 0 == InputEventIterator2->m_InputId)
-					{
-						Vector2n NewPosition(InputEventIterator2->m_PreEventState.GetAxisState(0).GetPosition(), InputEventIterator2->m_PreEventState.GetAxisState(1).GetPosition());
-
-						if ((NewPosition - DownPosition).LengthSquared() <= (3 * 3))
-						{
-						}
-						else
-						{
-							Status = 0;
-							break;
-						}
-					}
-				}
-			}
-
-			if (2 == Status)
-				continue;
-			else if (1 == Status)
-				continue;
-
-			if (   nullptr != InputEventIterator->m_Pointer
-				&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
-				&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
-				&& 0 == InputEventIterator->m_InputId
-				&& true == InputEventIterator->m_Buttons[0])
-			{
-				std::cout << "Mouse Down at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << ","
-											  << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-				InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator);
-				Status = 2;
-			}
-			if (   nullptr != InputEventIterator->m_Pointer
-				&& Pointer::VirtualCategory::POINTING == InputEventIterator->m_Pointer->GetVirtualCategory()
-				&& InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
-				&& 0 == InputEventIterator->m_InputId
-				&& false == InputEventIterator->m_Buttons[0])
-			{
-				std::cout << "Mouse Up at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << ","
-											<< InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-				InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator);
-				Status = 2;
-			}
-
-			if (0 == Status)
-				InputEventQueue.ModifyQueue().pop_front();*/
 
 			auto InputEventIterator2 = InputEventIterator;
 			auto Status = MatchDoubleTap(InputEventQueue.GetQueue(), InputEventIterator, InputEventIterator2);
@@ -387,11 +309,11 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 			}
 
-			InputEventIterator2 = InputEventIterator;
+			/*InputEventIterator2 = InputEventIterator;
 			Status = MatchDown(InputEventQueue.GetQueue(), InputEventIterator, InputEventIterator2);
 			if (2 == Status)
 			{
-				//std::cout << "Mouse Down at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+				std::cout << "Mouse Down at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 											  << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
 
 				InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator, InputEventIterator2);
@@ -409,7 +331,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			Status = MatchUp(InputEventQueue.GetQueue(), InputEventIterator, InputEventIterator2);
 			if (2 == Status)
 			{
-				//std::cout << "Mouse Up at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+				std::cout << "Mouse Up at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 											<< InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
 
 				InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator, InputEventIterator2);
@@ -421,7 +343,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 			else if (0 == Status)
 			{
-			}
+			}*/
 
 			InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator);
 		}
