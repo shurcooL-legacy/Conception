@@ -173,6 +173,7 @@ void GLFWCALL InputManager::ProcessWindowSize(int WindowWidth, int WindowHeight)
 
 void GLFWCALL InputManager::ProcessKey(int Key, int Action)
 {
+	if ((GLFW_PRESS == Action) != m_pInstance->m_TypingPointer->GetPointerState().GetButtonState(Key))		// Ignore button events where the button state doesn't change
 	{
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::BUTTON_EVENT);
