@@ -24,3 +24,4 @@ It assumes golang is installed (i.e. /usr/local/go/bin/go exists). You might hav
 Known Issues
 ------------
 - <del>The program is not power/CPU/GPU-efficient. It runs at 100% CPU usage even when it's not neccessary. Fixing this is not hard, but it's not a priority during development. Best to run while on AC power.</del> Fixed (there was a bug causing a background thread to use 100% CPU).
+- There is no undo functionality yet. This might take longer because I plan to create an advanced history system.
