@@ -23,7 +23,7 @@ void InputEventQueue::EnqueueEvent(InputEvent & InputEvent)
 	//printf("InputEvent %d pushed.\n", *InputEvent.m_EventTypes.begin());
 }
 
-void InputEventQueue::EraseEventsFromQueue(FilteredQueue & Events)
+void InputEventQueue::EraseEventsFromQueue(const FilteredQueue & Events)
 {
 	for (auto & Event : Events)
 	{
@@ -43,16 +43,35 @@ InputEventQueue::FilteredQueue InputEventQueue::CreateFilteredQueue() const
 	return Out;
 }
 
-InputEventQueue::FilteredQueue InputEventQueue::CreateFilteredQueue(const Queue & Queue, Queue::const_iterator Start)
+// Pre: Start must be an iterator of the given FilteredQueue
+InputEventQueue::FilteredQueue InputEventQueue::CreateFilteredQueue(const FilteredQueue & In, const FilteredQueue::const_iterator Start)
 {
 	FilteredQueue Out;
 
-	for (auto InputEventIterator = Start; Queue.end() != InputEventIterator; ++InputEventIterator)
+	for (auto InputEventIterator = Start; In.end() != InputEventIterator; ++InputEventIterator)
 	{
-		Out.push_back(InputEventIterator);
+		Out.push_back(*InputEventIterator);
 	}
 
 	return Out;
+}
+
+void InputEventQueue::EraseEventsFromFilteredQueue(FilteredQueue & InOut, const FilteredQueue & Events)
+{
+	for (auto & Event : Events)
+	{
+		for (auto InIterator = InOut.begin(); InOut.end() != InIterator; )
+		{
+			if (Event == *InIterator)
+			{
+				InIterator = InOut.erase(InIterator);
+			}
+			else
+			{
+				++InIterator;
+			}
+		}
+	}
 }
 
 InputEventQueue::FilteredQueue InputEventQueue::FilterByPointer(const FilteredQueue & In, const Pointer * Pointer)

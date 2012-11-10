@@ -5,9 +5,6 @@
 class InputEvent
 {
 public:
-	InputEvent();
-	~InputEvent();
-
 	enum class EventType : uint8 {
 		BUTTON_EVENT,
 		CHARACTER_EVENT,
@@ -17,6 +14,9 @@ public:
 		CANVAS_MOVED_TEST,
 		PARENT_SIZE
 	};
+
+	InputEvent();
+	~InputEvent();
 
 	//EventType				m_EventType;
 	std::set<EventType>		m_EventTypes;

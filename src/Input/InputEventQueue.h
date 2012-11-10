@@ -17,11 +17,12 @@ public:
 	const Queue & GetQueue() const { return m_Queue; }
 	Queue & ModifyQueue() { return m_Queue; }
 
-	void EraseEventsFromQueue(FilteredQueue & Events);
+	void EraseEventsFromQueue(const FilteredQueue & Events);
 
 	FilteredQueue CreateFilteredQueue() const;
 
-	static FilteredQueue CreateFilteredQueue(const Queue & Queue, Queue::const_iterator Start);
+	static FilteredQueue CreateFilteredQueue(const FilteredQueue & In, const FilteredQueue::const_iterator Start);
+	static void EraseEventsFromFilteredQueue(FilteredQueue & InOut, const FilteredQueue & Events);
 	static FilteredQueue FilterByPointer(const FilteredQueue & In, const Pointer * Pointer);
 
 private:
