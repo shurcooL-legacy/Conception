@@ -212,13 +212,11 @@ uint8 MatchTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::con
 struct MatchResult
 {
 	uint8												Status;		// 0 - Impossible match, 1 = Potential match, 2 = Successful match
-	InputEventQueue::FilteredQueue::const_iterator		End;
 	InputEventQueue::FilteredQueue						Events;
 
 	MatchResult(uint8 Status) : Status(Status) {}
-	MatchResult(InputEventQueue::FilteredQueue::const_iterator End) : Status(2), End(End), Events() {}
-	MatchResult(InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(2), End(End), Events(Events) {}
-	MatchResult(uint8 Status, InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(Status), End(End), Events(Events) {}
+	MatchResult(InputEventQueue::FilteredQueue & Events) : Status(2), Events(Events) {}
+	MatchResult(uint8 Status, InputEventQueue::FilteredQueue & Events) : Status(Status), Events(Events) {}
 };
 
 /*MatchResult MatchDown(const InputEventQueue::Queue & Queue, MatchResult LastResult)
@@ -249,7 +247,7 @@ MatchResult MatchDown(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 		InputEventQueue::FilteredQueue Events;
 		Events.push_back(*InputEventIterator);
 		++InputEventIterator;
-		return MatchResult(InputEventIterator, Events);
+		return MatchResult(Events);
 	}
 
 	return MatchResult(0);
@@ -265,7 +263,7 @@ MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueu
 		InputEventQueue::FilteredQueue Events;
 		Events.push_back(*InputEventIterator);
 		++InputEventIterator;
-		return MatchResult(InputEventIterator, Events);
+		return MatchResult(Events);
 	}
 
 	return MatchResult(0);
@@ -281,17 +279,19 @@ MatchResult MatchSpace(const InputEventQueue::FilteredQueue & Queue, InputEventQ
 		InputEventQueue::FilteredQueue Events;
 		Events.push_back(*InputEventIterator);
 		++InputEventIterator;
-		return MatchResult(InputEventIterator, Events);
+		return MatchResult(Events);
 	}
 
 	return MatchResult(0);
 }
 
-MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+MatchResult MatchTap2(InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
 {
 	auto DownMatch = MatchDown(Queue, InputEventIterator);
 	if (2 == DownMatch.Status)
 	{
+		InputEventQueue::EraseEventsFromFilteredQueue(Queue, DownMatch.Events);
+
 		Vector2n DownPosition((*InputEventIterator)->m_PreEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PreEventState.GetAxisState(1).GetPosition());
 		auto DownTime = (*InputEventIterator)->GetTimestamp();
 		auto PointingPointer = (*InputEventIterator)->m_Pointer;
