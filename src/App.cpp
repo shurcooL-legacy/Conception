@@ -215,10 +215,14 @@ struct MatchResult
 	InputEventQueue::FilteredQueue::const_iterator		End;
 	InputEventQueue::FilteredQueue						Events;
 
-	MatchResult(uint8 Status) : Status(Status) {}
+	MatchResult() : Status(0), End(), Events() {}
+	MatchResult(uint8 Status) : Status(Status), End(), Events() {}
 	MatchResult(InputEventQueue::FilteredQueue::const_iterator End) : Status(2), End(End), Events() {}
 	MatchResult(InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(2), End(End), Events(Events) {}
 	MatchResult(uint8 Status, InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(Status), End(End), Events(Events) {}
+
+	// This is needed so that `if (MatchResult)` is true if Status is non-zero
+	bool AnySuccess() const { return 0 != Status; }
 };
 
 /*MatchResult MatchDown(const InputEventQueue::Queue & Queue, MatchResult LastResult)
@@ -271,8 +275,11 @@ MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueu
 	return MatchResult(0);
 }
 
-MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST)
 {
+	if (false != InManipulationTEST)
+		return MatchResult(0);
+
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
 
@@ -286,8 +293,11 @@ MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue,
 
 	return MatchResult(0);
 }
-MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST)
 {
+	if (true != InManipulationTEST)
+		return MatchResult(0);
+
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
 
@@ -301,8 +311,11 @@ MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue
 
 	return MatchResult(0);
 }
-MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST)
 {
+	if (true != InManipulationTEST)
+		return MatchResult(0);
+
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
 
@@ -430,6 +443,38 @@ MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 	return 0;
 }*/
 
+MatchResult ExternalMatchingTEST(InputEventQueue & InputEventQueue, InputEventQueue::FilteredQueue & UnreservedEvents)
+{
+	auto InputEventIterator = UnreservedEvents.begin();
+	auto & InputEvent = **InputEventIterator;
+
+	MatchResult Match;
+	if ((Match = MatchSpace(UnreservedEvents, InputEventIterator)).AnySuccess())
+	{
+		if (2 == Match.Status)
+		{
+			std::cout << "Space in ExternalMatchingTEST!" << std::endl;
+		}
+	}
+	else if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, 'M', true>(InputEvent))
+	{
+		std::cout << "M in ExternalMatchingTEST!" << std::endl;
+
+		Match.Status = 2;
+		Match.Events.push_back(*InputEventIterator);
+	}
+	/*else if ((Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
+	{
+		if (2 == Match.Status)
+		{
+			std::cout << "Tap EXTERNAL at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+											<< (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+		}
+	}*/
+
+	return Match;
+}
+
 void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 {
 	if (0)
@@ -538,6 +583,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 	// TEST: Gesture recognition and handling testing
 	if (1)
 	{
+		static bool InManipulationTEST = false;
+
 		auto UnreservedEvents = InputEventQueue.CreateFilteredQueue();
 
 		//for (auto & InputEvent : InputEventQueue.Queue())
@@ -551,6 +598,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 			auto & InputEvent = **InputEventIterator;
 
+#if 1
 			// Populate PointerMappings
 			{
 				if (IsPointerPointingMoveEvent<0>(InputEvent))
@@ -583,16 +631,14 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				}
 			}
 
+			MatchResult Match;
 #if 1
 			if (InputEvent.HasType(InputEvent::EventType::PARENT_SIZE))
 			{
 				UpdateWindowDimensions(ModifyInputManager().GetWindowDimensions());
 
-				InputEventQueue::FilteredQueue UsedEvent;
-				UsedEvent.push_back(*InputEventIterator);
-				InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
-				InputEventQueue.EraseEventsFromQueue(UsedEvent);
-				continue;
+				Match.Status = 2;
+				Match.Events.push_back(*InputEventIterator);
 			}
 
 			/*if (nullptr != InputEvent.m_Pointer)
@@ -602,35 +648,32 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			// Waterfall through GRs
 			// TODO
 
-			// DEBUG, TEST: System key handling
+			// TEST
+			else if ((Match = ExternalMatchingTEST(InputEventQueue, UnreservedEvents)).AnySuccess())
 			{
-				if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, GLFW_KEY_ESC, true>(InputEvent))
+			}
+
+			// DEBUG, TEST: System key handling
+			else if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, GLFW_KEY_ESC, true>(InputEvent))
+			{
+				glfwCloseWindow();
+
+				Match.Status = 2;
+				Match.Events.push_back(*InputEventIterator);
+			}
+			else if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, 'M', true>(InputEvent))
+			{
+				/*//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
 				{
-					glfwCloseWindow();
+					//g_InputManager->SetMouseCursorVisibility(!g_InputManager->IsMouseCursorVisible());
+					int xpos, ypos;
+					glfwGetMousePos(&xpos, &ypos);
+					glfwSetMousePos(xpos+1, ypos);
+				}*/
+				std::cout << "M was pressed for some reason..." << std::endl;
 
-					InputEventQueue::FilteredQueue UsedEvent;
-					UsedEvent.push_back(*InputEventIterator);
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
-					InputEventQueue.EraseEventsFromQueue(UsedEvent);
-					continue;
-				}
-
-				if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, 'M', true>(InputEvent))
-				{
-					//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
-					{
-						//g_InputManager->SetMouseCursorVisibility(!g_InputManager->IsMouseCursorVisible());
-						/*int xpos, ypos;
-						glfwGetMousePos(&xpos, &ypos);
-						glfwSetMousePos(xpos+1, ypos);*/
-					}
-
-					InputEventQueue::FilteredQueue UsedEvent;
-					UsedEvent.push_back(*InputEventIterator);
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
-					InputEventQueue.EraseEventsFromQueue(UsedEvent);
-					continue;
-				}
+				Match.Status = 2;
+				Match.Events.push_back(*InputEventIterator);
 			}
 #endif
 
@@ -651,160 +694,81 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			else if (0 == Status)
 			{
 			}*/
+#endif
 
+			else if ((Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{
-				auto Match = MatchTap2(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "Tap at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 										   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
 
-			static bool InManipulationTEST = false;
+			else if ((Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, InManipulationTEST)).AnySuccess())
 			{
-				auto Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "ManipulationBegin at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 														 << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
 					InManipulationTEST = true;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
-			if (InManipulationTEST)
+			else if ((Match = MatchManipulationUpdate(UnreservedEvents, InputEventIterator, InManipulationTEST)).AnySuccess())
 			{
-				auto Match = MatchManipulationUpdate(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					//std::cout << "ManipulationUpdate at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 														  << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
-			if (InManipulationTEST)
+			else if ((Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator, InManipulationTEST)).AnySuccess())
 			{
-				auto Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "ManipulationEnd at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 													   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
 					InManipulationTEST = false;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
 
+			else if ((Match = MatchDown(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{
-				auto Match = MatchDown(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "Mouse Down at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 												  << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
 
+			else if ((Match = MatchUp(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{
-				auto Match = MatchUp(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "Mouse Up at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 												<< (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
 
+			else if ((Match = MatchSpace(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{
-				auto Match = MatchSpace(UnreservedEvents, InputEventIterator);
 				if (2 == Match.Status)
 				{
 					std::cout << "Space" << std::endl;
-
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					InputEventQueue.EraseEventsFromQueue(Match.Events);
-					continue;
-				}
-				else if (1 == Match.Status)
-				{
-					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
-					continue;
-				}
-				else if (0 == Match.Status)
-				{
 				}
 			}
 
-			InputEventQueue::FilteredQueue UnusedEvent;
-			UnusedEvent.push_back(*InputEventIterator);
-			InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UnusedEvent);
-			InputEventQueue.EraseEventsFromQueue(UnusedEvent);
+			else
+			{
+				// Nothing matched this InputEvent at all, so delete it
+				Match.Status = 2;
+				Match.Events.push_back(*InputEventIterator);
+			}
+
+			if (Match.AnySuccess())
+				InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+			if (2 == Match.Status)
+				InputEventQueue.EraseEventsFromQueue(Match.Events);
 		}
 
 		/*for (auto & InputEventIterator : InputEventQueue::FilterByPointer(InputEventQueue.CreateFilteredQueue(), g_InputManager->m_MousePointer.get()))
