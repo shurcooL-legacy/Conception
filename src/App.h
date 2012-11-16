@@ -29,7 +29,7 @@ public:
 
 protected:
 	// DEBUG: Made m_Widgets public for temporary debugging purposes
-	public:std::vector<std::unique_ptr<Widget>>		m_Widgets;
+	public:std::vector<std::unique_ptr<Widget>>		m_Widgets;		// Top-most widgets are last
 
 private:
 	App(const App &) = delete;

@@ -271,6 +271,52 @@ MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueu
 	return MatchResult(0);
 }
 
+MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+{
+	if (Queue.end() == InputEventIterator)
+		return MatchResult(1);
+
+	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, true>(**InputEventIterator))
+	{
+		InputEventQueue::FilteredQueue Events;
+		Events.push_back(*InputEventIterator);
+		++InputEventIterator;
+		return MatchResult(InputEventIterator, Events);
+	}
+
+	return MatchResult(0);
+}
+MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+{
+	if (Queue.end() == InputEventIterator)
+		return MatchResult(1);
+
+	if (IsPointerPointingMoveEvent<0>(**InputEventIterator))
+	{
+		InputEventQueue::FilteredQueue Events;
+		Events.push_back(*InputEventIterator);
+		++InputEventIterator;
+		return MatchResult(InputEventIterator, Events);
+	}
+
+	return MatchResult(0);
+}
+MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+{
+	if (Queue.end() == InputEventIterator)
+		return MatchResult(1);
+
+	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(**InputEventIterator))
+	{
+		InputEventQueue::FilteredQueue Events;
+		Events.push_back(*InputEventIterator);
+		++InputEventIterator;
+		return MatchResult(InputEventIterator, Events);
+	}
+
+	return MatchResult(0);
+}
+
 MatchResult MatchSpace(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
 {
 	if (Queue.end() == InputEventIterator)
@@ -386,10 +432,111 @@ MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 
 void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 {
-//return;
+	if (0)
+	while (!InputEventQueue.GetQueue().empty())
+	{
+		ProcessEvent(*(InputEventQueue.ModifyQueue().begin()));
+
+		InputEventQueue.ModifyQueue().pop_front();
+	}
 
 	// Pass it through widgets
+	if (0)
+	while (!InputEventQueue.GetQueue().empty())
+	{
+		auto & InputEvent = *(InputEventQueue.ModifyQueue().begin());
 
+		{
+			if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+				|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
+			{
+				if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
+				{
+					if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
+					{
+						std::list<Widget *> Hits;		// Front of list are top-most widgets
+
+						for (auto & Widget : reverse(m_Widgets))
+						{
+							Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+
+							auto Result = Widget->HitTest(GlobalPosition, &Hits);
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+							if (Result)
+								break;		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
+#endif
+						}
+
+						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
+						for (auto & Hit : Hits)
+						{
+							InputEvent.m_Pointer->ModifyPointerMapping().AddMapping(Hit->ModifyGestureRecognizer());
+							//Hit->AddHoverPointer(Pointer);
+						}
+						InputEvent.m_Pointer->ModifyPointerMapping().DoneAdding();
+					}
+				}
+			}
+
+			if (InputEvent.HasType(InputEvent::EventType::PARENT_SIZE))
+			{
+				UpdateWindowDimensions(ModifyInputManager().GetWindowDimensions());
+			}
+
+			if (nullptr != InputEvent.m_Pointer)
+			{
+				InputEvent.m_Pointer->ModifyPointerMapping().ProcessEvent(InputEvent);
+			}
+
+			// DEBUG, TEST: System key handling
+			if (false == InputEvent.m_Handled)
+			{
+				if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
+				{
+					if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
+					{
+						auto ButtonId = InputEvent.m_InputId;
+						bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
+
+						if (Pressed)
+						{
+							switch (ButtonId)
+							{
+							case GLFW_KEY_ESC:
+								{
+									glfwCloseWindow();
+
+									InputEvent.m_Handled = true;
+								}
+								break;
+							// TEST
+							case 'M':
+								{
+									//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
+									{
+										//g_InputManager->SetMouseCursorVisibility(!g_InputManager->IsMouseCursorVisible());
+										/*int xpos, ypos;
+										glfwGetMousePos(&xpos, &ypos);
+										glfwSetMousePos(xpos+1, ypos);*/
+									}
+
+									InputEvent.m_Handled = true;
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		InputEventQueue.ModifyQueue().pop_front();
+	}
+
+	// TEST: Gesture recognition and handling testing
+	if (1)
 	{
 		auto UnreservedEvents = InputEventQueue.CreateFilteredQueue();
 
@@ -401,6 +548,91 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 			//decltype(InputEventIterator) InputEventIterator2;
 			//uint8 Status;
+
+			auto & InputEvent = **InputEventIterator;
+
+			// Populate PointerMappings
+			{
+				if (IsPointerPointingMoveEvent<0>(InputEvent))
+				{
+					Vector2n PointerPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
+
+					if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
+					{
+						std::list<Widget *> Hits;		// Front of list are top-most widgets
+
+						for (auto & Widget : reverse(m_Widgets))
+						{
+							Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+
+							auto Result = Widget->HitTest(GlobalPosition, &Hits);
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+							if (Result)
+								break;		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
+#endif
+						}
+
+						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
+						for (auto & Hit : Hits)
+						{
+							InputEvent.m_Pointer->ModifyPointerMapping().AddMapping(Hit->ModifyGestureRecognizer());
+							//Hit->AddHoverPointer(Pointer);
+						}
+						InputEvent.m_Pointer->ModifyPointerMapping().DoneAdding();
+					}
+				}
+			}
+
+#if 1
+			if (InputEvent.HasType(InputEvent::EventType::PARENT_SIZE))
+			{
+				UpdateWindowDimensions(ModifyInputManager().GetWindowDimensions());
+
+				InputEventQueue::FilteredQueue UsedEvent;
+				UsedEvent.push_back(*InputEventIterator);
+				InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
+				InputEventQueue.EraseEventsFromQueue(UsedEvent);
+				continue;
+			}
+
+			/*if (nullptr != InputEvent.m_Pointer)
+			{
+				InputEvent.m_Pointer->ModifyPointerMapping().ProcessEvent(InputEvent);
+			}*/
+			// Waterfall through GRs
+			// TODO
+
+			// DEBUG, TEST: System key handling
+			{
+				if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, GLFW_KEY_ESC, true>(InputEvent))
+				{
+					glfwCloseWindow();
+
+					InputEventQueue::FilteredQueue UsedEvent;
+					UsedEvent.push_back(*InputEventIterator);
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
+					InputEventQueue.EraseEventsFromQueue(UsedEvent);
+					continue;
+				}
+
+				if (IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, 'M', true>(InputEvent))
+				{
+					//if (glfwGetKey(GLFW_KEY_LCTRL) || glfwGetKey(GLFW_KEY_RCTRL))
+					{
+						//g_InputManager->SetMouseCursorVisibility(!g_InputManager->IsMouseCursorVisible());
+						/*int xpos, ypos;
+						glfwGetMousePos(&xpos, &ypos);
+						glfwSetMousePos(xpos+1, ypos);*/
+					}
+
+					InputEventQueue::FilteredQueue UsedEvent;
+					UsedEvent.push_back(*InputEventIterator);
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UsedEvent);
+					InputEventQueue.EraseEventsFromQueue(UsedEvent);
+					continue;
+				}
+			}
+#endif
 
 			/*auto InputEventIterator2 = InputEventIterator;
 			auto Status = MatchDoubleTap2(InputEventQueue.GetQueue(), InputEventIterator2);
@@ -426,6 +658,72 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				{
 					std::cout << "Tap at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
 										   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					InputEventQueue.EraseEventsFromQueue(Match.Events);
+					continue;
+				}
+				else if (1 == Match.Status)
+				{
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					continue;
+				}
+				else if (0 == Match.Status)
+				{
+				}
+			}
+
+			static bool InManipulationTEST = false;
+			{
+				auto Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator);
+				if (2 == Match.Status)
+				{
+					std::cout << "ManipulationBegin at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+														 << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					InManipulationTEST = true;
+
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					InputEventQueue.EraseEventsFromQueue(Match.Events);
+					continue;
+				}
+				else if (1 == Match.Status)
+				{
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					continue;
+				}
+				else if (0 == Match.Status)
+				{
+				}
+			}
+			if (InManipulationTEST)
+			{
+				auto Match = MatchManipulationUpdate(UnreservedEvents, InputEventIterator);
+				if (2 == Match.Status)
+				{
+					//std::cout << "ManipulationUpdate at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+														  << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					InputEventQueue.EraseEventsFromQueue(Match.Events);
+					continue;
+				}
+				else if (1 == Match.Status)
+				{
+					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
+					continue;
+				}
+				else if (0 == Match.Status)
+				{
+				}
+			}
+			if (InManipulationTEST)
+			{
+				auto Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator);
+				if (2 == Match.Status)
+				{
+					std::cout << "ManipulationEnd at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
+													   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					InManipulationTEST = false;
 
 					InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, Match.Events);
 					InputEventQueue.EraseEventsFromQueue(Match.Events);
@@ -505,7 +803,6 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 			InputEventQueue::FilteredQueue UnusedEvent;
 			UnusedEvent.push_back(*InputEventIterator);
-
 			InputEventQueue::EraseEventsFromFilteredQueue(UnreservedEvents, UnusedEvent);
 			InputEventQueue.EraseEventsFromQueue(UnusedEvent);
 		}
