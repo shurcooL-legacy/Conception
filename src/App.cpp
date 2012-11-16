@@ -217,11 +217,13 @@ struct MatchResult
 
 	MatchResult() : Status(0), End(), Events() {}
 	MatchResult(uint8 Status) : Status(Status), End(), Events() {}
+	//MatchResult(InputEventQueue::FilteredQueue & Events) : Status(2), End(), Events(Events) {}
 	MatchResult(InputEventQueue::FilteredQueue::const_iterator End) : Status(2), End(End), Events() {}
 	MatchResult(InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(2), End(End), Events(Events) {}
 	MatchResult(uint8 Status, InputEventQueue::FilteredQueue::const_iterator End, InputEventQueue::FilteredQueue & Events) : Status(Status), End(End), Events(Events) {}
 
-	// This is needed so that `if (MatchResult)` is true if Status is non-zero
+	// Returns true if Status is non-zero
+	// This is needed for `if (MatchResult)` statements
 	bool AnySuccess() const { return 0 != Status; }
 };
 
