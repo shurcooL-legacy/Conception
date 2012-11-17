@@ -19,6 +19,7 @@ public:
 	virtual void Render();
 
 	void ProcessEventQueue(InputEventQueue & InputEventQueue);
+	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;

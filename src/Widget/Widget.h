@@ -10,6 +10,8 @@ public:
 
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
+	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
+
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
 	virtual void HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const;		// REWRITE of HitTest()
 

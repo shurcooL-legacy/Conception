@@ -69,6 +69,11 @@ void Widget::SetParent(CompositeWidget & Parent)
 	m_Parent = &Parent;
 }
 
+MatchResult Widget::MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
+{
+	return m_GestureRecognizer.MatchEventQueue(UnreservedEvents);
+}
+
 // Returns true if there is any (even partial) hit
 // Returns false if there is no hit whatsoever
 bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
