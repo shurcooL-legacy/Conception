@@ -69,7 +69,7 @@ template <typename T> void ContextMenuWidget<T>::Render()
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+template <typename T> void ContextMenuWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	if (nullptr != m_TapAction)
 	{

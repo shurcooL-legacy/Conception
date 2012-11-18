@@ -150,7 +150,7 @@ void ConceptStringBoxWidget::Render()
 	}
 }
 
-void ConceptStringBoxWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void ConceptStringBoxWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }

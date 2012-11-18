@@ -66,6 +66,7 @@ public:
 	~GestureRecognizer();
 
 	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
+	bool ProcessEventHandledTEST(InputEvent InputEvent);
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	virtual void ProcessCanvasUpdated();

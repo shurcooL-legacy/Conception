@@ -14,7 +14,7 @@ public:
 	GestureHandler();
 	~GestureHandler();
 
-	virtual void ProcessTap(InputEvent & InputEvent, Vector2n Position) {}
+	virtual void ProcessTap(const InputEvent & InputEvent, Vector2n Position) {}
 	virtual void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) {}
 	virtual void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) {}
 

@@ -44,6 +44,38 @@ void CompositeWidget::Render()
 	glPopMatrix();
 }
 
+MatchResult CompositeWidget::InnerMatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
+{
+	for (auto & Widget : reverse(m_Widgets))
+	{
+		auto Match = Widget->MatchEventQueue(UnreservedEvents);
+
+		if (Match.AnySuccess())
+			return Match;
+	}
+
+	return MatchResult();
+}
+
+MatchResult CompositeWidget::MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
+{
+	MatchResult Match;
+
+	// Prematching
+	// TODO: Consider adding?
+
+	// Child Widget matching
+	if ((Match = InnerMatchEventQueue(UnreservedEvents)).AnySuccess())
+	{
+	}
+	// Postmatching
+	else if ((Match = Widget::MatchEventQueue(UnreservedEvents)).AnySuccess())
+	{
+	}
+
+	return Match;
+}
+
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
 #if 0

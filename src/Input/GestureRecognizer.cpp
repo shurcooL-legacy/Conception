@@ -376,11 +376,26 @@ GestureRecognizer::~GestureRecognizer()
 {
 }
 
+bool GestureRecognizer::ProcessEventHandledTEST(InputEvent InputEvent)
+{
+	ProcessEvent(InputEvent);
+	return InputEvent.m_Handled;
+}
+
 MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
 {
 	auto InputEventIterator = UnreservedEvents.begin();
 	auto & InputEvent = **InputEventIterator;
 
+	// If the pointer is not connected to this GR (meaning a failed HitTest), return failed match
+	// DEBUG: Is this the right way to go about it? Or a temporary hack? Figure it out.
+	if (   nullptr != InputEvent.m_Pointer
+		&& GetConnected().end() == GetConnected().find(InputEvent.m_Pointer))
+	{
+		return MatchResult();
+	}
+
+#if 0
 	MatchResult Match;
 	if ((Match = MatchSpace(UnreservedEvents, InputEventIterator)).AnySuccess())
 	{
@@ -404,6 +419,26 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 													 << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
 		}
 	}
+#else
+	MatchResult Match;
+	if (m_RecognizeTap && (Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
+	{
+		if (2 == Match.Status)
+		{
+			printf("Recognized a tap in GR::MEQ.\n");
+			m_Owner.ProcessTap(InputEvent, Vector2n((*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition()));
+		}
+	}
+	else if (ManipulationBegin/Update/End)
+	{
+		TODO: Resume
+	}
+	else if (ProcessEventHandledTEST(InputEvent))
+	{
+		Match.Status = 2;
+		Match.Events.push_back(*InputEventIterator);
+	}
+#endif
 
 	return Match;
 }
@@ -498,6 +533,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 		{
 			//printf("Recognized a wheel move by %d.\n", InputEvent.m_Sliders[0]);
 			m_Owner.ProcessScroll(InputEvent, Vector2n(InputEvent.m_Sliders[0], InputEvent.m_Sliders[1]));
+			InputEvent.m_Handled = true;
 		}
 	}
 
@@ -513,6 +549,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			m_Owner.ProcessManipulationStarted(InputEvent.m_Pointer->GetPointerState());
 			// DECISION
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(this);		// TEST
+			InputEvent.m_Handled = true;
 		}
 
 		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
@@ -524,6 +561,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			m_Owner.ProcessManipulationUpdated(InputEvent.m_Pointer->GetPointerState());
 			// DECISION
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(this);		// TEST
+			InputEvent.m_Handled = true;
 		}
 
 		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -534,6 +572,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			m_Owner.ProcessManipulationCompleted(InputEvent.m_Pointer->GetPointerState());
 			// DECISION
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);		// TEST
+			InputEvent.m_Handled = true;
 		}
 	}
 
@@ -544,6 +583,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 		if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
 		{
 			m_Owner.ProcessCharacter(InputEvent, InputEvent.m_InputId);
+			InputEvent.m_Handled = true;
 		}
 	}
 

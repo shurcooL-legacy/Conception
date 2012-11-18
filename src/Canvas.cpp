@@ -135,7 +135,7 @@ void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double Mo
 }
 #endif
 
-void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void Canvas::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	//printf("Canvas %p::ProcessTap()\n", this);
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());

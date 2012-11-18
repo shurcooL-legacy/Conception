@@ -13,7 +13,7 @@ public:
 
 	void Render() override;
 	
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 private:
 	std::function<void()>		m_Action;

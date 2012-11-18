@@ -254,7 +254,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				Match.Events.push_back(*InputEventIterator);
 			}
 
-			// Waterfall through GRs
+			// Waterfall through GRs of Widgets
 			else if ((Match = MatchEventQueue(UnreservedEvents)).AnySuccess())
 			{
 			}

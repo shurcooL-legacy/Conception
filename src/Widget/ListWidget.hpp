@@ -91,7 +91,7 @@ template <typename T> void ListWidget<T>::Render()
 	CompositeWidget::Render();
 }
 
-template <typename T> void ListWidget<T>::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+template <typename T> void ListWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	if (nullptr != m_TapAction)
 	{

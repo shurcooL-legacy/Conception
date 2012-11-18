@@ -40,7 +40,7 @@ void MultitouchTestBoxWidget::Render()
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
-void MultitouchTestBoxWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void MultitouchTestBoxWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	++m_Color;
 	if (m_Color >= 6)

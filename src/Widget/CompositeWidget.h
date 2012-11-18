@@ -15,11 +15,15 @@ public:
 
 	void Render() override;
 
+	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents) override;
+
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const override;
 
 private:
 	CompositeWidget(const CompositeWidget &) = delete;
 	CompositeWidget & operator = (const CompositeWidget &) = delete;
+
+	MatchResult InnerMatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
 
 	std::vector<std::shared_ptr<Widget>>		m_Widgets;
 

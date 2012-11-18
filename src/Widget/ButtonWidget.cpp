@@ -44,7 +44,7 @@ void ButtonWidget::Render()
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
-void ButtonWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void ButtonWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	m_Action();
 }

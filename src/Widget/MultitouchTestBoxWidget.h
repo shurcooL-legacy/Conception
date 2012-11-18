@@ -11,7 +11,7 @@ public:
 
 	void Render();
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	/*void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed);
 	void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount);*/

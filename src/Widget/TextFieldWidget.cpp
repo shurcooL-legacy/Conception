@@ -147,7 +147,7 @@ void TextFieldWidget::Render()
 	CompositeWidget::Render();
 }
 
-void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 

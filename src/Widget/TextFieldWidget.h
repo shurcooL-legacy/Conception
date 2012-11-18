@@ -39,7 +39,7 @@ public:
 
 	void Render() override;
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
