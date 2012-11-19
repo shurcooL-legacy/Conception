@@ -68,8 +68,8 @@ void App::Render()
 	{
 		if (2 == Match.Status)
 		{
-			std::cout << "Tap EXTERNAL at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-											<< (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+			std::cout << "Tap EXTERNAL at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+											<< (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 		}
 	}
 
@@ -117,7 +117,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 						for (auto & Widget : reverse(m_Widgets))
 						{
-							Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+							Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
 
 							auto Result = Widget->HitTest(GlobalPosition, &Hits);
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
@@ -217,7 +217,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (IsPointerPointingMoveEvent<0>(InputEvent))
 				{
-					Vector2n PointerPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
+					Vector2n PointerPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
 
 					if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
 					{
@@ -225,7 +225,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 						for (auto & Widget : reverse(m_Widgets))
 						{
-							Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+							Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
 
 							auto Result = Widget->HitTest(GlobalPosition, &Hits);
 #if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
@@ -292,8 +292,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			auto Status = MatchDoubleTap2(InputEventQueue.GetQueue(), InputEventIterator2);
 			if (2 == Status)
 			{
-				std::cout << "Double Tap at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << ","
-											  << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+				std::cout << "Double Tap at " << InputEventIterator->m_PostEventState.GetAxisState(0).GetPosition() << ","
+											  << InputEventIterator->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 
 				InputEventIterator = InputEventQueue.ModifyQueue().erase(InputEventIterator, InputEventIterator2);
 				continue;
@@ -311,8 +311,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (2 == Match.Status)
 				{
-					std::cout << "Tap at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-										   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					std::cout << "Tap at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+										   << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 				}
 			}
 
@@ -320,8 +320,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (2 == Match.Status)
 				{
-					std::cout << "ManipulationBegin at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-														 << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					std::cout << "ManipulationBegin at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+														 << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 					InManipulationTEST = true;
 				}
 			}
@@ -329,16 +329,16 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (2 == Match.Status)
 				{
-					//std::cout << "ManipulationUpdate at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-														  << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					//std::cout << "ManipulationUpdate at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+														  << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 				}
 			}
 			else if ((Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator, InManipulationTEST)).AnySuccess())
 			{
 				if (2 == Match.Status)
 				{
-					std::cout << "ManipulationEnd at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-													   << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					std::cout << "ManipulationEnd at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+													   << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 					InManipulationTEST = false;
 				}
 			}
@@ -347,8 +347,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (2 == Match.Status)
 				{
-					std::cout << "Mouse Down at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-												  << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					std::cout << "Mouse Down at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+												  << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 				}
 			}
 
@@ -356,8 +356,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			{
 				if (2 == Match.Status)
 				{
-					std::cout << "Mouse Up at " << (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << "," \
-												<< (*InputEventIterator)->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+					std::cout << "Mouse Up at " << (*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition() << "," \
+												<< (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 				}
 			}
 
@@ -393,16 +393,16 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				&& 0 == InputEventIterator->m_InputId
 				&& true == InputEventIterator->m_Buttons[0])
 			{
-				std::cout << "Mouse Down at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << ","
-											  << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+				std::cout << "Mouse Down at " << InputEventIterator->m_PostEventState.GetAxisState(0).GetPosition() << ","
+											  << InputEventIterator->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 			}
 
 			if (   InputEventIterator->HasType(InputEvent::EventType::BUTTON_EVENT)
 				&& 0 == InputEventIterator->m_InputId
 				&& false == InputEventIterator->m_Buttons[0])
 			{
-				std::cout << "Mouse Up at " << InputEventIterator->m_Pointer->GetPointerState().GetAxisState(0).GetPosition() << ","
-											<< InputEventIterator->m_Pointer->GetPointerState().GetAxisState(1).GetPosition() << std::endl;
+				std::cout << "Mouse Up at " << InputEventIterator->m_PostEventState.GetAxisState(0).GetPosition() << ","
+											<< InputEventIterator->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 			}
 		}*/
 	}

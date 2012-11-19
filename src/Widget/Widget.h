@@ -36,9 +36,9 @@ public:
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+	void ProcessManipulationBegin(const PointerState & PointerState) override;
+	void ProcessManipulationUpdate(const PointerState & PointerState) override;
+	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
 protected:
 	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);

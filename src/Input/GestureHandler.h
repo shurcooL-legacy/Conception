@@ -18,9 +18,9 @@ public:
 	virtual void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) {}
 	virtual void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) {}
 
-	virtual void ProcessManipulationStarted(const PointerState & PointerState) {}
-	virtual void ProcessManipulationUpdated(const PointerState & PointerState) {}
-	virtual void ProcessManipulationCompleted(const PointerState & PointerState) {}
+	virtual void ProcessManipulationBegin(const PointerState & PointerState) {}
+	virtual void ProcessManipulationUpdate(const PointerState & PointerState) {}
+	virtual void ProcessManipulationEnd(const PointerState & PointerState) {}
 
 	virtual void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) {}
 

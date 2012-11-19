@@ -26,9 +26,9 @@ public:
 	//void ProcessDrag(Vector2d DragAmount) override;
 	void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) override;
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+	void ProcessManipulationBegin(const PointerState & PointerState) override;
+	void ProcessManipulationUpdate(const PointerState & PointerState) override;
+	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 

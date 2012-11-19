@@ -8,7 +8,7 @@ InputEvent::InputEvent()
 	  m_Sliders(),
 	  m_Axes(),
 	  m_Pointer(nullptr),
-	  m_PreEventState(),
+	  m_PostEventState(),
 	  m_Timestamp(glfwGetTime()),
 	  m_Handled(false)
 {
@@ -40,7 +40,7 @@ std::string InputEvent::ToString() const
 	ss << m_Sliders.size() << ", ";
 	ss << m_Axes.size() << ", ";
 
-	ss << m_PreEventState.GetTimestamp() << ", ";
+	ss << m_PostEventState.GetTimestamp() << ", ";
 
 	ss << m_Pointer << ", ";
 

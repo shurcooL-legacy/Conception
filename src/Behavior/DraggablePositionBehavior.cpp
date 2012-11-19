@@ -14,7 +14,7 @@ void DraggablePositionBehavior::SetupGestureRecognizer()
 	m_Widget.ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 }
 
-void DraggablePositionBehavior::ProcessManipulationStarted(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationBegin(const PointerState & PointerState)
 {
 	if (!m_Widget.HasTypingFocus())
 	{
@@ -24,7 +24,7 @@ void DraggablePositionBehavior::ProcessManipulationStarted(const PointerState & 
 	}
 }
 
-void DraggablePositionBehavior::ProcessManipulationUpdated(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationUpdate(const PointerState & PointerState)
 {
 	if (!m_Widget.HasTypingFocus())
 	{
@@ -34,6 +34,6 @@ void DraggablePositionBehavior::ProcessManipulationUpdated(const PointerState & 
 	}
 }
 
-void DraggablePositionBehavior::ProcessManipulationCompleted(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationEnd(const PointerState & PointerState)
 {
 }

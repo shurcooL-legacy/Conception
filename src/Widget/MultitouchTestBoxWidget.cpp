@@ -98,9 +98,9 @@ void MultitouchTestBoxWidget::ProcessSlider(Pointer * Pointer, Input::InputId Sl
 	//m_Position.Y() += static_cast<sint32>(DragAmount.Y());
 }*/
 
-void MultitouchTestBoxWidget::ProcessManipulationStarted(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationBegin(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationStarted()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationBegin()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
@@ -109,9 +109,9 @@ void MultitouchTestBoxWidget::ProcessManipulationStarted(const PointerState & Po
 	ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
 }
 
-void MultitouchTestBoxWidget::ProcessManipulationUpdated(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationUpdate(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdated()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdate()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
@@ -120,9 +120,9 @@ void MultitouchTestBoxWidget::ProcessManipulationUpdated(const PointerState & Po
 	ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
 }
 
-void MultitouchTestBoxWidget::ProcessManipulationCompleted(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationEnd(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationCompleted()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationEnd()\n");
 }
 
 void MultitouchTestBoxWidget::ProcessTimePassed(const double TimePassed)

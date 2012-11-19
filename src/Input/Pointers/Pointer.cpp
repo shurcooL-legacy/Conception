@@ -12,6 +12,8 @@ Pointer::Pointer(InputHandler & MyInputHandler)
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
 		InputEvent.m_Pointer = this;
 
+		InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
+
 		m_InputHandler.ProcessEvent(InputEvent);
 	}
 }
@@ -22,6 +24,8 @@ Pointer::~Pointer()
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
 		InputEvent.m_Pointer = this;
+
+		InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
 
 		m_InputHandler.ProcessEvent(InputEvent);
 	}
@@ -93,8 +97,7 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	// TODO: Figure out if this does anything... it looks like a NOOP, so I'm disabling it
-	//m_PointerState = InputEvent.m_Pointer->GetPointerState();
+	InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
 
 	m_InputHandler.ProcessEvent(InputEvent);
 }
