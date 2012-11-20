@@ -387,16 +387,6 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	auto InputEventIterator = UnreservedEvents.begin();
 	auto & InputEvent = **InputEventIterator;
 
-	// DECISION
-	CONTINUE HERE
-#if 1
-	// Release the pointer capture if the pointer is deactivated
-	if (InputEvent.HasType(InputEvent::EventType::POINTER_DEACTIVATION))
-	{
-		InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);
-	}
-#endif
-
 	// If the pointer is not connected to this GR (meaning a failed HitTest), return failed match
 	// DEBUG: Is this the right way to go about it? Or a temporary hack? Figure it out.
 	if (   nullptr != InputEvent.m_Pointer
@@ -405,24 +395,11 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 		return MatchResult();
 	}
 
-	// DECISION
-#if 1
-	// TEST: Capture the pointer if the pointer is activated (via primary button)
-	if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
-		/*&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
-			&& 0 == InputEvent.m_InputId
-			&& true == InputEvent.m_Buttons[0])*/)
-	{
-		InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(this);
-	}
-#endif
-
 	MatchResult Match;
 	if (m_RecognizeTap && (Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
-			printf("Recognized a tap in GR::MEQ.\n");
 			m_Owner.ProcessTap(InputEvent, Vector2n((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition()));
 		}
 	}

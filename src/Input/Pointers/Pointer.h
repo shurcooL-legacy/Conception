@@ -30,13 +30,13 @@ protected:
 	void ProcessActivation(InputEvent & InputEvent);
 	void ProcessDeactivation(InputEvent & InputEvent);
 
-	bool IsActive();
+	//bool IsActive();
 
 private:
 	Pointer(const Pointer &) = delete;
 	Pointer & operator = (const Pointer &) = delete;
 
-	bool				m_IsActive;
+	//bool				m_IsActive;		// Commented out because it's not being used
 	PointerState		m_PointerState;
 
 	InputHandler &		m_InputHandler;

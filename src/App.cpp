@@ -212,6 +212,15 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 
 			auto & InputEvent = **InputEventIterator;
 
+			// DECISION
+#if 1
+			// Release the pointer capture if the pointer is deactivated
+			if (InputEvent.HasType(InputEvent::EventType::POINTER_DEACTIVATION))
+			{
+				InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(reinterpret_cast<GestureRecognizer *>(1));
+			}
+#endif
+
 #if 1
 			// Populate PointerMappings
 			{
@@ -244,8 +253,19 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				}
 			}
 
-			MatchResult Match;
+			// DECISION
 #if 1
+			// TEST: Capture the pointer if the pointer is activated //(via primary button)
+			if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
+				/*&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
+					&& 0 == InputEvent.m_InputId
+					&& true == InputEvent.m_Buttons[0])*/)
+			{
+				InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerCapture(reinterpret_cast<GestureRecognizer *>(1));
+			}
+#endif
+
+			MatchResult Match;
 			if (InputEvent.HasType(InputEvent::EventType::PARENT_SIZE))
 			{
 				UpdateWindowDimensions(ModifyInputManager().GetWindowDimensions());
@@ -286,7 +306,6 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				Match.Status = 2;
 				Match.Events.push_back(*InputEventIterator);
 			}
-#endif
 
 			/*auto InputEventIterator2 = InputEventIterator;
 			auto Status = MatchDoubleTap2(InputEventQueue.GetQueue(), InputEventIterator2);
