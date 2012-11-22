@@ -77,14 +77,13 @@ template <typename T> void ContextMenuWidget<T>::ProcessTap(const InputEvent & I
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	// TODO: Do something on double-tap, like insert the selected autocompletion into parent
 
 	g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
 	InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(ModifyGestureRecognizer());
 	ModifyParent()->RemoveWidget(this);		// TODO: Maybe this is wrong to do, verify
-	InputEvent.m_Handled = true;		// TOOD: I can't even remember if I need to do this? Should do this? Does it make any difference... *sigh*
 }
 
 template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & InputEvent)

@@ -162,7 +162,7 @@ void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Positio
 	}
 }
 
-void TextFieldWidget::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+void TextFieldWidget::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
 	// DUPLICATION

@@ -165,6 +165,7 @@ int main(int argc, char * argv[])
 					glfwPollEvents();
 				else {
 					glfwWaitEvents();
+					//if (glfwGetTime() - LastTime >= 1) printf("Slept for %f secs\n", glfwGetTime() - LastTime);
 					LastTime = glfwGetTime();
 				}
 				//InputManager.ProcessTimePassed(TimePassed);

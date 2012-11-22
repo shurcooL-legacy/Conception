@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 const sint32 TapRadius = 3;
-const double TapTime = 10.200;
+const double TapTime = 0.200;
 const double DoubleTapTime = 2 * TapTime;
 
 uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator & InputEventIterator)
@@ -57,10 +57,10 @@ uint8 MatchDoubleTap(const InputEventQueue::Queue & Queue, InputEventQueue::Queu
 			}
 			else if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, true>(*InputEventIterator2))
 			{
-				Vector2n MovePosition(InputEventIterator2->m_PostEventState.GetAxisState(0).GetPosition(), InputEventIterator2->m_PostEventState.GetAxisState(1).GetPosition());
+				Vector2n DownAgainPosition(InputEventIterator2->m_PostEventState.GetAxisState(0).GetPosition(), InputEventIterator2->m_PostEventState.GetAxisState(1).GetPosition());
 				auto NewTime = InputEventIterator2->GetTimestamp();
 
-				if (   (MovePosition - DownPosition).LengthSquared() <= (TapRadius * TapRadius)
+				if (   (DownAgainPosition - DownPosition).LengthSquared() <= (TapRadius * TapRadius)
 					&& (NewTime - DownTime) <= TapTime)
 				{}
 				else
@@ -267,19 +267,19 @@ MatchResult MatchSpace(const InputEventQueue::FilteredQueue & Queue, InputEventQ
 
 MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
 {
-	auto DownMatch = MatchDown(Queue, InputEventIterator);
-	if (2 == DownMatch.Status)
+	auto Match = MatchDown(Queue, InputEventIterator);
+	if (2 == Match.Status)
 	{
 		Vector2n DownPosition((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition());
 		auto DownTime = (*InputEventIterator)->GetTimestamp();
 		auto PointingPointer = (*InputEventIterator)->m_Pointer;
 
-		auto FilteredQueue2 = InputEventQueue::FilterByPointer(InputEventQueue::CreateFilteredQueue(Queue, DownMatch.End), PointingPointer);
+		auto FilteredQueue2 = InputEventQueue::FilterByPointer(InputEventQueue::CreateFilteredQueue(Queue, Match.End), PointingPointer);
 		for (auto InputEventIterator2 = FilteredQueue2.begin(); FilteredQueue2.end() != InputEventIterator2; ++InputEventIterator2)
 		//for (auto & InputEventIterator2 : InputEventQueue::FilterByPointer(InputEventQueue::CreateFilteredQueue(Queue, DownMatch.End), PointingPointer))
 		//for (auto InputEventIterator2 = DownMatch.End; Queue.end() != InputEventIterator2; ++InputEventIterator2)
 		{
-			DownMatch.Events.push_back(*InputEventIterator2);
+			Match.Events.push_back(*InputEventIterator2);
 
 			if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(**InputEventIterator2))
 			{
@@ -290,7 +290,7 @@ MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 					&& (UpTime - DownTime) <= TapTime)
 				{
 					++InputEventIterator2;
-					return MatchResult(InputEventIterator2, DownMatch.Events);
+					return MatchResult(InputEventIterator2, Match.Events);
 				}
 				else
 				{
@@ -319,19 +319,103 @@ MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 		// Only if there's still a chance a new event can come in time to make a match
 		if ((glfwGetTime() - DownTime) <= TapTime)
 		{
-			DownMatch.Status = 1;
-			return DownMatch;
+			Match.Status = 1;
+			return Match;
 		}
 	}
 	else
 	{
-		return DownMatch;
+		return Match;
 	}
 
 	return MatchResult();
 }
 
-/*uint8 MatchDoubleTap2(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator & InputEventIterator)
+MatchResult MatchDoubleTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator)
+{
+	auto Match = MatchDown(Queue, InputEventIterator);
+	if (2 == Match.Status)
+	{
+		Vector2n DownPosition((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition());
+		auto DownTime = (*InputEventIterator)->GetTimestamp();
+		auto PointingPointer = (*InputEventIterator)->m_Pointer;
+
+		uint8 NumberOfTaps = 0;
+
+		auto FilteredQueue2 = InputEventQueue::FilterByPointer(InputEventQueue::CreateFilteredQueue(Queue, Match.End), PointingPointer);
+		for (auto InputEventIterator2 = FilteredQueue2.begin(); FilteredQueue2.end() != InputEventIterator2; ++InputEventIterator2)
+		{
+			Match.Events.push_back(*InputEventIterator2);
+
+			if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(**InputEventIterator2))
+			{
+				Vector2n UpPosition((*InputEventIterator2)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator2)->m_PostEventState.GetAxisState(1).GetPosition());
+				auto UpTime = (*InputEventIterator2)->GetTimestamp();
+
+				if (   (UpPosition - DownPosition).LengthSquared() <= (TapRadius * TapRadius)
+					&& (UpTime - DownTime) <= DoubleTapTime)
+				{
+					if (1 == NumberOfTaps)
+					{
+						++InputEventIterator2;
+						return MatchResult(InputEventIterator2, Match.Events);
+					}
+					else
+						++NumberOfTaps;
+				}
+				else
+				{
+					return MatchResult();
+				}
+			}
+			else if (IsPointerPointingMoveEvent<0>(**InputEventIterator2))
+			{
+				Vector2n MovePosition((*InputEventIterator2)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator2)->m_PostEventState.GetAxisState(1).GetPosition());
+				auto NewTime = (*InputEventIterator2)->GetTimestamp();
+
+				if (   (MovePosition - DownPosition).LengthSquared() <= (TapRadius * TapRadius)
+					&& (NewTime - DownTime) <= TapTime)
+				{}
+				else
+				{
+					return MatchResult();
+				}
+			}
+			else if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, true>(**InputEventIterator2))
+			{
+				Vector2n DownAgainPosition((*InputEventIterator2)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator2)->m_PostEventState.GetAxisState(1).GetPosition());
+				auto NewTime = (*InputEventIterator2)->GetTimestamp();
+
+				if (   (DownAgainPosition - DownPosition).LengthSquared() <= (TapRadius * TapRadius)
+					&& (NewTime - DownTime) <= TapTime)
+				{}
+				else
+				{
+					return MatchResult();
+				}
+			}
+			else
+			{
+				return MatchResult();
+			}
+		}
+
+		// Only if there's still a chance a new event can come in time to make a match
+		if ((glfwGetTime() - DownTime) <= DoubleTapTime)
+		{
+			Match.Status = 1;
+			return Match;
+		}
+	}
+	else
+	{
+		return Match;
+	}
+
+	return MatchResult();
+}
+
+/*uint8 MatchDoubleTap3(const InputEventQueue::Queue & Queue, InputEventQueue::Queue::const_iterator & InputEventIterator)
 {
 	auto FirstTap = MatchTap2(Queue, InputEventIterator);
 	if (2 == FirstTap)
@@ -406,7 +490,14 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	}
 
 	MatchResult Match;
-	if (m_RecognizeTap && (Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
+	if (m_RecognizeDoubleTap && (Match = MatchDoubleTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
+	{
+		if (2 == Match.Status)
+		{
+			m_Owner.ProcessDoubleTap(InputEvent, Vector2n((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition()));
+		}
+	}
+	else if (m_RecognizeTap && (Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
@@ -471,7 +562,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 #endif*/
 
 	// EXPERIMENTAL
-	if (   m_RecognizeDoubleTap
+	/*if (   m_RecognizeDoubleTap
 		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -485,10 +576,10 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			m_Owner.ProcessDoubleTap(InputEvent, Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition()));
 			m_LastTapCompletedStateTEST.InvalidateTEST();
 		}
-	}
+	}*/
 
 	// TODO: Fix bug where dragging the object out of down-event range and then bringing it back still activates the tap (it shouldn't)
-	if (   m_RecognizeTap
+	/*if (   m_RecognizeTap
 		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -508,7 +599,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			m_Owner.ProcessTap(InputEvent, Vector2n(m_LastTapStateTEST.GetAxisState(0).GetPosition(), m_LastTapStateTEST.GetAxisState(1).GetPosition()));
 			m_LastTapCompletedStateTEST = m_LastTapStateTEST;
 		}
-	}
+	}*/
 
 	//if (m_RecognizeDrag)
 	/*{
@@ -539,7 +630,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	}
 
 	// TODO: Support for manipulation with >1 pointer simultaneously (including translation, as well as rotation/scale)
-	if (   m_RecognizeManipulationTranslate
+	/*if (   m_RecognizeManipulationTranslate
 		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -575,9 +666,9 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 			//InputEvent.m_Pointer->ModifyPointerMapping().RequestPointerRelease(this);		// TEST
 			InputEvent.m_Handled = true;
 		}
-	}
+	}*/
 
-	//if (...)
+	//if (   m_RecognizeCharacters
 	if (   true
 		&& !InputEvent.m_Handled)
 	{

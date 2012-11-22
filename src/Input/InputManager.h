@@ -26,6 +26,7 @@ public:
 	void RequestTypingPointer(GestureRecognizer & Target);
 
 	bool AnyActivePointers() const;
+	bool EmptyInputEventQueue() const;
 
 	static void GLFWCALL ProcessWindowSize(int WindowWidth, int WindowHeight);
 

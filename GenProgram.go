@@ -26,7 +26,7 @@ func MyGetString(args ...interface{}) string {
 
 func main() {
 	a := []int{2, 5, 3, 4, 1}
-	
+
 	in := MyGetString(a)
 	out := MyGetString(MySort(a))
 	after := MyGetString(a)

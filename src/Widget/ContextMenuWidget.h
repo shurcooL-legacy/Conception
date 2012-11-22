@@ -14,7 +14,7 @@ public:
 	void Render() override;
 
 	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
-	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 

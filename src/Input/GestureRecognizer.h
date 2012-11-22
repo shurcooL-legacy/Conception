@@ -56,6 +56,7 @@ MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, I
 MatchResult MatchSpace(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
 
 MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
+MatchResult MatchDoubleTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
 
 class GestureRecognizer
 	: public InputHandler,

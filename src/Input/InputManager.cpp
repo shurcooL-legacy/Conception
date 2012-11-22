@@ -120,6 +120,11 @@ bool InputManager::AnyActivePointers() const
 	return m_TypingPointer->GetPointerState().IsAnyButtonsPressed();
 }
 
+bool InputManager::EmptyInputEventQueue() const
+{
+	return InputEventQueue().GetQueue().empty();
+}
+
 void InputManager::SetGlfwCallbacks()
 {
 	m_TypingPointer = std::unique_ptr<TypingPointer>(new TypingPointer(*m_InputHandler));
