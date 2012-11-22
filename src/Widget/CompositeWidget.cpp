@@ -138,20 +138,13 @@ bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hit
 // TODO: Think this through
 bool CompositeWidget::IsHit(const Vector2n ParentPosition) const
 {
-	if (m_Behaviors.empty())		// HACK
+	for (auto & Widget : reverse(m_Widgets))
 	{
-		return Widget::IsHit(ParentPosition);
-	}
-	else
-	{
-		for (auto & Widget : reverse(m_Widgets))
-		{
-			auto Hit = Widget->IsHit(ParentToLocal(ParentPosition));
+		auto Hit = Widget->IsHit(ParentToLocal(ParentPosition));
 
-			if (Hit)
-				return true;
-		}
-
-		return false;
+		if (Hit)
+			return true;
 	}
+
+	return Widget::IsHit(ParentPosition);
 }
