@@ -180,6 +180,8 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
+				bool HandledEvent = true;		// Assume true at first
+
 				switch (ButtonId)
 				{
 				case GLFW_KEY_BACKSPACE:
@@ -212,7 +214,13 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 					}
 					break;
 				default:
+					HandledEvent = false;
 					break;
+				}
+
+				if (HandledEvent)
+				{
+					InputEvent.m_Handled = true;
 				}
 			}
 		}
@@ -220,6 +228,8 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
+				bool HandledEvent = true;		// Assume true at first
+
 				switch (ButtonId)
 				{
 				case 0:
@@ -248,7 +258,13 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 					}
 					break;
 				default:
+					HandledEvent = false;
 					break;
+				}
+
+				if (HandledEvent)
+				{
+					InputEvent.m_Handled = true;
 				}
 			}
 		}
