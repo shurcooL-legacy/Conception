@@ -77,6 +77,7 @@ private:
 
 	friend class CompositeWidget;				// For SetParent() access
 	friend class DraggablePositionBehavior;		// For GlobalToParent() access
+	friend class GestureRecognizer;				// For GlobalToParent() access
 
 	friend class App;		// DEBUG: For debug printing
 };

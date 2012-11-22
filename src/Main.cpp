@@ -131,10 +131,10 @@ int main(int argc, char * argv[])
 		InputManager InputManager;
 		g_InputManager = &InputManager;
 
-		//ConceptionApp MainApp(InputManager);
+		ConceptionApp MainApp(InputManager);
 		//LiveEditorApp MainApp(InputManager);
 		//ConceptionTestApp MainApp(InputManager);
-		MultitouchTestApp MainApp(InputManager);
+		//MultitouchTestApp MainApp(InputManager);
 		//SentienceApp MainApp(InputManager);
 
 		glfwSetWindowTitle(MainApp.GetTitle().c_str());
@@ -163,12 +163,14 @@ int main(int argc, char * argv[])
 				// Populate InputEventQueue
 				if (MainApp.ShouldRedrawRegardless())
 					glfwPollEvents();
-				else
+				else {
 					glfwWaitEvents();
-//				InputManager.ProcessTimePassed(TimePassed);
+					LastTime = glfwGetTime();
+				}
+				//InputManager.ProcessTimePassed(TimePassed);
 
 				MainApp.ProcessEventQueue(InputManager.ModifyInputEventQueue());
-MainApp.ProcessTimePassed(TimePassed);
+				MainApp.ProcessTimePassed(TimePassed);
 			}
 
 			// Render

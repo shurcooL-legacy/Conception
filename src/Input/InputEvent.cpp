@@ -40,6 +40,7 @@ std::string InputEvent::ToString() const
 	ss << m_Sliders.size() << ", ";
 	ss << m_Axes.size() << ", ";
 
+	ss << m_PreEventState.GetTimestamp() << ", ";
 	ss << m_PostEventState.GetTimestamp() << ", ";
 
 	ss << m_Pointer << ", ";

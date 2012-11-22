@@ -14,7 +14,7 @@ func MySort(a []int) (int, bool) {
 
 func MyGetString(args ...interface{}) string {
 	//fmt.Println(args...)
-	str := ""
+	var str string
 	for index, arg := range args {
 		str = str + fmt.Sprintf("%#v", arg)
 		if (len(args) - 1 != index) {
@@ -29,11 +29,8 @@ func main() {
 	
 	in := MyGetString(a)
 	out := MyGetString(MySort(a))
-	aft := MyGetString(a)
+	after := MyGetString(a)
 
-	fmt.Printf("       %s\n", aft)
-
-	fmt.Printf("MySort(%s) -> ", in)
-
-	fmt.Print(out)
+	fmt.Printf("MySort(%s) -> %s\n", in, out)
+	fmt.Printf("       %s", after)
 }

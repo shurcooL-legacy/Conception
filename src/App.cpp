@@ -213,7 +213,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			auto & InputEvent = **InputEventIterator;
 
 			// DECISION
-#if 1
+#if 0
 			// Release the pointer capture if the pointer is deactivated
 			if (InputEvent.HasType(InputEvent::EventType::POINTER_DEACTIVATION))
 			{
@@ -221,7 +221,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 #endif
 
-#if 1
+#if 0
 			// Populate PointerMappings
 			{
 				if (IsPointerPointingMoveEvent<0>(InputEvent))
@@ -252,9 +252,10 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 					}
 				}
 			}
+#endif
 
 			// DECISION
-#if 1
+#if 0
 			// TEST: Capture the pointer if the pointer is activated //(via primary button)
 			if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
 				/*&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -324,7 +325,6 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			else if (0 == Status)
 			{
 			}*/
-#endif
 
 			else if ((Match = MatchTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{

@@ -113,6 +113,13 @@ void InputManager::RequestTypingPointer(GestureRecognizer & Target)
 	}
 }
 
+// Returns true if any of the pointers are active
+bool InputManager::AnyActivePointers() const
+{
+	// TODO: All pointers, not just keyboard
+	return m_TypingPointer->GetPointerState().IsAnyButtonsPressed();
+}
+
 void InputManager::SetGlfwCallbacks()
 {
 	m_TypingPointer = std::unique_ptr<TypingPointer>(new TypingPointer(*m_InputHandler));
@@ -173,7 +180,8 @@ void GLFWCALL InputManager::ProcessWindowSize(int WindowWidth, int WindowHeight)
 
 void GLFWCALL InputManager::ProcessKey(int Key, int Action)
 {
-	if ((GLFW_PRESS == Action) != m_pInstance->m_TypingPointer->GetPointerState().GetButtonState(Key))		// Ignore button events where the button state doesn't change
+	// Do not ignore button events where the button state doesn't change, because they're needed for repeated arrow keys, backspace, enter, etc.
+	//if ((GLFW_PRESS == Action) != m_pInstance->m_TypingPointer->GetPointerState().GetButtonState(Key))		// Ignore button events where the button state doesn't change
 	{
 		InputEvent InputEvent;
 		InputEvent.m_EventTypes.insert(InputEvent::EventType::BUTTON_EVENT);
@@ -181,7 +189,6 @@ void GLFWCALL InputManager::ProcessKey(int Key, int Action)
 		InputEvent.m_InputId = Key;
 		InputEvent.m_Buttons.push_back(GLFW_PRESS == Action);
 		InputEvent.m_Pointer = m_pInstance->m_TypingPointer.get();
-		//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
@@ -196,7 +203,6 @@ void GLFWCALL InputManager::ProcessChar(int Character, int Action)
 		InputEvent.m_DeviceId = 0;
 		InputEvent.m_InputId = Character;
 		InputEvent.m_Pointer = m_pInstance->m_TypingPointer.get();
-		//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
@@ -211,7 +217,6 @@ void GLFWCALL InputManager::ProcessMouseButton(int MouseButton, int Action)
 		InputEvent.m_InputId = MouseButton;
 		InputEvent.m_Buttons.push_back(GLFW_PRESS == Action);
 		InputEvent.m_Pointer = m_pInstance->m_MousePointer.get();
-		//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
@@ -245,7 +250,6 @@ void GLFWCALL InputManager::ProcessMousePos(int MousePositionX, int MousePositio
 			InputEvent.m_Axes.push_back(Input::AxisState(MousePositionX, m_pInstance->GetWindowDimensions()[0]));
 			InputEvent.m_Axes.push_back(Input::AxisState(MousePositionY, m_pInstance->GetWindowDimensions()[1]));
 			InputEvent.m_Pointer = m_pInstance->m_MousePointer.get();
-			//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 			InputEvent.m_Pointer->ProcessEvent(InputEvent);
 		}
@@ -265,7 +269,6 @@ void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition, int MouseW
 		InputEvent.m_Axes.push_back(Input::AxisState(MouseWheelPosition, 0));
 		InputEvent.m_Axes.push_back(Input::AxisState(MouseWheel2Position, 1));
 		InputEvent.m_Pointer = m_pInstance->m_MousePointer.get();
-		//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
@@ -283,7 +286,6 @@ void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition, int MouseW
 		InputEvent.m_InputId = TouchButton;
 		InputEvent.m_Buttons.push_back(GLFW_PRESS == Action);
 		InputEvent.m_Pointer = m_pInstance->m_TouchPointers[TouchButton].get();
-		InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);
 	}
@@ -318,7 +320,6 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 		InputEvent.m_Axes.push_back(Input::AxisState(TouchPositionX, m_pInstance->GetWindowDimensions()[0]));
 		InputEvent.m_Axes.push_back(Input::AxisState(TouchPositionY, m_pInstance->GetWindowDimensions()[1]));
 		InputEvent.m_Pointer = m_pInstance->m_TouchPointers[TouchButton].get();
-		//InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 		if (0 == Action)
 		{
@@ -360,7 +361,6 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 				InputEvent.m_Axes.push_back(Input::AxisState(static_cast<double>(TouchPosition.Y()), -1));
 			}
 			InputEvent.m_Pointer = m_pInstance->m_TouchPointers[TouchButton].get();
-			InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 			// TODO: Add button down component?
 
 			InputEvent.m_Pointer->ProcessEvent(InputEvent);
@@ -376,7 +376,6 @@ void GLFWCALL InputManager::ProcessTouch(int TouchButton, int Action, int TouchP
 			InputEvent.m_Axes.push_back(Input::AxisState(static_cast<double>(TouchPosition.X()), -1));
 			InputEvent.m_Axes.push_back(Input::AxisState(static_cast<double>(TouchPosition.Y()), -1));
 			InputEvent.m_Pointer = m_pInstance->m_TouchPointers[TouchButton].get();
-			InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 			InputEvent.m_Pointer->ProcessEvent(InputEvent);
 		}

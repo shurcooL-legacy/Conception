@@ -19,6 +19,9 @@ public:
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const override;
 
+protected:
+	bool IsHit(const Vector2n ParentPosition) const override;
+
 private:
 	CompositeWidget(const CompositeWidget &) = delete;
 	CompositeWidget & operator = (const CompositeWidget &) = delete;

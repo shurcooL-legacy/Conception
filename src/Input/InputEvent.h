@@ -29,7 +29,7 @@ public:
 
 	Pointer *				m_Pointer;
 
-	//PointerState			m_PreEventState;		// State of pointer before this event
+	PointerState			m_PreEventState;		// TEST: State of pointer before this event, not yet sure if needed, but adding for testing purposes
 	PointerState			m_PostEventState;		// State of pointer after this event, needed for queue processing
 	double					m_Timestamp;			// Timestamp of event
 

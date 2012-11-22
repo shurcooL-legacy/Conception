@@ -549,6 +549,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 					}
 
+					bool HandledEvent = true;		// Assume true at first
+
 					switch (ButtonId)
 					{
 					case 0:
@@ -575,7 +577,13 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 						break;
 					default:
+						HandledEvent = false;
 						break;
+					}
+
+					if (HandledEvent)
+					{
+						InputEvent.m_Handled = true;
 					}
 				}
 			}
@@ -597,6 +605,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
 					SetCaretPosition(CaretPosition, false);
+
+					InputEvent.m_Handled = true;
 				}
 			}
 		}

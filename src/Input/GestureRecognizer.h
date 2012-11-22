@@ -27,8 +27,8 @@ bool IsPointerButtonEvent(const InputEvent & InputEvent)
 			&& PointerVirtualCategory == InputEvent.m_Pointer->GetVirtualCategory()
 			&& InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 			&& ButtonId == InputEvent.m_InputId
-			&& ButtonState == InputEvent.m_Buttons[0]);
-			//&& !ButtonState == InputEvent.m_PreEventState.GetButtonState(ButtonId));
+			&& ButtonState == InputEvent.m_Buttons[0]
+			&& !ButtonState == InputEvent.m_PreEventState.GetButtonState(ButtonId));
 }
 
 template <Input::InputId InputId>

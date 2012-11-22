@@ -618,7 +618,9 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 
 bool ConceptionApp::ShouldRedrawRegardless()
 {
-	if (0 == m_BackgroundState && glfwGetTime() >= m_ProcessEndedTime + 1)
+	if (   0 == m_BackgroundState
+		&& glfwGetTime() >= m_ProcessEndedTime + 1
+		&& !GetInputManager().AnyActivePointers())
 		return false;		// If idle, don't redraw regardless of input
 	else
 		return true;		// If background thread is doing something, we should redraw

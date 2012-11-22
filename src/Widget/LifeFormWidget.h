@@ -16,7 +16,7 @@ public:
 	void ProcessTimePassed(const double TimePassed) override;
 
 protected:
-	virtual bool IsHit(const Vector2n ParentPosition) const override;
+	bool IsHit(const Vector2n ParentPosition) const override;
 
 private:
 	struct State

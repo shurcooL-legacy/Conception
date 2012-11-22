@@ -54,6 +54,8 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 {
 	//std::cout << InputEvent.ToString();
 
+	InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
+
 	for (auto EventType : InputEvent.m_EventTypes)
 	{
 		switch (EventType)
