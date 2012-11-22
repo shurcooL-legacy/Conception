@@ -76,6 +76,7 @@ public:
 	bool				m_RecognizeTap;
 	bool				m_RecognizeDoubleTap;
 	bool				m_RecognizeManipulationTranslate;
+	bool				m_RecognizeScroll;
 
 	Vector2n			m_ManipulationOffset;
 

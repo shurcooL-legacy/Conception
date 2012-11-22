@@ -368,6 +368,7 @@ GestureRecognizer::GestureRecognizer(GestureHandler & Owner)
 	  m_RecognizeDoubleTap(false),
 	  m_RecognizeManipulationTranslate(false),
 	  m_InManipulation(false),
+	  m_RecognizeScroll(false),
 	  m_Owner(Owner)
 {
 }
@@ -395,6 +396,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 		return MatchResult();
 	}*/
 	Vector2n GlobalPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
+	//printf("Global Pos %d, %d.\n", GlobalPosition.X(), GlobalPosition.Y());
 	if (/*   !m_InManipulation
 		&& */!static_cast<Widget &>(m_Owner).IsHit(static_cast<Widget &>(m_Owner).GlobalToParent(GlobalPosition))
 		&& (   nullptr != InputEvent.m_Pointer
@@ -524,8 +526,7 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 		}
 	}*/
 
-	//if (m_RecognizeScroll)
-	if (   true
+	if (   m_RecognizeScroll
 		&& !InputEvent.m_Handled)
 	{
 		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)

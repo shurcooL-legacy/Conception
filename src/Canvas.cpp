@@ -16,6 +16,7 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourSc
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 	else if (Canvas::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
+	ModifyGestureRecognizer().m_RecognizeScroll = true;
 
 	if (m_HasBackground)
 	{
