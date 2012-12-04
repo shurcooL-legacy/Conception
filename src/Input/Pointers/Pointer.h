@@ -23,6 +23,8 @@ public:
 	const PointerState & GetPointerState();
 	PointerState & ModifyPointerState();
 
+	bool IsActive() const;
+
 protected:
 	Pointer(InputHandler & InputHandler);
 	virtual ~Pointer();
@@ -30,13 +32,11 @@ protected:
 	void ProcessActivation(InputEvent & InputEvent);
 	void ProcessDeactivation(InputEvent & InputEvent);
 
-	//bool IsActive();
-
 private:
 	Pointer(const Pointer &) = delete;
 	Pointer & operator = (const Pointer &) = delete;
 
-	//bool				m_IsActive;		// Commented out because it's not being used
+	bool				m_IsActive;
 	PointerState		m_PointerState;
 
 	InputHandler &		m_InputHandler;

@@ -42,6 +42,17 @@ bool Widget::CheckActive() const
 		}
 	}*/
 
+	for (auto & Pointer : GetGestureRecognizer().GetConnected())
+	{
+		Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+
+		if (   true == Pointer->GetPointerState().GetButtonState(0)
+			&& IsHit(GlobalToParent(GlobalPosition)))
+		{
+			return true;
+		}
+	}
+
 	return false;
 }
 

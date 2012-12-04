@@ -2,7 +2,7 @@
 
 Pointer::Pointer(InputHandler & MyInputHandler)
 	: InputHandler(),
-	  //m_IsActive(false),
+	  m_IsActive(false),
 	  m_PointerState(),
 	  m_InputHandler(MyInputHandler),
 	  m_PointerMapping(*this)
@@ -33,22 +33,22 @@ Pointer::~Pointer()
 
 void Pointer::ProcessActivation(InputEvent & InputEvent)
 {
-	//m_IsActive = true;
+	m_IsActive = true;
 
 	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_ACTIVATION);
 }
 
 void Pointer::ProcessDeactivation(InputEvent & InputEvent)
 {
-	//m_IsActive = false;
+	m_IsActive = false;
 
 	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DEACTIVATION);
 }
 
-/*bool Pointer::IsActive()
+bool Pointer::IsActive() const
 {
 	return m_IsActive;
-}*/
+}
 
 void Pointer::ProcessEvent(InputEvent & InputEvent)
 {

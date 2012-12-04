@@ -200,6 +200,7 @@ extern InputManager * g_InputManager;
 #include "ControlModules/TypingModule.h"
 #include "Behavior/Behavior.h"
 #include "Behavior/DraggablePositionBehavior.h"
+#include "Behavior/NonDraggablePositionBehavior.h"
 #include "Widget/Widget.h"
 #include "Widget/CompositeWidget.h"
 #include "Widget/ButtonWidget.h"

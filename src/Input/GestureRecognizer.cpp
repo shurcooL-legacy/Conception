@@ -1,5 +1,12 @@
 #include "../Main.h"
 
+bool IsPointerPointingDeactivationEvent(const InputEvent & InputEvent)
+{
+	return (   nullptr != InputEvent.m_Pointer
+			&& Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory()
+			&& InputEvent.HasType(InputEvent::EventType::POINTER_DEACTIVATION));
+}
+
 const sint32 TapRadius = 3;
 const double TapTime = 0.200;
 const double DoubleTapTime = 2 * TapTime;
@@ -194,10 +201,13 @@ MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueu
 	return MatchResult();
 }
 
-MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST)
+MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, bool HitTEST)
 {
-	if (false != InManipulationTEST)
+	if (   false != InManipulationTEST
+		|| true != HitTEST)
+	{
 		return MatchResult();
+	}
 
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
@@ -472,13 +482,17 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	auto InputEventIterator = UnreservedEvents.begin();
 	auto & InputEvent = **InputEventIterator;
 
+#if 1
 	// If the pointer is not connected to this GR (meaning a failed HitTest), return failed match
 	// DEBUG: Is this the right way to go about it? Or a temporary hack? Figure it out.
-	/*if (   nullptr != InputEvent.m_Pointer
+	if (   nullptr != InputEvent.m_Pointer
 		&& GetConnected().end() == GetConnected().find(InputEvent.m_Pointer))
 	{
+		m_InManipulation = false;		// HACK: Not sure if this is the best way of doing it
+
 		return MatchResult();
-	}*/
+	}
+#else
 	Vector2n GlobalPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
 	//printf("Global Pos %d, %d.\n", GlobalPosition.X(), GlobalPosition.Y());
 	if (/*   !m_InManipulation
@@ -488,6 +502,10 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	{
 		return MatchResult();
 	}
+#endif
+
+	Vector2n GlobalPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
+	auto Hit = static_cast<Widget &>(m_Owner).IsHit(static_cast<Widget &>(m_Owner).GlobalToParent(GlobalPosition));
 
 	MatchResult Match;
 	if (m_RecognizeDoubleTap && (Match = MatchDoubleTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
@@ -504,7 +522,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 			m_Owner.ProcessTap(InputEvent, Vector2n((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition()));
 		}
 	}
-	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, m_InManipulation)).AnySuccess())
+	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, m_InManipulation, Hit)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{

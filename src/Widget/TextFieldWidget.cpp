@@ -14,8 +14,11 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_OnChange(),
 	  m_GetAutocompletions()
 {
-	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
+	//ModifyGestureRecognizer().m_RecognizeTap = true;
+	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
+	// HACK: Recognize only taps when unselected; but this needs to be automated
+	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = HasTypingFocus();
 
 	UpdateContentLines();		// This is here at least for resize
 }
@@ -28,6 +31,13 @@ bool TextFieldWidget::HasTypingFocus() const
 {
 	return (   GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())
 			|| (!GetWidgets().empty() && GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() != GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())));
+}
+
+void TextFieldWidget::ProcessTimePassed(const double TimePassed)
+{
+	// HACK: Recognize only taps when unselected; but this needs to be automated
+	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = HasTypingFocus();
 }
 
 void TextFieldWidget::Render()
@@ -149,16 +159,19 @@ void TextFieldWidget::Render()
 
 void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
-	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
-
-	// Set cursor at tapped position
+	if (!HasTypingFocus())
 	{
-		Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-		Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+		g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 
-		auto CaretPosition = GetNearestCaretPosition(LocalPosition);
+		// Set cursor at tapped position
+		{
+			Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+			Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-		SetCaretPosition(CaretPosition, true);
+			auto CaretPosition = GetNearestCaretPosition(LocalPosition);
+
+			SetCaretPosition(CaretPosition, true);
+		}
 	}
 }
 

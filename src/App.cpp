@@ -221,14 +221,14 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 #endif
 
-#if 0
+#if 1
 			// Populate PointerMappings
 			{
-				if (IsPointerPointingMoveEvent<0>(InputEvent))
+				if (   IsPointerPointingMoveEvent<0>(InputEvent)
+					|| IsPointerPointingDeactivationEvent(InputEvent))
 				{
-					Vector2n PointerPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
-
-					if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
+					//if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
+					if (false == InputEvent.m_Pointer->IsActive())
 					{
 						std::list<Widget *> Hits;		// Front of list are top-most widgets
 
@@ -335,7 +335,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				}
 			}
 
-			else if ((Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, InManipulationTEST)).AnySuccess())
+			else if ((Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, InManipulationTEST, true)).AnySuccess())
 			{
 				if (2 == Match.Status)
 				{
@@ -527,7 +527,8 @@ void App::ProcessTimePassed(const double TimePassed)
 	{
 		std::ostringstream out;
 
-		/*out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
+#if 1
+		out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
 		for (auto & i : g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries)
 		{
 			if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
@@ -538,13 +539,14 @@ void App::ProcessTimePassed(const double TimePassed)
 
 			auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
 			out << " (" << LocalPosition.X() << ", " << LocalPosition.Y() << ")";
-		}*/
-
+		}
+#else
 		out << "InputManager.m_IEQueue.m_Queue" << std::endl;
 		for (auto & i : g_InputManager->m_InputEventQueue.m_Queue)
 		{
 			out << i.ToString() << std::endl;
 		}
+#endif
 
 		OpenGLStream(Vector2n::ZERO) << out.str();
 	}

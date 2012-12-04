@@ -45,6 +45,8 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 	std::string GetContent() const;
 	void SetContent(std::string Content);
 	void AppendContent(std::string ExtraContent);

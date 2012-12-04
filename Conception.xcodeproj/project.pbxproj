@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */; };
 		2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CA1635B10000C7DD67 /* Behavior.cpp */; };
 		2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */; };
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
@@ -89,6 +90,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NonDraggablePositionBehavior.cpp; path = src/Behavior/NonDraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; };
+		2A01AD70166D17C000AF7E9F /* NonDraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NonDraggablePositionBehavior.h; path = src/Behavior/NonDraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; };
 		2A0D47CA1635B10000C7DD67 /* Behavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Behavior.cpp; path = src/Behavior/Behavior.cpp; sourceTree = SOURCE_ROOT; };
 		2A0D47CB1635B10000C7DD67 /* Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Behavior.h; path = src/Behavior/Behavior.h; sourceTree = SOURCE_ROOT; };
 		2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DraggablePositionBehavior.cpp; path = src/Behavior/DraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -230,6 +233,8 @@
 		2A0D47C81635B0BB00C7DD67 /* Behavior */ = {
 			isa = PBXGroup;
 			children = (
+				2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */,
+				2A01AD70166D17C000AF7E9F /* NonDraggablePositionBehavior.h */,
 				2A0D47CA1635B10000C7DD67 /* Behavior.cpp */,
 				2A0D47CB1635B10000C7DD67 /* Behavior.h */,
 				2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */,
@@ -558,6 +563,7 @@
 				2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */,
 				2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */,
 				2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */,
+				2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,12 +1,12 @@
 #include "../Main.h"
 
 ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action)
-	: Widget(Position, Dimensions, {}),
+	: Widget(Position, Dimensions, { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }),
 	  m_Action(Action)
 {
 	assert(nullptr != m_Action);
 
-	ModifyGestureRecognizer().m_RecognizeTap = true;
+	//ModifyGestureRecognizer().m_RecognizeTap = true;
 }
 
 ButtonWidget::~ButtonWidget()
@@ -20,12 +20,12 @@ void ButtonWidget::Render()
 
 	if (CheckHover() && CheckActive())
 	{
-		BackgroundColor[0] = 0.5;
-		BackgroundColor[1] = 0.5;
-		BackgroundColor[2] = 0.5;
-		BorderColor[0] = 0.0;
-		BorderColor[1] = 0.0;
-		BorderColor[2] = 0.0;
+		BackgroundColor[0] = 0.75;
+		BackgroundColor[1] = 0.75;
+		BackgroundColor[2] = 0.75;
+		BorderColor[0] = 0.898;
+		BorderColor[1] = 0.765;
+		BorderColor[2] = 0.396;
 	}
 	//else if ((CheckHover() && !CheckAnyActive()) || (!CheckHover() && CheckActive()))
 	else if (CheckHover() && !CheckActive())
@@ -44,7 +44,27 @@ void ButtonWidget::Render()
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 }
 
-void ButtonWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
+/*void ButtonWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	m_Action();
+}*/
+
+void ButtonWidget::ProcessEvent(InputEvent & InputEvent)
+{
+	Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
+
+	if (   IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent)
+		&& IsHit(GlobalToParent(GlobalPosition)))
+	{
+		m_Action();
+
+		InputEvent.m_Handled = true;
+	}
+
+	// HACK: Block all events other than vertical axis scroll events
+	if (!(   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		  && 2 == InputEvent.m_InputId))
+	{
+		InputEvent.m_Handled = true;
+	}
 }
