@@ -15,9 +15,9 @@ public:
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 
-	void SetSourceOnChange(TextFieldWidget & SourceWidget, Canvas * LeftCanvas = nullptr, Canvas * RightCanvas = nullptr);
+	void SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas = nullptr, Canvas * RightCanvas = nullptr);
 	void StartBackgroundThread();
-	void SomethingFromAppRenderTEST(TextFieldWidget * OutputWidget);
+	void SomethingFromAppRenderTEST();
 
 private:
 	Project(const Project &);

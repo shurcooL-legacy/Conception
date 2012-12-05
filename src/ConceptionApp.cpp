@@ -1,6 +1,6 @@
 #include "Main.h"
 
-TextFieldWidget * g_OutputWidget = nullptr;
+TextFieldWidget * volatile g_OutputWidget = nullptr;
 
 ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
@@ -65,7 +65,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -300), m_TypingModule));
+		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -300), m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -100), m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(300, -200), m_TypingModule));
 		MainCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(-500, -200), m_TypingModule));
 
@@ -73,11 +74,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(Test);
 		Test->m_OnChange = [](){ std::cout << "Change.\n"; };*/
 
-g_OutputWidget = m_OutputWidget;
-
 		// DEBUG: Irregular starting state, for testing
 		{
-			m_CurrentProject.SetSourceOnChange(*m_SourceWidget);
+			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget);
 
 			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
@@ -229,7 +228,7 @@ void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 
 void ConceptionApp::Render()
 {
-	m_CurrentProject.SomethingFromAppRenderTEST(m_OutputWidget);
+	m_CurrentProject.SomethingFromAppRenderTEST();
 
 	App::Render();
 

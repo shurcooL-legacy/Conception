@@ -6,7 +6,7 @@ class LiveFunctionWidget
 	: public CompositeWidget
 {
 public:
-	LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule);
+	LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
 	~LiveFunctionWidget();
 
 private:
@@ -15,6 +15,8 @@ private:
 
 	TextFieldWidget * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
+
+	Project & m_Project;
 };
 
 #endif // __LiveFunctionWidget_H__

@@ -16,10 +16,8 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 
-g_OutputWidget = m_OutputWidget;
-
 		{
-			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, LeftCanvas, RightCanvas);
+			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas);
 
 			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
@@ -164,7 +162,7 @@ void LiveEditorApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 
 void LiveEditorApp::Render()
 {
-	m_CurrentProject.SomethingFromAppRenderTEST(m_OutputWidget);
+	m_CurrentProject.SomethingFromAppRenderTEST();
 
 	App::Render();
 

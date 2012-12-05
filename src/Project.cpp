@@ -266,10 +266,16 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
-void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, Canvas * LeftCanvas, Canvas * RightCanvas)
+void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas)
 {
 	SourceWidget.m_OnChange = [&, LeftCanvas, RightCanvas]()
 	{
+		// HACK
+		g_OutputWidget = &OutputWidget;
+
+		// HACK
+		OutputWidget.SetPosition(Vector2n(SourceWidget.GetDimensions().X() + 2, 0));
+
 		//printf("m_SourceWidget->m_OnChange\n");
 		//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
 
@@ -323,11 +329,12 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 	Thread * Thread = Thread::GetThisThreadAndRevertArgument(Argument);
 
 	auto Project = static_cast<class Project *>(Argument);
-	TextFieldWidget * OutputWidget = g_OutputWidget;
 
 	// Main loop
 	while (Thread->ShouldBeRunning())
 	{
+		TextFieldWidget * OutputWidget = g_OutputWidget;
+
 		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
 		//glfwSleep(0.5);
 		glfwSleep(0.001);
@@ -527,8 +534,10 @@ void Project::StartBackgroundThread()
 	m_BackgroundThread.Start();
 }
 
-void Project::SomethingFromAppRenderTEST(TextFieldWidget * OutputWidget)
+void Project::SomethingFromAppRenderTEST()
 {
+	TextFieldWidget * OutputWidget = g_OutputWidget;
+
 	// TEST: This should go to ProcessTimePassed() or something
 	if (-1 != m_PipeFd[0])
 	{

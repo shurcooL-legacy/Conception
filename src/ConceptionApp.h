@@ -2,7 +2,7 @@
 #ifndef __ConceptionApp_H__
 #define __ConceptionApp_H__
 
-extern TextFieldWidget * g_OutputWidget;
+extern TextFieldWidget * volatile g_OutputWidget;
 
 class ConceptionApp
 	: public App
