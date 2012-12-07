@@ -16,12 +16,16 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 private:
 	ConceptString					m_Content;
 
 	ConceptString::size_type		m_CaretPosition;
 
 	TypingModule & m_TypingModule;
+
+	void SetupGestureRecognizer();
 
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);

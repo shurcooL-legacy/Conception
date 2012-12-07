@@ -333,14 +333,14 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 	// Main loop
 	while (Thread->ShouldBeRunning())
 	{
-		TextFieldWidget * OutputWidget = g_OutputWidget;
-
 		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
 		//glfwSleep(0.5);
 		glfwSleep(0.001);
 
 		if (0 == Project->m_BackgroundState)
 			continue;
+
+		TextFieldWidget * OutputWidget = g_OutputWidget;
 
 		Project->m_BackgroundState = 2;
 		OutputWidget->SetBackground(Project->m_CompilingColor);

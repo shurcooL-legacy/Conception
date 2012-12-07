@@ -6,7 +6,7 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
 {
-	ModifyGestureRecognizer().m_RecognizeTap = true;
+	SetupGestureRecognizer();
 
 	// DEBUG: Irregular starting state, for testing
 	{
@@ -64,6 +64,19 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 
 ConceptStringBoxWidget::~ConceptStringBoxWidget()
 {
+}
+
+void ConceptStringBoxWidget::SetupGestureRecognizer()
+{
+	//ModifyGestureRecognizer().m_RecognizeTap = true;
+
+	// HACK: Recognize only taps when unselected; but this needs to be automated
+	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
+}
+
+void ConceptStringBoxWidget::ProcessTimePassed(const double TimePassed)
+{
+	SetupGestureRecognizer();
 }
 
 void ConceptStringBoxWidget::Render()
@@ -226,45 +239,48 @@ void ConceptStringBoxWidget::ProcessEvent(InputEvent & InputEvent)
 		}
 		else if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
-			if (Pressed)
+			if (HasTypingFocus())
 			{
-				bool HandledEvent = true;		// Assume true at first
-
-				switch (ButtonId)
+				if (Pressed)
 				{
-				case 0:
+					bool HandledEvent = true;		// Assume true at first
+
+					switch (ButtonId)
 					{
-						auto Entry = m_TypingModule.TakeString();
-
-						if (!Entry.empty())
+					case 0:
 						{
-							auto ConceptId = FindOrCreateConcept(Entry);
+							auto Entry = m_TypingModule.TakeString();
 
-							m_Content.push_back(ConceptId);
-						}
-						else
-						{
-							if (!m_Content.empty())
+							if (!Entry.empty())
 							{
-								if (m_CaretPosition >= m_Content.size())
-								{
-									MoveCaretTry(-1, true);
-								}
+								auto ConceptId = FindOrCreateConcept(Entry);
 
-								m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
-								m_Content.pop_back();
+								m_Content.push_back(ConceptId);
+							}
+							else
+							{
+								if (!m_Content.empty())
+								{
+									if (m_CaretPosition >= m_Content.size())
+									{
+										MoveCaretTry(-1, true);
+									}
+
+									m_TypingModule.SetString(GetConcept(m_Content.back()).GetContent());
+									m_Content.pop_back();
+								}
 							}
 						}
+						break;
+					default:
+						HandledEvent = false;
+						break;
 					}
-					break;
-				default:
-					HandledEvent = false;
-					break;
-				}
 
-				if (HandledEvent)
-				{
-					InputEvent.m_Handled = true;
+					if (HandledEvent)
+					{
+						InputEvent.m_Handled = true;
+					}
 				}
 			}
 		}

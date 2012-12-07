@@ -62,6 +62,8 @@ private:
 	TextFieldWidget(const TextFieldWidget &) = delete;
 	TextFieldWidget & operator = (const TextFieldWidget &) = delete;
 
+	void SetupGestureRecognizer();
+
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);

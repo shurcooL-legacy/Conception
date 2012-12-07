@@ -14,17 +14,23 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_OnChange(),
 	  m_GetAutocompletions()
 {
-	//ModifyGestureRecognizer().m_RecognizeTap = true;
-	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
-	// HACK: Recognize only taps when unselected; but this needs to be automated
-	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = HasTypingFocus();
+	SetupGestureRecognizer();
 
 	UpdateContentLines();		// This is here at least for resize
 }
 
 TextFieldWidget::~TextFieldWidget()
 {
+}
+
+void TextFieldWidget::SetupGestureRecognizer()
+{
+	//ModifyGestureRecognizer().m_RecognizeTap = true;
+	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
+
+	// HACK: Recognize only taps when unselected; but this needs to be automated
+	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;//HasTypingFocus();
 }
 
 bool TextFieldWidget::HasTypingFocus() const
@@ -35,9 +41,7 @@ bool TextFieldWidget::HasTypingFocus() const
 
 void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 {
-	// HACK: Recognize only taps when unselected; but this needs to be automated
-	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = HasTypingFocus();
+	SetupGestureRecognizer();
 }
 
 void TextFieldWidget::Render()
@@ -159,24 +163,24 @@ void TextFieldWidget::Render()
 
 void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
-	if (!HasTypingFocus())
+	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+
+	// Set cursor at tapped position
 	{
-		g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+		Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+		Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-		// Set cursor at tapped position
-		{
-			Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-			Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+		auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
-			auto CaretPosition = GetNearestCaretPosition(LocalPosition);
-
-			SetCaretPosition(CaretPosition, true);
-		}
+		SetCaretPosition(CaretPosition, true);
 	}
 }
 
 void TextFieldWidget::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
+	// HACK: This should be called earlier (not at the end of the double tap gesture, which can take a long time)
+	ProcessTap(InputEvent, Position);
+
 	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
 	// DUPLICATION
 	{

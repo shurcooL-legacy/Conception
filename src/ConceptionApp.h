@@ -26,9 +26,6 @@ private:
 	Project		m_CurrentProject;
 
 	TypingModule	m_TypingModule;
-
-	TextFieldWidget * m_SourceWidget;
-	TextFieldWidget * m_OutputWidget;
 };
 
 #endif // __ConceptionApp_H__
