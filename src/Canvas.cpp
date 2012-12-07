@@ -227,10 +227,7 @@ void Canvas::ProcessTimePassed(const double TimePassed)
 		}
 	}
 
-	for (auto & Widget : GetWidgets())
-	{
-		Widget->ProcessTimePassed(TimePassed);
-	}
+	CompositeWidget::ProcessTimePassed(TimePassed);
 }
 
 void Canvas::ProcessCanvasUpdated()

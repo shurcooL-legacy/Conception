@@ -19,6 +19,8 @@ public:
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const override;
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 protected:
 	bool IsHit(const Vector2n ParentPosition) const override;
 

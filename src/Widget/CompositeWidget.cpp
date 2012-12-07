@@ -135,6 +135,14 @@ bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hit
 #endif
 }
 
+void CompositeWidget::ProcessTimePassed(const double TimePassed)
+{
+	for (auto & Widget : GetWidgets())
+	{
+		Widget->ProcessTimePassed(TimePassed);
+	}
+}
+
 // TODO: Think this through
 bool CompositeWidget::IsHit(const Vector2n ParentPosition) const
 {

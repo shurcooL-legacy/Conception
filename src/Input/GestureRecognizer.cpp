@@ -556,6 +556,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 
 void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 {
+	// DEBUG: This check is probably not needed anymore... it should always pass, due to new architecture
 	if (true == InputEvent.m_Handled)
 	{
 		return;
