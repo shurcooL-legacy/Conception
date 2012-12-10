@@ -427,6 +427,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 	}
 }
 
+#if 0
 void App::ProcessEvent(InputEvent & InputEvent)
 {
 	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
@@ -515,40 +516,13 @@ void App::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 }
+#endif
 
 void App::ProcessTimePassed(const double TimePassed)
 {
 	for (auto & Widget : m_Widgets)
 	{
 		Widget->ProcessTimePassed(TimePassed);
-	}
-
-	// DEBUG: Print debug info
-	{
-		std::ostringstream out;
-
-#if 1
-		out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
-		for (auto & i : g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries)
-		{
-			if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
-			else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
-			else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
-			else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
-			else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
-
-			auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
-			out << " (" << LocalPosition.X() << ", " << LocalPosition.Y() << ")";
-		}
-#else
-		out << "InputManager.m_IEQueue.m_Queue" << std::endl;
-		for (auto & i : g_InputManager->m_InputEventQueue.m_Queue)
-		{
-			out << i.ToString() << std::endl;
-		}
-#endif
-
-		OpenGLStream(Vector2n::ZERO) << out.str();
 	}
 }
 

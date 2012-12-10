@@ -204,6 +204,7 @@ extern InputManager * g_InputManager;
 #include "Behavior/NonDraggablePositionBehavior.h"
 #include "Widget/Widget.h"
 #include "Widget/CompositeWidget.h"
+#include "Widget/LabelWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"

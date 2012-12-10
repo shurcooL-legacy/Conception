@@ -20,7 +20,7 @@ public:
 
 	void ProcessEventQueue(InputEventQueue & InputEventQueue);
 	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
-	void ProcessEvent(InputEvent & InputEvent) override;
+	//void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 

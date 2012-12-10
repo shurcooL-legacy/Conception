@@ -78,7 +78,7 @@ MatchResult CompositeWidget::MatchEventQueue(InputEventQueue::FilteredQueue & Un
 
 bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
-#if 0
+#if 1
 	for (auto & Widget : reverse(GetWidgets()))
 	{
 		auto Result = Widget->HitTest(ParentToLocal(ParentPosition), Hits);

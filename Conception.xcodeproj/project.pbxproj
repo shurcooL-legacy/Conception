@@ -66,6 +66,7 @@
 		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
 		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
 		2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */; };
+		2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ABE46811673CBBE0010923C /* LabelWidget.cpp */; };
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
 		2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
@@ -199,6 +200,8 @@
 		2A9C33EB1633A08300942CFD /* LiveFunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFunctionWidget.h; sourceTree = "<group>"; };
 		2AAAF4D21562E84C00BFD81D /* MutuallyConnectable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MutuallyConnectable.hpp; path = src/MutuallyConnectable.hpp; sourceTree = SOURCE_ROOT; };
 		2AB805B9155966E90052572D /* glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glfw.h; path = include/GL/glfw.h; sourceTree = SOURCE_ROOT; };
+		2ABE46811673CBBE0010923C /* LabelWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelWidget.cpp; sourceTree = "<group>"; };
+		2ABE46821673CBBE0010923C /* LabelWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelWidget.h; sourceTree = "<group>"; };
 		2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionTestApp.cpp; path = src/ConceptionTestApp.cpp; sourceTree = SOURCE_ROOT; };
 		2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionTestApp.h; path = src/ConceptionTestApp.h; sourceTree = SOURCE_ROOT; };
 		2AD87E9915A75FF3007719FA /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = src/Utilities.h; sourceTree = SOURCE_ROOT; };
@@ -312,6 +315,8 @@
 				2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
+				2ABE46811673CBBE0010923C /* LabelWidget.cpp */,
+				2ABE46821673CBBE0010923C /* LabelWidget.h */,
 				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,
 				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
@@ -564,6 +569,7 @@
 				2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */,
 				2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */,
 				2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */,
+				2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
