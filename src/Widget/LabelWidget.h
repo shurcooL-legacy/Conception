@@ -6,13 +6,20 @@ class LabelWidget
 	: public Widget
 {
 public:
-	LabelWidget(const Vector2n Position, const std::function<std::string()> & Content);
+	enum class Background : uint8 {
+		None,
+		Normal
+	};
+
+	LabelWidget(const Vector2n Position, const std::function<std::string()> & Content, Background Background = Background::None);
 	virtual ~LabelWidget();
 
 	void Render() override;
 
 private:
 	std::function<std::string()> m_Content;
+
+	Background m_Background;
 };
 
 #endif // __LabelWidget_H__

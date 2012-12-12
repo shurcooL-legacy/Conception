@@ -68,6 +68,17 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
 
+		// Label resizing test
+		{
+			auto SourceWidget = new TextFieldWidget(Vector2n(-100, -450), m_TypingModule);
+			MainCanvas->AddWidget(SourceWidget);
+
+			auto Content = [=]() -> std::string {
+				return SourceWidget->GetContent();
+			};
+			MainCanvas->AddWidget(new LabelWidget(Vector2n(100, -450), Content, LabelWidget::Background::Normal));
+		}
+
 #if 1
 		{
 			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, m_TypingModule));

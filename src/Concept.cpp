@@ -25,18 +25,74 @@ std::string Concept::GetContent() const
 	return "";
 }
 
-const Vector2n Concept::GetDimensions(std::string & Content)
+const Vector2n Concept::GetDimensions(const std::string & Content)
 {
-	// TODO: Support newlines? Tabs? Etc.
-	return Vector2n(charWidth * Content.length(), lineHeight);
+	std::string::size_type MaxLineLengthX = 0;
+#if 0
+	uint32 Height = 0;
+	std::string::size_type Start = 0, End;
+	do
+	{
+		End = Content.find_first_of('\n', Start);
+
+		// TODO: Count tabs properly?
+		auto Length = ((std::string::npos != End) ? End : Content.length()) - Start;
+		if (MaxLineLengthX < Length)
+			MaxLineLengthX = Length;
+
+		++Height;
+
+		Start = End + 1;
+	}
+	while (std::string::npos != End);
+#else
+	uint32 Height = 1;
+	std::string::size_type Start = 0, End;
+	do
+	{
+		End = Content.find_first_of('\n', Start);
+
+		uint32 LineLengthX = 0;
+		auto LineLength = ((std::string::npos != End) ? End : Content.length()) - Start;
+		auto Line = Content.substr(Start, LineLength);
+		{
+			std::string::size_type Start = 0, End;
+			do
+			{
+				End = Line.find_first_of('\t', Start);
+
+				auto SegmentLength = ((std::string::npos != End) ? End : Line.length()) - Start;
+				LineLengthX += SegmentLength;
+				if (std::string::npos != End)
+				{
+					LineLengthX = (LineLengthX / 4 + 1) * 4;		// Tab
+				}
+
+				Start = End + 1;
+			}
+			while (std::string::npos != End);
+		}
+		if (MaxLineLengthX < LineLengthX)
+			MaxLineLengthX = LineLengthX;
+		if (std::string::npos != End)
+		{
+			++Height;
+		}
+
+		Start = End + 1;
+	}
+	while (std::string::npos != End);
+#endif
+
+	return Vector2n(static_cast<sint32>(MaxLineLengthX) * charWidth, Height * lineHeight);
 }
 
-const Vector2n Concept::GetDimensions(ConceptId ConceptId)
+const Vector2n Concept::GetDimensions(const ConceptId ConceptId)
 {
 	return GetConcept(ConceptId).GetDimensions();
 }
 
-const Vector2n Concept::GetDimensions(Concept * Concept)
+const Vector2n Concept::GetDimensions(const Concept * const Concept)
 {
 	return Concept->GetDimensions();
 }
@@ -172,32 +228,11 @@ void ConceptBasic::Draw(Vector2n Position) const
 
 Vector2n ConceptBasic::GetDimensions() const
 {
-	// TEST, TODO: Optimize it by outsourcing it somewhere, turn it into reusable code
-	{
-		std::string::size_type MaxLineLength = 1;
-		uint32 Height = 0;
-		std::string::size_type Start = 0, End;
-		do
-		{
-			End = m_Content.find_first_of('\n', Start);
-
-			// TODO: Count tabs properly?
-			auto Length = ((std::string::npos != End) ? End : m_Content.length()) - Start;
-			if (MaxLineLength < Length)
-				MaxLineLength = Length;
-
-			++Height;
-
-			Start = End + 1;
-		}
-		while (std::string::npos != End);
-
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
-		return Vector2n(static_cast<sint32>(MaxLineLength) * charWidth, Height * lineHeight);
+	return Concept::GetDimensions(m_Content);
 #else
-		return Vector2n(static_cast<sint32>(MaxLineLength + 1) * charWidth, Height * lineHeight);
+	return Concept::GetDimensions(m_Content) + Vector2n(charWidth, 0);
 #endif
-	}
 }
 
 std::string ConceptBasic::GetContent() const
