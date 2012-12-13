@@ -17,7 +17,7 @@ Motivation
 
 - Instead of dumbing down code for the existing tools, why not make more advanced tools to read code as if debugging the program. (https://twitter.com/shurcooL/status/156526541214457856)
 
-- What if you could change the public API of a library (in order to improve it) without breaking an unknown number of things that use the said library. That would require the dependencies to be known, and editable. That is not currently possible, but it may be possible if all code is within one open system. The pay off would be the ability to improve anything without fear of breakage; nothing would have to be written in stone.
+- What if you could change the public API of a library (in order to improve it) without breaking an unknown number of things that use the said library. That would require the dependencies to be known, and editable. That is not currently possible, but it may be possible if all code is within one open system. The payoff would be the ability to improve anything without fear of breakage; nothing would have to be written in stone.
 
 Screenshots
 -----------
