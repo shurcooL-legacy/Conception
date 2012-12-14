@@ -12,8 +12,17 @@ FlowLayoutWidget::~FlowLayoutWidget()
 void FlowLayoutWidget::Render()
 {
 	// HACK: This doesn't belong in Render, etc.
-	// HACK: Make it work for arbitrary number of objects
-	GetWidgets()[1]->SetPosition(Vector2n(GetWidgets()[0]->GetDimensions().X() + 2, 0));
+	for (auto WidgetToLayout = 0; WidgetToLayout < GetWidgets().size(); ++WidgetToLayout)
+	{
+		if (0 == WidgetToLayout)
+		{
+			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n::ZERO);
+		}
+		else
+		{
+			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n(GetWidgets()[WidgetToLayout - 1]->GetPosition().X() + GetWidgets()[WidgetToLayout - 1]->GetDimensions().X() + 2, 0));
+		}
+	}
 
 	CompositeWidget::Render();
 }

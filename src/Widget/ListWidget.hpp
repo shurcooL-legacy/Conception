@@ -6,7 +6,7 @@ template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T
 			{
 				m_List.pop_back();
 			}
-		} ))*/ }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
+		} ))*/ }, {}),
 	  m_TapAction(),
 	  m_List(List),
 	  m_TypingModule(TypingModule)
@@ -56,11 +56,6 @@ template <typename T> void ListWidget<T>::Render()
 		}
 
 		DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
-
-		// TODO: This part is not general
-		std::string Description[2] = { "#include <", ">" };
-		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X(), GetPosition().Y(), 0, RIGHT, Description[0].c_str());
-		glColor3d(0, 0, 0); OglUtilsPrint(GetPosition().X() + GetDimensions().X(), GetPosition().Y(), 0, LEFT, Description[1].c_str());
 
 		// TEST
 		auto Spot = m_List.end();

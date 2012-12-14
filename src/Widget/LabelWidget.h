@@ -12,9 +12,12 @@ public:
 	};
 
 	LabelWidget(const Vector2n Position, const std::function<std::string()> & Content, Background Background = Background::None);
+	LabelWidget(const Vector2n Position, const std::string & Content, Background Background = Background::None);
 	virtual ~LabelWidget();
 
 	void Render() override;
+
+	bool IsHit(const Vector2n ParentPosition) const override;
 
 private:
 	std::function<std::string()> m_Content;

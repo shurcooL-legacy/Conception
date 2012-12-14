@@ -39,6 +39,8 @@ Project::~Project()
 void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 {
 	std_includes.push_back(FindConcept("iostream"));
+	std_includes.push_back(FindConcept("list"));
+	std_includes.push_back(FindConcept("vector"));
 
 	{
 		Function printhi_func2;

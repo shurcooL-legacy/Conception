@@ -8,6 +8,8 @@ class Widget
 public:
 	virtual ~Widget();
 
+	void AddBehavior(const std::shared_ptr<Behavior> & Behavior);
+
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
 	virtual MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);

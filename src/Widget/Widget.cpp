@@ -19,6 +19,12 @@ Widget::~Widget()
 {
 }
 
+void Widget::AddBehavior(const std::shared_ptr<Behavior> & Behavior)
+{
+	m_Behaviors.push_back(Behavior);
+	Behavior->SetupGestureRecognizer();
+}
+
 bool Widget::HasTypingFocus() const
 {
 	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));

@@ -16,7 +16,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 #if 1
 		{
-			auto * StdIncludesList = new ListWidget<ConceptId>(Vector2n(-200, -300), m_CurrentProject.GetStdIncludes(), m_TypingModule);
+			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), m_TypingModule);
 			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
 				/*{
 					auto Entry = m_TypingModule.TakeString();
@@ -58,9 +58,14 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 					}
 				};
 
-			MainCanvas->AddWidget(StdIncludesList);
+			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, "#include <", LabelWidget::Background::None)),
+																						std::shared_ptr<Widget>(StdIncludesList),
+																						std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, ">", LabelWidget::Background::None)) }, {});
+			LabelledStdIncludesList->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelledStdIncludesList)));
+			MainCanvas->AddWidget(LabelledStdIncludesList);
 		}
 #endif
+
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -300), m_TypingModule, m_CurrentProject));

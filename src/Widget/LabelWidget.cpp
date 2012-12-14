@@ -7,6 +7,11 @@ LabelWidget::LabelWidget(const Vector2n Position, const std::function<std::strin
 {
 }
 
+LabelWidget::LabelWidget(const Vector2n Position, const std::string & Content, Background Background)
+	: LabelWidget(Position, [=]() { return Content; }, Background)
+{
+}
+
 LabelWidget::~LabelWidget()
 {
 }
@@ -16,15 +21,26 @@ void LabelWidget::Render()
 	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
 
-	// TODO: Add resizing code, etc.
 	auto Content = m_Content();
+	ModifyDimensions() = Concept::GetDimensions(Content);
 
 	if (Background::Normal == m_Background)
 	{
-		ModifyDimensions() = Concept::GetDimensions(Content);
 		DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 	}
 
 	OpenGLStream OpenGLStream(GetPosition());
 	OpenGLStream << Content;
+}
+
+bool LabelWidget::IsHit(const Vector2n ParentPosition) const
+{
+	if (Background::None == m_Background)
+	{
+		return false;
+	}
+	else
+	{
+		return Widget::IsHit(ParentPosition);
+	}
 }
