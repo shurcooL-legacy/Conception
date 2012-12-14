@@ -68,8 +68,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -300), m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, -100), m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), m_TypingModule, m_CurrentProject));
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
 
@@ -109,7 +109,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 						else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
 						else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
 						else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
-						else if (dynamic_cast<LiveFunctionWidget *>(&i->GetOwner())) out << "\n LiveFunctionWidget";
+						else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
 						else out << "\n (Unknown)";
 
 						auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
