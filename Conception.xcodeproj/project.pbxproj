@@ -75,6 +75,7 @@
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
 		2AEECA16167B8F5A003799B4 /* FlowLayoutWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */; };
+		2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */; };
 		2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF414EC161C9674002BDC1B /* Thread.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
 /* End PBXBuildFile section */
@@ -217,6 +218,8 @@
 		2ADBF3D015841AF3007BDF94 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = Function.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FlowLayoutWidget.cpp; sourceTree = "<group>"; };
 		2AEECA15167B8F5A003799B4 /* FlowLayoutWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlowLayoutWidget.h; sourceTree = "<group>"; };
+		2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveFunctionWidget.cpp; sourceTree = "<group>"; };
+		2AEECA19167BCDD1003799B4 /* LiveFunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFunctionWidget.h; sourceTree = "<group>"; };
 		2AF414EC161C9674002BDC1B /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = src/Thread.cpp; sourceTree = SOURCE_ROOT; };
 		2AF414ED161C9674002BDC1B /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = src/Thread.h; sourceTree = SOURCE_ROOT; };
 		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
@@ -326,6 +329,8 @@
 				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
 				2A4FFA8D155465D90021D8EF /* ListWidget.hpp */,
+				2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */,
+				2AEECA19167BCDD1003799B4 /* LiveFunctionWidget.h */,
 				2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */,
 				2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
@@ -576,6 +581,7 @@
 				2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */,
 				2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */,
 				2AEECA16167B8F5A003799B4 /* FlowLayoutWidget.cpp in Sources */,
+				2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

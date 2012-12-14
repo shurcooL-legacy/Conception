@@ -216,6 +216,7 @@ extern InputManager * g_InputManager;
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
 #include "Widget/LiveProgramWidget.h"
+#include "Widget/LiveFunctionWidget.h"
 #include "Canvas.h"
 #include "App.h"
 #include "ConceptionApp.h"
