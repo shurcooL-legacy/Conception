@@ -273,8 +273,8 @@ void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget 
 		// HACK
 		g_OutputWidget = &OutputWidget;
 
-		// HACK
-		OutputWidget.SetPosition(Vector2n(SourceWidget.GetDimensions().X() + 2, 0));
+		// HACK: No longer needed cuz of FlowLayoutWidget
+		//OutputWidget.SetPosition(Vector2n(SourceWidget.GetDimensions().X() + 2, 0));
 
 		//printf("m_SourceWidget->m_OnChange\n");
 		//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");

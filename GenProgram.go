@@ -3,12 +3,10 @@ package main
 import "time"
 
 func Unused() {
-	i := time.Second
-	i += 1
+	i := time.Second; i *= 0
 }
 
 func main() {
 	//time.Sleep(0 * time.Second)
-	println("Hi hi hi!")
-	print("Omg, so cool!")
+	print("Hi hi hi!")
 }

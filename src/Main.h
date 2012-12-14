@@ -95,6 +95,7 @@ class WidgetManager;
 class PointerMapping;
 class Widget;
 class CompositeWidget;
+class FlowLayoutWidget;
 class ButtonWidget;
 class MultitouchTestBoxWidget;
 class TextFieldWidget;
@@ -204,6 +205,7 @@ extern InputManager * g_InputManager;
 #include "Behavior/NonDraggablePositionBehavior.h"
 #include "Widget/Widget.h"
 #include "Widget/CompositeWidget.h"
+#include "Widget/FlowLayoutWidget.h"
 #include "Widget/LabelWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"

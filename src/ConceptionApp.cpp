@@ -70,13 +70,14 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// Label resizing test
 		{
-			auto SourceWidget = new TextFieldWidget(Vector2n(-100, -450), m_TypingModule);
-			MainCanvas->AddWidget(SourceWidget);
+			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, m_TypingModule);
 
 			auto Content = [=]() -> std::string {
 				return SourceWidget->GetContent();
 			};
-			MainCanvas->AddWidget(new LabelWidget(Vector2n(100, -450), Content, LabelWidget::Background::Normal));
+			auto LabelWidget = new class LabelWidget(Vector2n::ZERO, Content, LabelWidget::Background::Normal);
+
+			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), { std::shared_ptr<Widget>(SourceWidget), std::shared_ptr<Widget>(LabelWidget) }, {}));
 		}
 
 #if 1

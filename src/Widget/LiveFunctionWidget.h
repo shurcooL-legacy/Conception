@@ -3,7 +3,7 @@
 #define __LiveFunctionWidget_H__
 
 class LiveFunctionWidget
-	: public CompositeWidget
+	: public FlowLayoutWidget
 {
 public:
 	LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
