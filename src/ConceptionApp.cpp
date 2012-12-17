@@ -18,45 +18,30 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		{
 			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), m_TypingModule);
 			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
-				/*{
-					auto Entry = m_TypingModule.TakeString();
+			{
+				auto Entry = m_TypingModule.TakeString();
 
-					if (Entry.length() > 0)
-					{
-						auto ConceptId = FindOrCreateConcept(Entry);
-
-						StdIncludesList->Insert(ConceptId);
-					}
-					else
-					{
-						//auto ListEntry =
-						//StdIncludesList->In
-					}
-				};*/
+				if (!Entry.empty())
 				{
-					auto Entry = m_TypingModule.TakeString();
+					auto ConceptId = FindOrCreateConcept(Entry);
 
-					if (!Entry.empty())
+					//Insert(ConceptId);
+
+					// TEST
+					auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
+					m_List.insert(Spot, ConceptId);
+				}
+				else
+				{
+					auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
+
+					if (ListEntry < m_List.size())
 					{
-						auto ConceptId = FindOrCreateConcept(Entry);
-
-						//Insert(ConceptId);
-
-						// TEST
-						auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
-						m_List.insert(Spot, ConceptId);
+						m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
+						m_List.erase(m_List.begin() + ListEntry);
 					}
-					else
-					{
-						auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
-
-						if (ListEntry < m_List.size())
-						{
-							m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
-							m_List.erase(m_List.begin() + ListEntry);
-						}
-					}
-				};
+				}
+			};
 
 			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, "#include <", LabelWidget::Background::None)),
 																						std::shared_ptr<Widget>(StdIncludesList),
@@ -99,7 +84,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
 
 			{
-				auto Content = []() -> std::string {
+				auto Content = []() -> std::string
+				{
 					std::ostringstream out;
 
 					out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
@@ -124,7 +110,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			}
 
 			{
-				auto Content = []() -> std::string {
+				auto Content = []() -> std::string
+				{
 					std::ostringstream out;
 
 					out << "InputManager.m_IEQueue.m_Queue" << std::endl;

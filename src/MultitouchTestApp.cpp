@@ -41,7 +41,8 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 			auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
 
 			{
-				auto Content = []() -> std::string {
+				auto Content = []() -> std::string
+				{
 					std::ostringstream out;
 
 					out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
@@ -66,7 +67,8 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 			}
 
 			{
-				auto Content = []() -> std::string {
+				auto Content = []() -> std::string
+				{
 					std::ostringstream out;
 
 					out << "InputManager.m_IEQueue.m_Queue" << std::endl;

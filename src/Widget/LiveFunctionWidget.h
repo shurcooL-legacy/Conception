@@ -13,6 +13,7 @@ private:
 	LiveFunctionWidget(const LiveFunctionWidget &) = delete;
 	LiveFunctionWidget & operator = (const LiveFunctionWidget &) = delete;
 
+	TextFieldWidget * m_InputWidget;
 	TextFieldWidget * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
 
