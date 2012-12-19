@@ -4,6 +4,9 @@
 
 class InputManager
 {
+private:
+	InputEventQueue		m_InputEventQueue;
+
 public:
 	InputManager();
 	~InputManager();
@@ -17,7 +20,13 @@ public:
 
 	Vector2n GetWindowDimensions();
 
+	const decltype(m_InputEventQueue) & InputEventQueue() const { return m_InputEventQueue; }
+	decltype(m_InputEventQueue) & ModifyInputEventQueue() { return m_InputEventQueue; }
+
 	void RequestTypingPointer(GestureRecognizer & Target);
+
+	bool AnyActivePointers() const;
+	bool EmptyInputEventQueue() const;
 
 	static void GLFWCALL ProcessWindowSize(int WindowWidth, int WindowHeight);
 
@@ -52,7 +61,7 @@ public:
 
 private:
 	InputManager(const InputManager &);
-	InputManager & operator =(const InputManager &);
+	InputManager & operator = (const InputManager &);
 
 	void SetGlfwCallbacks();
 	void RemoveGlfwCallbacks();
@@ -70,6 +79,11 @@ private:
 	Vector2n			m_WindowDimensions;
 
 	static InputManager *		m_pInstance;
+
+	// DEBUG: For info printing
+	friend class App;
+	friend class MultitouchTestApp;
+	friend class ConceptionApp;
 };
 
 #endif // __InputManager_H__

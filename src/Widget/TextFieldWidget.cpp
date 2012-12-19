@@ -14,8 +14,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_OnChange(),
 	  m_GetAutocompletions()
 {
-	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
+	SetupGestureRecognizer();
 
 	UpdateContentLines();		// This is here at least for resize
 }
@@ -24,10 +23,25 @@ TextFieldWidget::~TextFieldWidget()
 {
 }
 
+void TextFieldWidget::SetupGestureRecognizer()
+{
+	//ModifyGestureRecognizer().m_RecognizeTap = true;
+	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
+
+	// HACK: Recognize only taps when unselected; but this needs to be automated
+	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
+	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;//HasTypingFocus();
+}
+
 bool TextFieldWidget::HasTypingFocus() const
 {
 	return (   GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())
 			|| (!GetWidgets().empty() && GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() != GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())));
+}
+
+void TextFieldWidget::ProcessTimePassed(const double TimePassed)
+{
+	SetupGestureRecognizer();
 }
 
 void TextFieldWidget::Render()
@@ -147,7 +161,7 @@ void TextFieldWidget::Render()
 	CompositeWidget::Render();
 }
 
-void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 
@@ -162,8 +176,11 @@ void TextFieldWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
 	}
 }
 
-void TextFieldWidget::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+void TextFieldWidget::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
+	// HACK: This should be called earlier (not at the end of the double tap gesture, which can take a long time)
+	ProcessTap(InputEvent, Position);
+
 	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
 	// DUPLICATION
 	{
@@ -212,8 +229,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	//if (HasTypingFocus())
 	/*{
 		// TEST
-		if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::POINTER_ACTIVATION)
-			&& (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT)
+		if (   InputEvent.HasType(InputEvent::EventType::POINTER_ACTIVATION)
+			&& (   InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
 				&& 0 == InputEvent.m_InputId
 				&& true == InputEvent.m_Buttons[0]))
 		{
@@ -232,7 +249,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		auto ButtonId = InputEvent.m_InputId;
 		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
@@ -549,6 +566,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 					}
 
+					bool HandledEvent = true;		// Assume true at first
+
 					switch (ButtonId)
 					{
 					case 0:
@@ -575,15 +594,21 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 						break;
 					default:
+						HandledEvent = false;
 						break;
+					}
+
+					if (HandledEvent)
+					{
+						InputEvent.m_Handled = true;
 					}
 				}
 			}
 		}
 	}
 
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{
@@ -597,6 +622,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					auto CaretPosition = GetNearestCaretPosition(LocalPosition);
 
 					SetCaretPosition(CaretPosition, false);
+
+					InputEvent.m_Handled = true;
 				}
 			}
 		}

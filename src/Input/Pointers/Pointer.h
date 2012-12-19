@@ -23,14 +23,14 @@ public:
 	const PointerState & GetPointerState();
 	PointerState & ModifyPointerState();
 
+	bool IsActive() const;
+
 protected:
 	Pointer(InputHandler & InputHandler);
 	virtual ~Pointer();
 
 	void ProcessActivation(InputEvent & InputEvent);
 	void ProcessDeactivation(InputEvent & InputEvent);
-
-	bool IsActive();
 
 private:
 	Pointer(const Pointer &) = delete;

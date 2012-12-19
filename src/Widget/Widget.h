@@ -8,9 +8,14 @@ class Widget
 public:
 	virtual ~Widget();
 
+	void AddBehavior(const std::shared_ptr<Behavior> & Behavior);
+
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
+	virtual MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
+
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
+	virtual void HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const;		// REWRITE of HitTest()
 
 	//virtual bool ShouldMouseCursorVisible() const { return true; }
 
@@ -33,9 +38,9 @@ public:
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+	void ProcessManipulationBegin(const PointerState & PointerState) override;
+	void ProcessManipulationUpdate(const PointerState & PointerState) override;
+	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
 protected:
 	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);
@@ -64,6 +69,8 @@ private:
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
 
+	std::vector<GestureType>	m_GestureTypes;
+
 	std::vector<std::shared_ptr<Behavior>>			m_Behaviors;
 
 	CompositeWidget *		m_Parent;
@@ -72,8 +79,12 @@ private:
 
 	friend class CompositeWidget;				// For SetParent() access
 	friend class DraggablePositionBehavior;		// For GlobalToParent() access
+	friend class GestureRecognizer;				// For GlobalToParent() access
 
-	friend class App;		// DEBUG: For debug printing
+	// DEBUG: For info printing
+	friend class App;
+	friend class MultitouchTestApp;
+	friend class ConceptionApp;
 };
 
 #endif // __Widget_H__

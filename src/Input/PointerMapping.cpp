@@ -97,6 +97,7 @@ void PointerMapping::ProcessTimePassed(const double TimePassed)
 
 void PointerMapping::RequestPointerCapture(GestureRecognizer * Requester)
 {
+std::cout << "RequestPointerCapture()\n";
 	if (nullptr == m_Capturer)
 	{
 		ChangeCapturer(Requester);
@@ -105,6 +106,7 @@ void PointerMapping::RequestPointerCapture(GestureRecognizer * Requester)
 
 void PointerMapping::RequestPointerRelease(GestureRecognizer * Requester)
 {
+std::cout << "RequestPointerRelease()\n";
 	if (m_Capturer == Requester)
 	{
 		ChangeCapturer(nullptr);

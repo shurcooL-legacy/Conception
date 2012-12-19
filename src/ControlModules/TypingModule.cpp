@@ -40,7 +40,7 @@ Vector2n TypingModule::GetInsertionPosition(Vector2n PointerPosition) const
 
 void TypingModule::ProcessEvent(InputEvent & InputEvent)
 {
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 		{

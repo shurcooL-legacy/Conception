@@ -45,7 +45,7 @@ void FunctionWidget::Render()
 	OpenGLStream << m_Function;
 }
 
-void FunctionWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void FunctionWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }

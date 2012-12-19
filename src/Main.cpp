@@ -160,11 +160,18 @@ int main(int argc, char * argv[])
 
 			// Process input
 			{
+				// Populate InputEventQueue
 				if (MainApp.ShouldRedrawRegardless())
 					glfwPollEvents();
-				else
+				else {
 					glfwWaitEvents();
-				InputManager.ProcessTimePassed(TimePassed);
+					//if (glfwGetTime() - LastTime >= 1) printf("Slept for %f secs\n", glfwGetTime() - LastTime);
+					LastTime = glfwGetTime();
+				}
+				//InputManager.ProcessTimePassed(TimePassed);
+
+				MainApp.ProcessEventQueue(InputManager.ModifyInputEventQueue());
+				MainApp.ProcessTimePassed(TimePassed);
 			}
 
 			// Render
@@ -192,11 +199,6 @@ int main(int argc, char * argv[])
 	// Clean up
 	OglUtilsKillFont();
 	glfwTerminate();
-#if defined(__APPLE__) && defined(__MACH__)
-	system("rm ./GenProgram");		// Clean up temporary files
-	system("./bin/gocode/gocode drop-cache");
-	system("./bin/gocode/gocode close");
-#endif
 
 	std::cout << "\nReturning 0 from main().\n";
 	return 0;

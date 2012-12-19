@@ -40,7 +40,7 @@ void PointerState::UpdateTimestamp()
 auto PointerState::UpdateButtonState(Input::InputId ButtonId) -> decltype((m_ButtonStates[ButtonId]))
 {
 	UpdateTimestamp();
-	
+
 	// Expand the buttons array to fit this button, if neccessary
 	while (m_ButtonStates.size() <= ButtonId)
 		m_ButtonStates.push_back(false);

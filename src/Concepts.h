@@ -54,6 +54,8 @@ Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<Concep
 //Concepts.push_back(new ConceptCompound("", {34, FindConcept("<"), 36}));
 Concepts.push_back(new ConceptCompound("", [](const std::initializer_list<ConceptId> & Parameters){ return ConceptString({FindConcept("<"), *Parameters.begin(), FindConcept(">"), *(Parameters.begin() + 1), FindConcept("<"), FindConcept("/"), *Parameters.begin(), FindConcept(">")}); }, {FindConcept("body"), FindConcept("test")}));		// DEBUG*/
 Concepts.push_back(new ConceptBasic("", "#pragma once\n#ifndef __"));
-Concepts.push_back(new ConceptBasic("", "_H__\n#define __Server_H__\n\nclass Server\n{\nprotected:\n	Server();\n	virtual ~Server();\n\npublic:\n\nprivate:\n	Server(const Server &) = delete;\n	Server & operator = (const Server &) = delete;\n};\n\n#endif // __Server_H__\n\n"));
+Concepts.push_back(new ConceptBasic("", "_H__\n#define __Server_H__\n\nclass Server\n{\nprotected:\n	Server();\n	virtual ~Server();\n\npublic:\n\nprivate:\n	Server(const Server &) = delete;\n	Server & operator = (const Server &) = delete;\n};\n\n#endif // __Server_H__"));
 Concepts.push_back(new ConceptParameterized("", [](const ConceptParameters & ConceptParameters){ return ConceptString({43, ConceptParameters.GetParameterIfExists(0), 44}); }));
 Concepts.push_back(new ConceptInstance("", 45, {FindOrCreateConcept("Easy to change!")}));
+Concepts.push_back(new ConceptBasic("", "list"));
+Concepts.push_back(new ConceptBasic("", "vector"));

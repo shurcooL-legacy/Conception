@@ -5,12 +5,19 @@
 class InputEvent
 {
 public:
+	enum class EventType : uint8 {
+		BUTTON_EVENT,
+		CHARACTER_EVENT,
+		AXIS_EVENT,
+		POINTER_CREATION, POINTER_DELETION,
+		POINTER_ACTIVATION, POINTER_DEACTIVATION,
+		CANVAS_MOVED_TEST,
+		PARENT_SIZE
+	};
+
 	InputEvent();
 	~InputEvent();
 
-	enum class EventType : uint8 { BUTTON_EVENT, CHARACTER_EVENT, AXIS_EVENT, POINTER_CREATION, POINTER_DELETION, POINTER_ACTIVATION, POINTER_DEACTIVATION, CANVAS_MOVED_TEST, PARENT_SIZE };
-
-	//uint8					m_EventType;
 	//EventType				m_EventType;
 	std::set<EventType>		m_EventTypes;
 	uint8					m_DeviceId;
@@ -22,12 +29,20 @@ public:
 
 	Pointer *				m_Pointer;
 
+	PointerState			m_PreEventState;		// TEST: State of pointer before this event, not yet sure if needed, but adding for testing purposes
+	PointerState			m_PostEventState;		// State of pointer after this event, needed for queue processing
+	double					m_Timestamp;			// Timestamp of event
+
 	bool					m_Handled;		// TEST
 
-	std::string ToString();
+	decltype(m_Timestamp) GetTimestamp() const { return m_Timestamp; }
+
+	bool HasType(EventType EventType) const;
+
+	std::string ToString() const;
 
 private:
-	InputEvent(const InputEvent &) = delete;
+	//InputEvent(const InputEvent &) = delete;
 	//InputEvent & operator = (const InputEvent &) = delete;
 };
 
