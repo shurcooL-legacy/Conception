@@ -19,6 +19,12 @@ Widget::~Widget()
 {
 }
 
+void Widget::AddBehavior(const std::shared_ptr<Behavior> & Behavior)
+{
+	m_Behaviors.push_back(Behavior);
+	Behavior->SetupGestureRecognizer();
+}
+
 bool Widget::HasTypingFocus() const
 {
 	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));
@@ -41,6 +47,17 @@ bool Widget::CheckActive() const
 			return true;
 		}
 	}*/
+
+	for (auto & Pointer : GetGestureRecognizer().GetConnected())
+	{
+		Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+
+		if (   true == Pointer->GetPointerState().GetButtonState(0)
+			&& IsHit(GlobalToParent(GlobalPosition)))
+		{
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -69,6 +86,11 @@ void Widget::SetParent(CompositeWidget & Parent)
 	m_Parent = &Parent;
 }
 
+MatchResult Widget::MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
+{
+	return m_GestureRecognizer.MatchEventQueue(UnreservedEvents);
+}
+
 // Returns true if there is any (even partial) hit
 // Returns false if there is no hit whatsoever
 bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
@@ -81,6 +103,22 @@ bool Widget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 	}
 
 	return Hit;
+}
+
+void Widget::HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const
+{
+	auto Hit = IsHit(ParentPosition);
+
+	if (Hit)
+	{
+		for (auto GestureType : m_GestureTypes)
+		{
+			;
+		}
+	}
+
+	// TODO: Finish
+	throw 0;
 }
 
 bool Widget::IsHit(const Vector2n ParentPosition) const
@@ -160,26 +198,26 @@ void Widget::RemoveHoverPointer(Pointer * Pointer)
 	m_HoverPointers.erase(Pointer);
 }*/
 
-void Widget::ProcessManipulationStarted(const PointerState & PointerState)
+void Widget::ProcessManipulationBegin(const PointerState & PointerState)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationStarted(PointerState);
+		Behavior->ProcessManipulationBegin(PointerState);
 	}
 }
 
-void Widget::ProcessManipulationUpdated(const PointerState & PointerState)
+void Widget::ProcessManipulationUpdate(const PointerState & PointerState)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationUpdated(PointerState);
+		Behavior->ProcessManipulationUpdate(PointerState);
 	}
 }
 
-void Widget::ProcessManipulationCompleted(const PointerState & PointerState)
+void Widget::ProcessManipulationEnd(const PointerState & PointerState)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationCompleted(PointerState);
+		Behavior->ProcessManipulationEnd(PointerState);
 	}
 }

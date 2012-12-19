@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */; };
 		2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CA1635B10000C7DD67 /* Behavior.cpp */; };
 		2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */; };
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
@@ -36,6 +37,7 @@
 		2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */; };
 		2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */; };
 		2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA93155465D90021D8EF /* Widget.cpp */; };
+		2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */; };
 		2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */; };
 		2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */; };
 		2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899C155A12A900F5EE37 /* InputListener.cpp */; };
@@ -63,7 +65,8 @@
 		2A96BDF71540B0040010D618 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE31540B0040010D618 /* thread.c */; };
 		2A96BDF81540B0040010D618 /* time.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE41540B0040010D618 /* time.c */; };
 		2A96BDF91540B0040010D618 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 2A96BDE51540B0040010D618 /* window.c */; };
-		2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */; };
+		2A9C33EC1633A08300942CFD /* LiveProgramWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */; };
+		2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ABE46811673CBBE0010923C /* LabelWidget.cpp */; };
 		2AC7B39B156F53E80044F213 /* ConceptionTestApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */; };
 		2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */; };
 		2AD87E9C15A7600F007719FA /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD87E9B15A7600F007719FA /* Utilities.cpp */; };
@@ -71,6 +74,8 @@
 		2ADA2E89155CBAAE00DEAECF /* GestureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */; };
 		2ADBF3C915840A19007BDF94 /* FunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */; };
 		2ADBF3D115841AF3007BDF94 /* Function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBF3CF15841AF3007BDF94 /* Function.cpp */; };
+		2AEECA16167B8F5A003799B4 /* FlowLayoutWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */; };
+		2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */; };
 		2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF414EC161C9674002BDC1B /* Thread.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
 /* End PBXBuildFile section */
@@ -88,10 +93,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NonDraggablePositionBehavior.cpp; path = src/Behavior/NonDraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; };
+		2A01AD70166D17C000AF7E9F /* NonDraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NonDraggablePositionBehavior.h; path = src/Behavior/NonDraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; };
 		2A0D47CA1635B10000C7DD67 /* Behavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Behavior.cpp; path = src/Behavior/Behavior.cpp; sourceTree = SOURCE_ROOT; };
 		2A0D47CB1635B10000C7DD67 /* Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Behavior.h; path = src/Behavior/Behavior.h; sourceTree = SOURCE_ROOT; };
-		2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DraggablePositionBehavior.cpp; path = src/Behavior/DraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; };
-		2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DraggablePositionBehavior.h; path = src/Behavior/DraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; };
+		2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DraggablePositionBehavior.cpp; path = src/Behavior/DraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DraggablePositionBehavior.h; path = src/Behavior/DraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A2084D5162480D900AE524C /* LiveEditorApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = LiveEditorApp.cpp; path = src/LiveEditorApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A2084D6162480D900AE524C /* LiveEditorApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LiveEditorApp.h; path = src/LiveEditorApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998A15C8857100867486 /* SentienceApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SentienceApp.cpp; path = src/SentienceApp.cpp; sourceTree = SOURCE_ROOT; };
@@ -113,7 +120,7 @@
 		2A4FFA5F155465D90021D8EF /* TypingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypingModule.h; sourceTree = "<group>"; };
 		2A4FFA67155465D90021D8EF /* InputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputHandler.cpp; sourceTree = "<group>"; };
 		2A4FFA68155465D90021D8EF /* InputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputHandler.h; sourceTree = "<group>"; };
-		2A4FFA69155465D90021D8EF /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		2A4FFA69155465D90021D8EF /* InputManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = InputManager.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA6A155465D90021D8EF /* InputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
 		2A4FFA6B155465D90021D8EF /* PointerInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerInputListener.cpp; sourceTree = "<group>"; };
 		2A4FFA6C155465D90021D8EF /* PointerInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerInputListener.h; sourceTree = "<group>"; };
@@ -141,23 +148,25 @@
 		2A4FFA83155465D90021D8EF /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Project.h; path = src/Project.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A4FFA84155465D90021D8EF /* RenderTools.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RenderTools.cpp; path = src/RenderTools.cpp; sourceTree = SOURCE_ROOT; };
 		2A4FFA85155465D90021D8EF /* RenderTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RenderTools.h; path = src/RenderTools.h; sourceTree = SOURCE_ROOT; };
-		2A4FFA86155465D90021D8EF /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = App.cpp; path = src/App.cpp; sourceTree = SOURCE_ROOT; };
+		2A4FFA86155465D90021D8EF /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = App.cpp; path = src/App.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA87155465D90021D8EF /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = App.h; path = src/App.h; sourceTree = SOURCE_ROOT; };
 		2A4FFA88155465D90021D8EF /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vector2.h; path = src/Vector2.h; sourceTree = SOURCE_ROOT; };
 		2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ButtonWidget.cpp; sourceTree = "<group>"; };
 		2A4FFA8C155465D90021D8EF /* ButtonWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonWidget.h; sourceTree = "<group>"; };
 		2A4FFA8D155465D90021D8EF /* ListWidget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; lineEnding = 0; path = ListWidget.hpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA8E155465D90021D8EF /* ListWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ListWidget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultitouchTestBoxWidget.cpp; sourceTree = "<group>"; };
-		2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultitouchTestBoxWidget.h; sourceTree = "<group>"; };
+		2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = MultitouchTestBoxWidget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MultitouchTestBoxWidget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextFieldWidget.cpp; sourceTree = "<group>"; };
 		2A4FFA92155465D90021D8EF /* TextFieldWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWidget.h; sourceTree = "<group>"; };
-		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
-		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
-		2A7B8B701558B25F007A1FA7 /* InputEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputEvent.h; sourceTree = "<group>"; };
-		2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEvent.cpp; sourceTree = "<group>"; };
-		2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
-		2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cpp; sourceTree = "<group>"; };
+		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Widget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Widget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEventQueue.cpp; sourceTree = "<group>"; };
+		2A70EA28163AEDC500B6E8B4 /* InputEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputEventQueue.h; sourceTree = "<group>"; };
+		2A7B8B701558B25F007A1FA7 /* InputEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InputEvent.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = InputEvent.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GestureRecognizer.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = GestureRecognizer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A7C899C155A12A900F5EE37 /* InputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputListener.cpp; sourceTree = "<group>"; };
 		2A7C899D155A12A900F5EE37 /* InputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputListener.h; sourceTree = "<group>"; };
 		2A807413153F058500649628 /* Conception */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Conception; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,22 +198,28 @@
 		2A96BDE31540B0040010D618 /* thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = thread.c; path = glfw/thread.c; sourceTree = SOURCE_ROOT; };
 		2A96BDE41540B0040010D618 /* time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = time.c; path = glfw/time.c; sourceTree = SOURCE_ROOT; };
 		2A96BDE51540B0040010D618 /* window.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = window.c; path = glfw/window.c; sourceTree = SOURCE_ROOT; };
-		2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveFunctionWidget.cpp; sourceTree = "<group>"; };
-		2A9C33EB1633A08300942CFD /* LiveFunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFunctionWidget.h; sourceTree = "<group>"; };
+		2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveProgramWidget.cpp; sourceTree = "<group>"; };
+		2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveProgramWidget.h; sourceTree = "<group>"; };
 		2AAAF4D21562E84C00BFD81D /* MutuallyConnectable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MutuallyConnectable.hpp; path = src/MutuallyConnectable.hpp; sourceTree = SOURCE_ROOT; };
 		2AB805B9155966E90052572D /* glfw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glfw.h; path = include/GL/glfw.h; sourceTree = SOURCE_ROOT; };
+		2ABE46811673CBBE0010923C /* LabelWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelWidget.cpp; sourceTree = "<group>"; };
+		2ABE46821673CBBE0010923C /* LabelWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelWidget.h; sourceTree = "<group>"; };
 		2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptionTestApp.cpp; path = src/ConceptionTestApp.cpp; sourceTree = SOURCE_ROOT; };
 		2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptionTestApp.h; path = src/ConceptionTestApp.h; sourceTree = SOURCE_ROOT; };
 		2AD87E9915A75FF3007719FA /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = src/Utilities.h; sourceTree = SOURCE_ROOT; };
 		2AD87E9B15A7600F007719FA /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utilities.cpp; path = src/Utilities.cpp; sourceTree = SOURCE_ROOT; };
 		2AD87E9D15A7624F007719FA /* Utilities.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Utilities.mm; path = src/Utilities.mm; sourceTree = SOURCE_ROOT; };
 		2ADA2E83155CA40D00DEAECF /* MutuallyConnectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MutuallyConnectable.h; path = src/MutuallyConnectable.h; sourceTree = SOURCE_ROOT; };
-		2ADA2E87155CBAA200DEAECF /* GestureHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GestureHandler.h; sourceTree = "<group>"; };
+		2ADA2E87155CBAA200DEAECF /* GestureHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GestureHandler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2ADA2E88155CBAAE00DEAECF /* GestureHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureHandler.cpp; sourceTree = "<group>"; };
 		2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionWidget.cpp; sourceTree = "<group>"; };
 		2ADBF3C815840A19007BDF94 /* FunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionWidget.h; sourceTree = "<group>"; };
 		2ADBF3CF15841AF3007BDF94 /* Function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Function.cpp; sourceTree = "<group>"; };
 		2ADBF3D015841AF3007BDF94 /* Function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 2; path = Function.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FlowLayoutWidget.cpp; sourceTree = "<group>"; };
+		2AEECA15167B8F5A003799B4 /* FlowLayoutWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlowLayoutWidget.h; sourceTree = "<group>"; };
+		2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveFunctionWidget.cpp; sourceTree = "<group>"; };
+		2AEECA19167BCDD1003799B4 /* LiveFunctionWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFunctionWidget.h; sourceTree = "<group>"; };
 		2AF414EC161C9674002BDC1B /* Thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Thread.cpp; path = src/Thread.cpp; sourceTree = SOURCE_ROOT; };
 		2AF414ED161C9674002BDC1B /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = src/Thread.h; sourceTree = SOURCE_ROOT; };
 		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
@@ -227,6 +242,8 @@
 		2A0D47C81635B0BB00C7DD67 /* Behavior */ = {
 			isa = PBXGroup;
 			children = (
+				2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */,
+				2A01AD70166D17C000AF7E9F /* NonDraggablePositionBehavior.h */,
 				2A0D47CA1635B10000C7DD67 /* Behavior.cpp */,
 				2A0D47CB1635B10000C7DD67 /* Behavior.h */,
 				2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */,
@@ -254,6 +271,8 @@
 				2A7C89981559EFB200F5EE37 /* GestureRecognizer.h */,
 				2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */,
 				2A7B8B701558B25F007A1FA7 /* InputEvent.h */,
+				2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */,
+				2A70EA28163AEDC500B6E8B4 /* InputEventQueue.h */,
 				2A4FFA67155465D90021D8EF /* InputHandler.cpp */,
 				2A4FFA68155465D90021D8EF /* InputHandler.h */,
 				2A7C899C155A12A900F5EE37 /* InputListener.cpp */,
@@ -300,14 +319,20 @@
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
 				2A42D9F616289823001DC834 /* ContextMenuWidget.h */,
 				2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */,
+				2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */,
+				2AEECA15167B8F5A003799B4 /* FlowLayoutWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
+				2ABE46811673CBBE0010923C /* LabelWidget.cpp */,
+				2ABE46821673CBBE0010923C /* LabelWidget.h */,
 				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,
 				2A21998F15C8895400867486 /* LifeFormWidget.h */,
 				2A4FFA8E155465D90021D8EF /* ListWidget.h */,
 				2A4FFA8D155465D90021D8EF /* ListWidget.hpp */,
-				2A9C33EA1633A08300942CFD /* LiveFunctionWidget.cpp */,
-				2A9C33EB1633A08300942CFD /* LiveFunctionWidget.h */,
+				2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */,
+				2AEECA19167BCDD1003799B4 /* LiveFunctionWidget.h */,
+				2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */,
+				2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
 				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
@@ -549,9 +574,14 @@
 				2AD0CBB515F92F4000AC775F /* ConceptionApp.cpp in Sources */,
 				2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */,
 				2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */,
-				2A9C33EC1633A08300942CFD /* LiveFunctionWidget.cpp in Sources */,
+				2A9C33EC1633A08300942CFD /* LiveProgramWidget.cpp in Sources */,
 				2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */,
 				2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */,
+				2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */,
+				2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */,
+				2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */,
+				2AEECA16167B8F5A003799B4 /* FlowLayoutWidget.cpp in Sources */,
+				2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

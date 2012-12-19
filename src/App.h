@@ -18,8 +18,9 @@ public:
 
 	virtual void Render();
 
-	//void ProcessPosition(Pointer * Pointer, Vector2n Position);
-	void ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessEventQueue(InputEventQueue & InputEventQueue);
+	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
+	//void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 
@@ -29,7 +30,7 @@ public:
 
 protected:
 	// DEBUG: Made m_Widgets public for temporary debugging purposes
-	public:std::vector<std::unique_ptr<Widget>>		m_Widgets;
+	public:std::vector<std::unique_ptr<Widget>>		m_Widgets;		// Top-most widgets are last
 
 private:
 	App(const App &) = delete;

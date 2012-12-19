@@ -41,7 +41,10 @@ private:
 
 	Pointer &				m_Owner;
 
-	friend class App;		// DEBUG: For debug printing
+	// DEBUG: For info printing
+	friend class App;
+	friend class MultitouchTestApp;
+	friend class ConceptionApp;
 };
 
 #endif // __PointerMapping_H__

@@ -9,7 +9,7 @@ public:
 	virtual ~InputHandler();
 
 	virtual void ProcessEvent(InputEvent & InputEvent) {}
-	
+
 	virtual void ProcessTimePassed(const double TimePassed) {}
 
 private:

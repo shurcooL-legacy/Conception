@@ -12,6 +12,7 @@
 #include <set>
 #include <map>
 #include <list>
+#include <forward_list>
 #include <cmath>
 #include <string>
 #include <vector>
@@ -80,6 +81,7 @@ class ConceptInstance;
 class Function;
 class Project;
 class InputEvent;
+class InputEventQueue;
 class InputManager;
 class InputHandler;
 class InputListener;
@@ -93,6 +95,7 @@ class WidgetManager;
 class PointerMapping;
 class Widget;
 class CompositeWidget;
+class FlowLayoutWidget;
 class ButtonWidget;
 class MultitouchTestBoxWidget;
 class TextFieldWidget;
@@ -180,6 +183,7 @@ extern InputManager * g_InputManager;
 #include "OpenGLStream.h"
 #include "Concept.h"
 #include "Conception/Function.h"
+#include "Thread.h"
 #include "Project.h"
 #include "Input/PointerInputListener.h"
 #include "Input/InputHandler.h"
@@ -188,6 +192,7 @@ extern InputManager * g_InputManager;
 #include "Input/GestureHandler.h"
 #include "Input/PointerState.h"
 #include "Input/InputEvent.h"
+#include "Input/InputEventQueue.h"
 #include "Input/Pointers/Pointer.h"
 #include "Input/Pointers/MousePointer.h"
 #include "Input/Pointers/TouchPointer.h"
@@ -197,8 +202,11 @@ extern InputManager * g_InputManager;
 #include "ControlModules/TypingModule.h"
 #include "Behavior/Behavior.h"
 #include "Behavior/DraggablePositionBehavior.h"
+#include "Behavior/NonDraggablePositionBehavior.h"
 #include "Widget/Widget.h"
 #include "Widget/CompositeWidget.h"
+#include "Widget/FlowLayoutWidget.h"
+#include "Widget/LabelWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"
@@ -207,9 +215,9 @@ extern InputManager * g_InputManager;
 #include "Widget/ContextMenuWidget.h"
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
+#include "Widget/LiveProgramWidget.h"
 #include "Widget/LiveFunctionWidget.h"
 #include "Canvas.h"
-#include "Thread.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "LiveEditorApp.h"

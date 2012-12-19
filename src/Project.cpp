@@ -2,17 +2,45 @@
 
 Project::Project()
 	: std_includes(),
-	  functions2()
+	  functions2(),
+	  m_BackgroundState(0),
+	  m_LastPid(0),
+	  m_ProcessStartedTime(0),
+	  m_ProcessEndedTime(0),
+	  m_ExpiredOutput(false),
+	  m_PipeFd{-1, -1},
+	  m_BackgroundThread(&BackgroundThread, this, "Background")
 {
 }
 
 Project::~Project()
 {
+	// Close pipes
+	{
+		close(m_PipeFd[0]);
+		close(m_PipeFd[1]);
+
+		// Kill child processes
+		if (0 != m_LastPid)
+		{
+			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
+			//auto Result = kill(0, SIGTERM);
+			auto Result = killpg(m_LastPid, SIGKILL);
+			//waitpid(m_LastPid, NULL, 0);
+
+			if (0 != Result) {
+				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+				//throw 0;
+			}
+		}
+	}
 }
 
 void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 {
 	std_includes.push_back(FindConcept("iostream"));
+	std_includes.push_back(FindConcept("list"));
+	std_includes.push_back(FindConcept("vector"));
 
 	{
 		Function printhi_func2;
@@ -72,7 +100,7 @@ void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
 #endif
 }
 
-void Project::GenerateProgram(std::string ProgramContent = "")
+void Project::GenerateProgram(const std::string & ProgramContent = "")
 {
 	/*std::ofstream Out("GenProgram.cpp");
 
@@ -101,8 +129,46 @@ void Project::GenerateProgram(std::string ProgramContent = "")
 	Out << ProgramContent;
 }
 
+void Project::GenerateProgramForFunction(const std::string & InputContent, const std::string & FunctionContent)
+{
+	std::ofstream Out("./GenProgram.go");
+
+	Out <<
+	"package main""\n"
+	"""\n"
+	"import (""\n"
+	"	\"fmt\"""\n"
+	"	\"sort\"""\n"
+	")""\n"
+	"""\n"
+	<< FunctionContent <<
+	"""\n"
+	"func MyGetString(args ...interface{}) string {""\n"
+	"	var str string""\n"
+	"	for index, arg := range args {""\n"
+	"		str = str + fmt.Sprintf(\"%#v\", arg)""\n"
+	"		if (len(args) - 1 != index) {""\n"
+	"			str = str + fmt.Sprint(\", \")""\n"
+	"		}""\n"
+	"	}""\n"
+	"	return str""\n"
+	"}""\n"
+	"""\n"
+	"func main() {""\n"
+	"	a := ";
+	Out << InputContent <<
+	"\n"
+	"""\n"
+	"	out := MyGetString(MySort(a))""\n"
+	"	in_after := MyGetString(a)""\n"
+	"""\n"
+	"	fmt.Printf(\"%s, %s\", in_after, out)""\n"
+	"}""\n";
+}
+
 volatile pid_t LastPid = 0;
 
+#if 0
 void GLFWCALL RunProgramThread(void * Parameter)
 {
 	// TODO: Figure out if I can clean up the temporary files after execution finishes (i.e. by waiting for ./GenProgram.command process to finish)
@@ -220,6 +286,7 @@ void GLFWCALL RunProgramThread(void * Parameter)
 		}
 	}
 }
+#endif
 
 void Project::RunProgram(TextFieldWidget * OutputWidget)
 {
@@ -236,4 +303,363 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #elif defined(__APPLE__) && defined(__MACH__)
 	//glfwCreateThread(&RunProgramThread, OutputWidget);
 #endif
+}
+
+void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas)
+{
+	SourceWidget.m_OnChange = [&, LeftCanvas, RightCanvas]()
+	{
+		// HACK
+		g_OutputWidget = &OutputWidget;
+
+		// HACK: No longer needed cuz of FlowLayoutWidget
+		//OutputWidget.SetPosition(Vector2n(SourceWidget.GetDimensions().X() + 2, 0));
+
+		//printf("m_SourceWidget->m_OnChange\n");
+		//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
+
+		// LiveEditorApp resizing stuff
+		if (nullptr != LeftCanvas && nullptr != RightCanvas)
+		{
+			LeftCanvas->ModifyDimensions().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
+			RightCanvas->ModifyPosition().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
+		}
+
+		GenerateProgram(SourceWidget.GetContent());
+		/*uint8 Status;
+		m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
+		if (0 == Status)
+			m_OutputWidget->SetBackground(Color(1.0, 1, 1));
+		else
+			m_OutputWidget->SetBackground(Color(1.0, 0, 0));*/
+
+		//m_CurrentProject.RunProgram(m_OutputWidget);
+
+		m_ProcessEndedTime = glfwGetTime();
+		m_BackgroundState = 0;
+
+		// Kill child processes
+		if (0 != m_LastPid)
+		{
+			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
+			//auto Result = kill(0, SIGTERM);
+			auto Result = killpg(m_LastPid, SIGKILL);
+			//waitpid(m_LastPid, NULL, 0);
+
+			if (0 != Result) {
+				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+				//throw 0;
+			}
+		}
+
+		std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
+		close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
+		m_PipeFd[0] = m_PipeFd[1] = -1;
+
+		//m_OutputWidget->SetContent("");
+		m_ProcessStartedTime = glfwGetTime();
+		m_ExpiredOutput = true;
+		m_BackgroundState = 1;
+	};
+}
+
+void Project::SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget)
+{
+	SourceWidget.m_OnChange = [&]()
+	{
+		// HACK
+		g_OutputWidget = &OutputWidget;
+
+		GenerateProgramForFunction(InputWidget.GetContent(), SourceWidget.GetContent());
+
+		m_ProcessEndedTime = glfwGetTime();
+		m_BackgroundState = 0;
+
+		// Kill child processes
+		if (0 != m_LastPid)
+		{
+			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
+			//auto Result = kill(0, SIGTERM);
+			auto Result = killpg(m_LastPid, SIGKILL);
+			//waitpid(m_LastPid, NULL, 0);
+
+			if (0 != Result) {
+				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
+				//throw 0;
+			}
+		}
+
+		std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
+		close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
+		m_PipeFd[0] = m_PipeFd[1] = -1;
+
+		//m_OutputWidget->SetContent("");
+		m_ProcessStartedTime = glfwGetTime();
+		m_ExpiredOutput = true;
+		m_BackgroundState = 1;
+	};
+
+	InputWidget.m_OnChange = SourceWidget.m_OnChange;
+}
+
+void GLFWCALL Project::BackgroundThread(void * Argument)
+{
+	Thread * Thread = Thread::GetThisThreadAndRevertArgument(Argument);
+
+	auto Project = static_cast<class Project *>(Argument);
+
+	// Main loop
+	while (Thread->ShouldBeRunning())
+	{
+		//std::cout << "Sleeping in background thread " << glfwGetTime() << ".\n";
+		//glfwSleep(0.5);
+		glfwSleep(0.001);
+
+		if (0 == Project->m_BackgroundState)
+			continue;
+
+		TextFieldWidget * OutputWidget = g_OutputWidget;
+
+		Project->m_BackgroundState = 2;
+		OutputWidget->SetBackground(Project->m_CompilingColor);
+
+		/*auto PipeFd = App->m_PipeFd[1];
+		auto Write = [&](std::string String) {
+			//OutputWidget->AppendContent(String);
+			write(PipeFd, String.c_str(), String.length());
+		};*/
+
+		/*Write("Compiling ");
+		for (int i = 0; i < 15; ++i) {
+			Write(".");
+			glfwSleep(0.2);
+		}
+		Write(" Done.\n");*/
+
+		close(Project->m_PipeFd[1]);		// Close the write end of the pipe in the parent
+
+		pipe(Project->m_PipeFd);
+		fcntl(Project->m_PipeFd[0], F_SETFL, O_NONBLOCK);
+		std::cout << "opened " << Project->m_PipeFd[0] << " and " << Project->m_PipeFd[1] << ".\n";
+
+		uint8 ProcessResult;
+
+		{
+			Project->m_LastPid = fork();
+
+			if (0 == Project->m_LastPid)
+			{
+				close(Project->m_PipeFd[0]);    // close reading end in the child
+
+				dup2(Project->m_PipeFd[1], 1);  // send stdout to the pipe
+				dup2(Project->m_PipeFd[1], 2);  // send stderr to the pipe
+
+				close(Project->m_PipeFd[1]);    // this descriptor is no longer needed
+
+				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
+#else
+				execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
+#endif
+
+				//exit(1);		// Not needed, just in case I comment out the above
+			}
+			else if (-1 == Project->m_LastPid)
+			{
+				std::cerr << "Error forking.\n";
+				throw 0;
+			}
+			else
+			{
+				std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
+				//setpgrp();
+				setpgid(Project->m_LastPid, Project->m_LastPid);
+				std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
+
+				std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
+
+				//OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
+
+				// Wait for child process to complete
+				{
+					int status;
+					waitpid(Project->m_LastPid, &status, 0);
+					Project->m_LastPid = 0;
+
+					std::cout << "Child finished with status " << status << ".\n";
+
+					// If killed, just skip
+					if (   WIFSIGNALED(status)
+						&& 9 == WTERMSIG(status))
+					{
+						continue;
+					}
+
+					ProcessResult = static_cast<uint8>(status >> 8);
+				}
+				
+				std::cout << "Done in parent!\n";
+			}
+		}
+
+		if (0 == ProcessResult) {
+			OutputWidget->SetBackground(Project->m_RunningColor);
+
+			// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex (but too lazy ATM to add all the code for a mutex)
+			/*if (Project->m_ExpiredOutput)
+			{
+				OutputWidget->SetContent("");
+				Project->m_ExpiredOutput = false;
+			}*/
+		} else {
+			OutputWidget->SetBackground(Project->m_ErrorCompileColor);
+			Project->m_ProcessEndedTime = glfwGetTime();
+			Project->m_BackgroundState = 0;
+		}
+
+		if (2 != Project->m_BackgroundState)
+			continue;
+
+		{
+			Project->m_LastPid = fork();
+
+			if (0 == Project->m_LastPid)
+			{
+				close(Project->m_PipeFd[0]);    // close reading end in the child
+
+				dup2(Project->m_PipeFd[1], 1);  // send stdout to the pipe
+				dup2(Project->m_PipeFd[1], 2);  // send stderr to the pipe
+
+				close(Project->m_PipeFd[1]);    // this descriptor is no longer needed
+
+				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
+				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
+				execl("./GenProgram", "./GenProgram", (char *)0);
+				//execl("./gocode", "gocode", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(App->m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+
+				//exit(1);		// Not needed, just in case I comment out the above
+			}
+			else if (-1 == Project->m_LastPid)
+			{
+				std::cerr << "Error forking.\n";
+				throw 0;
+			}
+			else
+			{
+				std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
+				//setpgrp();
+				setpgid(Project->m_LastPid, Project->m_LastPid);
+				std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
+
+				std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
+
+				// Wait for child process to complete
+				{
+					int status;
+					waitpid(Project->m_LastPid, &status, 0);
+					Project->m_LastPid = 0;
+
+					std::cout << "Child finished with status " << status << ".\n";
+
+					// If killed, just skip
+					if (   WIFSIGNALED(status)
+						&& 9 == WTERMSIG(status))
+					{
+						continue;
+					}
+
+					ProcessResult = static_cast<uint8>(status >> 8);
+				}
+				
+				std::cout << "Done in parent!\n";
+			}
+		}
+
+		/*uint8 Char = '\0';
+		write(App->m_PipeFd[1], &Char, 1);*/
+
+		// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex
+		if (Project->m_ExpiredOutput)
+		{
+			OutputWidget->SetContent("");
+			Project->m_ExpiredOutput = false;
+		}
+
+		//close(App->m_PipeFd[0]);		// Close the read end of the pipe in the parent
+		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
+
+		if (0 == ProcessResult) {
+			OutputWidget->SetBackground(Project->m_FinishedSuccessColor);
+		} else {
+			OutputWidget->SetBackground(Project->m_FinishedErrorColor);
+		}
+
+		if (2 == Project->m_BackgroundState) {
+			Project->m_ProcessEndedTime = glfwGetTime();
+			Project->m_BackgroundState = 0;
+		}
+	}
+
+	Thread->ThreadEnded();
+}
+
+void Project::StartBackgroundThread()
+{
+	m_BackgroundThread.Start();
+}
+
+void Project::SomethingFromAppRenderTEST()
+{
+	TextFieldWidget * OutputWidget = g_OutputWidget;
+
+	// TEST: This should go to ProcessTimePassed() or something
+	if (-1 != m_PipeFd[0])
+	{
+		char buffer[1024];
+		ssize_t n;
+		while (0 != (n = read(m_PipeFd[0], buffer, sizeof(buffer))))
+		{
+			if (-1 == n) {
+				if (EAGAIN == errno) {
+					break;
+				} else {
+					/*if (m_ExpiredOutput)// && 0 != m_BackgroundState)
+					{
+						m_OutputWidget->SetContent("EXPIRED blah");
+						m_ExpiredOutput = false;
+					}*/
+
+					std::cerr << "Error: Reading from pipe " << m_PipeFd[0] << " failed with errno " << errno << ".\n";
+					break;
+				}
+			}
+			else
+			{
+				std::string str(buffer, n);
+				if (m_ExpiredOutput)
+				{
+					OutputWidget->SetContent(str);
+					m_ExpiredOutput = false;
+				}
+				else
+				{
+					OutputWidget->AppendContent(str);
+				}
+			}
+		}
+
+		// If the output is still expired after a second since process started, just clear the output
+		if (glfwGetTime() >= m_ProcessStartedTime + 1.0)
+		{
+			if (m_ExpiredOutput)
+			{
+				OutputWidget->SetContent("");
+				m_ExpiredOutput = false;
+			}
+		}
+	}
 }

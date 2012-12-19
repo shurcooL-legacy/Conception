@@ -16,6 +16,7 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourSc
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 	else if (Canvas::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
+	ModifyGestureRecognizer().m_RecognizeScroll = true;
 
 	if (m_HasBackground)
 	{
@@ -135,7 +136,7 @@ void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double Mo
 }
 #endif
 
-void Canvas::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void Canvas::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	//printf("Canvas %p::ProcessTap()\n", this);
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
@@ -166,9 +167,9 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 	}
 }
 
-void Canvas::ProcessManipulationStarted(const PointerState & PointerState)
+void Canvas::ProcessManipulationBegin(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationStarted()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationBegin()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
@@ -178,9 +179,9 @@ void Canvas::ProcessManipulationStarted(const PointerState & PointerState)
 	ModifyGestureRecognizer().m_ManipulationOffset = Vector2n(Camera.X() * CameraZ, Camera.Y() * CameraZ) + ParentLocalPosition;
 }
 
-void Canvas::ProcessManipulationUpdated(const PointerState & PointerState)
+void Canvas::ProcessManipulationUpdate(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdated()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdate()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 	Vector2n PositionInt(std::lround(PositionDouble.X()), std::lround(PositionDouble.Y()));		// TODO: Loss of accuracy? Fix it if needed.*/
@@ -191,9 +192,9 @@ void Canvas::ProcessManipulationUpdated(const PointerState & PointerState)
 	Camera.Y() = (GetGestureRecognizer().m_ManipulationOffset - ParentLocalPosition).Y() / CameraZ;
 }
 
-void Canvas::ProcessManipulationCompleted(const PointerState & PointerState)
+void Canvas::ProcessManipulationEnd(const PointerState & PointerState)
 {
-	//printf("MultitouchTestBoxWidget::ProcessManipulationCompleted()\n");
+	//printf("MultitouchTestBoxWidget::ProcessManipulationEnd()\n");
 }
 
 void Canvas::ProcessTimePassed(const double TimePassed)
@@ -226,10 +227,7 @@ void Canvas::ProcessTimePassed(const double TimePassed)
 		}
 	}
 
-	for (auto & Widget : GetWidgets())
-	{
-		Widget->ProcessTimePassed(TimePassed);
-	}
+	CompositeWidget::ProcessTimePassed(TimePassed);
 }
 
 void Canvas::ProcessCanvasUpdated()

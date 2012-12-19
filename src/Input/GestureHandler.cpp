@@ -1,6 +1,7 @@
 #include "../Main.h"
 
 GestureHandler::GestureHandler()
+	: InputHandler()
 {
 }
 
