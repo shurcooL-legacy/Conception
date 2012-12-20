@@ -79,6 +79,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 
+		// HACK: Fix pointer voodoo
+		m_Widgets.push_back(std::unique_ptr<Widget>(&m_TypingModule));
+		//m_Widgets.push_back(std::unique_ptr<Widget>(new ButtonWidget(Vector2n(10, 10), []() { std::cout << "Hi from anon func AFT!!!.\n"; } )));
+
 		// DEBUG: Print debug info
 		{
 			auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
@@ -97,6 +101,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 						else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
 						else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
 						else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
+						else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
 						else out << "\n (Unknown)";
 
 						auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
@@ -153,13 +158,6 @@ ConceptionApp::~ConceptionApp()
 #endif
 }
 
-void ConceptionApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
-	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(WindowDimensions);
-}
-
 void ConceptionApp::Render()
 {
 	m_CurrentProject.SomethingFromAppRenderTEST();
@@ -168,10 +166,11 @@ void ConceptionApp::Render()
 
 	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()
 	{
-		m_TypingModule.Render(GetInputManager());
+		//m_TypingModule.Render(GetInputManager());
 	}
 }
 
+#if 0
 void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 {
 	// DEBUG, TEST: System key handling
@@ -235,6 +234,7 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 		m_TypingModule.ProcessEvent(InputEvent);
 	}
 }
+#endif
 
 bool ConceptionApp::ShouldRedrawRegardless()
 {

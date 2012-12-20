@@ -11,11 +11,9 @@ public:
 	ConceptionApp(InputManager & InputManager);
 	~ConceptionApp();
 
-	void UpdateWindowDimensions(Vector2n WindowDimensions) override;
-
 	void Render() override;
 
-	void ProcessEvent(InputEvent & InputEvent) override;
+	//void ProcessEvent(InputEvent & InputEvent) override;
 
 	bool ShouldRedrawRegardless() override;
 

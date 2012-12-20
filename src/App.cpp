@@ -44,6 +44,18 @@ void App::Render()
 	}
 }
 
+void App::UpdateWindowDimensions(Vector2n WindowDimensions)
+{
+	// TODO: This may still be a hack, I should create a WindowResize listener type of thing and take care within Widget itself, or perhaps something else?
+	for (auto & Widget : m_Widgets)
+	{
+		if (nullptr != dynamic_cast<Canvas *>(Widget.get()))
+		{
+			Widget->SetDimensions(WindowDimensions);
+		}
+	}
+}
+
 /*MatchResult ExternalMatchingTEST(InputEventQueue::FilteredQueue & UnreservedEvents)
 {
 	auto InputEventIterator = UnreservedEvents.begin();

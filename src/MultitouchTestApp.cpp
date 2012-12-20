@@ -92,10 +92,3 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 MultitouchTestApp::~MultitouchTestApp()
 {
 }
-
-void MultitouchTestApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
-	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(WindowDimensions);
-}

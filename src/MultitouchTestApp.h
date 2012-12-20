@@ -9,8 +9,6 @@ public:
 	MultitouchTestApp(InputManager & InputManager);
 	~MultitouchTestApp();
 
-	void UpdateWindowDimensions(Vector2n WindowDimensions) override;
-
 private:
 	MultitouchTestApp(const MultitouchTestApp &);
 	MultitouchTestApp & operator =(const MultitouchTestApp &);

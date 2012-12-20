@@ -11,12 +11,12 @@ public:
 	
 	void Layout();
 
-	virtual void UpdateWindowDimensions(Vector2n WindowDimensions) {}
-
 	const InputManager & GetInputManager();
 	InputManager & ModifyInputManager();
 
 	virtual void Render();
+
+	virtual void UpdateWindowDimensions(Vector2n WindowDimensions);
 
 	void ProcessEventQueue(InputEventQueue & InputEventQueue);
 	MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);

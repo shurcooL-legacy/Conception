@@ -486,7 +486,8 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	// If the pointer is not connected to this GR (meaning a failed HitTest), return failed match
 	// DEBUG: Is this the right way to go about it? Or a temporary hack? Figure it out.
 	if (   nullptr != InputEvent.m_Pointer
-		&& GetConnected().end() == GetConnected().find(InputEvent.m_Pointer))
+		&& GetConnected().end() == GetConnected().find(InputEvent.m_Pointer)
+		&& nullptr == dynamic_cast<TypingModule *>(&m_Owner))		// HACK!!
 	{
 		m_InManipulation = false;		// HACK: Not sure if this is the best way of doing it
 
@@ -693,8 +694,9 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	{
 		if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
 		{
+printf("Calling m_Owner.ProcessCharacter()\n");
 			m_Owner.ProcessCharacter(InputEvent, InputEvent.m_InputId);
-			InputEvent.m_Handled = true;
+			//InputEvent.m_Handled = true;
 		}
 	}
 
