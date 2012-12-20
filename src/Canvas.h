@@ -38,6 +38,9 @@ public:
 
 	bool m_BlackBackgroundTEST;
 
+protected:
+	bool IsHit(const Vector2n ParentPosition) const override;
+
 private:
 	Canvas(const Canvas &) = delete;
 	Canvas & operator = (const Canvas &) = delete;

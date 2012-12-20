@@ -96,6 +96,25 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 	}
 }
 
+// Override CompositeWidget's behavior of including inner widgets
+bool Canvas::IsHit(const Vector2n ParentPosition) const
+{
+	if (m_HasBackground)
+	{
+		return Widget::IsHit(ParentPosition);
+	}
+	else
+	{
+		for (auto & Widget : reverse(GetWidgets()))
+		{
+			if (Widget->IsHit(ParentToLocal(ParentPosition)))
+				return true;
+		}
+
+		return false;
+	}
+}
+
 #if 0
 void Canvas::ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed)
 {

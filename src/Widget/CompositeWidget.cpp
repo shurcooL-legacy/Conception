@@ -148,9 +148,7 @@ bool CompositeWidget::IsHit(const Vector2n ParentPosition) const
 {
 	for (auto & Widget : reverse(m_Widgets))
 	{
-		auto Hit = Widget->IsHit(ParentToLocal(ParentPosition));
-
-		if (Hit)
+		if (Widget->IsHit(ParentToLocal(ParentPosition)))
 			return true;
 	}
 
