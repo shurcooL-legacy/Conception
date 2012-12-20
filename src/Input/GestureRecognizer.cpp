@@ -694,7 +694,6 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	{
 		if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
 		{
-printf("Calling m_Owner.ProcessCharacter()\n");
 			m_Owner.ProcessCharacter(InputEvent, InputEvent.m_InputId);
 			//InputEvent.m_Handled = true;
 		}

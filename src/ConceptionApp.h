@@ -23,7 +23,7 @@ private:
 
 	Project		m_CurrentProject;
 
-	TypingModule	m_TypingModule;
+	TypingModule * m_TypingModule;
 };
 
 #endif // __ConceptionApp_H__

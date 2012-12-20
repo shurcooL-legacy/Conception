@@ -5,7 +5,7 @@ TextFieldWidget * volatile g_OutputWidget = nullptr;
 ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject(),
-	  m_TypingModule()
+	  m_TypingModule(new TypingModule())		// Gets cleaned up via unique_ptr when pushed back to m_Widgets
 {
 	PopulateConcepts();
 
@@ -16,10 +16,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 #if 1
 		{
-			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), m_TypingModule);
+			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), *m_TypingModule);
 			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
 			{
-				auto Entry = m_TypingModule.TakeString();
+				auto Entry = m_TypingModule->TakeString();
 
 				if (!Entry.empty())
 				{
@@ -37,7 +37,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 					if (ListEntry < m_List.size())
 					{
-						m_TypingModule.SetString(GetConcept(m_List[ListEntry]).GetContent());
+						m_TypingModule->SetString(GetConcept(m_List[ListEntry]).GetContent());
 						m_List.erase(m_List.begin() + ListEntry);
 					}
 				}
@@ -53,15 +53,15 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), *m_TypingModule, m_CurrentProject));
 
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), m_TypingModule));
+		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 
 		// Label resizing test
 		{
-			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, m_TypingModule);
+			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
 
 			auto Content = [=]() -> std::string {
 				return SourceWidget->GetContent();
@@ -73,15 +73,13 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 #if 1
 		{
-			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, m_TypingModule));
+			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, *m_TypingModule));
 		}
 #endif
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 
-		// HACK: Fix pointer voodoo
-		m_Widgets.push_back(std::unique_ptr<Widget>(&m_TypingModule));
-		//m_Widgets.push_back(std::unique_ptr<Widget>(new ButtonWidget(Vector2n(10, 10), []() { std::cout << "Hi from anon func AFT!!!.\n"; } )));
+		m_Widgets.push_back(std::unique_ptr<Widget>(m_TypingModule));
 
 		// DEBUG: Print debug info
 		{
