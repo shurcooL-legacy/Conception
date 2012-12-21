@@ -141,7 +141,7 @@ void Project::GenerateProgramForFunction(const std::string & InputContent, const
 	"	\"sort\"""\n"
 	")""\n"
 	"""\n"
-	<< FunctionContent <<
+	<< FunctionContent << "\n"
 	"""\n"
 	"func MyGetString(args ...interface{}) string {""\n"
 	"	var str string""\n"
@@ -163,7 +163,7 @@ void Project::GenerateProgramForFunction(const std::string & InputContent, const
 	"	in_after := MyGetString(a)""\n"
 	"""\n"
 	"	fmt.Printf(\"%s, %s\", in_after, out)""\n"
-	"}""\n";
+	"}";
 }
 
 volatile pid_t LastPid = 0;

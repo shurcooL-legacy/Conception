@@ -77,9 +77,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 #endif
 
-		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
-
 		m_Widgets.push_back(std::unique_ptr<Widget>(m_TypingModule));
+
+		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 
 		// DEBUG: Print debug info
 		{
@@ -98,8 +98,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 						else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
 						else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
 						else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
+						else if (dynamic_cast<ListWidget<Concept> *>(&i->GetOwner())) out << "\n ListWidget<Concept>";
 						else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
 						else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
+						else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
 						else out << "\n (Unknown)";
 
 						auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
@@ -164,7 +166,7 @@ void ConceptionApp::Render()
 
 	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()
 	{
-		//m_TypingModule.Render(GetInputManager());
+		m_TypingModule->Render(GetInputManager());
 	}
 }
 
