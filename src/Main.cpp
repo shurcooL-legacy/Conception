@@ -6,9 +6,6 @@ TODO so that Conception can be implemented within Conception:
  -Add/manipulate member variables, member functions
  -Compile project
  -Save/load project
-
-TODO:
- -Remove InputListeners from InputManager (keep PointerInputListeners only)
 */
 
 #include "Main.h"

@@ -50,7 +50,6 @@ LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingM
 		auto LabelledImportList = new FlowLayoutWidget(Vector2n(-280, -100), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, "import (\"", LabelWidget::Background::None)),
 																			   std::shared_ptr<Widget>(ImportList),
 																			   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, "\")", LabelWidget::Background::None)) }, {});
-		LabelledImportList->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelledImportList)));
 		AddWidget(LabelledImportList);
 	}
 }
