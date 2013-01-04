@@ -71,6 +71,31 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), { std::shared_ptr<Widget>(SourceWidget), std::shared_ptr<Widget>(LabelWidget) }, {}));
 		}
 
+		// Time widget
+		{
+			auto Content = []() -> std::string {
+				auto now = std::chrono::system_clock::now();
+
+				auto duration = now.time_since_epoch();
+
+				typedef std::chrono::duration<double, std::ratio<3600 * 24 * 365>> years;
+
+				auto out = 1970 + std::chrono::duration_cast<years>(duration).count();
+
+				//return std::to_string(out);
+				std::ostringstream ss;
+				ss << std::fixed << std::setprecision(8);
+				ss << out;
+				return ss.str();
+			};
+			auto LabelWidget = new class LabelWidget(Vector2n(360, -360), Content, LabelWidget::Background::Normal);
+			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
+
+			MainCanvas->AddWidget(LabelWidget);
+		}
+
+		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -340)));
+
 #if 1
 		{
 			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, *m_TypingModule));
@@ -81,58 +106,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 
-		// DEBUG: Print debug info
-		{
-			auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
-
-			{
-				auto Content = []() -> std::string
-				{
-					std::ostringstream out;
-
-					out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
-					for (auto & i : g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries)
-					{
-						if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
-						else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
-						else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
-						else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
-						else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
-						else if (dynamic_cast<ListWidget<Concept> *>(&i->GetOwner())) out << "\n ListWidget<Concept>";
-						else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
-						else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
-						else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
-						else out << "\n (Unknown)";
-
-						auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
-						out << " (" << LocalPosition.X() << ", " << LocalPosition.Y() << ")";
-					}
-
-					return out.str();
-				};
-
-				OverlayCanvas->AddWidget(new LabelWidget(Vector2n(0, 0), Content));
-			}
-
-			{
-				auto Content = []() -> std::string
-				{
-					std::ostringstream out;
-
-					out << "InputManager.m_IEQueue.m_Queue" << std::endl;
-					for (auto & i : g_InputManager->m_InputEventQueue.m_Queue)
-					{
-						out << i.ToString() << std::endl;
-					}
-
-					return out.str();
-				};
-
-				OverlayCanvas->AddWidget(new LabelWidget(Vector2n(0, 140), Content));
-			}
-
-			m_Widgets.push_back(std::unique_ptr<Widget>(OverlayCanvas));
-		}
+		m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget()));		// DEBUG: Print debug info
 	}
 
 	// Prepare and start the thread

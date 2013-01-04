@@ -27,9 +27,7 @@ private:
 	uint8					m_Color;
 
 	// DEBUG: For info printing
-	friend class App;
-	friend class MultitouchTestApp;
-	friend class ConceptionApp;
+	friend class DebugOverlayWidget;
 };
 
 #endif // __MultitouchTestBoxWidget_H__

@@ -22,6 +22,8 @@
 #include <array>
 #include <memory>
 #include <cstdlib>
+#include <chrono>
+#include <iomanip>
 
 #ifdef WIN32
 #	define WIN32_LEAN_AND_MEAN
@@ -217,7 +219,9 @@ extern InputManager * g_InputManager;
 #include "Widget/LifeFormWidget.h"
 #include "Widget/LiveProgramWidget.h"
 #include "Widget/LiveFunctionWidget.h"
+#include "Widget/TimeWidget.h"
 #include "Canvas.h"
+#include "Widget/DebugOverlayWidget.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "LiveEditorApp.h"

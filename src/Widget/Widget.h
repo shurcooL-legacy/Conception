@@ -81,9 +81,7 @@ private:
 	friend class GestureRecognizer;				// For GlobalToParent() access
 
 	// DEBUG: For info printing
-	friend class App;
-	friend class MultitouchTestApp;
-	friend class ConceptionApp;
+	friend class DebugOverlayWidget;
 };
 
 #endif // __Widget_H__

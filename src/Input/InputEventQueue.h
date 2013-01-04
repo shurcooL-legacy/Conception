@@ -35,9 +35,7 @@ private:
 	Queue		m_Queue;
 
 	// DEBUG: For info printing
-	friend class App;
-	friend class MultitouchTestApp;
-	friend class ConceptionApp;
+	friend class DebugOverlayWidget;
 };
 
 #endif // __InputEventQueue_H__

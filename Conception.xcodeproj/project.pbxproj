@@ -14,6 +14,8 @@
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
+		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
+		2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */; };
 		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
@@ -107,6 +109,10 @@
 		2A21998F15C8895400867486 /* LifeFormWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeFormWidget.h; sourceTree = "<group>"; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
+		2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeWidget.cpp; sourceTree = "<group>"; };
+		2A3E2E741696A44D00ECC0D2 /* TimeWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeWidget.h; sourceTree = "<group>"; };
+		2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlayWidget.cpp; sourceTree = "<group>"; };
+		2A3E2E781696AAFD00ECC0D2 /* DebugOverlayWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugOverlayWidget.h; sourceTree = "<group>"; };
 		2A42D9F616289823001DC834 /* ContextMenuWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContextMenuWidget.h; sourceTree = "<group>"; };
 		2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContextMenuWidget.hpp; sourceTree = "<group>"; };
 		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -319,6 +325,8 @@
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
 				2A42D9F616289823001DC834 /* ContextMenuWidget.h */,
 				2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */,
+				2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */,
+				2A3E2E781696AAFD00ECC0D2 /* DebugOverlayWidget.h */,
 				2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */,
 				2AEECA15167B8F5A003799B4 /* FlowLayoutWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
@@ -337,6 +345,8 @@
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
 				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
 				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
+				2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */,
+				2A3E2E741696A44D00ECC0D2 /* TimeWidget.h */,
 				2A4FFA93155465D90021D8EF /* Widget.cpp */,
 				2A4FFA94155465D90021D8EF /* Widget.h */,
 			);
@@ -582,6 +592,8 @@
 				2ABE46831673CBBE0010923C /* LabelWidget.cpp in Sources */,
 				2AEECA16167B8F5A003799B4 /* FlowLayoutWidget.cpp in Sources */,
 				2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */,
+				2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */,
+				2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -81,9 +81,7 @@ private:
 	static InputManager *		m_pInstance;
 
 	// DEBUG: For info printing
-	friend class App;
-	friend class MultitouchTestApp;
-	friend class ConceptionApp;
+	friend class DebugOverlayWidget;
 };
 
 #endif // __InputManager_H__
