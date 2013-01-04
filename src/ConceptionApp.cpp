@@ -71,30 +71,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), { std::shared_ptr<Widget>(SourceWidget), std::shared_ptr<Widget>(LabelWidget) }, {}));
 		}
 
-		// Time widget
-		{
-			auto Content = []() -> std::string {
-				auto now = std::chrono::system_clock::now();
-
-				auto duration = now.time_since_epoch();
-
-				typedef std::chrono::duration<double, std::ratio<3600 * 24 * 365>> years;
-
-				auto out = 1970 + std::chrono::duration_cast<years>(duration).count();
-
-				//return std::to_string(out);
-				std::ostringstream ss;
-				ss << std::fixed << std::setprecision(8);
-				ss << out;
-				return ss.str();
-			};
-			auto LabelWidget = new class LabelWidget(Vector2n(360, -360), Content, LabelWidget::Background::Normal);
-			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
-
-			MainCanvas->AddWidget(LabelWidget);
-		}
-
-		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -340)));
+		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
 
 #if 1
 		{
