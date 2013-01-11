@@ -5,7 +5,7 @@ auto Content = []() -> std::string {
 
 	auto duration = now.time_since_epoch();
 
-	typedef std::chrono::duration<double, std::ratio<3600l * 24 * 3652422, 10000>> shuryears;
+	typedef std::chrono::duration<double, std::ratio<3600ll * 24 * 3652422, 10000>> shuryears;
 
 	auto shuryears_now = 1970 + std::chrono::duration_cast<shuryears>(duration).count();
 
