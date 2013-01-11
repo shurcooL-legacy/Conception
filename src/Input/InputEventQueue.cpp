@@ -31,7 +31,7 @@ void InputEventQueue::EraseEventsFromQueue(const FilteredQueue & Events)
 	}
 }
 
-InputEventQueue::FilteredQueue InputEventQueue::CreateFilteredQueue() const
+InputEventQueue::FilteredQueue InputEventQueue::CreateFilteredQueue()		// TODO: Turn this back to const once Linux C++11 support catches up
 {
 	FilteredQueue Out;
 

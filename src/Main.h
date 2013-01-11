@@ -30,8 +30,9 @@
 #	include <Windows.h>		// Needed for creating a process to compile projects
 #endif // WIN32
 
-#if defined(__APPLE__) && defined(__MACH__)
+#if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 #	include <sys/types.h>
+#	include <sys/wait.h>
 #	include <unistd.h>
 #	include <signal.h>
 #	include <fcntl.h>

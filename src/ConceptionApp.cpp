@@ -43,9 +43,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				}
 			};
 
-			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, "#include <", LabelWidget::Background::None)),
+			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("#include <"), LabelWidget::Background::None)),
 																						std::shared_ptr<Widget>(StdIncludesList),
-																						std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, ">", LabelWidget::Background::None)) }, {});
+																						std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string(">"), LabelWidget::Background::None)) }, {});
 			LabelledStdIncludesList->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelledStdIncludesList)));
 			MainCanvas->AddWidget(LabelledStdIncludesList);
 		}
@@ -69,6 +69,23 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto LabelWidget = new class LabelWidget(Vector2n::ZERO, Content, LabelWidget::Background::Normal);
 
 			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), { std::shared_ptr<Widget>(SourceWidget), std::shared_ptr<Widget>(LabelWidget) }, {}));
+		}
+
+		// Time widget
+		{
+			auto Content = []() -> std::string {
+				auto now = std::chrono::system_clock::now();
+
+				auto duration = now.time_since_epoch();
+
+				auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration).count();
+
+				return std::to_string(seconds);
+			};
+			auto LabelWidget = new class LabelWidget(Vector2n(360, -340), Content, LabelWidget::Background::Normal);
+			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
+
+			MainCanvas->AddWidget(LabelWidget);
 		}
 
 		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
@@ -189,7 +206,8 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 
 bool ConceptionApp::ShouldRedrawRegardless()
 {
-	if (   0 == m_CurrentProject.m_BackgroundState
+	if (   false		// HACK: Since I have a TimeWidget...
+		&& 0 == m_CurrentProject.m_BackgroundState
 		&& glfwGetTime() >= m_CurrentProject.m_ProcessEndedTime + 1
 		&& !GetInputManager().AnyActivePointers()
 		&& GetInputManager().EmptyInputEventQueue())

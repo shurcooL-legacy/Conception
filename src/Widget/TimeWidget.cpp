@@ -5,14 +5,14 @@ auto Content = []() -> std::string {
 
 	auto duration = now.time_since_epoch();
 
-	typedef std::chrono::duration<double, std::ratio<3600 * 24 * 365>> years;
+	typedef std::chrono::duration<double, std::ratio<3600l * 24 * 3652422, 10000>> shuryears;
 
-	auto out = 1970 + std::chrono::duration_cast<years>(duration).count();
+	auto shuryears_now = 1970 + std::chrono::duration_cast<shuryears>(duration).count();
 
 	//return std::to_string(out);
 	std::ostringstream ss;
-	ss << std::fixed << std::setprecision(8);
-	ss << out;
+	ss << std::setprecision(8) << std::fixed;
+	ss << shuryears_now;
 	return ss.str();
 };
 

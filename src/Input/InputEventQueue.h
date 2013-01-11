@@ -7,7 +7,7 @@ class InputEventQueue
 {
 public:
 	typedef std::list<InputEvent> Queue;
-	typedef std::list<Queue::const_iterator> FilteredQueue;
+	typedef std::list<Queue::iterator> FilteredQueue;		// TODO: Turn this back to const_iterator once Linux C++11 support catches up
 
 	InputEventQueue();
 	~InputEventQueue();
@@ -19,7 +19,7 @@ public:
 
 	void EraseEventsFromQueue(const FilteredQueue & Events);
 
-	FilteredQueue CreateFilteredQueue() const;
+	FilteredQueue CreateFilteredQueue();		// TODO: Turn this back to const once Linux C++11 support catches up
 
 	static FilteredQueue CreateFilteredQueue(const FilteredQueue & In, const FilteredQueue::const_iterator Start);
 	static void EraseEventsFromFilteredQueue(FilteredQueue & InOut, const FilteredQueue & Events);

@@ -190,8 +190,10 @@ extern "C" {
 #define GLFW_VERSION_REVISION 5
 
 
+#if defined(WIN32)
 // Dmitri: Touch
 #define _GLFW_DMITRI_WINDOWS_TOUCH_ENABLED
+#endif
 
 
 /*************************************************************************
