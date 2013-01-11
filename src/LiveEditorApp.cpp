@@ -144,7 +144,7 @@ LiveEditorApp::~LiveEditorApp()
 	CleanConcepts();
 
 	// Clean up temporary files
-#if defined(__APPLE__) && defined(__MACH__)
+#if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 	system("rm ./GenProgram");
 	system("./bin/gocode/gocode drop-cache");
 	system("./bin/gocode/gocode close");

@@ -49,8 +49,7 @@
 	typedef unsigned __int16	uint16;
 	typedef unsigned __int32	uint32;
 	typedef unsigned __int64	uint64;
-//#elif defined(__APPLE__) && defined(__MACH__)
-#else		// For __APPLE__ and Linux
+#elif (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 	typedef int8_t				sint8;
 	typedef int16_t				sint16;
 	typedef int32_t				sint32;
@@ -229,9 +228,5 @@ extern InputManager * g_InputManager;
 #include "ConceptionTestApp.h"
 #include "MultitouchTestApp.h"
 #include "SentienceApp.h"
-
-#ifdef WIN32
-#elif defined(__APPLE__) && defined(__MACH__)
-#endif
 
 #endif // __Main_H__
