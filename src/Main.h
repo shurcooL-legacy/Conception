@@ -24,6 +24,8 @@
 #include <cstdlib>
 #include <chrono>
 #include <iomanip>
+#include <functional>
+//#include <initializer_list>
 
 #ifdef WIN32
 #	define WIN32_LEAN_AND_MEAN

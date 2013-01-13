@@ -899,7 +899,7 @@ static LRESULT CALLBACK windowProc( HWND hWnd, UINT uMsg,
                 _glfwInput.WheelPos += wheelDelta;
                 if( _glfwWin.mouseWheelCallback )
                 {
-                    _glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+                    _glfwWin.mouseWheelCallback( _glfwInput.WheelPos, _glfwInput.WheelPos2 );
                 }
                 return 0;
             }
