@@ -9,12 +9,12 @@ public:
 	ContextMenuWidget(Vector2n Position, std::vector<T> & List);
 	virtual ~ContextMenuWidget();
 
-	const T & GetSelectedEntry() const;
+	const T * GetSelectedEntry() const;
 
 	void Render() override;
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
-	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 

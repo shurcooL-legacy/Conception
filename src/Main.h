@@ -12,6 +12,7 @@
 #include <set>
 #include <map>
 #include <list>
+#include <forward_list>
 #include <cmath>
 #include <string>
 #include <vector>
@@ -21,14 +22,19 @@
 #include <array>
 #include <memory>
 #include <cstdlib>
+#include <chrono>
+#include <iomanip>
+#include <functional>
+//#include <initializer_list>
 
 #ifdef WIN32
 #	define WIN32_LEAN_AND_MEAN
 #	include <Windows.h>		// Needed for creating a process to compile projects
 #endif // WIN32
 
-#if defined(__APPLE__) && defined(__MACH__)
+#if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 #	include <sys/types.h>
+#	include <sys/wait.h>
 #	include <unistd.h>
 #	include <signal.h>
 #	include <fcntl.h>
@@ -45,8 +51,7 @@
 	typedef unsigned __int16	uint16;
 	typedef unsigned __int32	uint32;
 	typedef unsigned __int64	uint64;
-//#elif defined(__APPLE__) && defined(__MACH__)
-#else		// For __APPLE__ and Linux
+#elif (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 	typedef int8_t				sint8;
 	typedef int16_t				sint16;
 	typedef int32_t				sint32;
@@ -80,6 +85,7 @@ class ConceptInstance;
 class Function;
 class Project;
 class InputEvent;
+class InputEventQueue;
 class InputManager;
 class InputHandler;
 class InputListener;
@@ -93,6 +99,7 @@ class WidgetManager;
 class PointerMapping;
 class Widget;
 class CompositeWidget;
+class FlowLayoutWidget;
 class ButtonWidget;
 class MultitouchTestBoxWidget;
 class TextFieldWidget;
@@ -180,6 +187,7 @@ extern InputManager * g_InputManager;
 #include "OpenGLStream.h"
 #include "Concept.h"
 #include "Conception/Function.h"
+#include "Thread.h"
 #include "Project.h"
 #include "Input/PointerInputListener.h"
 #include "Input/InputHandler.h"
@@ -188,15 +196,21 @@ extern InputManager * g_InputManager;
 #include "Input/GestureHandler.h"
 #include "Input/PointerState.h"
 #include "Input/InputEvent.h"
+#include "Input/InputEventQueue.h"
 #include "Input/Pointers/Pointer.h"
 #include "Input/Pointers/MousePointer.h"
 #include "Input/Pointers/TouchPointer.h"
 #include "Input/Pointers/TypingPointer.h"
 #include "Input/InputManager.h"
 #include "Input/GestureRecognizer.h"
-#include "ControlModules/TypingModule.h"
+#include "Behavior/Behavior.h"
+#include "Behavior/DraggablePositionBehavior.h"
+#include "Behavior/NonDraggablePositionBehavior.h"
 #include "Widget/Widget.h"
+#include "ControlModules/TypingModule.h"
 #include "Widget/CompositeWidget.h"
+#include "Widget/FlowLayoutWidget.h"
+#include "Widget/LabelWidget.h"
 #include "Widget/ButtonWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"
@@ -205,17 +219,16 @@ extern InputManager * g_InputManager;
 #include "Widget/ContextMenuWidget.h"
 #include "Widget/FunctionWidget.h"
 #include "Widget/LifeFormWidget.h"
+#include "Widget/LiveProgramWidget.h"
+#include "Widget/LiveFunctionWidget.h"
+#include "Widget/TimeWidget.h"
 #include "Canvas.h"
-#include "Thread.h"
+#include "Widget/DebugOverlayWidget.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "LiveEditorApp.h"
 #include "ConceptionTestApp.h"
 #include "MultitouchTestApp.h"
 #include "SentienceApp.h"
-
-#ifdef WIN32
-#elif defined(__APPLE__) && defined(__MACH__)
-#endif
 
 #endif // __Main_H__

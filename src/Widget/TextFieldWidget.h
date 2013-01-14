@@ -35,19 +35,17 @@ public:
 	std::function<std::vector<std::string>()>		m_GetAutocompletions;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
-	virtual ~TextFieldWidget();
+	~TextFieldWidget();
 
 	void Render() override;
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
-	void ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
-
 	void ProcessEvent(InputEvent & InputEvent) override;
+
+	void ProcessTimePassed(const double TimePassed) override;
 
 	std::string GetContent() const;
 	void SetContent(std::string Content);
@@ -61,6 +59,11 @@ protected:
 	bool HasTypingFocus() const override;
 
 private:
+	TextFieldWidget(const TextFieldWidget &) = delete;
+	TextFieldWidget & operator = (const TextFieldWidget &) = delete;
+
+	void SetupGestureRecognizer();
+
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);

@@ -18,9 +18,9 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 #else
 		/// Canvas inside Canvas test
 
-		auto OuterCanvasTEST = new Canvas(Vector2n(300, 0), true, true);
+		auto OuterCanvasTEST = new Canvas(Vector2n(0, 0), true, true);
 
-		auto MainCanvas = new Canvas(Vector2n(-300, -300), true, true);
+		auto MainCanvas = new Canvas(Vector2n(-100, -340), true, true);
 		MainCanvas->m_BlackBackgroundTEST = true;
 
 		OuterCanvasTEST->AddWidget(MainCanvas);
@@ -35,16 +35,12 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 
 		MainCanvas->SetDimensions(Vector2n(500, 500));
 		m_Widgets.push_back(std::unique_ptr<Widget>(OuterCanvasTEST));
+
+		m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget()));		// DEBUG: Print debug info
 #endif
 	}
 }
 
 MultitouchTestApp::~MultitouchTestApp()
 {
-}
-
-void MultitouchTestApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets.front().get())->SetDimensions(WindowDimensions);
 }

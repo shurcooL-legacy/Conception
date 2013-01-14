@@ -9,8 +9,6 @@ public:
 	SentienceApp(InputManager & InputManager);
 	~SentienceApp();
 
-	void UpdateWindowDimensions(Vector2n WindowDimensions) override;
-
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 private:

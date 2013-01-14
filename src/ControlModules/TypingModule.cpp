@@ -1,13 +1,18 @@
 #include "../Main.h"
 
 TypingModule::TypingModule()
-	: GestureHandler(),
+	: Widget(Vector2n::ZERO, Vector2n::ZERO, {}),
 	  m_Typed()
 {
 }
 
 TypingModule::~TypingModule()
 {
+}
+
+void TypingModule::Render()
+{
+	Render(*g_InputManager);
 }
 
 void TypingModule::Render(const InputManager & InputManager)
@@ -38,9 +43,15 @@ Vector2n TypingModule::GetInsertionPosition(Vector2n PointerPosition) const
 	return PointerPosition + InsertionOffset;
 }
 
+/* THIS IS pointless because this has stuff to do with pointing pointers only, not typing pointer... :/
+bool TypingModule::IsHit(const Vector2n ParentPosition) const
+{
+	return true;
+}*/
+
 void TypingModule::ProcessEvent(InputEvent & InputEvent)
 {
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 		{

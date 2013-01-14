@@ -11,12 +11,12 @@ public:
 
 	void Render();
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 
 protected:
-	virtual bool IsHit(const Vector2n ParentPosition) const override;
+	bool IsHit(const Vector2n ParentPosition) const override;
 
 private:
 	struct State

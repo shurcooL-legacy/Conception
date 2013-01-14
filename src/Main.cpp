@@ -6,9 +6,6 @@ TODO so that Conception can be implemented within Conception:
  -Add/manipulate member variables, member functions
  -Compile project
  -Save/load project
-
-TODO:
- -Remove InputListeners from InputManager (keep PointerInputListeners only)
 */
 
 #include "Main.h"
@@ -91,7 +88,7 @@ int main(int argc, char * argv[])
 		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
 
 		const bool Fullscreen = static_cast<bool>(0);
-		const Vector2n WindowDimensons(1024, 768);
+		const Vector2n WindowDimensons(1280, 960);
 
 		if (!Fullscreen) {
 			glfwOpenWindow(WindowDimensons.X(), WindowDimensons.Y(), DesktopMode.RedBits, DesktopMode.GreenBits, DesktopMode.BlueBits, 0, 0, 0, GLFW_WINDOW);
@@ -160,11 +157,18 @@ int main(int argc, char * argv[])
 
 			// Process input
 			{
+				// Populate InputEventQueue
 				if (MainApp.ShouldRedrawRegardless())
 					glfwPollEvents();
-				else
+				else {
 					glfwWaitEvents();
-				InputManager.ProcessTimePassed(TimePassed);
+					//if (glfwGetTime() - LastTime >= 1) printf("Slept for %f secs\n", glfwGetTime() - LastTime);
+					LastTime = glfwGetTime();
+				}
+				//InputManager.ProcessTimePassed(TimePassed);
+
+				MainApp.ProcessEventQueue(InputManager.ModifyInputEventQueue());
+				MainApp.ProcessTimePassed(TimePassed);
 			}
 
 			// Render
@@ -192,11 +196,6 @@ int main(int argc, char * argv[])
 	// Clean up
 	OglUtilsKillFont();
 	glfwTerminate();
-#if defined(__APPLE__) && defined(__MACH__)
-	system("rm ./GenProgram");		// Clean up temporary files
-	system("./bin/gocode/gocode drop-cache");
-	system("./bin/gocode/gocode close");
-#endif
 
 	std::cout << "\nReturning 0 from main().\n";
 	return 0;

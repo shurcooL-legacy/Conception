@@ -18,8 +18,12 @@
 
 template <typename T, typename U> class MutuallyConnectable
 {
+private:
+	std::set<U *>		m_Connected;
+
 public:
-	auto GetConnected() const -> const std::set<U *> &;
+	// TODO: Change return type to `const decltype(m_Connected) &` or something
+	const std::set<U *> & GetConnected() const;
 
 	static void Connect(MutuallyConnectable<T, U> & MutuallyConnectable0, MutuallyConnectable<U, T> & MutuallyConnectable1);
 	static void Disconnect(MutuallyConnectable<T, U> & MutuallyConnectable0, MutuallyConnectable<U, T> & MutuallyConnectable1);
@@ -35,12 +39,7 @@ private:
 	void ConnectWithoutReciprocating(MutuallyConnectable<U, T> & MutuallyConnectable);
 	void DisconnectWithoutReciprocating(MutuallyConnectable<U, T> & MutuallyConnectable);
 
-	std::set<U *>		m_Connected;
-
 	friend class MutuallyConnectable<U, T>;
-
-//public:
-	//auto GetConnected() -> decltype((m_Connected));
 };
 
 #include "MutuallyConnectable.hpp"

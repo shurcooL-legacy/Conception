@@ -3,12 +3,13 @@
 #define __TypingModule_H__
 
 class TypingModule
-	: public GestureHandler
+	: public Widget
 {
 public:
 	TypingModule();
 	~TypingModule();
 
+	void Render() override;
 	void Render(const InputManager & InputManager);
 
 	Vector2n GetInsertionPosition(Vector2n PointerPosition) const;
@@ -17,9 +18,10 @@ public:
 	std::string TakeString();
 	void SetString(std::string String);
 
-	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
+	//bool IsHit(const Vector2n ParentPosition) const override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
+	void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) override;
 
 private:
 	TypingModule(const TypingModule &);
