@@ -1,0 +1,14 @@
+# Linux version
+
+CC = clang++
+CFLAGS = -I./include -I./glfw -I./glfw/x11
+CPPFLAGS = -std=c++11
+# Disabled
+# -stdlib=libc++
+LFLAGS = -lGL -lGLU
+
+OBJS = ./src/*.cpp ./src/*/*.cpp ./src/*/*/*.cpp ./lib/libglfw.a
+
+# Rule for Conception
+Conception: $(OBJS) Makefile.linux
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) $(LFLAGS) -o $@

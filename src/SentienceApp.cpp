@@ -19,12 +19,6 @@ SentienceApp::~SentienceApp()
 {
 }
 
-void SentienceApp::UpdateWindowDimensions(Vector2n WindowDimensions)
-{
-	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions);
-}
-
 void SentienceApp::ProcessEvent(InputEvent & InputEvent)
 {
 	App::ProcessEvent(InputEvent);

@@ -7,20 +7,28 @@ Pointer::Pointer(InputHandler & MyInputHandler)
 	  m_InputHandler(MyInputHandler),
 	  m_PointerMapping(*this)
 {
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
-	InputEvent.m_Pointer = this;
+	{
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_CREATION);
+		InputEvent.m_Pointer = this;
 
-	m_InputHandler.ProcessEvent(InputEvent);
+		InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
+
+		m_InputHandler.ProcessEvent(InputEvent);
+	}
 }
 
 Pointer::~Pointer()
 {
-	InputEvent InputEvent;
-	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
-	InputEvent.m_Pointer = this;
+	{
+		InputEvent InputEvent;
+		InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DELETION);
+		InputEvent.m_Pointer = this;
 
-	m_InputHandler.ProcessEvent(InputEvent);
+		InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
+
+		m_InputHandler.ProcessEvent(InputEvent);
+	}
 }
 
 void Pointer::ProcessActivation(InputEvent & InputEvent)
@@ -37,7 +45,7 @@ void Pointer::ProcessDeactivation(InputEvent & InputEvent)
 	InputEvent.m_EventTypes.insert(InputEvent::EventType::POINTER_DEACTIVATION);
 }
 
-bool Pointer::IsActive()
+bool Pointer::IsActive() const
 {
 	return m_IsActive;
 }
@@ -45,6 +53,8 @@ bool Pointer::IsActive()
 void Pointer::ProcessEvent(InputEvent & InputEvent)
 {
 	//std::cout << InputEvent.ToString();
+
+	InputEvent.m_PreEventState = InputEvent.m_Pointer->GetPointerState();
 
 	for (auto EventType : InputEvent.m_EventTypes)
 	{
@@ -56,15 +66,15 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
 
 				// If no buttons were pressed thus far, then the pointer is getting activated
-				if (Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
+				if (Pressed && !GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessActivation(InputEvent);
 				}
 
-				InputEvent.m_Pointer->ModifyPointerState().UpdateButtonState(ButtonId) = Pressed;
+				ModifyPointerState().UpdateButtonState(ButtonId) = Pressed;
 
 				// If no buttons are pressed anymore, then the pointer is getting deactivated
-				if (!Pressed && !InputEvent.m_Pointer->GetPointerState().IsAnyButtonsPressed())
+				if (!Pressed && !GetPointerState().IsAnyButtonsPressed())
 				{
 					Pointer::ProcessDeactivation(InputEvent);
 				}
@@ -75,10 +85,10 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 				for (Input::InputId AxisId = 0; AxisId < InputEvent.m_Axes.size(); ++AxisId)
 				{
 					int AxisPosition = InputEvent.m_Axes[AxisId].GetPosition();
-					int PreviousAxisPosition = InputEvent.m_Pointer->GetPointerState().GetAxisState(InputEvent.m_InputId + AxisId, InputEvent.m_Axes[AxisId]).GetPosition();
+					int PreviousAxisPosition = GetPointerState().GetAxisState(InputEvent.m_InputId + AxisId, InputEvent.m_Axes[AxisId]).GetPosition();
 					int SliderValue = AxisPosition - PreviousAxisPosition;
 
-					InputEvent.m_Pointer->ModifyPointerState().UpdateAxisState(InputEvent.m_InputId + AxisId) = InputEvent.m_Axes[AxisId];
+					ModifyPointerState().UpdateAxisState(InputEvent.m_InputId + AxisId) = InputEvent.m_Axes[AxisId];
 
 					InputEvent.m_Sliders.push_back(SliderValue);
 				}
@@ -89,9 +99,9 @@ void Pointer::ProcessEvent(InputEvent & InputEvent)
 		}
 	}
 
-	m_PointerState = InputEvent.m_Pointer->GetPointerState();
+	InputEvent.m_PostEventState = InputEvent.m_Pointer->GetPointerState();
 
-	return m_InputHandler.ProcessEvent(InputEvent);
+	m_InputHandler.ProcessEvent(InputEvent);
 }
 
 void Pointer::ProcessTimePassed(const double TimePassed)

@@ -10,21 +10,21 @@ template <typename T> class reverse_adapter
 {
 public:
 	reverse_adapter(T & c)
-		: c(c)
+		: m_C(c)
 	{}
 
 	typename T::const_reverse_iterator begin() const
 	{
-		return c.rbegin();
+		return m_C.rbegin();
 	}
 
 	typename T::const_reverse_iterator end() const
 	{
-		return c.rend();
+		return m_C.rend();
 	}
 
 private:
-	T & c;
+	T & m_C;
 };
 
 template <typename T> reverse_adapter<T> reverse(T & c)

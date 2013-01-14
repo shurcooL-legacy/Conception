@@ -6,23 +6,29 @@ class Canvas
 	: public CompositeWidget
 {
 public:
-	Canvas(Vector2n Position, bool Centered, bool HasBackground);
+	enum class BehaviourScrolling : uint8 {
+		Zooming,
+		Freeform,
+		VerticalOnly
+	};
+
+	Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming);
 	~Canvas();
 
 	void Render() override;
 
 	bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
-	
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
+
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	/*void ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed);
 	void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount);*/
 	//void ProcessDrag(Vector2d DragAmount) override;
 	void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) override;
 
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+	void ProcessManipulationBegin(const PointerState & PointerState) override;
+	void ProcessManipulationUpdate(const PointerState & PointerState) override;
+	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 
@@ -31,6 +37,9 @@ public:
 	void MoveView(uint8 Degree, double MoveAmount, double A[2] = 0, Vector2n ParentLocalPosition = Vector2n::ZERO);
 
 	bool m_BlackBackgroundTEST;
+
+protected:
+	bool IsHit(const Vector2n ParentPosition) const override;
 
 private:
 	Canvas(const Canvas &) = delete;
@@ -55,6 +64,8 @@ private:
 	bool		m_HasBackground;
 
 	Rectanglen	m_ScissorBox;
+
+	BehaviourScrolling		m_BehaviourScrolling;
 
 	//std::vector<std::unique_ptr<Widget>>		m_Widgets;
 };

@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 LifeFormWidget::LifeFormWidget(Vector2n Position)
-	: Widget(Position, Vector2n(100, 100)),
+	: Widget(Position, Vector2n(100, 100), {}),
 //	  m_GestureRecognizerTEST(),
 	  m_Color(0),
 	  m_PositionD(Position.X(), Position.Y()), 
@@ -46,7 +46,7 @@ bool LifeFormWidget::IsHit(const Vector2n ParentPosition) const
 	return Hit;
 }
 
-void LifeFormWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void LifeFormWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	++m_Color;
 	if (m_Color >= 6)

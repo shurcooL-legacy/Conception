@@ -10,8 +10,7 @@ template <typename T, typename U> MutuallyConnectable<T, U>::~MutuallyConnectabl
 	}
 }
 
-//template <typename T, typename U> auto MutuallyConnectable<T, U>::GetConnected() -> decltype((m_Connected))
-template <typename T, typename U> auto MutuallyConnectable<T, U>::GetConnected() const -> const std::set<U *> &
+template <typename T, typename U> const std::set<U *> & MutuallyConnectable<T, U>::GetConnected() const
 {
 	return m_Connected;
 }

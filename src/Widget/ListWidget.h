@@ -13,11 +13,7 @@ public:
 
 	void Render() override;
 
-	void ProcessTap(InputEvent & InputEvent, Vector2n Position) override;
-
-	void ProcessManipulationStarted(const PointerState & PointerState) override;
-	void ProcessManipulationUpdated(const PointerState & PointerState) override;
-	void ProcessManipulationCompleted(const PointerState & PointerState) override;
+	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction;
 

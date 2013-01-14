@@ -20,3 +20,8 @@ std::string FromFileToString(std::string Path)
 		return "";
 	}
 }
+
+#if defined(__linux)
+void glfwSetClipboardString(std::string string) {}
+std::string glfwGetClipboardString() { return ""; }
+#endif

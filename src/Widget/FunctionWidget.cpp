@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 FunctionWidget::FunctionWidget(Vector2n Position, Function & Function)
-	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight)),
+	: Widget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}),
 	  m_Function(Function)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
@@ -45,7 +45,7 @@ void FunctionWidget::Render()
 	OpenGLStream << m_Function;
 }
 
-void FunctionWidget::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+void FunctionWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }

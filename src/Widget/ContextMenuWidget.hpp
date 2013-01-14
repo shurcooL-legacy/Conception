@@ -1,5 +1,5 @@
 template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position, std::vector<T> & Entries)
-	: Widget(Position, Vector2n::ZERO),
+	: Widget(Position, Vector2n::ZERO, {}),
 	  m_TapAction(),
 	  m_Entries(Entries),
 	  m_SelectedEntry(0)
@@ -15,9 +15,12 @@ template <typename T> ContextMenuWidget<T>::~ContextMenuWidget()
 {
 }
 
-template <typename T> const T & ContextMenuWidget<T>::GetSelectedEntry() const
+template <typename T> const T * ContextMenuWidget<T>::GetSelectedEntry() const
 {
-	return m_Entries[m_SelectedEntry];
+	if (!m_Entries.empty())
+		return &m_Entries[m_SelectedEntry];
+	else
+		return nullptr;
 }
 
 template <typename T> void ContextMenuWidget<T>::Render()
@@ -66,7 +69,7 @@ template <typename T> void ContextMenuWidget<T>::Render()
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessTap(InputEvent & InputEvent, Vector2n Position)
+template <typename T> void ContextMenuWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	if (nullptr != m_TapAction)
 	{
@@ -74,19 +77,18 @@ template <typename T> void ContextMenuWidget<T>::ProcessTap(InputEvent & InputEv
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(InputEvent & InputEvent, Vector2n Position)
+template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	// TODO: Do something on double-tap, like insert the selected autocompletion into parent
 
 	g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
 	InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(ModifyGestureRecognizer());
 	ModifyParent()->RemoveWidget(this);		// TODO: Maybe this is wrong to do, verify
-	InputEvent.m_Handled = true;		// TOOD: I can't even remember if I need to do this? Should do this? Does it make any difference... *sigh*
 }
 
 template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 {
-	if (InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::BUTTON_EVENT))
+	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
 		auto ButtonId = InputEvent.m_InputId;
 		bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
@@ -171,8 +173,8 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 	}
 
 	// TODO: Re-enable this but debug the crashing it causes, etc.
-	if (   InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.m_EventTypes.end() != InputEvent.m_EventTypes.find(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 	{
 		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 		{

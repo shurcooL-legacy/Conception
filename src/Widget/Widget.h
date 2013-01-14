@@ -8,9 +8,15 @@ class Widget
 public:
 	virtual ~Widget();
 
+	void AddBehavior(const std::shared_ptr<Behavior> & Behavior);
+
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
+	virtual MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
+
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
+	virtual void HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const;		// REWRITE of HitTest()
+	virtual bool IsHit(const Vector2n ParentPosition) const;		// TODO: Made it public cuz of some problem with Canvas::IsHit(), see if I can make it protected once again
 
 	//virtual bool ShouldMouseCursorVisible() const { return true; }
 
@@ -33,12 +39,14 @@ public:
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
+	void ProcessManipulationBegin(const PointerState & PointerState) override;
+	void ProcessManipulationUpdate(const PointerState & PointerState) override;
+	void ProcessManipulationEnd(const PointerState & PointerState) override;
+
 protected:
-	Widget(Vector2n Position, Vector2n Dimensions);
+	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);
 
 	//bool IsActiveExternally() { return (this == *m_ActiveWidgetPointer); }
-
-	virtual bool IsHit(const Vector2n ParentPosition) const;
 
 	virtual const Vector2n ParentToLocal(const Vector2n ParentPosition) const;
 	const Vector2n GlobalToParent(const Vector2n GlobalPosition) const;
@@ -60,13 +68,20 @@ private:
 
 	GestureRecognizer		m_GestureRecognizer;		// Owner of a single gesture recognizer
 
+	std::vector<GestureType>	m_GestureTypes;
+
+	std::vector<std::shared_ptr<Behavior>>			m_Behaviors;
+
 	CompositeWidget *		m_Parent;
 
 	void SetParent(CompositeWidget & Parent);
 
-	friend class CompositeWidget;		// For SetParent() access
+	friend class CompositeWidget;				// For SetParent() access
+	friend class DraggablePositionBehavior;		// For GlobalToParent() access
+	friend class GestureRecognizer;				// For GlobalToParent() access
 
-	friend class App;		// DEBUG: For debug printing
+	// DEBUG: For info printing
+	friend class DebugOverlayWidget;
 };
 
 #endif // __Widget_H__
