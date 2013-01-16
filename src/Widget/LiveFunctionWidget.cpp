@@ -6,8 +6,10 @@ LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingM
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 #if 0
-	m_Project.SetFunctionOnChange(*m_InputWidget, *m_SourceWidget, *m_OutputWidget);
+	// With live test execution and all
+	Project.SetFunctionOnChange(*m_InputWidget, *m_SourceWidget, *m_OutputWidget);
 #else
+	// TEST: Just display the generated GenProgram.go file
 	m_SourceWidget->m_OnChange = [&]()
 	{
 		Project.GenerateProgramForFunction(m_InputWidget->GetContent(), m_SourceWidget->GetContent());

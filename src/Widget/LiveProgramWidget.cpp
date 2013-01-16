@@ -4,13 +4,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
-#if 0
-	m_SourceWidget->m_OnChange = [&]()
-	{
-		m_OutputWidget->SetPosition(Vector2n(m_SourceWidget->GetDimensions().X() + 2, 0));
-		m_OutputWidget->SetContent(m_SourceWidget->GetContent());
-	};
-#else
 	{
 		Project.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
@@ -123,7 +116,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 		m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
 #endif
 	}
-#endif
 
 	m_SourceWidget->m_OnChange();
 }
