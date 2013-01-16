@@ -3,13 +3,12 @@
 LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
 								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("gofmt"), LabelWidget::Background::Normal)),
-								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
-	  m_Project(Project)
+								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 	{
 		m_SourceWidget->m_OnChange = [&]()
 		{
-			m_Project.GenerateProgram(m_SourceWidget->GetContent());
+			Project.GenerateProgram(m_SourceWidget->GetContent());
 
 			std::string Output = "";
 			{

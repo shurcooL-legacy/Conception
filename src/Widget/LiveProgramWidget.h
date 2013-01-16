@@ -15,8 +15,6 @@ private:
 
 	TextFieldWidget * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
-
-	Project & m_Project;
 };
 
 #endif // __LiveProgramWidget_H__

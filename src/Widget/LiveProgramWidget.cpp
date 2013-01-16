@@ -2,8 +2,7 @@
 
 LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
-	  m_Project(Project)
+								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 #if 0
 	m_SourceWidget->m_OnChange = [&]()
@@ -13,7 +12,7 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	};
 #else
 	{
-		m_Project.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
+		Project.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
 		m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 		{
