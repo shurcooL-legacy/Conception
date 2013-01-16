@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
-	: Widget(Position, Vector2n(500, 15 * lineHeight), {}),
+	: Widget(Position, Vector2n(80 * charWidth, 24 * lineHeight), {}),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
@@ -58,7 +58,7 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 		m_Content.push_back(ConceptInstance(38, {33}));
 		m_Content.push_back(ConceptInstance(39, {33}));*/
 		//m_Content.push_back(ConceptInstance(40, {36, 28}));
-		m_Content.push_back(LastConceptId());
+		m_Content.push_back(LastConceptId() - 2);
 	}
 }
 

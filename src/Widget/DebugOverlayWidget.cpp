@@ -22,6 +22,7 @@ DebugOverlayWidget::DebugOverlayWidget()
 				else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
 				else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
 				else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";
+				else if (dynamic_cast<ConceptStringBoxWidget *>(&i->GetOwner())) out << "\n ConceptStringBoxWidget";
 				else out << "\n (Unknown)";
 
 				auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));

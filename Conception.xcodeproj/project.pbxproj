@@ -39,6 +39,7 @@
 		2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */; };
 		2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */; };
 		2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA93155465D90021D8EF /* Widget.cpp */; };
+		2A6861AD16A6DE2300817B2C /* LiveGofmtWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6861AB16A6DE2300817B2C /* LiveGofmtWidget.cpp */; };
 		2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */; };
 		2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */; };
 		2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */; };
@@ -167,6 +168,8 @@
 		2A4FFA92155465D90021D8EF /* TextFieldWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWidget.h; sourceTree = "<group>"; };
 		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Widget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Widget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A6861AB16A6DE2300817B2C /* LiveGofmtWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveGofmtWidget.cpp; sourceTree = "<group>"; };
+		2A6861AC16A6DE2300817B2C /* LiveGofmtWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveGofmtWidget.h; sourceTree = "<group>"; };
 		2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEventQueue.cpp; sourceTree = "<group>"; };
 		2A70EA28163AEDC500B6E8B4 /* InputEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputEventQueue.h; sourceTree = "<group>"; };
 		2A7B8B701558B25F007A1FA7 /* InputEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = InputEvent.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -339,6 +342,8 @@
 				2A4FFA8D155465D90021D8EF /* ListWidget.hpp */,
 				2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */,
 				2AEECA19167BCDD1003799B4 /* LiveFunctionWidget.h */,
+				2A6861AB16A6DE2300817B2C /* LiveGofmtWidget.cpp */,
+				2A6861AC16A6DE2300817B2C /* LiveGofmtWidget.h */,
 				2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */,
 				2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
@@ -594,6 +599,7 @@
 				2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */,
 				2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */,
 				2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */,
+				2A6861AD16A6DE2300817B2C /* LiveGofmtWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

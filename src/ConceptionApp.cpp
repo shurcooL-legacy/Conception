@@ -56,6 +56,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 

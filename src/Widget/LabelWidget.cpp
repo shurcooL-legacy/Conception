@@ -19,7 +19,7 @@ LabelWidget::~LabelWidget()
 void LabelWidget::Render()
 {
 	Color BackgroundColor(1.0, 1.0, 1.0);
-	Color BorderColor(0.3, 0.3, 0.3);
+	Color BorderColor(0.6, 0.6, 0.6);
 
 	auto Content = m_Content();
 	ModifyDimensions() = Concept::GetDimensions(Content);
