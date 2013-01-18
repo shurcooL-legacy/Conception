@@ -363,14 +363,17 @@ void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget 
 	};
 }
 
-void Project::SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget)
+void Project::SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST)
 {
-	SourceWidget.m_OnChange = [&]()
+	SourceWidget.m_OnChange = [&, GenWidgetTEST]()
 	{
 		// HACK
 		g_OutputWidget = &OutputWidget;
 
 		GenerateProgramForFunction(InputWidget.GetContent(), SourceWidget.GetContent());
+		if (nullptr != GenWidgetTEST) {
+			GenWidgetTEST->SetContent(FromFileToString("./GenProgram.go"));
+		}
 
 		m_ProcessEndedTime = glfwGetTime();
 		m_BackgroundState = 0;

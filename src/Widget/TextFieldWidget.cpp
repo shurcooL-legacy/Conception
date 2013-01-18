@@ -124,7 +124,7 @@ void TextFieldWidget::Render()
 	}
 	else
 	{
-		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(212), 212, 212));
+		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(240), 240, 240));
 	}
 	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
 	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);

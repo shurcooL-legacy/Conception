@@ -15,6 +15,7 @@ private:
 
 	TextFieldWidget * m_InputWidget;
 	TextFieldWidget * m_SourceWidget;
+	TextFieldWidget * m_GenWidgetTEST;
 	TextFieldWidget * m_OutputWidget;
 };
 
