@@ -213,6 +213,7 @@ extern InputManager * g_InputManager;
 #include "Widget/FlowLayoutWidget.h"
 #include "Widget/LabelWidget.h"
 #include "Widget/ButtonWidget.h"
+#include "Widget/ToggleWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"
 #include "Widget/ConceptStringBoxWidget.h"

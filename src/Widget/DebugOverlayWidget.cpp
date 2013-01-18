@@ -53,10 +53,16 @@ DebugOverlayWidget::DebugOverlayWidget()
 		AddWidget(new LabelWidget(Vector2n(0, 180), Content));
 	}
 
+	// Visibility toggle
 	{
-		AddWidget(new ButtonWidget(Vector2n(1, 1), [&]() {
-			//m_Hide = !m_Hide;
-		} ));
+		AddWidget(new ToggleWidget(Vector2n(1, 1), [=](bool State) {
+															// Toggle visibility of all widgets but the last one (i.e. this toggle)
+															// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
+															for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 1 != Widget; ++Widget)
+															{
+																(*Widget)->m_Visible = State;
+															}
+														}, false));
 	}
 }
 

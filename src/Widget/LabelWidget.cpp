@@ -18,6 +18,9 @@ LabelWidget::~LabelWidget()
 
 void LabelWidget::Render()
 {
+	if (!m_Visible)
+		return;
+
 	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.6, 0.6, 0.6);
 

@@ -44,6 +44,8 @@ public:
 	void ProcessManipulationUpdate(const PointerState & PointerState) override;
 	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
+	bool m_Visible;
+
 protected:
 	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);
 

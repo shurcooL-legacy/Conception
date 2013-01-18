@@ -2,6 +2,7 @@
 
 Widget::Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors)
 	: GestureHandler(),
+	  m_Visible(true),
 	  m_Position(Position),
 	  m_Dimensions(Dimensions),
 	  //m_HoverPointers()

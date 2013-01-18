@@ -23,6 +23,11 @@ public:
 		return m_Components.data();
 	}
 
+	Color operator * (const double Value)
+	{
+		return Color(m_Components[0] * Value, m_Components[1] * Value, m_Components[2] * Value);
+	}
+
 	double & operator [] (const std::array<double, 3>::size_type & Index)
 	{
 		return m_Components[Index];

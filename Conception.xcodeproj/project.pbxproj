@@ -81,6 +81,7 @@
 		2AEECA1A167BCDD1003799B4 /* LiveFunctionWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AEECA18167BCDD1003799B4 /* LiveFunctionWidget.cpp */; };
 		2AF414EE161C9674002BDC1B /* Thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF414EC161C9674002BDC1B /* Thread.cpp */; };
 		2AF419661563F81C0076E6E5 /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AF419651563F81C0076E6E5 /* Vector2.cpp */; };
+		2AFF08DD16A9FA5400382D96 /* ToggleWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF08DB16A9FA5400382D96 /* ToggleWidget.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -233,6 +234,8 @@
 		2AF414ED161C9674002BDC1B /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = src/Thread.h; sourceTree = SOURCE_ROOT; };
 		2AF419641563F7E70076E6E5 /* Vector2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Vector2.hpp; path = src/Vector2.hpp; sourceTree = SOURCE_ROOT; };
 		2AF419651563F81C0076E6E5 /* Vector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Vector2.cpp; path = src/Vector2.cpp; sourceTree = SOURCE_ROOT; };
+		2AFF08DB16A9FA5400382D96 /* ToggleWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToggleWidget.cpp; sourceTree = "<group>"; };
+		2AFF08DC16A9FA5400382D96 /* ToggleWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleWidget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +355,8 @@
 				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
 				2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */,
 				2A3E2E741696A44D00ECC0D2 /* TimeWidget.h */,
+				2AFF08DB16A9FA5400382D96 /* ToggleWidget.cpp */,
+				2AFF08DC16A9FA5400382D96 /* ToggleWidget.h */,
 				2A4FFA93155465D90021D8EF /* Widget.cpp */,
 				2A4FFA94155465D90021D8EF /* Widget.h */,
 			);
@@ -600,6 +605,7 @@
 				2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */,
 				2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */,
 				2A6861AD16A6DE2300817B2C /* LiveGofmtWidget.cpp in Sources */,
+				2AFF08DD16A9FA5400382D96 /* ToggleWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
