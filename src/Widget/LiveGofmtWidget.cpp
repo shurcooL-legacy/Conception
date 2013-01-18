@@ -84,18 +84,14 @@ LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule,
 			}
 
 			// Trim last newline, if there is one
-			if (   Output.size() >= 1
-				&& Output.back() == '\n')
-			Output.pop_back();
+			{
+				if (   Output.size() >= 1
+					&& Output.back() == '\n')
+				Output.pop_back();
+			}
 
 			m_OutputWidget->SetContent(Output);
 		};
-
-#if DECISION_USE_CPP_INSTEAD_OF_GO
-		m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
-#else
-		m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
-#endif
 	}
 
 	m_SourceWidget->m_OnChange();

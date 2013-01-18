@@ -9,6 +9,7 @@ public:
 	virtual ~Widget();
 
 	void AddBehavior(const std::shared_ptr<Behavior> & Behavior);
+	void RemoveAllBehaviors();
 
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
 
@@ -33,7 +34,7 @@ public:
 	GestureRecognizer & ModifyGestureRecognizer() { return m_GestureRecognizer; }
 
 	const Vector2n GetPosition() const;
-	const Vector2n GetDimensions() const;
+	virtual const Vector2n GetDimensions() const;
 	Vector2n & ModifyPosition();
 	Vector2n & ModifyDimensions();
 	void SetPosition(Vector2n Position);

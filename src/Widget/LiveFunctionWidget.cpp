@@ -3,11 +3,18 @@
 LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_InputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
 								   std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_GenWidgetTEST = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
+								   std::shared_ptr<Widget>(m_LiveProgramWidget = new LiveProgramWidget(Vector2n::ZERO, TypingModule, Project)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
+	m_LiveProgramWidget->RemoveAllBehaviors();
+
 	// With live test execution and all
-	Project.SetFunctionOnChange(*m_InputWidget, *m_SourceWidget, *m_OutputWidget, m_GenWidgetTEST);
+	m_SourceWidget->m_OnChange = [=, &Project]()
+	{
+		Project.GenerateProgramForFunction(m_InputWidget->GetContent(), m_SourceWidget->GetContent());
+		m_LiveProgramWidget->m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
+	};
+
+	m_InputWidget->m_OnChange = m_SourceWidget->m_OnChange;
 
 	{
 		auto ImportList = new ListWidget<ConceptId>(Vector2n::ZERO, Project.GetStdIncludes(), TypingModule);

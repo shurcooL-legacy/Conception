@@ -13,6 +13,7 @@ protected:
 
 public:
 	virtual void SetupGestureRecognizer() = 0;
+	virtual void UnsetupGestureRecognizer() = 0;
 
 private:
 	Behavior(const Behavior &) = delete;

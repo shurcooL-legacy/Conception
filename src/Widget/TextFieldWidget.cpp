@@ -2,7 +2,7 @@
 
 // TODO: I've made this into a multi-line edit box, so change class name from Field (i.e. 1 line) to Box
 TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
-	: CompositeWidget(Position, Vector2n(904, (3 + 2/*f.body_lines.size()*/) * lineHeight), {}, {}),
+	: CompositeWidget(Position, {}, {}),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_SelectionPosition(0),

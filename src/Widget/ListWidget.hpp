@@ -1,12 +1,16 @@
 template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T> & List, TypingModule & TypingModule)
+#if DECISION_LIST_WIDGET_IS_COMPOSITE
 	: CompositeWidget(Position, {
-		/*std::shared_ptr<Widget>(new ButtonWidget(Vector2n(-1, -18), Vector2n(lineHeight, lineHeight), [&]() {
+		std::shared_ptr<Widget>(new ButtonWidget(Vector2n(-1, -17), Vector2n(lineHeight, lineHeight), [&]() {
 			// TEST: This is specific stuff for quick testing
 			if (!m_List.empty())
 			{
 				m_List.pop_back();
 			}
-		} ))*/ }, {}),
+		} )) }, {}),
+#else
+	: Widget(Position, Vector2n::ZERO, {}),
+#endif
 	  m_TapAction(),
 	  m_List(List),
 	  m_TypingModule(TypingModule)
@@ -83,7 +87,9 @@ template <typename T> void ListWidget<T>::Render()
 		}
 	}
 
+#if DECISION_LIST_WIDGET_IS_COMPOSITE
 	CompositeWidget::Render();
+#endif
 }
 
 template <typename T> void ListWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)

@@ -13,7 +13,7 @@ private:
 	LiveProgramWidget(const LiveProgramWidget &) = delete;
 	LiveProgramWidget & operator = (const LiveProgramWidget &) = delete;
 
-	TextFieldWidget * m_SourceWidget;
+	public:TextFieldWidget * m_SourceWidget;private:
 	TextFieldWidget * m_OutputWidget;
 };
 

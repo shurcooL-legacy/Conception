@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 DebugOverlayWidget::DebugOverlayWidget()
-	: Canvas(Vector2n(0, 0), false, false)
+	: Canvas(Vector2n::ZERO, false, false)
 {
 	{
 		auto Content = []() -> std::string
@@ -13,6 +13,7 @@ DebugOverlayWidget::DebugOverlayWidget()
 			{
 				if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
 				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
+				else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
 				else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
 				else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
 				else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
@@ -32,7 +33,7 @@ DebugOverlayWidget::DebugOverlayWidget()
 			return out.str();
 		};
 
-		AddWidget(new LabelWidget(Vector2n(0, 0), Content));
+		AddWidget(new LabelWidget(Vector2n(0, 18), Content));
 	}
 
 	{
@@ -49,7 +50,13 @@ DebugOverlayWidget::DebugOverlayWidget()
 			return out.str();
 		};
 
-		AddWidget(new LabelWidget(Vector2n(0, 140), Content));
+		AddWidget(new LabelWidget(Vector2n(0, 180), Content));
+	}
+
+	{
+		AddWidget(new ButtonWidget(Vector2n(1, 1), [&]() {
+			//m_Hide = !m_Hide;
+		} ));
 	}
 }
 

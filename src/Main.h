@@ -76,6 +76,7 @@ namespace std
 #define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 1
 #define DECISION_CONCEPTS_DISPLAYED_SMALL 1
 #define DECISION_USE_CPP_INSTEAD_OF_GO 0
+#define DECISION_LIST_WIDGET_IS_COMPOSITE 0
 
 class Concept;
 class ConceptBasic;

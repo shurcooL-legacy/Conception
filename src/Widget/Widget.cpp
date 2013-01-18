@@ -22,7 +22,19 @@ Widget::~Widget()
 void Widget::AddBehavior(const std::shared_ptr<Behavior> & Behavior)
 {
 	m_Behaviors.push_back(Behavior);
+	// TODO: ModifyGestureRecognizer().UpdateAccordingToBehaviors(m_Behaviors);
 	Behavior->SetupGestureRecognizer();
+}
+
+void Widget::RemoveAllBehaviors()
+{
+	for (auto & Behavior : m_Behaviors)
+	{
+		Behavior->UnsetupGestureRecognizer();
+	}
+
+	m_Behaviors.clear();
+	// TODO: ModifyGestureRecognizer().UpdateAccordingToBehaviors(m_Behaviors);
 }
 
 bool Widget::HasTypingFocus() const

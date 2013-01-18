@@ -146,9 +146,9 @@ void Project::GenerateProgramForFunction(const std::string & InputContent, const
 	"func MyGetString(args ...interface{}) string {""\n"
 	"	var str string""\n"
 	"	for index, arg := range args {""\n"
-	"		str = str + fmt.Sprintf(\"%#v\", arg)""\n"
+	"		str = str + fmt.Sprintf(\"%#v\", arg) //VariableToGoSyntaxFormatted(arg)""\n"
 	"		if (len(args) - 1 != index) {""\n"
-	"			str = str + fmt.Sprint(\", \")""\n"
+	"			str = str + \", \"""\n"
 	"		}""\n"
 	"	}""\n"
 	"	return str""\n"
@@ -162,7 +162,7 @@ void Project::GenerateProgramForFunction(const std::string & InputContent, const
 	"	out := MyGetString(MySort(a))""\n"
 	"	in_after := MyGetString(a)""\n"
 	"""\n"
-	"	fmt.Printf(\"%s, %s\", in_after, out)""\n"
+	"	fmt.Printf(\"%s; %s\", in_after, out)""\n"
 	"}";
 }
 
@@ -365,44 +365,6 @@ void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget 
 
 void Project::SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST)
 {
-	SourceWidget.m_OnChange = [&, GenWidgetTEST]()
-	{
-		// HACK
-		g_OutputWidget = &OutputWidget;
-
-		GenerateProgramForFunction(InputWidget.GetContent(), SourceWidget.GetContent());
-		if (nullptr != GenWidgetTEST) {
-			GenWidgetTEST->SetContent(FromFileToString("./GenProgram.go"));
-		}
-
-		m_ProcessEndedTime = glfwGetTime();
-		m_BackgroundState = 0;
-
-		// Kill child processes
-		if (0 != m_LastPid)
-		{
-			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
-			//auto Result = kill(0, SIGTERM);
-			auto Result = killpg(m_LastPid, SIGKILL);
-			//waitpid(m_LastPid, NULL, 0);
-
-			if (0 != Result) {
-				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
-				//throw 0;
-			}
-		}
-
-		std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
-		close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
-		m_PipeFd[0] = m_PipeFd[1] = -1;
-
-		//m_OutputWidget->SetContent("");
-		m_ProcessStartedTime = glfwGetTime();
-		m_ExpiredOutput = true;
-		m_BackgroundState = 1;
-	};
-
-	InputWidget.m_OnChange = SourceWidget.m_OnChange;
 }
 
 void GLFWCALL Project::BackgroundThread(void * Argument)

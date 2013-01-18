@@ -1,7 +1,7 @@
 #include "Main.h"
 
 Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
-	: CompositeWidget(Position, Vector2n::ZERO, {}, {}),
+	: CompositeWidget(Position, {}, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
 	  CameraZ(1),
@@ -94,6 +94,11 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 	{
 		return HitInside;
 	}
+}
+
+const Vector2n Canvas::GetDimensions() const
+{
+	return Widget::GetDimensions();
 }
 
 // Override CompositeWidget's behavior of including inner widgets

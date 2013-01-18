@@ -10,6 +10,7 @@ public:
 	virtual ~NonDraggablePositionBehavior();
 
 	void SetupGestureRecognizer() override;
+	void UnsetupGestureRecognizer() override;
 
 private:
 	NonDraggablePositionBehavior(const NonDraggablePositionBehavior &) = delete;

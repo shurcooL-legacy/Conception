@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule & TypingModule)
-	: Widget(Position, Vector2n(80 * charWidth, 24 * lineHeight), {}),
+	: Widget(Position, Vector2n(80 * charWidth, 24 * lineHeight), { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ }),
 	  m_Content(),
 	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)

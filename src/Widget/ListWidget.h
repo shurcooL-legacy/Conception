@@ -3,7 +3,11 @@
 #define __ListWidget_H__
 
 template <typename T> class ListWidget
+#if DECISION_LIST_WIDGET_IS_COMPOSITE
 	: public CompositeWidget
+#else
+	: public Widget
+#endif
 {
 public:
 	ListWidget(Vector2n Position, std::vector<T> & List, TypingModule & TypingModule);

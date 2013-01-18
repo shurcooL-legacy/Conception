@@ -15,8 +15,7 @@ private:
 
 	TextFieldWidget * m_InputWidget;
 	TextFieldWidget * m_SourceWidget;
-	TextFieldWidget * m_GenWidgetTEST;
-	TextFieldWidget * m_OutputWidget;
+	LiveProgramWidget * m_LiveProgramWidget;
 };
 
 #endif // __LiveFunctionWidget_H__

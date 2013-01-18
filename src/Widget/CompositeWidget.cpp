@@ -28,6 +28,14 @@ void CompositeWidget::RemoveWidget(Widget * Widget)
 {
 	// TODO: Finish
 	// HACK: This removes all widgets, not just the specified one
+
+	// For all connected pointers
+	while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
+	{
+		// Modify the pointer mapping of said pointer, and removed the widget which is being removed
+		Widget->ModifyGestureRecognizer().GetConnected().begin().operator*()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
+	}
+
 	m_Widgets.clear();
 }
 
@@ -133,6 +141,24 @@ bool CompositeWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hit
 
 	return false;
 #endif
+}
+
+const Vector2n CompositeWidget::GetDimensions() const
+{
+	auto Dimensions = Widget::GetDimensions();
+
+	// TODO: Figure out if this is what I want to do... and make it proper, etc.
+	for (auto & Widget : GetWidgets())
+	{
+		auto FarCorner = Widget->GetPosition() + Widget->GetDimensions();
+
+		if (FarCorner.X() > Dimensions.X())
+			Dimensions.X() = FarCorner.X();
+		if (FarCorner.Y() > Dimensions.Y())
+			Dimensions.Y() = FarCorner.Y();
+	}
+
+	return Dimensions;
 }
 
 void CompositeWidget::ProcessTimePassed(const double TimePassed)

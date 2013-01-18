@@ -10,6 +10,7 @@ public:
 	virtual ~DraggablePositionBehavior();
 
 	void SetupGestureRecognizer() override;
+	void UnsetupGestureRecognizer() override;
 
 	void ProcessManipulationBegin(const PointerState & PointerState) override;
 	void ProcessManipulationUpdate(const PointerState & PointerState) override;
