@@ -8,12 +8,12 @@ LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule,
 	{
 		m_SourceWidget->m_OnChange = [&]()
 		{
-			Project.GenerateProgram(m_SourceWidget->GetContent());
-
 			std::string Output = "";
 			{
-				int PipeFd[2];
+				int PipeFd[2];			// Pipe for reading from child's stdout+stderr
+				int PipeInFd[2];		// Pipe for writing to child process stdin
 				pipe(PipeFd);
+				pipe(PipeInFd);
 				fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
 				std::cout << "gofmt: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
 
@@ -31,8 +31,14 @@ LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule,
 
 						close(PipeFd[1]);    // this descriptor is no longer needed
 
-						execl("/usr/local/go/bin/gofmt", "/usr/local/go/bin/gofmt", "./GenProgram.go", (char *)0);
+						close(PipeInFd[1]);    // close writing end in the child
+						dup2(PipeInFd[0], 0);  // get stdin from the pipe
+						close(PipeInFd[0]);    // this descriptor is no longer needed
 
+						execl("/usr/local/go/bin/gofmt", "/usr/local/go/bin/gofmt", (char *)0);
+						//execl("/bin/cat", "/bin/cat", (char *)0);
+
+						// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 						//exit(1);		// Not needed, just in case I comment out the above
 					}
 					else if (-1 == Pid)
@@ -42,6 +48,11 @@ LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule,
 					}
 					else
 					{
+						// Write to child's stdin and end it
+						// TODO: Error check the write, perhaps need multiple tries to fully flush it
+						write(PipeInFd[1], m_SourceWidget->GetContent().c_str(), m_SourceWidget->GetContent().length());
+						close(PipeInFd[1]);
+
 						// Wait for child process to complete
 						{
 							int status;
@@ -81,6 +92,7 @@ LiveGofmtWidget::LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule,
 
 				close(PipeFd[0]);
 				close(PipeFd[1]);
+				close(PipeInFd[0]);
 			}
 
 			// Trim last newline, if there is one
