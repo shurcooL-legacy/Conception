@@ -136,6 +136,9 @@ void Widget::HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const
 
 bool Widget::IsHit(const Vector2n ParentPosition) const
 {
+	if (!m_Visible)
+		return false;
+
 	bool Hit = (   ParentPosition.X() >= m_Position.X()
 				&& ParentPosition.Y() >= m_Position.Y()
 				&& ParentPosition.X() <  m_Position.X() + m_Dimensions.X()
@@ -178,6 +181,9 @@ const Vector2n Widget::GetPosition() const
 
 const Vector2n Widget::GetDimensions() const
 {
+	if (!m_Visible)
+		return Vector2n::ZERO;
+
 	return m_Dimensions;
 }
 

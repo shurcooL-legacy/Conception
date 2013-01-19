@@ -5,8 +5,9 @@ ToggleWidget::ToggleWidget(Vector2n Position, Vector2n Dimensions, std::function
 	  m_State(State),
 	  m_OnChange(OnChange)
 {
-	if (nullptr != m_OnChange)
-		m_OnChange(m_State);
+	// TODO: Disabled because it causes crashing by doing stuff that isn't created yet... delay this to once everything is constructed or something?
+	/*if (nullptr != m_OnChange)
+		m_OnChange(m_State);*/
 }
 
 ToggleWidget::~ToggleWidget()

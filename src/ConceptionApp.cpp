@@ -92,6 +92,18 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
 
+		/*
+		// Label Widget that displays (in real-time) the contents of file "./GenProgram.go"
+		{
+			auto Content = []() -> std::string {
+				return FromFileToString("./GenProgram.go");
+			};
+			auto LabelWidget = new class LabelWidget(Vector2n(380, -340), Content, LabelWidget::Background::Normal);
+			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
+
+			MainCanvas->AddWidget(LabelWidget);
+		}*/
+
 #if 1
 		{
 			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, *m_TypingModule));

@@ -46,6 +46,9 @@ void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 
 void TextFieldWidget::Render()
 {
+	if (!m_Visible)
+		return;
+
 	//Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BackgroundColor = m_BackgroundColor;
 	Color BorderColor(0.3, 0.3, 0.3);

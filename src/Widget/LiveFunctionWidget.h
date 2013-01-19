@@ -3,7 +3,7 @@
 #define __LiveFunctionWidget_H__
 
 class LiveFunctionWidget
-	: public FlowLayoutWidget
+	: public CompositeWidget
 {
 public:
 	LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
@@ -15,6 +15,7 @@ private:
 
 	TextFieldWidget * m_InputWidget;
 	TextFieldWidget * m_SourceWidget;
+	ToggleWidget * m_ToggleWidget;
 	LiveProgramWidget * m_LiveProgramWidget;
 };
 

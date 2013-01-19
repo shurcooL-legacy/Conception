@@ -12,6 +12,7 @@ FlowLayoutWidget::~FlowLayoutWidget()
 void FlowLayoutWidget::Render()
 {
 	// HACK: This doesn't belong in Render, etc.
+	// TODO: Support for invisible widgets (i.e. they shouldn't add 2 points of space)
 	for (auto WidgetToLayout = 0; WidgetToLayout < GetWidgets().size(); ++WidgetToLayout)
 	{
 		if (0 == WidgetToLayout)
