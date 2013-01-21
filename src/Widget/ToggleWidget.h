@@ -13,6 +13,9 @@ public:
 
 	void Render() override;
 
+	// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
+	void UpdateHACK();
+
 private:
 	bool m_State;
 
