@@ -11,6 +11,8 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	//void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;		// TEST: Trying giving ShellWidget the focus of TypingPointer
+
 private:
 	ShellWidget(const ShellWidget &) = delete;
 	ShellWidget & operator = (const ShellWidget &) = delete;

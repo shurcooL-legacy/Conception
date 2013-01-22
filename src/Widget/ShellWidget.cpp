@@ -36,7 +36,9 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 						dup2(PipeInFd[0], 0);  // get stdin from the pipe
 						close(PipeInFd[0]);    // this descriptor is no longer needed
 
-						execl("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0);
+						const char term[] = "TERM=xterm";
+						const char * envp[] = { term, nullptr };
+						execle("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0, envp);
 
 						// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 						//exit(1);		// Not needed, just in case I comment out the above
@@ -94,6 +96,18 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 				close(PipeInFd[0]);
 			}
 
+			// Find clear code, make it do its job
+			{
+				const char ClearCode[] = { 0x1B, 0x5B, 0x48, 0x1B, 0x5B, 0x32, 0x4A };
+
+				auto n = Output.rfind(ClearCode, std::string::npos, sizeof(ClearCode));
+
+				if (std::string::npos != n)
+				{
+					Output = Output.substr(n + sizeof(ClearCode));
+				}
+			}
+
 			// Trim last newline, if there is one
 			{
 				if (   Output.size() >= 1
@@ -104,21 +118,28 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 			m_OutputWidget->SetContent(Output);
 		});
 	}
+
+	//ModifyGestureRecognizer().m_RecognizeTap = true;		// TEST: Trying giving ShellWidget the focus of TypingPointer
 }
 
 ShellWidget::~ShellWidget()
 {
 }
 
+// TEST: Trying giving ShellWidget the focus of TypingPointer
+/*void ShellWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
+{
+	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+}*/
+
 void ShellWidget::ProcessEvent(InputEvent & InputEvent)
 {
 	// TEST
+	// DEBUG: This doesn't work because ShellWidget never has TypingPointer's capture
 	if (false == InputEvent.m_Handled)
 	{
 		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 		{
-			printf("Shell : InputEvent, v cat %d\n", InputEvent.m_Pointer->GetVirtualCategory());
-
 			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
 			{
 				auto ButtonId = InputEvent.m_InputId;

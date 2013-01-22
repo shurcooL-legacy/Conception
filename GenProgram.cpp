@@ -1,36 +1,28 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 int main(int argc, const char * argv[])
 {
-	//cout << (unsigned char)(65) << endl;
-
-	cout << "Test.\n\n";
-
-	int fd[2];
-
+	std::string Output = "hi\nhey\nbye";
+	
+	// Find clear code, cater to it
 	{
-		pipe(fd);
+		//const char ClearCode[] = { 0x1B, 0x5B, 0x48, 0x1B, 0x5B, 0x32, 0x4A };
+		const char ClearCode[] = { 'h', 'e', 'y' };
 
-		cout << fd[0] << " and " << fd[1] << "\n";//xxxxxxxxxxxxxxxxyzxxxxxxxxxxx
+	printf(">size of %d<\n", sizeof(ClearCode));
+		auto n = Output.rfind(ClearCode, std::string::npos, sizeof(ClearCode));
+	printf(">%d<\n", n);
+
+		if (std::string::npos != n)
+		{
+			Output = Output.substr(n);
+		}
 	}
-
-	close(fd[0]);
-	close(fd[1]);
-
-	//sleep(10);
-
-	//cout << endl;
-
-	{
-		pipe(fd);
-
-		cout << fd[0] << " and " << fd[1] << "\n";
-	}
-
-	close(fd[0]);
-	close(fd[1]);
+	
+	cout << Output;
 
 	return 0;
 }
