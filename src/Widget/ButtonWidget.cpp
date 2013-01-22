@@ -68,3 +68,13 @@ void ButtonWidget::ProcessEvent(InputEvent & InputEvent)
 		InputEvent.m_Handled = true;
 	}
 }
+
+void ButtonWidget::SetAction(const std::function<void()> & Action)
+{
+	m_Action = Action;
+}
+
+void ButtonWidget::Action()
+{
+	m_Action();
+}

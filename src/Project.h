@@ -11,7 +11,7 @@ public:
 	void LoadSampleGenProgram(Canvas & CanvasTEST);
 
 	void GenerateProgram(const std::string & ProgramContent);
-	void GenerateProgramForFunction(const std::string & InputContent, const std::string & FunctionContent);
+	void GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent);
 	void RunProgram(TextFieldWidget * OutputWidget);
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }

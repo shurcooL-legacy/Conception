@@ -16,6 +16,9 @@ public:
 	//void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	void SetAction(const std::function<void()> & Action);
+	void Action();
+
 private:
 	std::function<void()>		m_Action;
 };

@@ -129,10 +129,8 @@ void Project::GenerateProgram(const std::string & ProgramContent = "")
 	Out << ProgramContent;
 }
 
-void Project::GenerateProgramForFunction(const std::string & InputContent, const std::string & FunctionContent)
+void Project::GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent)
 {
-	std::ofstream Out("./GenProgram.go");
-
 	Out <<
 	"package main""\n"
 	"""\n"

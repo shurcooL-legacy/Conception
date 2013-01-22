@@ -14,8 +14,9 @@ LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingM
 	// With live test execution and all
 	m_SourceWidget->m_OnChange = [=, &Project]()
 	{
-		Project.GenerateProgramForFunction(m_InputWidget->GetContent(), m_SourceWidget->GetContent());
-		m_LiveProgramWidget->m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
+		std::ostringstream GenProgram;
+		Project.GenerateProgramForFunction(GenProgram, m_InputWidget->GetContent(), m_SourceWidget->GetContent());
+		m_LiveProgramWidget->m_SourceWidget->SetContent(GenProgram.str());
 	};
 
 	m_InputWidget->m_OnChange = m_SourceWidget->m_OnChange;

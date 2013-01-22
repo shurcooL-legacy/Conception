@@ -487,7 +487,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	// DEBUG: Is this the right way to go about it? Or a temporary hack? Figure it out.
 	if (   nullptr != InputEvent.m_Pointer
 		&& GetConnected().end() == GetConnected().find(InputEvent.m_Pointer)
-		&& nullptr == dynamic_cast<TypingModule *>(&m_Owner))		// HACK!!
+		&& nullptr == dynamic_cast<TypingModule *>(&m_Owner))		// HACK!! (To enable TypingModule to work, i.e. get input while not being pointed to)
 	{
 		m_InManipulation = false;		// HACK: Not sure if this is the best way of doing it
 

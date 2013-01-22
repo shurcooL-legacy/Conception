@@ -14,6 +14,7 @@
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
+		2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3A49E816AE43D60023010C /* ShellWidget.cpp */; };
 		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
 		2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */; };
 		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
@@ -111,6 +112,8 @@
 		2A21998F15C8895400867486 /* LifeFormWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeFormWidget.h; sourceTree = "<group>"; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
+		2A3A49E816AE43D60023010C /* ShellWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShellWidget.cpp; sourceTree = "<group>"; };
+		2A3A49E916AE43D60023010C /* ShellWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellWidget.h; sourceTree = "<group>"; };
 		2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TimeWidget.cpp; sourceTree = "<group>"; };
 		2A3E2E741696A44D00ECC0D2 /* TimeWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeWidget.h; sourceTree = "<group>"; };
 		2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugOverlayWidget.cpp; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
+				2A3A49E816AE43D60023010C /* ShellWidget.cpp */,
+				2A3A49E916AE43D60023010C /* ShellWidget.h */,
 				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
 				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
 				2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */,
@@ -606,6 +611,7 @@
 				2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */,
 				2A6861AD16A6DE2300817B2C /* LiveGofmtWidget.cpp in Sources */,
 				2AFF08DD16A9FA5400382D96 /* ToggleWidget.cpp in Sources */,
+				2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
