@@ -36,11 +36,6 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 						dup2(PipeInFd[0], 0);  // get stdin from the pipe
 						close(PipeInFd[0]);    // this descriptor is no longer needed
 
-						{auto R = chdir("/Users/Dmitri/Desktop/chroot_play");
-						printf("ChDIR result = %d, errno %d\n", R, errno);}
-						{auto R = chroot("/Users/Dmitri/Desktop/chroot_play");
-						printf("Chroot result = %d, errno %d\n", R, errno);}
-						
 						const char term[] = "TERM=xterm";
 						const char * envp[] = { term, nullptr };
 						execle("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0, envp);
