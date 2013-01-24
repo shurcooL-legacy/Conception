@@ -5,9 +5,9 @@ std::vector<Concept *> Concepts;
 void Concept::Draw(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
-	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250) * 1.075, Color(static_cast<uint8>(195), 212, 242));
 #else
-	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+	DrawInnerRoundedBox(Position, GetDimensions(), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250) * 1.075, Color(static_cast<uint8>(195), 212, 242));
 #endif
 }
 

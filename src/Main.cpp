@@ -129,8 +129,8 @@ int main(int argc, char * argv[])
 		g_InputManager = &InputManager;
 
 		//ConceptionApp MainApp(InputManager);
-		LiveEditorApp MainApp(InputManager);
-		//ConceptionTestApp MainApp(InputManager);
+		//LiveEditorApp MainApp(InputManager);
+		ConceptionTestApp MainApp(InputManager);
 		//MultitouchTestApp MainApp(InputManager);
 		//SentienceApp MainApp(InputManager);
 

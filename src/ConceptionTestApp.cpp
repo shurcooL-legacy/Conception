@@ -104,8 +104,8 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	{
 		auto MainCanvas = new Canvas(Vector2n(50, 50), true, true);
 
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), []() {} ));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() {} ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), []() { printf("Button 3\n"); } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() { printf("Button 4\n"); } ));
 		//MainCanvas->AddWidget(new ListWidget<ConceptId>(Vector2n(-200, -292), m_CurrentProject.GetStdIncludes()));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, -100), m_TypingModule));
 
@@ -121,14 +121,16 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	{
 		auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
 
-		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() {} ));
-		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(50, 10), []() {} ));
+		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() { printf("Button 1\n"); } ));
+		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(50, 10), []() { printf("Button 2\n"); } ));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 50)));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 100)));
 		//OverlayCanvas->AddWidget(new TextFieldWidget(Vector2n(10, 150)));
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(OverlayCanvas));
 	}
+
+	m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget()));		// DEBUG: Print debug info
 
 	{
 		PopulateConcepts();
@@ -149,4 +151,5 @@ void ConceptionTestApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions + Vector2n(-200, -200));
 	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(Vector2n(300, 500));
 	static_cast<Canvas *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
+	static_cast<Canvas *>(m_Widgets[3].get())->SetDimensions(WindowDimensions);
 }
