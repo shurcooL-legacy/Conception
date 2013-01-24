@@ -281,8 +281,6 @@ std::string ConceptCompound::GetContent() const
 
 ConceptParameters ConceptParameterized::EmptyParameters;
 
-#define DECISION_TEST_INLINE_PARAMED_CONCEPTS 0
-
 void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
@@ -291,10 +289,6 @@ void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vec
 	DrawInnerRoundedBox(Position, GetDimensions(ConceptParameters), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
 #endif
 
-#if DECISION_TEST_INLINE_PARAMED_CONCEPTS
-	OpenGLStream OpenGLStream(Position);
-	OpenGLStream << GetContent(ConceptParameters);
-#else
 	//OpenGLStream OpenGLStream(Position);
 	//OpenGLStream << m_Content(ConceptParameters);
 	// TEST, DUPLICATION
@@ -311,14 +305,10 @@ void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vec
 		CaretPosition.X() += InnerDimensions.X();
 		CaretPosition.Y() += InnerDimensions.Y() - lineHeight;
 	}
-#endif
 }
 
 Vector2n ConceptParameterized::GetDimensions(const ConceptParameters & ConceptParameters) const
 {
-#if DECISION_TEST_INLINE_PARAMED_CONCEPTS
-	return Concept::GetDimensions(GetContent(ConceptParameters));
-#else
 	auto Content = m_Content(ConceptParameters);
 	Vector2n CaretPosition;
 
@@ -331,7 +321,6 @@ Vector2n ConceptParameterized::GetDimensions(const ConceptParameters & ConceptPa
 	}
 
 	return Vector2n(CaretPosition.X(), CaretPosition.Y() + lineHeight);
-#endif
 }
 
 std::string ConceptParameterized::GetContent(const ConceptParameters & ConceptParameters) const
@@ -346,6 +335,43 @@ std::string ConceptParameterized::GetContent(const ConceptParameters & ConceptPa
 	}
 
 	return ContentString;
+}
+
+ConceptParameters ConceptParameterized2::EmptyParameters;
+
+void ConceptParameterized2::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
+{
+#if DECISION_CONCEPTS_DISPLAYED_SMALL
+	DrawInnerBox(Position, GetDimensions(ConceptParameters), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#else
+	DrawInnerRoundedBox(Position, GetDimensions(ConceptParameters), lineHeight / 2, Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
+#endif
+
+	OpenGLStream OpenGLStream(Position);
+	m_Content(OpenGLStream, ConceptParameters);
+}
+
+Vector2n ConceptParameterized2::GetDimensions(const ConceptParameters & ConceptParameters) const
+{
+	// HACK
+	//return Concept::GetDimensions(GetContent(ConceptParameters));
+	return Vector2n(620, 300);
+}
+
+std::string ConceptParameterized2::GetContent(const ConceptParameters & ConceptParameters) const
+{
+	/*auto Content = m_Content(ConceptParameters);
+	std::string ContentString;
+
+	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
+	{
+		// TODO: Use ConceptInstance?
+		ContentString += GetConcept(Content[i]).GetContent(ConceptParameters);
+	}
+
+	return ContentString;*/
+	// TODO
+	return "";
 }
 
 /*ConceptInstance::ConceptInstance(ConceptId ConceptId)

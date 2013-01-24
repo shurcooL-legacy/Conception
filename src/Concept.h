@@ -285,6 +285,30 @@ private:
 	std::function<ConceptString(const ConceptParameters &)>		m_Content;
 };
 
+class ConceptParameterized2
+	: public Concept
+{
+public:
+	ConceptParameterized2(std::string HumanDescription, const std::function<void(OpenGLStream &, const ConceptParameters &)> & Content)
+		: Concept(HumanDescription),
+		  m_Content(Content)
+	{
+	}
+
+	void Draw(Vector2n Position) const override { Draw(EmptyParameters, Position); }
+	Vector2n GetDimensions() const override { return GetDimensions(EmptyParameters); }
+	std::string GetContent() const override { return GetContent(EmptyParameters); }
+
+	void Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
+	Vector2n GetDimensions(const ConceptParameters & ConceptParameters) const override;
+	std::string GetContent(const ConceptParameters & ConceptParameters) const override;
+
+	static ConceptParameters EmptyParameters;
+
+private:
+	std::function<void(OpenGLStream &, const ConceptParameters &)>		m_Content;
+};
+
 //typedef std::pair<ConceptId, std::vector<ConceptId>> ConceptInstance;
 class ConceptInstance
 	: public Concept
