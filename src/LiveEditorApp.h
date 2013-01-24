@@ -29,6 +29,7 @@ private:
 
 	TextFieldWidget * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
+	ToggleWidget * m_LiveToggle;
 };
 
 #endif // __LiveEditorApp_H__

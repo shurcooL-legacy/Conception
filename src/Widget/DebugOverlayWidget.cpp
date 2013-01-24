@@ -64,8 +64,8 @@ DebugOverlayWidget::DebugOverlayWidget()
 																(*Widget)->m_Visible = State;
 															}
 														}, false));
+		static_cast<ToggleWidget *>(GetWidgets()[GetWidgets().size() - 1].get())->UpdateHACK();
 	}
-	static_cast<ToggleWidget *>(GetWidgets()[GetWidgets().size() - 1].get())->UpdateHACK();
 }
 
 DebugOverlayWidget::~DebugOverlayWidget()

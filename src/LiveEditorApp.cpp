@@ -5,19 +5,33 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	  m_CurrentProject(),
 	  m_TypingModule(),
 	  m_SourceWidget(nullptr),
-	  m_OutputWidget(nullptr)
+	  m_OutputWidget(nullptr),
+	  m_LiveToggle(nullptr)
 {
 	PopulateConcepts();
 
 	{
-		auto LeftCanvas = new Canvas(Vector2n(0, 0), false, true, Canvas::BehaviourScrolling::VerticalOnly);
-		auto RightCanvas = new Canvas(Vector2n(0, 0), false, true, Canvas::BehaviourScrolling::VerticalOnly);
+		// Add Toolbar
+		{
+			auto Toolbar = new Canvas(Vector2n(0, 0), false, false);
+
+			// Auto compile toggle
+			{
+				Toolbar->AddWidget(new FlowLayoutWidget(Vector2n(1, 1), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [](bool State){}, true)), std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Live Compilation & Execution"))) }, {} ));
+				//static_cast<ToggleWidget *>(Toolbar->GetWidgets()[0].get())->UpdateHACK();
+			}
+
+			m_Widgets.push_back(std::unique_ptr<Widget>(Toolbar));
+		}
+
+		auto LeftCanvas = new Canvas(Vector2n(0, 16+2), false, true, Canvas::BehaviourScrolling::VerticalOnly);
+		auto RightCanvas = new Canvas(Vector2n(0, 16+2), false, true, Canvas::BehaviourScrolling::VerticalOnly);
 
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 
 		{
-			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas);
+			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);
 
 			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
@@ -154,8 +168,10 @@ LiveEditorApp::~LiveEditorApp()
 void LiveEditorApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 {
 	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(Vector2n(m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1, WindowDimensions.Y()));
-	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(WindowDimensions);
+	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(Vector2n(WindowDimensions.X(), 16+2));		// Toolbar
+
+	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(Vector2n(m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1, WindowDimensions.Y()));
+	static_cast<Canvas *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
 
 	//m_OutputWidget->SetPosition(Vector2n(WindowDimensions.X() / 2, 0));
 }

@@ -107,6 +107,7 @@ class TextFieldWidget;
 class ConceptStringBoxWidget;
 class FunctionWidget;
 class LifeFormWidget;
+class ToggleWidget;
 class OpenGLStream;
 class Canvas;
 class App;

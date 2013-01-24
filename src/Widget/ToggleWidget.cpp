@@ -54,6 +54,11 @@ void ToggleWidget::Render()
 	DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), CheckHover() ? BorderColor : Color(static_cast<uint8>(240), 240, 240), BorderColor * 0.7);
 }
 
+bool ToggleWidget::GetState() const
+{
+	return m_State;
+}
+
 void ToggleWidget::UpdateHACK()
 {
 	m_OnChange(m_State);

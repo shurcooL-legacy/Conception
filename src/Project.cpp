@@ -303,9 +303,9 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
-void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas)
+void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas, ToggleWidget * LiveToggle)
 {
-	SourceWidget.m_OnChange = [&, LeftCanvas, RightCanvas]()
+	SourceWidget.m_OnChange = [&, LeftCanvas, RightCanvas, LiveToggle]()
 	{
 		// HACK
 		g_OutputWidget = &OutputWidget;
@@ -321,6 +321,12 @@ void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget 
 		{
 			LeftCanvas->ModifyDimensions().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
 			RightCanvas->ModifyPosition().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
+		}
+
+		if (nullptr != LiveToggle && !LiveToggle->GetState())
+		{
+			OutputWidget.SetBackground(Color(0.65, 0.75, 0.85));
+			return;
 		}
 
 		GenerateProgram(SourceWidget.GetContent());

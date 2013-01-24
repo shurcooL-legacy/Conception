@@ -311,7 +311,7 @@ void Canvas::RenderBackground()
 	// HACK: Black background
 	if (m_BlackBackgroundTEST/*dynamic_cast<MultitouchTestApp *>(pMainApp)*/ && m_HasBackground)
 	{
-		DrawAroundBox(GetPosition(), GetDimensions(), Color(0.0, 0.0, 0.0), Color(1.0, 1.0, 1.0));
+		DrawBox(GetPosition(), GetDimensions(), Color(0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0));
 
 		return;
 	}
