@@ -101,6 +101,13 @@ public:
 		return Out;
 	}*/
 
+	/*friend std::ostream & operator << (std::ostream & Out, const Concept & Concept)
+	{
+		Out << Concept.GetContent();
+
+		return Out;
+	}*/
+
 	static const Vector2n GetDimensions(const std::string & Content);
 	static const Vector2n GetDimensions(const ConceptId ConceptId);
 	static const Vector2n GetDimensions(const Concept * const Concept);

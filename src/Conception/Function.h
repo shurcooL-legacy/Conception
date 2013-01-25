@@ -17,11 +17,11 @@ public:
 
 	template <typename StreamT> friend StreamT & operator << (StreamT & out, const Function & f)
 	{
-		out << f.return_type << " " << f.name << "(" << f.args << ")" << endl;
+		out << f.return_type << std::string(" ") << f.name << std::string("(") << f.args << std::string(")") << endl;
 
-		out << "{" << endl;
+		out << std::string("{") << endl;
 
-		out << "\t";
+		out << std::string("\t");
 
 		//for (auto it = f.body_lines.begin(); it != f.body_lines.end(); ++it)
 		/*for (vector<unsigned int>::size_type i = 0; i < f.body_lines.size(); ++i)
@@ -40,7 +40,7 @@ public:
 		}*/
 		out << f.body_lines;
 
-		out << "}" << endl;
+		out << std::string("}") << endl;
 
 		return out;
 	}
