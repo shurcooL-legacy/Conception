@@ -28,24 +28,6 @@ std::string Concept::GetContent() const
 const Vector2n Concept::GetDimensions(const std::string & Content)
 {
 	std::string::size_type MaxLineLengthX = 0;
-#if 0
-	uint32 Height = 0;
-	std::string::size_type Start = 0, End;
-	do
-	{
-		End = Content.find_first_of('\n', Start);
-
-		// TODO: Count tabs properly?
-		auto Length = ((std::string::npos != End) ? End : Content.length()) - Start;
-		if (MaxLineLengthX < Length)
-			MaxLineLengthX = Length;
-
-		++Height;
-
-		Start = End + 1;
-	}
-	while (std::string::npos != End);
-#else
 	uint32 Height = 1;
 	std::string::size_type Start = 0, End;
 	do
@@ -82,7 +64,6 @@ const Vector2n Concept::GetDimensions(const std::string & Content)
 		Start = End + 1;
 	}
 	while (std::string::npos != End);
-#endif
 
 	return Vector2n(static_cast<sint32>(MaxLineLengthX) * charWidth, Height * lineHeight);
 }
