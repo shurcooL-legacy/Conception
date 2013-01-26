@@ -226,6 +226,7 @@ extern InputManager * g_InputManager;
 #include "Widget/LiveFunctionWidget.h"
 #include "Widget/LiveGofmtWidget.h"
 #include "Widget/ShellWidget.h"
+#include "Widget/SayWidget.h"
 #include "Widget/TimeWidget.h"
 #include "Canvas.h"
 #include "Widget/DebugOverlayWidget.h"
