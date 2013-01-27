@@ -296,7 +296,7 @@ class ConceptParameterized2
 	: public Concept
 {
 public:
-	ConceptParameterized2(std::string HumanDescription, const std::function<void(OpenGLStream &, const ConceptParameters &)> & Content)
+	ConceptParameterized2(std::string HumanDescription, const std::function<void(ConceptStream &, const ConceptParameters &)> & Content)
 		: Concept(HumanDescription),
 		  m_Content(Content)
 	{
@@ -313,7 +313,7 @@ public:
 	static ConceptParameters EmptyParameters;
 
 private:
-	std::function<void(OpenGLStream &, const ConceptParameters &)>		m_Content;
+	std::function<void(ConceptStream &, const ConceptParameters &)>		m_Content;
 };
 
 //typedef std::pair<ConceptId, std::vector<ConceptId>> ConceptInstance;

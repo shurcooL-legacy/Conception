@@ -74,7 +74,7 @@ namespace std
 // Decisions
 #define DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET 0
 #define DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule 1
-#define DECISION_CONCEPTS_DISPLAYED_SMALL 0
+#define DECISION_CONCEPTS_DISPLAYED_SMALL 1
 #define DECISION_USE_CPP_INSTEAD_OF_GO 0
 #define DECISION_LIST_WIDGET_IS_COMPOSITE 0
 
@@ -108,7 +108,10 @@ class ConceptStringBoxWidget;
 class FunctionWidget;
 class LifeFormWidget;
 class ToggleWidget;
+class ConceptStream;
 class OpenGLStream;
+class DimensionsStream;
+class StreamStream;
 class Canvas;
 class App;
 class ConceptionApp;
@@ -186,7 +189,10 @@ extern InputManager * g_InputManager;
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
 #include "RenderTools.h"
+#include "ConceptStream.h"
 #include "OpenGLStream.h"
+#include "DimensionsStream.h"
+#include "StreamStream.h"
 #include "Concept.h"
 #include "Conception/Function.h"
 #include "Thread.h"

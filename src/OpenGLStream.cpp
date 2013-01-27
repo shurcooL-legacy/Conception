@@ -1,7 +1,8 @@
 #include "Main.h"
 
 OpenGLStream::OpenGLStream(Vector2n CaretPosition)
-	: m_CaretPosition(CaretPosition),
+	: ConceptStream(),
+	  m_CaretPosition(CaretPosition),
 	  m_LineStartX(CaretPosition.X()),
 	  m_BackgroundColor(1.0, 1.0, 1.0)
 {

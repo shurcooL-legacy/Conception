@@ -6,7 +6,7 @@ SayWidget::SayWidget(Vector2n Position, TypingModule & TypingModule)
 								   std::shared_ptr<Widget>(m_ExecuteWidget = new ButtonWidget(Vector2n::ZERO, Vector2n(16, 16), [&](){} )) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 	// TEST
-	m_InputWidget->SetContent("Let me look into that for you.");
+	m_InputWidget->SetContent("Shall we play a game?");
 
 	{
 		m_ExecuteWidget->SetAction([&]()

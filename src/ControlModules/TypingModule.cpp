@@ -21,9 +21,11 @@ void TypingModule::Render(const InputManager & InputManager)
 	if (m_Typed.length() > 0)
 	{
 		Vector2n PointerPosition(InputManager.m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), InputManager.m_MousePointer->GetPointerState().GetAxisState(1).GetPosition());
+		DimensionsStream Stream;
+		Stream << m_Typed;
+		Vector2n Dimensions = Stream.GetDimensions();
 		auto Position = GetInsertionPosition(PointerPosition);
-		Position.Y() += -lineHeight / 2;
-		Vector2n Dimensions(static_cast<sint32>(m_Typed.length()) * charWidth, 1 * lineHeight);
+		Position.Y() -= lineHeight / 2;
 
 		DrawInnerBox(Position, Dimensions, Color(static_cast<uint8>(234), 233, 190));
 
@@ -36,8 +38,13 @@ void TypingModule::Render(const InputManager & InputManager)
 
 Vector2n TypingModule::GetInsertionPosition(Vector2n PointerPosition) const
 {
+	DimensionsStream Stream;
+	Stream << m_Typed;
+	Vector2n Dimensions = Stream.GetDimensions();
+
 	//Vector2n InsertionOffset(-m_Typed.length() * charWidth / 2 + charWidth, lineHeight * 3 / 2);
-	Vector2n InsertionOffset(-m_Typed.length() * charWidth / 2, 0);
+	//Vector2n InsertionOffset(-m_Typed.length() * charWidth / 2, 0);
+	Vector2n InsertionOffset(Dimensions.X() / -2, Dimensions.Y() / -2 + lineHeight / 2);
 	//Vector2n InsertionOffset(0, 0);
 
 	return PointerPosition + InsertionOffset;
@@ -74,6 +81,15 @@ void TypingModule::ProcessEvent(InputEvent & InputEvent)
 					}
 					break;
 				case GLFW_KEY_DEL:
+					{
+						// Erase the entire string
+						m_Typed.clear();
+
+						InputEvent.m_Handled = true;
+					}
+					break;
+				case GLFW_KEY_ESC:
+					if (!m_Typed.empty())
 					{
 						// Erase the entire string
 						m_Typed.clear();

@@ -13,6 +13,9 @@
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
 		2A21999015C8895400867486 /* LifeFormWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998E15C8895400867486 /* LifeFormWidget.cpp */; };
+		2A234D6616B464300072E797 /* ConceptStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6416B464300072E797 /* ConceptStream.cpp */; };
+		2A234D6A16B4974C0072E797 /* DimensionsStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6816B4974C0072E797 /* DimensionsStream.cpp */; };
+		2A234D6D16B4BA920072E797 /* StreamStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6B16B4BA920072E797 /* StreamStream.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
 		2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3A49E816AE43D60023010C /* ShellWidget.cpp */; };
 		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
@@ -111,6 +114,12 @@
 		2A21998B15C8857100867486 /* SentienceApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SentienceApp.h; path = src/SentienceApp.h; sourceTree = SOURCE_ROOT; };
 		2A21998E15C8895400867486 /* LifeFormWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LifeFormWidget.cpp; sourceTree = "<group>"; };
 		2A21998F15C8895400867486 /* LifeFormWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeFormWidget.h; sourceTree = "<group>"; };
+		2A234D6416B464300072E797 /* ConceptStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConceptStream.cpp; path = src/ConceptStream.cpp; sourceTree = SOURCE_ROOT; };
+		2A234D6516B464300072E797 /* ConceptStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConceptStream.h; path = src/ConceptStream.h; sourceTree = SOURCE_ROOT; };
+		2A234D6816B4974C0072E797 /* DimensionsStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DimensionsStream.cpp; path = src/DimensionsStream.cpp; sourceTree = SOURCE_ROOT; };
+		2A234D6916B4974C0072E797 /* DimensionsStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DimensionsStream.h; path = src/DimensionsStream.h; sourceTree = SOURCE_ROOT; };
+		2A234D6B16B4BA920072E797 /* StreamStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamStream.cpp; path = src/StreamStream.cpp; sourceTree = SOURCE_ROOT; };
+		2A234D6C16B4BA920072E797 /* StreamStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StreamStream.h; path = src/StreamStream.h; sourceTree = SOURCE_ROOT; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
 		2A3A49E816AE43D60023010C /* ShellWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShellWidget.cpp; sourceTree = "<group>"; };
@@ -396,9 +405,9 @@
 		2A807416153F058500649628 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				2A0D47C81635B0BB00C7DD67 /* Behavior */,
 				2A4FFA86155465D90021D8EF /* App.cpp */,
 				2A4FFA87155465D90021D8EF /* App.h */,
+				2A0D47C81635B0BB00C7DD67 /* Behavior */,
 				2A4FFA54155465D90021D8EF /* Canvas.cpp */,
 				2A4FFA55155465D90021D8EF /* Canvas.h */,
 				2A4FFA56155465D90021D8EF /* Concept.cpp */,
@@ -409,7 +418,11 @@
 				2AC7B399156F53E80044F213 /* ConceptionTestApp.cpp */,
 				2AC7B39A156F53E80044F213 /* ConceptionTestApp.h */,
 				2A4FFA5A155465D90021D8EF /* Concepts.h */,
+				2A234D6416B464300072E797 /* ConceptStream.cpp */,
+				2A234D6516B464300072E797 /* ConceptStream.h */,
 				2A4FFA5B155465D90021D8EF /* ControlModules */,
+				2A234D6816B4974C0072E797 /* DimensionsStream.cpp */,
+				2A234D6916B4974C0072E797 /* DimensionsStream.h */,
 				2A4FFA64155465D90021D8EF /* Input */,
 				2A2084D5162480D900AE524C /* LiveEditorApp.cpp */,
 				2A2084D6162480D900AE524C /* LiveEditorApp.h */,
@@ -429,6 +442,8 @@
 				2A4FFA85155465D90021D8EF /* RenderTools.h */,
 				2A21998A15C8857100867486 /* SentienceApp.cpp */,
 				2A21998B15C8857100867486 /* SentienceApp.h */,
+				2A234D6B16B4BA920072E797 /* StreamStream.cpp */,
+				2A234D6C16B4BA920072E797 /* StreamStream.h */,
 				2AF414EC161C9674002BDC1B /* Thread.cpp */,
 				2AF414ED161C9674002BDC1B /* Thread.h */,
 				2AD87E9B15A7600F007719FA /* Utilities.cpp */,
@@ -618,6 +633,9 @@
 				2AFF08DD16A9FA5400382D96 /* ToggleWidget.cpp in Sources */,
 				2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */,
 				2AD7123316B45B2E0000A55D /* SayWidget.cpp in Sources */,
+				2A234D6616B464300072E797 /* ConceptStream.cpp in Sources */,
+				2A234D6A16B4974C0072E797 /* DimensionsStream.cpp in Sources */,
+				2A234D6D16B4BA920072E797 /* StreamStream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

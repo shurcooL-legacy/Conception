@@ -334,25 +334,23 @@ void ConceptParameterized2::Draw(const ConceptParameters & ConceptParameters, Ve
 
 Vector2n ConceptParameterized2::GetDimensions(const ConceptParameters & ConceptParameters) const
 {
+#if 0
 	// HACK
 	//return Concept::GetDimensions(GetContent(ConceptParameters));
 	return Vector2n(620, 300);
+#else
+	DimensionsStream Stream;
+	m_Content(Stream, ConceptParameters);
+	return Stream.GetDimensions();
+#endif
 }
 
 std::string ConceptParameterized2::GetContent(const ConceptParameters & ConceptParameters) const
 {
-	/*auto Content = m_Content(ConceptParameters);
-	std::string ContentString;
-
-	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
-	{
-		// TODO: Use ConceptInstance?
-		ContentString += GetConcept(Content[i]).GetContent(ConceptParameters);
-	}
-
-	return ContentString;*/
-	// TODO
-	return "";
+	std::ostringstream oss;
+	StreamStream Stream(oss);
+	m_Content(Stream, ConceptParameters);
+	return oss.str();
 }
 
 /*ConceptInstance::ConceptInstance(ConceptId ConceptId)
