@@ -10,8 +10,6 @@ TODO so that Conception can be implemented within Conception:
 
 #include "Main.h"
 
-TextFieldWidget * g_DebugPointer = nullptr;
-
 #ifdef WIN32
 namespace std
 {
