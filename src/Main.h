@@ -185,6 +185,8 @@ typedef Rectangle<double> Rectangled;
 
 extern InputManager * g_InputManager;
 
+extern TextFieldWidget * g_DebugPointer;
+
 #include "Utilities.h"
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
