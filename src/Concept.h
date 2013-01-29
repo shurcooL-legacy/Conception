@@ -246,6 +246,8 @@ public:
 	Vector2n GetDimensions() const override;
 	std::string GetContent() const override;
 
+	void SetContentTEST(std::string Content) { m_Content = Content; }
+
 private:
 	std::string		m_Content;
 };

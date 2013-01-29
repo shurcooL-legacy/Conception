@@ -64,6 +64,17 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 
+		// TEST: Modify some Concept
+		{
+			auto Widget = new TextFieldWidget(Vector2n(-320, 470), *m_TypingModule);
+			Widget->SetContent(GetConcept(47).GetContent());
+			Widget->m_OnChange = [=]() {
+				static_cast<ConceptBasic &>(ModifyConcept(47)).SetContentTEST(Widget->GetContent());
+			};
+			Widget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*Widget)));
+			MainCanvas->AddWidget(Widget);
+		}
+
 		// Label resizing test
 		{
 			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
