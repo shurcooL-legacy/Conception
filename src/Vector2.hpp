@@ -109,6 +109,15 @@ template <typename T> Vector2<T> Vector2<T>::operator / (const T Value) const
 	);
 }
 
+template <typename T> Vector2<T> Vector2<T>::Transpose() const
+{
+	return Vector2<T>
+	(
+		m_Tuple[1],
+		m_Tuple[0]
+	);
+}
+
 template <typename T> T Vector2<T>::LengthSquared() const
 {
 	return (X() * X() + Y() * Y());

@@ -21,7 +21,7 @@ void FlowLayoutWidget::Render()
 		}
 		else
 		{
-			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n(GetWidgets()[WidgetToLayout - 1]->GetPosition().X() + GetWidgets()[WidgetToLayout - 1]->GetDimensions().X() + 2, 0));
+			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n(GetWidgets()[WidgetToLayout - 1]->GetPosition().Transpose().X() + GetWidgets()[WidgetToLayout - 1]->GetDimensions().Transpose().X() + 2, 0).Transpose());
 		}
 	}
 

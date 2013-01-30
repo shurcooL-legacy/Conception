@@ -28,6 +28,8 @@ public:
 	Vector2<T> operator * (const T Value) const;
 	Vector2<T> operator / (const T Value) const;
 
+	Vector2<T> Transpose() const;
+
 	T LengthSquared() const;
 
 	static const Vector2		ZERO;
