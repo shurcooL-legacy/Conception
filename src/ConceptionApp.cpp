@@ -110,7 +110,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		// "./GenProgram.go" file contents displayed (in real-time) in this Label Widget
 		{
 			auto Content = []() -> std::string {
-				return FromFileToString("./GenProgram.go");
+				//return FromFileToString("./GenProgram.go");
+				return FromFileToString("/Users/Dmitri/Desktop/goproj_play/src/gist.github.com/4670289.git/gistfile1.go");
 			};
 			auto LabelWidget = new class LabelWidget(Vector2n(-546, -186), Content, LabelWidget::Background::Normal);
 			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
@@ -235,8 +236,8 @@ void ConceptionApp::ProcessEvent(InputEvent & InputEvent)
 
 bool ConceptionApp::ShouldRedrawRegardless()
 {
-	if (   false		// HACK: Since I have a TimeWidget...
-		&& 0 == m_CurrentProject.m_BackgroundState
+	if (   false &&		// HACK: Since I have a TimeWidget...
+		   0 == m_CurrentProject.m_BackgroundState
 		&& glfwGetTime() >= m_CurrentProject.m_ProcessEndedTime + 1
 		&& !GetInputManager().AnyActivePointers()
 		&& GetInputManager().EmptyInputEventQueue())

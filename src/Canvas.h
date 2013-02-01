@@ -36,7 +36,7 @@ public:
 
 	void ProcessCanvasUpdated() override;
 
-	void MoveView(uint8 Degree, double MoveAmount, double A[2] = 0, Vector2n ParentLocalPosition = Vector2n::ZERO);
+	void MoveView(uint8 Degree, double MoveAmount, double A[2] = nullptr, Vector2n ParentLocalPosition = Vector2n::ZERO);
 
 	bool m_BlackBackgroundTEST;
 
