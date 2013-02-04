@@ -10,7 +10,6 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
 	  m_TypingModule(TypingModule),
-	  m_BackgroundColor(static_cast<uint8>(255), 255, 255),
 	  m_OnChange(),
 	  m_GetAutocompletions()
 {
@@ -50,7 +49,7 @@ void TextFieldWidget::Render()
 		return;
 
 	//Color BackgroundColor(1.0, 1.0, 1.0);
-	Color BackgroundColor = m_BackgroundColor;
+	Color BackgroundColor = m_BackgroundColor();
 	Color BorderColor(0.3, 0.3, 0.3);
 
 	/*if (CheckHover(WidgetManager) && CheckActive(WidgetManager))
@@ -662,6 +661,11 @@ decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetCaretPosition() c
 }
 
 void TextFieldWidget::SetBackground(Color BackgroundColor)
+{
+	m_BackgroundColor = [=](){ return BackgroundColor; };
+}
+
+void TextFieldWidget::SetBackground(std::function<Color()> BackgroundColor)
 {
 	m_BackgroundColor = BackgroundColor;
 }

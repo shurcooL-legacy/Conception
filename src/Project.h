@@ -35,6 +35,7 @@ public:volatile double m_ProcessEndedTime;private:
 	volatile bool	m_ExpiredOutput;
 	int				m_PipeFd[2];
 	Thread			m_BackgroundThread;
+public:Color m_OutputWidgetBackground = Color::WHITE;private:
 
 	const Color		m_CompilingColor = Color(0.9, 0.9, 0.9);
 	const Color		m_RunningColor = Color(1.0, 1, 1);

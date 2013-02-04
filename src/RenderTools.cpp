@@ -1,5 +1,7 @@
 #include "Main.h"
 
+const Color Color::WHITE(static_cast<uint8>(255), 255, 255);
+
 void InitializeOpenGL()
 {
 	glEnable(GL_TEXTURE_2D);

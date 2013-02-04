@@ -18,6 +18,12 @@ public:
 		: Color(Red / 255.0, Green / 255.0, Blue / 255.0)
 	{}
 
+	//Color & operator = (const Color & Other)
+	Color(const Color & Other)
+		: m_Components(Other.m_Components)
+	{
+	}
+
 	double * GetComponents()
 	{
 		return m_Components.data();
@@ -42,6 +48,8 @@ public:
 	{
 		return (m_Components != Other.m_Components);
 	}
+
+	static const Color WHITE;
 
 private:
 	std::array<double, 3>		m_Components;

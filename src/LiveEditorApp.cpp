@@ -3,11 +3,12 @@
 LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject(),
-	  m_TypingModule(),
-	  m_SourceWidget(nullptr),
-	  m_OutputWidget(nullptr),
-	  m_LiveToggle(nullptr)
+	  m_TypingModule()
 {
+	assert(nullptr == m_SourceWidget);
+	assert(nullptr == m_OutputWidget);
+	assert(nullptr == m_LiveToggle);
+
 	PopulateConcepts();
 
 	{
@@ -17,8 +18,8 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 			// Auto compile toggle
 			{
-				Toolbar->AddWidget(new FlowLayoutWidget(Vector2n(1, 1), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [](bool State){}, true)), std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Live Compilation & Execution"))) }, {} ));
-				//static_cast<ToggleWidget *>(Toolbar->GetWidgets()[0].get())->UpdateHACK();
+				Toolbar->AddWidget(new FlowLayoutWidget(Vector2n(1, 1), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State){ if (State) { m_SourceWidget->m_OnChange(); } }, true)), std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Live Compilation & Execution"))) }, {} ));
+				//m_LiveToggle->UpdateHACK();
 			}
 
 			m_Widgets.push_back(std::unique_ptr<Widget>(Toolbar));
@@ -29,6 +30,13 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
+
+		m_OutputWidget->SetBackground([&]() {
+			if (!m_LiveToggle->GetState())
+				return Color(0.65, 0.65, 0.65);
+			else
+				return m_CurrentProject.m_OutputWidgetBackground;
+		});
 
 		{
 			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);

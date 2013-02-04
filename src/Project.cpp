@@ -325,7 +325,6 @@ void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget 
 
 		if (nullptr != LiveToggle && !LiveToggle->GetState())
 		{
-			OutputWidget.SetBackground(Color(0.65, 0.75, 0.85));
 			return;
 		}
 
@@ -390,7 +389,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		TextFieldWidget * OutputWidget = g_OutputWidget;
 
 		Project->m_BackgroundState = 2;
-		OutputWidget->SetBackground(Project->m_CompilingColor);
+		Project->m_OutputWidgetBackground = Project->m_CompilingColor;
 
 		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
@@ -435,6 +434,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 #endif
 
 				//exit(1);		// Not needed, just in case I comment out the above
+				throw;		// Needed to stop "ProcessResult is uninitialized here" warning
 			}
 			else if (-1 == Project->m_LastPid)
 			{
@@ -475,7 +475,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		}
 
 		if (0 == ProcessResult) {
-			OutputWidget->SetBackground(Project->m_RunningColor);
+			Project->m_OutputWidgetBackground = Project->m_RunningColor;
 
 			// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex (but too lazy ATM to add all the code for a mutex)
 			/*if (Project->m_ExpiredOutput)
@@ -484,7 +484,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 				Project->m_ExpiredOutput = false;
 			}*/
 		} else {
-			OutputWidget->SetBackground(Project->m_ErrorCompileColor);
+			Project->m_OutputWidgetBackground = Project->m_ErrorCompileColor;
 			Project->m_ProcessEndedTime = glfwGetTime();
 			Project->m_BackgroundState = 0;
 		}
@@ -562,9 +562,9 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		if (0 == ProcessResult) {
-			OutputWidget->SetBackground(Project->m_FinishedSuccessColor);
+			Project->m_OutputWidgetBackground = Project->m_FinishedSuccessColor;
 		} else {
-			OutputWidget->SetBackground(Project->m_FinishedErrorColor);
+			Project->m_OutputWidgetBackground = Project->m_FinishedErrorColor;
 		}
 
 		if (2 == Project->m_BackgroundState) {

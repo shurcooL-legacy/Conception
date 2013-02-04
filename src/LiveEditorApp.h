@@ -27,9 +27,9 @@ private:
 
 	TypingModule	m_TypingModule;
 
-	TextFieldWidget * m_SourceWidget;
-	TextFieldWidget * m_OutputWidget;
-	ToggleWidget * m_LiveToggle;
+	TextFieldWidget * m_SourceWidget = nullptr;
+	TextFieldWidget * m_OutputWidget = nullptr;
+	ToggleWidget * m_LiveToggle = nullptr;
 };
 
 #endif // __LiveEditorApp_H__
