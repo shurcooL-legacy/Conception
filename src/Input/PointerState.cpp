@@ -71,6 +71,17 @@ bool PointerState::IsAnyButtonsPressed() const
 	return false;
 }
 
+PointerState::Modifiers PointerState::GetModifiers() const
+{
+	bool Super = GetButtonState(GLFW_KEY_LSUPER) || GetButtonState(GLFW_KEY_RSUPER);
+
+	// TODO: Unfinished...
+	if (Super)
+		return Modifiers::Super;
+	else
+		return Modifiers::None;
+}
+
 void PointerState::InvalidateTEST()
 {
 	m_Timestamp = -1000;

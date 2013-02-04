@@ -458,11 +458,7 @@ MatchResult MatchDoubleTap2(const InputEventQueue::FilteredQueue & Queue, InputE
 
 GestureRecognizer::GestureRecognizer(GestureHandler & Owner)
 	: InputHandler(),
-	  m_RecognizeTap(false),
-	  m_RecognizeDoubleTap(false),
-	  m_RecognizeManipulationTranslate(false),
-	  m_InManipulation(false),
-	  m_RecognizeScroll(false),
+	  m_Shortcuts(),
 	  m_Owner(Owner)
 {
 }
@@ -475,6 +471,22 @@ bool GestureRecognizer::ProcessEventHandledTEST(InputEvent InputEvent)
 {
 	ProcessEvent(InputEvent);
 	return InputEvent.m_Handled;
+}
+
+bool GestureRecognizer::ProcessShortcuts(InputEvent InputEvent)
+{
+	for (auto & Shortcut : m_Shortcuts)
+	{
+		if (   IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, true>(InputEvent, Shortcut.InputId)
+			&& Shortcut.Modifiers == InputEvent.m_PostEventState.GetModifiers())
+		{
+			Shortcut.Action();
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents)
@@ -545,6 +557,11 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 			m_Owner.ProcessManipulationEnd(InputEvent.m_PostEventState);
 			m_InManipulation = false;
 		}
+	}
+	else if (ProcessShortcuts(InputEvent))
+	{
+		Match.Status = 2;
+		Match.Events.push_back(*InputEventIterator);
 	}
 	else if (ProcessEventHandledTEST(InputEvent))
 	{
@@ -721,4 +738,9 @@ void GestureRecognizer::ProcessCanvasUpdated()
 GestureHandler & GestureRecognizer::GetOwner()
 {
 	return m_Owner;
+}
+
+void GestureRecognizer::AddShortcut(ShortcutEntry ShortcutEntry)
+{
+	m_Shortcuts.push_back(ShortcutEntry);
 }

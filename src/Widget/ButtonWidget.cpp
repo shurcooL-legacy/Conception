@@ -78,3 +78,8 @@ void ButtonWidget::Action()
 {
 	m_Action();
 }
+
+std::function<void()> & ButtonWidget::GetAction()
+{
+	return m_Action;
+}

@@ -23,6 +23,12 @@ struct MatchResult
 template <Pointer::VirtualCategory PointerVirtualCategory, Input::InputId ButtonId, bool ButtonState>
 bool IsPointerButtonEvent(const InputEvent & InputEvent)
 {
+	return IsPointerButtonEvent<PointerVirtualCategory, ButtonState>(InputEvent, ButtonId);
+}
+
+template <Pointer::VirtualCategory PointerVirtualCategory, bool ButtonState>
+bool IsPointerButtonEvent(const InputEvent & InputEvent, Input::InputId ButtonId)
+{
 	return (   nullptr != InputEvent.m_Pointer
 			&& PointerVirtualCategory == InputEvent.m_Pointer->GetVirtualCategory()
 			&& InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT)
@@ -76,21 +82,37 @@ public:
 
 	GestureHandler & GetOwner();
 
-	bool				m_RecognizeTap;
-	bool				m_RecognizeDoubleTap;
-	bool				m_RecognizeManipulationTranslate;
-	bool				m_RecognizeScroll;
+	bool				m_RecognizeTap = false;
+	bool				m_RecognizeDoubleTap = false;
+	bool				m_RecognizeManipulationTranslate = false;
+	bool				m_RecognizeScroll = false;
 
 	Vector2n			m_ManipulationOffset;
+
+	struct ShortcutEntry {
+		Input::InputId InputId;
+		PointerState::Modifiers Modifiers;
+		std::function<void()> Action;
+
+		ShortcutEntry(Input::InputId InputId, PointerState::Modifiers Modifiers, std::function<void()> Action)
+			: InputId(InputId), Modifiers(Modifiers), Action(Action)
+		{}
+	};
+
+	void AddShortcut(ShortcutEntry ShortcutEntry);
 
 private:
 	GestureRecognizer(const GestureRecognizer &);
 	GestureRecognizer & operator = (const GestureRecognizer &);
 
+	bool ProcessShortcuts(InputEvent InputEvent);
+
 	PointerState		m_LastTapStateTEST;
 	PointerState		m_LastTapCompletedStateTEST;
 
-	bool				m_InManipulation;
+	bool				m_InManipulation = false;
+
+	std::list<ShortcutEntry> m_Shortcuts;
 
 	GestureHandler &			m_Owner;
 };

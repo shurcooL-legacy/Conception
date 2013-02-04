@@ -18,6 +18,7 @@ public:
 
 	void SetAction(const std::function<void()> & Action);
 	void Action();
+	std::function<void()> & GetAction();
 
 private:
 	std::function<void()>		m_Action;

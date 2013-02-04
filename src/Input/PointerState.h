@@ -23,6 +23,15 @@ public:
 
 	bool IsAnyButtonsPressed() const;
 
+	enum class Modifiers : uint8 {
+		None = 0,
+		Shift,
+		Ctrl,
+		Alt,
+		Super
+	};
+	Modifiers GetModifiers() const;
+
 	void InvalidateTEST();
 	
 private:

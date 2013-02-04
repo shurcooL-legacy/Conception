@@ -319,6 +319,14 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				Match.Status = 2;
 				Match.Events.push_back(*InputEventIterator);
 			}
+			else if (	IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, 'R', true>(InputEvent)
+					 && PointerState::Modifiers::Super == InputEvent.m_PostEventState.GetModifiers())
+			{
+				std::cout << "Cmd+R was pressed in App..." << std::endl;
+
+				Match.Status = 2;
+				Match.Events.push_back(*InputEventIterator);
+			}
 
 			/*auto InputEventIterator2 = InputEventIterator;
 			auto Status = MatchDoubleTap2(InputEventQueue.GetQueue(), InputEventIterator2);

@@ -7,8 +7,7 @@ Widget::Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_p
 	  m_Dimensions(Dimensions),
 	  //m_HoverPointers()
 	  m_GestureRecognizer(*this),
-	  m_Behaviors(Behaviors),
-	  m_Parent(nullptr)
+	  m_Behaviors(Behaviors)
 {
 	for (auto Behavior : m_Behaviors)
 	{

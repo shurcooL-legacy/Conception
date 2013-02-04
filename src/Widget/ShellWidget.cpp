@@ -1,12 +1,14 @@
 #include "../Main.h"
 
 ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
-	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("bash"), LabelWidget::Background::Normal)),
-								   std::shared_ptr<Widget>(m_CommandWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_ExecuteWidget = new ButtonWidget(Vector2n::ZERO, Vector2n(16, 16), [&](){} )),
+	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_CommandWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
+								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("bash"), LabelWidget::Background::Normal)),
+								   //std::shared_ptr<Widget>(m_ExecuteWidget = new ButtonWidget(Vector2n::ZERO, Vector2n(16, 16), [&](){} )),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 	{
+		m_ExecuteWidget = new ButtonWidget(Vector2n::ZERO, Vector2n(16, 16), [&](){} );
+
 		m_ExecuteWidget->SetAction([&]()
 		{
 			std::string Output = "";

@@ -75,7 +75,7 @@ private:
 
 	std::vector<std::shared_ptr<Behavior>>			m_Behaviors;
 
-	CompositeWidget *		m_Parent;
+	CompositeWidget * m_Parent = nullptr;
 
 	void SetParent(CompositeWidget & Parent);
 

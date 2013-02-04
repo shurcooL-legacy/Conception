@@ -27,7 +27,7 @@ void TextFieldWidget::SetupGestureRecognizer()
 	//ModifyGestureRecognizer().m_RecognizeTap = true;
 	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 
-	// HACK: Recognize only taps when unselected; but this needs to be automated
+	// HACK: Recognize taps when unselected only; but this needs to be automated
 	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;//HasTypingFocus();
 }

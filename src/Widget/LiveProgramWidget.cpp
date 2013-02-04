@@ -7,6 +7,10 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	{
 		Project.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
+		m_OutputWidget->SetBackground([&]() {
+			return Project.m_OutputWidgetBackground;
+		});
+
 		m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 		{
 			std::vector<std::string> Autocompletions;
@@ -122,4 +126,36 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 
 LiveProgramWidget::~LiveProgramWidget()
 {
+}
+
+void LiveProgramWidget::ProcessEvent(InputEvent & InputEvent)
+{
+	if (false == InputEvent.m_Handled)
+	{
+		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
+		{
+			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
+			{
+				auto ButtonId = InputEvent.m_InputId;
+				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
+
+				if (Pressed)
+				{
+					switch (ButtonId)
+					{
+					case 'R':
+						if (PointerState::Modifiers::Super == InputEvent.m_Pointer->GetPointerState().GetModifiers())
+						{
+							m_SourceWidget->m_OnChange();
+
+							InputEvent.m_Handled = true;
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+	}
 }
