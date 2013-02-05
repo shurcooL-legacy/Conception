@@ -325,7 +325,12 @@ std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget,
 
 		if (nullptr != LiveToggle && !LiveToggle->GetState())
 		{
+			OutputWidget.m_Visible = false;
 			return;
+		}
+		else
+		{
+			OutputWidget.m_Visible = true;
 		}
 
 		GenerateProgram(SourceWidget.GetContent());
@@ -389,7 +394,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		TextFieldWidget * OutputWidget = g_OutputWidget;
 
 		Project->m_BackgroundState = 2;
-		Project->m_OutputWidgetBackground = Project->m_CompilingColor;
+		OutputWidget->SetBackground(Project->m_CompilingColor);
 
 		/*auto PipeFd = App->m_PipeFd[1];
 		auto Write = [&](std::string String) {
@@ -475,7 +480,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		}
 
 		if (0 == ProcessResult) {
-			Project->m_OutputWidgetBackground = Project->m_RunningColor;
+			OutputWidget->SetBackground(Project->m_RunningColor);
 
 			// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex (but too lazy ATM to add all the code for a mutex)
 			/*if (Project->m_ExpiredOutput)
@@ -484,7 +489,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 				Project->m_ExpiredOutput = false;
 			}*/
 		} else {
-			Project->m_OutputWidgetBackground = Project->m_ErrorCompileColor;
+			OutputWidget->SetBackground(Project->m_ErrorCompileColor);
 			Project->m_ProcessEndedTime = glfwGetTime();
 			Project->m_BackgroundState = 0;
 		}
@@ -562,9 +567,9 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		if (0 == ProcessResult) {
-			Project->m_OutputWidgetBackground = Project->m_FinishedSuccessColor;
+			OutputWidget->SetBackground(Project->m_FinishedSuccessColor);
 		} else {
-			Project->m_OutputWidgetBackground = Project->m_FinishedErrorColor;
+			OutputWidget->SetBackground(Project->m_FinishedErrorColor);
 		}
 
 		if (2 == Project->m_BackgroundState) {

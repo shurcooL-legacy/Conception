@@ -28,7 +28,7 @@ private:
 
 	TypingModule &						m_TypingModule;
 
-	std::function<Color()>				m_BackgroundColor = [](){ return Color::WHITE; };
+	Color								m_BackgroundColor = Color::WHITE;
 
 public:
 	std::function<void()>							m_OnChange;
@@ -54,7 +54,6 @@ public:
 	decltype(m_CaretPosition) GetCaretPosition() const;
 
 	void SetBackground(Color BackgroundColor);
-	void SetBackground(std::function<Color()> BackgroundColor);
 
 protected:
 	bool HasTypingFocus() const override;

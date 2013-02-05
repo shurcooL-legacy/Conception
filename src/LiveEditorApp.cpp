@@ -31,13 +31,6 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 
-		m_OutputWidget->SetBackground([&]() {
-			if (!m_LiveToggle->GetState())
-				return Color(0.65, 0.65, 0.65);
-			else
-				return m_CurrentProject.m_OutputWidgetBackground;
-		});
-
 		{
 			m_SourceWidget->m_OnChange = m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);
 
@@ -127,6 +120,9 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 					std::stringstream ss;
 					ss << Output;
 					std::string Line;
+
+					// TODO: Ability to insert stuff from autocompletions list
+					Autocompletions.push_back("This feature is not finished.");
 
 					std::getline(ss, Line);		// Skip first line
 					std::getline(ss, Line);

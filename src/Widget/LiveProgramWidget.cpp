@@ -7,10 +7,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	{
 		m_SourceWidget->m_OnChange = Project.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
-		m_OutputWidget->SetBackground([&]() {
-			return Project.m_OutputWidgetBackground;
-		});
-
 		m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 		{
 			std::vector<std::string> Autocompletions;

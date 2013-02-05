@@ -3,12 +3,15 @@ package main
 import (
 	"fmt"
 	"time"
+	"net/http"
 )
 
-func main() {    
-	fmt.Print(time.Now())
-	/*time.Sleep(5 * time.Second)
-	var i = 1
-	var x = 5/i
-	x = x - 5*/
+var _ = fmt.Printf
+var _ = time.Sleep
+var _ = http.ListenAndServe
+
+func main() {
+	println("Hi, local live editor.")
+	println()
+	print("You can do anything here.")
 }
