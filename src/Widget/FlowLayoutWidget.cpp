@@ -11,17 +11,33 @@ FlowLayoutWidget::~FlowLayoutWidget()
 
 void FlowLayoutWidget::Render()
 {
-	// HACK: This doesn't belong in Render, etc.
-	// TODO: Support for invisible widgets (i.e. they shouldn't add 2 points of space)
-	for (auto WidgetToLayout = 0; WidgetToLayout < GetWidgets().size(); ++WidgetToLayout)
+	// Layout the widgets
 	{
-		if (0 == WidgetToLayout)
+		std::vector<decltype(GetWidgets().size())> VisibleWidgets;
+		VisibleWidgets.reserve(GetWidgets().size());
+
+		for (decltype(GetWidgets().size()) WidgetIndex = 0; WidgetIndex < GetWidgets().size(); ++WidgetIndex)
 		{
-			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n::ZERO);
+			if (!GetWidgets()[WidgetIndex]->m_Visible)
+				continue;
+
+			VisibleWidgets.push_back(WidgetIndex);
 		}
-		else
+
+		for (decltype(VisibleWidgets.size()) WidgetIndexIndex = 0; WidgetIndexIndex < VisibleWidgets.size(); ++WidgetIndexIndex)
 		{
-			GetWidgets()[WidgetToLayout]->SetPosition(Vector2n(GetWidgets()[WidgetToLayout - 1]->GetPosition().X() + GetWidgets()[WidgetToLayout - 1]->GetDimensions().X() + 2, 0));
+			auto WidgetIndex = VisibleWidgets[WidgetIndexIndex];
+
+			if (0 == WidgetIndexIndex)
+			{
+				GetWidgets()[WidgetIndex]->SetPosition(Vector2n::ZERO);
+			}
+			else
+			{
+				auto PrevWidgetIndex = VisibleWidgets[WidgetIndexIndex - 1];
+
+				GetWidgets()[WidgetIndex]->SetPosition(Vector2n(GetWidgets()[PrevWidgetIndex]->GetPosition().X() + GetWidgets()[PrevWidgetIndex]->GetDimensions().X() + 2, 0));
+			}
 		}
 	}
 
