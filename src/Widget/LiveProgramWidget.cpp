@@ -5,7 +5,7 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 	{
-		Project.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
+		m_SourceWidget->m_OnChange = Project.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
 		m_OutputWidget->SetBackground([&]() {
 			return Project.m_OutputWidgetBackground;
@@ -121,41 +121,11 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 #endif
 	}
 
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+
 	m_SourceWidget->m_OnChange();
 }
 
 LiveProgramWidget::~LiveProgramWidget()
 {
-}
-
-void LiveProgramWidget::ProcessEvent(InputEvent & InputEvent)
-{
-	if (false == InputEvent.m_Handled)
-	{
-		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
-		{
-			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
-			{
-				auto ButtonId = InputEvent.m_InputId;
-				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
-				if (Pressed)
-				{
-					switch (ButtonId)
-					{
-					case 'R':
-						if (PointerState::Modifiers::Super == InputEvent.m_Pointer->GetPointerState().GetModifiers())
-						{
-							m_SourceWidget->m_OnChange();
-
-							InputEvent.m_Handled = true;
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
-	}
 }

@@ -303,9 +303,9 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
-void Project::SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas, ToggleWidget * LiveToggle)
+std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas, ToggleWidget * LiveToggle)
 {
-	SourceWidget.m_OnChange = [&, LeftCanvas, RightCanvas, LiveToggle]()
+	return [&, LeftCanvas, RightCanvas, LiveToggle]()
 	{
 		// HACK
 		g_OutputWidget = &OutputWidget;

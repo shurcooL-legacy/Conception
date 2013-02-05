@@ -9,8 +9,6 @@ public:
 	LiveProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
 	~LiveProgramWidget();
 
-	void ProcessEvent(InputEvent & InputEvent) override;
-
 private:
 	LiveProgramWidget(const LiveProgramWidget &) = delete;
 	LiveProgramWidget & operator = (const LiveProgramWidget &) = delete;

@@ -121,50 +121,9 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 		});
 	}
 
-	//ModifyGestureRecognizer().m_RecognizeTap = true;		// TEST: Trying giving ShellWidget the focus of TypingPointer
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_ExecuteWidget->GetAction()));
 }
 
 ShellWidget::~ShellWidget()
 {
-}
-
-// TEST: Trying giving ShellWidget the focus of TypingPointer
-/*void ShellWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
-{
-	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
-}*/
-
-void ShellWidget::ProcessEvent(InputEvent & InputEvent)
-{
-	// TEST
-	// DEBUG: This doesn't work because ShellWidget never has TypingPointer's capture
-	if (false == InputEvent.m_Handled)
-	{
-		if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
-		{
-			if (Pointer::VirtualCategory::TYPING == InputEvent.m_Pointer->GetVirtualCategory())
-			{
-				auto ButtonId = InputEvent.m_InputId;
-				bool Pressed = InputEvent.m_Buttons[0];		// TODO: Check if there are >1 buttons
-
-				if (Pressed)
-				{
-					switch (ButtonId)
-					{
-					case 'R':
-						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
-							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
-						{
-							m_ExecuteWidget->Action();
-
-							InputEvent.m_Handled = true;
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
-	}
 }

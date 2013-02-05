@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func main() {
+func main() {    
 	fmt.Print(time.Now())
 	/*time.Sleep(5 * time.Second)
 	var i = 1

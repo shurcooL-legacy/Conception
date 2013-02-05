@@ -39,7 +39,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		});
 
 		{
-			m_CurrentProject.SetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);
+			m_SourceWidget->m_OnChange = m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);
 
 			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
@@ -151,6 +151,9 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(LeftCanvas));
 		m_Widgets.push_back(std::unique_ptr<Widget>(RightCanvas));
+
+		// Cmd+R Run shortcut
+		m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas)));
 
 		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}

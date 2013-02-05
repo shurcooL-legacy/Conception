@@ -16,7 +16,7 @@ public:
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 
-	void SetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas = nullptr, Canvas * RightCanvas = nullptr, ToggleWidget * LiveToggle = nullptr);
+	std::function<void()> GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas = nullptr, Canvas * RightCanvas = nullptr, ToggleWidget * LiveToggle = nullptr);
 	void SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST = nullptr);
 	void StartBackgroundThread();
 	void SomethingFromAppRenderTEST();
