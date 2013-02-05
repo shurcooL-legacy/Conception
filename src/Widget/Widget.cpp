@@ -46,7 +46,15 @@ bool Widget::CheckHover() const
 {
 	//return !m_HoverPointers.empty();
 	//return false;
-	return (!GetGestureRecognizer().GetConnected().empty());		// TEST
+	//return (!GetGestureRecognizer().GetConnected().empty());		// TEST
+
+	for (auto & Pointer : GetGestureRecognizer().GetConnected())
+	{
+		if (&GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer())
+			return true;
+	}
+
+	return false;
 }
 
 bool Widget::CheckActive() const
