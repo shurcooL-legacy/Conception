@@ -15,14 +15,14 @@ LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingM
 	m_SourceWidget->m_OnChange = [=, &Project]()
 	{
 		std::ostringstream GenProgram;
-		Project.GenerateProgramForFunction(GenProgram, m_InputWidget->GetContent(), m_SourceWidget->GetContent());
+		Project.GenerateProgramForFunction(GenProgram, m_InputWidget->GetContent(), m_SourceWidget->GetContent(), m_Imports);
 		m_LiveProgramWidget->m_SourceWidget->SetContent(GenProgram.str());
 	};
 
 	m_InputWidget->m_OnChange = m_SourceWidget->m_OnChange;
 
 	{
-		auto ImportList = new ListWidget<ConceptId>(Vector2n::ZERO, Project.GetStdIncludes(), TypingModule);
+		auto ImportList = new ListWidget<ConceptId>(Vector2n::ZERO, m_Imports, TypingModule);
 		auto pTypingModule = &TypingModule;
 		ImportList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
 		{

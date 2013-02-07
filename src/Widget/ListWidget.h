@@ -19,7 +19,7 @@ public:
 
 	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
 
-	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction;
+	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction = nullptr;
 
 private:
 	void UpdateDimensions();

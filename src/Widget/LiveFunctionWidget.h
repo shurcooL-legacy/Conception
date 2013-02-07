@@ -13,6 +13,8 @@ private:
 	LiveFunctionWidget(const LiveFunctionWidget &) = delete;
 	LiveFunctionWidget & operator = (const LiveFunctionWidget &) = delete;
 
+	std::vector<ConceptId> m_Imports;
+
 	TextFieldWidget * m_InputWidget;
 	TextFieldWidget * m_SourceWidget;
 	ToggleWidget * m_ToggleWidget;

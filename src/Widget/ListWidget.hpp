@@ -11,7 +11,6 @@ template <typename T> ListWidget<T>::ListWidget(Vector2n Position, std::vector<T
 #else
 	: Widget(Position, Vector2n::ZERO, {}),
 #endif
-	  m_TapAction(),
 	  m_List(List),
 	  m_TypingModule(TypingModule)
 {

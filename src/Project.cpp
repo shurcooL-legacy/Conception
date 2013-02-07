@@ -129,15 +129,18 @@ void Project::GenerateProgram(const std::string & ProgramContent = "")
 	Out << ProgramContent;
 }
 
-void Project::GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent)
+void Project::GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent, std::vector<ConceptId> & Imports)
 {
 	Out <<
 	"package main""\n"
 	"""\n"
 	"import (""\n"
-	"	\"fmt\"""\n"
-	"	\"sort\"""\n"
-	")""\n"
+	"	\"fmt\"""\n";
+	for (auto & Import : Imports)
+	{
+		Out << "	\"" + GetConcept(Import).GetContent() + "\"""\n";
+	}
+	Out << ")""\n"
 	"""\n"
 	<< FunctionContent << "\n"
 	"""\n"
@@ -153,9 +156,8 @@ void Project::GenerateProgramForFunction(std::ostream & Out, const std::string &
 	"}""\n"
 	"""\n"
 	"func main() {""\n"
-	"	a := ";
-	Out << InputContent <<
-	"\n"
+	"	a := "
+	<< InputContent << "\n"
 	"""\n"
 	"	out := MyGetString(MySort(a))""\n"
 	"	in_after := MyGetString(a)""\n"

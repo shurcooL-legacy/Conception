@@ -11,7 +11,7 @@ public:
 	void LoadSampleGenProgram(Canvas & CanvasTEST);
 
 	void GenerateProgram(const std::string & ProgramContent);
-	void GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent);
+	void GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent, std::vector<ConceptId> & Imports);
 	void RunProgram(TextFieldWidget * OutputWidget);
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
@@ -23,7 +23,7 @@ public:
 
 private:
 	Project(const Project &);
-	Project & operator =(const Project &);
+	Project & operator = (const Project &);
 
 	std::vector<ConceptId> std_includes;
 	std::vector<Function> functions2;
