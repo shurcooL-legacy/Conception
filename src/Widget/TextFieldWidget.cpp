@@ -32,12 +32,6 @@ void TextFieldWidget::SetupGestureRecognizer()
 	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;//HasTypingFocus();
 }
 
-bool TextFieldWidget::HasTypingFocus() const
-{
-	return (   GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())
-			|| (!GetWidgets().empty() && GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() != GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get())));
-}
-
 void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 {
 	SetupGestureRecognizer();

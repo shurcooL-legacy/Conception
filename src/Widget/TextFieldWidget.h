@@ -56,7 +56,6 @@ public:
 	void SetBackground(Color BackgroundColor);
 
 protected:
-	bool HasTypingFocus() const override;
 
 private:
 	TextFieldWidget(const TextFieldWidget &) = delete;

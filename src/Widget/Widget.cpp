@@ -39,7 +39,17 @@ void Widget::RemoveAllBehaviors()
 
 bool Widget::HasTypingFocus() const
 {
+#if 0
 	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));
+#else
+	auto TypingPointerIterator = GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get());
+	if (GetGestureRecognizer().GetConnected().end() != TypingPointerIterator)
+	{
+		return (&GetGestureRecognizer() == (*TypingPointerIterator)->GetPointerMapping().GetHoverer());
+	}
+	else
+		return false;
+#endif
 }
 
 bool Widget::CheckHover() const
