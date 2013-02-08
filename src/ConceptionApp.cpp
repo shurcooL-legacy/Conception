@@ -71,11 +71,22 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 			MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, -400), [=]() {
 				std::cout << "Adding a new widget...\n";
+
+#if 0
 				auto TextField = new TextFieldWidget(Vector2n(0, -430), *m_TypingModule);
 				TextField->AddBehavior(new DraggablePositionBehavior(*TextField));
 				MainCanvas->AddWidget(TextField);
 
 				TextField->SetContent(FromFileToString(Path->GetContent()));
+#else
+				auto PathString = Path->GetContent();
+				auto Content = [PathString]() -> std::string {
+					return FromFileToString(PathString);
+				};
+				auto LabelWidget = new class LabelWidget(Vector2n(0, -430), Content, LabelWidget::Background::Normal);
+				LabelWidget->AddBehavior(new DraggablePositionBehavior(*LabelWidget));
+				MainCanvas->AddWidget(LabelWidget);
+#endif
 			} ));
 		}
 
