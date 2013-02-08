@@ -178,6 +178,8 @@ void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Positio
 void TextFieldWidget::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	// HACK: This should be called earlier (not at the end of the double tap gesture, which can take a long time)
+	m_SelectionPosition = m_CaretPosition;		// Reset selection (so that ProcessTap() does what I expect it to here (i.e. when I changed ProcessTap, I didn't mean to change ProcessDoubleTap's behaviour,
+												// it was an uninentional mistake due to lack of automatic dependency tracking and me being unaware of ProcessTap's usage inside ProcessDoubleTap)
 	ProcessTap(InputEvent, Position);
 
 	// TODO: This isn't entirely correct behaviour, it doesn't work correctly when double-clicking on whitespace
