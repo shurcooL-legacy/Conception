@@ -517,8 +517,16 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 	}
 #endif
 
+// DEBUG: I don't think the following is neccessary anymore, so I will try just setting Hit to true at all times and see if that breaks anything. If not, might as well remove this (unneccessary?) check
+#if 0
 	Vector2n GlobalPosition(InputEvent.m_PreEventState.GetAxisState(0).GetPosition(), InputEvent.m_PreEventState.GetAxisState(1).GetPosition());
 	auto Hit = static_cast<Widget &>(m_Owner).IsHit(static_cast<Widget &>(m_Owner).GlobalToParent(GlobalPosition));
+	/*if (!Hit) {
+		std::cout << "OMGGG LOOK HERE!!!! Hit IS false\n";
+	}*/
+#else
+	auto Hit = true;
+#endif
 
 	MatchResult Match;
 	if (m_RecognizeDoubleTap && (Match = MatchDoubleTap2(UnreservedEvents, InputEventIterator)).AnySuccess())
