@@ -124,7 +124,7 @@ void TextFieldWidget::Render()
 	{
 		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(240), 240, 240));
 	}
-	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+	auto SelectionLength = GetSelectionLength();
 	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
 	OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
 
@@ -164,6 +164,7 @@ void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Positio
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 
 	// Set cursor at tapped position
+	if (0 == GetSelectionLength())		// Only if there's no selection
 	{
 		Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
 		Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
@@ -245,7 +246,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		return;
 	}*/
 
-	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+	auto SelectionLength = GetSelectionLength();
 
 	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
@@ -716,9 +717,14 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 	}
 }
 
+decltype(TextFieldWidget::m_CaretPosition) TextFieldWidget::GetSelectionLength() const
+{
+	return std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+}
+
 std::string TextFieldWidget::GetSelectionContent() const
 {
-	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+	auto SelectionLength = GetSelectionLength();
 
 	return m_Content.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
 }
@@ -726,7 +732,7 @@ std::string TextFieldWidget::GetSelectionContent() const
 // Returns true if there was a selection, false otherwise
 bool TextFieldWidget::EraseSelectionIfAny()
 {
-	auto SelectionLength = std::max(m_CaretPosition, m_SelectionPosition) - std::min(m_CaretPosition, m_SelectionPosition);
+	auto SelectionLength = GetSelectionLength();
 
 	if (0 != SelectionLength)
 	{

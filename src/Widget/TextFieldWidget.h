@@ -67,6 +67,7 @@ private:
 	void MoveCaret(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);
 	void MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelection);
+	decltype(m_CaretPosition) GetSelectionLength() const;
 	std::string GetSelectionContent() const;
 	bool EraseSelectionIfAny();
 	void UpdateContentLines();
