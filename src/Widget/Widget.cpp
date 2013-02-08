@@ -19,9 +19,9 @@ Widget::~Widget()
 {
 }
 
-void Widget::AddBehavior(const std::shared_ptr<Behavior> & Behavior)
+void Widget::AddBehavior(Behavior * Behavior)
 {
-	m_Behaviors.push_back(Behavior);
+	m_Behaviors.push_back(std::shared_ptr<class Behavior>(Behavior));
 	// TODO: ModifyGestureRecognizer().UpdateAccordingToBehaviors(m_Behaviors);
 	Behavior->SetupGestureRecognizer();
 }

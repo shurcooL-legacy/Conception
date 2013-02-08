@@ -33,9 +33,13 @@ private:
 	MatchResult InnerMatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
 
 	std::vector<std::shared_ptr<Widget>>		m_Widgets;
+	std::queue<std::shared_ptr<Widget>>			m_WidgetsToBeAdded;
 
 protected:
 	const decltype(m_Widgets) & GetWidgets() const { return m_Widgets; }
+
+	// DEBUG: For info printing
+	friend class DebugOverlayWidget;
 };
 
 #endif // __CompositeWidget_H__

@@ -20,7 +20,7 @@ CompositeWidget::~CompositeWidget()
 
 void CompositeWidget::AddWidget(Widget * Widget)
 {
-	m_Widgets.push_back(std::unique_ptr<class Widget>(Widget));
+	m_WidgetsToBeAdded.push(std::unique_ptr<class Widget>(Widget));
 	Widget->SetParent(*this);
 }
 
@@ -33,7 +33,7 @@ void CompositeWidget::RemoveWidget(Widget * Widget)
 	while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
 	{
 		// Modify the pointer mapping of said pointer, and removed the widget which is being removed
-		Widget->ModifyGestureRecognizer().GetConnected().begin().operator*()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
+		Widget->ModifyGestureRecognizer().GetConnected().begin().operator *()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
 	}
 
 	m_Widgets.clear();
@@ -166,6 +166,12 @@ void CompositeWidget::ProcessTimePassed(const double TimePassed)
 	for (auto & Widget : GetWidgets())
 	{
 		Widget->ProcessTimePassed(TimePassed);
+	}
+
+	while (!m_WidgetsToBeAdded.empty())
+	{
+		m_Widgets.push_back(m_WidgetsToBeAdded.front());
+		m_WidgetsToBeAdded.pop();
 	}
 }
 

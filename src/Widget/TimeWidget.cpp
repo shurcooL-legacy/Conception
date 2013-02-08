@@ -19,7 +19,7 @@ auto Content = []() -> std::string {
 TimeWidget::TimeWidget(Vector2n Position)
 	: LabelWidget(Position, Content, LabelWidget::Background::Normal)
 {
-	AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)));
+	AddBehavior(new DraggablePositionBehavior(*this));
 }
 
 TimeWidget::~TimeWidget()

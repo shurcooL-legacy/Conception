@@ -226,7 +226,7 @@ void Canvas::ProcessTimePassed(const double TimePassed)
 	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
 		if (   Pointer::VirtualCategory::TYPING == Pointer->GetVirtualCategory()
-			&& &GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer())
+			&& &GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer())		// Similar to check done by HasTypingFocus()
 		{
 			const PointerState & PointerState = Pointer->GetPointerState();
 

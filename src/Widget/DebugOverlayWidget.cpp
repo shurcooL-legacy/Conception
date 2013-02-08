@@ -1,10 +1,10 @@
 #include "../Main.h"
 
-DebugOverlayWidget::DebugOverlayWidget()
+DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
 	: Canvas(Vector2n::ZERO, false, false)
 {
 	{
-		auto Content = []() -> std::string
+		auto Content = [MainCanvas]() -> std::string
 		{
 			std::ostringstream out;
 
@@ -76,15 +76,17 @@ DebugOverlayWidget::DebugOverlayWidget()
 
 	// Visibility toggle
 	{
-		AddWidget(new ToggleWidget(Vector2n(1, 1), [=](bool State) {
+		auto ToggleWidget = new class ToggleWidget(Vector2n(1, 1), [=](bool State) {
 															// Toggle visibility of all widgets but the last one (i.e. this toggle)
 															// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
 															for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 1 != Widget; ++Widget)
 															{
 																(*Widget)->m_Visible = State;
 															}
-														}, false));
-		static_cast<ToggleWidget *>(GetWidgets()[GetWidgets().size() - 1].get())->UpdateHACK();
+														}, false);
+		AddWidget(ToggleWidget);
+		ProcessTimePassed(0);		// HACK: Get all the widgets actually added
+		ToggleWidget->UpdateHACK();
 	}
 }
 

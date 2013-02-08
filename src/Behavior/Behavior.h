@@ -7,11 +7,12 @@ class Behavior
 {
 protected:
 	Behavior(Widget & Widget);
-	virtual ~Behavior();
 
 	Widget & m_Widget;
 
 public:
+	virtual ~Behavior();
+
 	virtual void SetupGestureRecognizer() = 0;
 	virtual void UnsetupGestureRecognizer() = 0;
 

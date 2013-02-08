@@ -8,7 +8,7 @@ class Widget
 public:
 	virtual ~Widget();
 
-	void AddBehavior(const std::shared_ptr<Behavior> & Behavior);
+	void AddBehavior(Behavior * Behavior);
 	void RemoveAllBehaviors();
 
 	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;

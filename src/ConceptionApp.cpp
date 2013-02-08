@@ -46,7 +46,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("#include <"), LabelWidget::Background::None)),
 																						std::shared_ptr<Widget>(StdIncludesList),
 																						std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string(">"), LabelWidget::Background::None)) }, {});
-			LabelledStdIncludesList->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelledStdIncludesList)));
+			LabelledStdIncludesList->AddBehavior(new DraggablePositionBehavior(*LabelledStdIncludesList));
 			MainCanvas->AddWidget(LabelledStdIncludesList);
 		}
 #endif
@@ -64,6 +64,16 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 
+		// TEST: Add a new widget dynamically
+		{
+			MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, -400), [=]() {
+				std::cout << "Adding a new widget...\n";
+				auto TextField = new TextFieldWidget(Vector2n(0, -430), *m_TypingModule);
+				TextField->AddBehavior(new DraggablePositionBehavior(*TextField));
+				MainCanvas->AddWidget(TextField);
+			} ));
+		}
+
 		// TEST: Modify some Concept
 		{
 			auto Widget = new TextFieldWidget(Vector2n(-320, 470), *m_TypingModule);
@@ -71,7 +81,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			Widget->m_OnChange = [=]() {
 				static_cast<ConceptBasic &>(ModifyConcept(47)).SetContentTEST(Widget->GetContent());
 			};
-			Widget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*Widget)));
+			Widget->AddBehavior(new DraggablePositionBehavior(*Widget));
 			MainCanvas->AddWidget(Widget);
 		}
 
@@ -99,7 +109,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				return std::to_string(seconds);
 			};
 			auto LabelWidget = new class LabelWidget(Vector2n(360, -340), Content, LabelWidget::Background::Normal);
-			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
+			LabelWidget->AddBehavior(new DraggablePositionBehavior(*LabelWidget));
 
 			MainCanvas->AddWidget(LabelWidget);
 		}
@@ -114,7 +124,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				return FromFileToString("/Users/Dmitri/Desktop/goproj_play/src/gist.github.com/4670289.git/gistfile1.go");
 			};
 			auto LabelWidget = new class LabelWidget(Vector2n(-546, -186), Content, LabelWidget::Background::Normal);
-			LabelWidget->AddBehavior(std::shared_ptr<Behavior>(new DraggablePositionBehavior(*LabelWidget)));
+			LabelWidget->AddBehavior(new DraggablePositionBehavior(*LabelWidget));
 
 			MainCanvas->AddWidget(LabelWidget);
 		}
@@ -130,7 +140,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
 
-		m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget()));		// DEBUG: Print debug info
+		m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget(MainCanvas)));		// DEBUG: Print debug info
 	}
 
 	// Prepare and start the thread

@@ -6,7 +6,7 @@ class DebugOverlayWidget
 	: public Canvas
 {
 public:
-	DebugOverlayWidget();
+	DebugOverlayWidget(Canvas * MainCanvas = nullptr);
 	virtual ~DebugOverlayWidget();
 };
 
