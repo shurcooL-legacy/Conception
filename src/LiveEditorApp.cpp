@@ -149,7 +149,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		m_Widgets.push_back(std::unique_ptr<Widget>(RightCanvas));
 
 		// Cmd+R Run shortcut
-		m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas)));
+		m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, nullptr)));
 
 		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}

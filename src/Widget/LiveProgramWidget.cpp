@@ -118,8 +118,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	}
 
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
-
-	m_SourceWidget->m_OnChange();
 }
 
 LiveProgramWidget::~LiveProgramWidget()
