@@ -194,6 +194,7 @@ extern InputManager * g_InputManager;
 #include "DimensionsStream.h"
 #include "StreamStream.h"
 #include "Concept.h"
+#include "Operations.h"
 #include "Conception/Function.h"
 #include "Thread.h"
 #include "Project.h"
