@@ -57,9 +57,9 @@ MatchResult MatchDown(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 
 MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
 
-MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, bool HitTEST);
-MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST);
-MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST);
+MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, bool HitTEST, Input::InputId ButtonId);
+MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, Input::InputId ButtonId);
+MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, Input::InputId ButtonId);
 
 MatchResult MatchSpace(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
 
@@ -85,6 +85,7 @@ public:
 	bool				m_RecognizeTap = false;
 	bool				m_RecognizeDoubleTap = false;
 	bool				m_RecognizeManipulationTranslate = false;
+	Input::InputId		m_RecognizeManipulationTranslateButtonId = 0;
 	bool				m_RecognizeScroll = false;
 
 	Vector2n			m_ManipulationOffset;

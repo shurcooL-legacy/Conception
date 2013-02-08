@@ -355,7 +355,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				}
 			}
 
-			else if ((Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, InManipulationTEST, true)).AnySuccess())
+			/*else if ((Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, InManipulationTEST, true)).AnySuccess())
 			{
 				if (2 == Match.Status)
 				{
@@ -380,7 +380,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 													   << (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition() << std::endl;
 					InManipulationTEST = false;
 				}
-			}
+			}*/
 
 			else if ((Match = MatchDown(UnreservedEvents, InputEventIterator)).AnySuccess())
 			{

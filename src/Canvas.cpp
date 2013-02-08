@@ -13,7 +13,10 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourSc
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 	if (   Canvas::BehaviourScrolling::Zooming == m_BehaviourScrolling
 		|| Canvas::BehaviourScrolling::Freeform == m_BehaviourScrolling)
+	{
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
+		ModifyGestureRecognizer().m_RecognizeManipulationTranslateButtonId = 1;
+	}
 	else if (Canvas::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 	ModifyGestureRecognizer().m_RecognizeScroll = true;

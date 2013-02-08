@@ -201,7 +201,7 @@ MatchResult MatchUp(const InputEventQueue::FilteredQueue & Queue, InputEventQueu
 	return MatchResult();
 }
 
-MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, bool HitTEST)
+MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, bool HitTEST, Input::InputId ButtonId)
 {
 	if (   false != InManipulationTEST
 		|| true != HitTEST)
@@ -212,7 +212,7 @@ MatchResult MatchManipulationBegin(const InputEventQueue::FilteredQueue & Queue,
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
 
-	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, true>(**InputEventIterator))
+	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, true>(**InputEventIterator, ButtonId))
 	{
 		InputEventQueue::FilteredQueue Events;
 		Events.push_back(*InputEventIterator);
@@ -240,7 +240,7 @@ MatchResult MatchManipulationUpdate(const InputEventQueue::FilteredQueue & Queue
 
 	return MatchResult();
 }
-MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST)
+MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator, bool InManipulationTEST, Input::InputId ButtonId)
 {
 	if (true != InManipulationTEST)
 		return MatchResult();
@@ -248,7 +248,7 @@ MatchResult MatchManipulationEnd(const InputEventQueue::FilteredQueue & Queue, I
 	if (Queue.end() == InputEventIterator)
 		return MatchResult(1);
 
-	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(**InputEventIterator))
+	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, false>(**InputEventIterator, ButtonId))
 	{
 		InputEventQueue::FilteredQueue Events;
 		Events.push_back(*InputEventIterator);
@@ -535,7 +535,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 			m_Owner.ProcessTap(InputEvent, Vector2n((*InputEventIterator)->m_PostEventState.GetAxisState(0).GetPosition(), (*InputEventIterator)->m_PostEventState.GetAxisState(1).GetPosition()));
 		}
 	}
-	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, m_InManipulation, Hit)).AnySuccess())
+	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationBegin(UnreservedEvents, InputEventIterator, m_InManipulation, Hit, m_RecognizeManipulationTranslateButtonId)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
@@ -550,7 +550,7 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 			m_Owner.ProcessManipulationUpdate(InputEvent.m_PostEventState);
 		}
 	}
-	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator, m_InManipulation)).AnySuccess())
+	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator, m_InManipulation, m_RecognizeManipulationTranslateButtonId)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
