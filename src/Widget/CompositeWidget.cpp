@@ -168,6 +168,8 @@ void CompositeWidget::ProcessTimePassed(const double TimePassed)
 		Widget->ProcessTimePassed(TimePassed);
 	}
 
+	Widget::ProcessTimePassed(TimePassed);		// For DraggablePositionBehavior::ProcessTimePassed() to get called
+
 	while (!m_WidgetsToBeAdded.empty())
 	{
 		m_Widgets.push_back(m_WidgetsToBeAdded.front());

@@ -16,6 +16,8 @@ public:
 	void ProcessManipulationUpdate(const PointerState & PointerState) override;
 	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 private:
 	DraggablePositionBehavior(const DraggablePositionBehavior &) = delete;
 	DraggablePositionBehavior & operator = (const DraggablePositionBehavior &) = delete;

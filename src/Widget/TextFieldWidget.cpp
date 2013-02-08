@@ -35,6 +35,8 @@ void TextFieldWidget::SetupGestureRecognizer()
 void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 {
 	SetupGestureRecognizer();
+
+	CompositeWidget::ProcessTimePassed(TimePassed);		// For DraggablePositionBehavior::ProcessTimePassed() to get called
 }
 
 void TextFieldWidget::Render()

@@ -257,3 +257,12 @@ void Widget::ProcessManipulationEnd(const PointerState & PointerState)
 		Behavior->ProcessManipulationEnd(PointerState);
 	}
 }
+
+void Widget::ProcessTimePassed(const double TimePassed)
+{
+	// For DraggablePositionBehavior::ProcessTimePassed() to get called
+	for (auto & Behavior : m_Behaviors)
+	{
+		Behavior->ProcessTimePassed(TimePassed);
+	}
+}

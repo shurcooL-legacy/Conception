@@ -64,13 +64,18 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 
-		// TEST: Add a new widget dynamically
+		// TEST: Open a file via path (read-only at first)
 		{
+			auto Path = new TextFieldWidget(Vector2n(40, -400), *m_TypingModule);
+			MainCanvas->AddWidget(Path);
+
 			MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, -400), [=]() {
 				std::cout << "Adding a new widget...\n";
 				auto TextField = new TextFieldWidget(Vector2n(0, -430), *m_TypingModule);
 				TextField->AddBehavior(new DraggablePositionBehavior(*TextField));
 				MainCanvas->AddWidget(TextField);
+
+				TextField->SetContent(FromFileToString(Path->GetContent()));
 			} ));
 		}
 

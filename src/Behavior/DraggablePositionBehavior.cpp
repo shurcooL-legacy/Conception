@@ -43,3 +43,9 @@ void DraggablePositionBehavior::ProcessManipulationUpdate(const PointerState & P
 void DraggablePositionBehavior::ProcessManipulationEnd(const PointerState & PointerState)
 {
 }
+
+void DraggablePositionBehavior::ProcessTimePassed(const double TimePassed)
+{
+	// TODO: Merge with the automatic logic for setup/unsetup GR at the top... Instead of setting this explicitly here, it should get "calculated" where required...
+	m_Widget.ModifyGestureRecognizer().m_RecognizeManipulationTranslate = !m_Widget.HasTypingFocus();
+}

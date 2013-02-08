@@ -44,6 +44,8 @@ public:
 	void ProcessManipulationUpdate(const PointerState & PointerState) override;
 	void ProcessManipulationEnd(const PointerState & PointerState) override;
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 	bool m_Visible;
 
 protected:
