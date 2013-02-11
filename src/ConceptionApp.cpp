@@ -92,8 +92,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// TEST: Dir list
 		{
-			auto List = std::vector<std::string>({"dir 1", "dir2", "file 1", "file 2", "file 3"});
-			auto ListWidget = new MenuWidget<std::string>(Vector2n(-490, -390), List);
+			std::string Path = "";
+			auto List = Ls(Path);
+			auto ListWidget = new MenuWidget<std::string>(Vector2n(-600, -390), List);
 			//ListWidget->AddBehavior(new DraggablePositionBehavior(*ListWidget));
 
 			ListWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)

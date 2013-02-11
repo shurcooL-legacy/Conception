@@ -65,6 +65,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
 
 							//exit(1);		// Not needed, just in case I comment out the above
+							throw 0;
 						}
 						else if (-1 == Pid)
 						{
