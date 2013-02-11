@@ -778,8 +778,7 @@ void TextFieldWidget::UpdateContentLines()
 	ModifyDimensions().X() = std::max<sint32>(static_cast<sint32>(m_MaxLineLength * charWidth), 3 * charWidth);
 	ModifyDimensions().Y() = std::max<sint32>(static_cast<sint32>(m_ContentLines.size()) * lineHeight, 1 * lineHeight);
 
-	if (nullptr != m_OnChange)
-	{
+	if (nullptr != m_OnChange) {
 		m_OnChange();
 	}
 }

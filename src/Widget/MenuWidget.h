@@ -20,6 +20,7 @@ public:
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	std::function<void()>								m_OnChange = nullptr;
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction = nullptr;
 	std::function<void(Vector2n, std::vector<T> &)>		m_DoubleTapAction = nullptr;		// TODO: Inconsistency, this is here while GR.RecDblTap is off
 
@@ -33,7 +34,7 @@ private:
 	const Color		m_SelectedColor = Color(0.3529, 0.5686, 0.8235);
 
 public:
-	//void SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId);
+	void SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId);
 };
 
 #include "MenuWidget.hpp"

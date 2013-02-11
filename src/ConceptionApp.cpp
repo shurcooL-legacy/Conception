@@ -104,6 +104,14 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				ListWidget->SetSelectedEntryId(LocalPosition);
 			};
 
+			/*auto BeepWidget = new SayWidget(Vector2n::ZERO, *m_TypingModule);		// HACK: Memory leak
+			BeepWidget->m_InputWidget->SetContent("Beep.");*/
+			ListWidget->m_OnChange = [=](){
+				//std::cout << "Beep.\n";
+				//BeepWidget->m_ExecuteWidget->GetAction()();
+				LaunchProcessInBackground("/usr/bin/afplay", "data/hitsound.wav");		// HACK: OS X dependency
+			};
+
 			MainCanvas->AddWidget(ListWidget);
 			//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
 		}

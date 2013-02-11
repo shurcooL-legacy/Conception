@@ -26,12 +26,28 @@ template <typename T> const T * MenuWidget<T>::GetSelectedEntry() const
 
 template <typename T> void MenuWidget<T>::SetSelectedEntryId(Vector2n LocalPosition)
 {
+	decltype(m_SelectedEntryId) NewSelectedEntryId;
+
 	if (LocalPosition.Y() < 0)
-		m_SelectedEntryId = 0;
+		NewSelectedEntryId = 0;
 	else
-		m_SelectedEntryId = LocalPosition.Y() / lineHeight;
-	if (m_SelectedEntryId > m_Entries.size() - 1)
-		m_SelectedEntryId = m_Entries.size() - 1;
+		NewSelectedEntryId = LocalPosition.Y() / lineHeight;
+	if (NewSelectedEntryId > m_Entries.size() - 1)
+		NewSelectedEntryId = m_Entries.size() - 1;
+
+	SetSelectedEntryId(NewSelectedEntryId);
+}
+
+template <typename T> void MenuWidget<T>::SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId)
+{
+	if (m_SelectedEntryId != SelectedEntryId)
+	{
+		m_SelectedEntryId = SelectedEntryId;
+
+		if (nullptr != m_OnChange) {
+			m_OnChange();
+		}
+	}
 }
 
 template <typename T> void MenuWidget<T>::Render()
@@ -121,13 +137,13 @@ template <typename T> void MenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 				case GLFW_KEY_UP:
 					{
 						if (m_SelectedEntryId > 0)
-							--m_SelectedEntryId;
+							SetSelectedEntryId(m_SelectedEntryId - 1);
 					}
 					break;
 				case GLFW_KEY_DOWN:
 					{
 						if (m_SelectedEntryId < m_Entries.size() - 1)
-							++m_SelectedEntryId;
+							SetSelectedEntryId(m_SelectedEntryId + 1);
 					}
 					break;
 				default:

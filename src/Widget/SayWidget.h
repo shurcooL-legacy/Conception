@@ -9,12 +9,12 @@ public:
 	SayWidget(Vector2n Position, TypingModule & TypingModule);
 	~SayWidget();
 
+	TextFieldWidget * m_InputWidget;
+	ButtonWidget * m_ExecuteWidget;
+
 private:
 	SayWidget(const SayWidget &) = delete;
 	SayWidget & operator = (const SayWidget &) = delete;
-
-	TextFieldWidget * m_InputWidget;
-	ButtonWidget * m_ExecuteWidget;
 };
 
 #endif // __SayWidget_H__

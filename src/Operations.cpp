@@ -201,3 +201,25 @@ std::vector<std::string> Ls(std::string & InOut)
 
 	return Autocompletions;
 }
+
+void LaunchProcessInBackground(std::string Command, std::string Argument)
+{
+	auto Pid = fork();
+
+	if (0 == Pid)
+	{
+		execl(Command.c_str(), Command.c_str(), Argument.c_str(), (char *)0);
+
+		// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
+		//exit(1);		// Not needed, just in case I comment out the above
+		throw 0;
+	}
+	else if (-1 == Pid)
+	{
+		std::cerr << "Error forking.\n";
+		throw 0;
+	}
+	else
+	{
+	}
+}
