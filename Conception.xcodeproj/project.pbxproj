@@ -131,6 +131,8 @@
 		2A3E2E781696AAFD00ECC0D2 /* DebugOverlayWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugOverlayWidget.h; sourceTree = "<group>"; };
 		2A42D9F616289823001DC834 /* ContextMenuWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContextMenuWidget.h; sourceTree = "<group>"; };
 		2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContextMenuWidget.hpp; sourceTree = "<group>"; };
+		2A4490C016C899AC00F7EBC5 /* MenuWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuWidget.h; sourceTree = "<group>"; };
+		2A4490C116C899AC00F7EBC5 /* MenuWidget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuWidget.hpp; sourceTree = "<group>"; };
 		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA55155465D90021D8EF /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Canvas.h; path = src/Canvas.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A4FFA56155465D90021D8EF /* Concept.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Concept.cpp; path = src/Concept.cpp; sourceTree = SOURCE_ROOT; };
@@ -367,6 +369,8 @@
 				2A6861AC16A6DE2300817B2C /* LiveGofmtWidget.h */,
 				2A9C33EA1633A08300942CFD /* LiveProgramWidget.cpp */,
 				2A9C33EB1633A08300942CFD /* LiveProgramWidget.h */,
+				2A4490C016C899AC00F7EBC5 /* MenuWidget.h */,
+				2A4490C116C899AC00F7EBC5 /* MenuWidget.hpp */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
 				2AD7123116B45B2E0000A55D /* SayWidget.cpp */,

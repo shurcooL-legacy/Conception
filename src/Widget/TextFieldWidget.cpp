@@ -61,7 +61,7 @@ void TextFieldWidget::Render()
 	{
 	}*/
 	//if (CheckHover())
-	// HACK
+	// HACK, TODO: Make this a single DRY const
 	if (HasTypingFocus())
 	{
 		BorderColor[0] = 0.898;
@@ -348,6 +348,13 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								std::cout << "-----------------------\n";*/
 
 								auto AutocompletionsMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions);
+								AutocompletionsMenu->m_DoubleTapAction = [=](Vector2n, std::vector<std::string> &){
+									// TODO: Do something on double-tap, like insert the selected autocompletion into parent
+
+									g_InputManager->RequestTypingPointer(this->ModifyGestureRecognizer());
+									InputEvent.m_Pointer->ModifyPointerMapping().RemoveMapping(this->ModifyGestureRecognizer());
+									this->RemoveWidget(AutocompletionsMenu);		// TODO: Maybe this is wrong to do, verify
+								};
 								AddWidget(AutocompletionsMenu);
 								g_InputManager->RequestTypingPointer(AutocompletionsMenu->ModifyGestureRecognizer());
 							}

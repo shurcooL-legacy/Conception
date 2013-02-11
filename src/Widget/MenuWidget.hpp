@@ -1,19 +1,17 @@
-template <typename T> ContextMenuWidget<T>::ContextMenuWidget(Vector2n Position, std::vector<T> & Entries)
+template <typename T> MenuWidget<T>::MenuWidget(Vector2n Position, std::vector<T> & Entries)
 	: Widget(Position, Vector2n::ZERO, {}),
 	  m_Entries(Entries)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
-	ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 
 	UpdateDimensions();
 }
 
-template <typename T> ContextMenuWidget<T>::~ContextMenuWidget()
+template <typename T> MenuWidget<T>::~MenuWidget()
 {
 }
 
-template <typename T> const T * ContextMenuWidget<T>::GetSelectedEntry() const
+template <typename T> const T * MenuWidget<T>::GetSelectedEntry() const
 {
 	if (!m_Entries.empty())
 		return &m_Entries[m_SelectedEntryId];
@@ -21,12 +19,12 @@ template <typename T> const T * ContextMenuWidget<T>::GetSelectedEntry() const
 		return nullptr;
 }
 
-/*template <typename T> void ContextMenuWidget<T>::SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId)
+/*template <typename T> void MenuWidget<T>::SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId)
 {
 	m_SelectedEntryId = SelectedEntryId;
 }*/
 
-template <typename T> void ContextMenuWidget<T>::SetSelectedEntryId(Vector2n LocalPosition)
+template <typename T> void MenuWidget<T>::SetSelectedEntryId(Vector2n LocalPosition)
 {
 	if (LocalPosition.Y() < 0)
 		m_SelectedEntryId = 0;
@@ -36,7 +34,7 @@ template <typename T> void ContextMenuWidget<T>::SetSelectedEntryId(Vector2n Loc
 		m_SelectedEntryId = m_Entries.size() - 1;
 }
 
-template <typename T> void ContextMenuWidget<T>::Render()
+template <typename T> void MenuWidget<T>::Render()
 {
 	Color BackgroundColor(1.0, 1.0, 1.0);
 	Color BorderColor(0.3, 0.3, 0.3);
@@ -89,7 +87,7 @@ template <typename T> void ContextMenuWidget<T>::Render()
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
+template <typename T> void MenuWidget<T>::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	if (nullptr != m_TapAction)
 	{
@@ -97,7 +95,7 @@ template <typename T> void ContextMenuWidget<T>::ProcessTap(const InputEvent & I
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
+template <typename T> void MenuWidget<T>::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position)
 {
 	if (nullptr != m_DoubleTapAction)
 	{
@@ -105,7 +103,7 @@ template <typename T> void ContextMenuWidget<T>::ProcessDoubleTap(const InputEve
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
+template <typename T> void MenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 {
 	if (InputEvent.HasType(InputEvent::EventType::BUTTON_EVENT))
 	{
@@ -120,33 +118,6 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 
 				switch (ButtonId)
 				{
-				case GLFW_KEY_ESC:
-					{
-						ModifyParent()->RemoveWidget(this);
-						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
-					}
-					break;
-				case GLFW_KEY_ENTER:
-				case GLFW_KEY_KP_ENTER:
-					{
-						// TODO: Do something on enter, like insert the selected autocompletion into parent
-
-						ModifyParent()->RemoveWidget(this);
-						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
-					}
-					break;
-				case GLFW_KEY_TAB:
-					{
-					}
-					break;
-				case GLFW_KEY_LEFT:
-				case GLFW_KEY_RIGHT:
-					{
-						g_InputManager->RequestTypingPointer(ModifyParent()->ModifyGestureRecognizer());
-						ModifyParent()->RemoveWidget(this);		// TODO: Maybe this is wrong to do, verify
-						HandledEvent = false;		// TODO: Make this work
-					}
-					break;
 				case GLFW_KEY_UP:
 					{
 						if (m_SelectedEntryId > 0)
@@ -208,7 +179,7 @@ template <typename T> void ContextMenuWidget<T>::ProcessEvent(InputEvent & Input
 	}
 }
 
-template <typename T> void ContextMenuWidget<T>::UpdateDimensions()
+template <typename T> void MenuWidget<T>::UpdateDimensions()
 {
 	Vector2n Dimensions;
 

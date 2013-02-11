@@ -1,13 +1,13 @@
 #pragma once
-#ifndef __ContextMenuWidget_H__
-#define __ContextMenuWidget_H__
+#ifndef __MenuWidget_H__
+#define __MenuWidget_H__
 
-template <typename T> class ContextMenuWidget
+template <typename T> class MenuWidget
 	: public Widget
 {
 public:
-	ContextMenuWidget(Vector2n Position, std::vector<T> & List);
-	virtual ~ContextMenuWidget();
+	MenuWidget(Vector2n Position, std::vector<T> & List);
+	virtual ~MenuWidget();
 
 	const T * GetSelectedEntry() const;
 
@@ -21,7 +21,7 @@ public:
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction = nullptr;
-	std::function<void(Vector2n, std::vector<T> &)>		m_DoubleTapAction = nullptr;
+	std::function<void(Vector2n, std::vector<T> &)>		m_DoubleTapAction = nullptr;		// TODO: Inconsistency, this is here while GR.RecDblTap is off
 
 private:
 	void UpdateDimensions();
@@ -36,6 +36,6 @@ public:
 	//void SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId);
 };
 
-#include "ContextMenuWidget.hpp"
+#include "MenuWidget.hpp"
 
-#endif // __ContextMenuWidget_H__
+#endif // __MenuWidget_H__

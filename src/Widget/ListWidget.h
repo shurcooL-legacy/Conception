@@ -24,7 +24,7 @@ public:
 private:
 	void UpdateDimensions();
 
-	std::vector<T>				& m_List;
+	std::vector<T>				& m_Entries;
 
 	TypingModule				& m_TypingModule;
 };

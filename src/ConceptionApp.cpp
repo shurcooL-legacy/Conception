@@ -17,7 +17,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #if 1
 		{
 			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), *m_TypingModule);
-			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & m_List)
+			StdIncludesList->m_TapAction = [=](Vector2n LocalPosition, std::vector<ConceptId> & Entries)
 			{
 				auto Entry = m_TypingModule->TakeString();
 
@@ -28,17 +28,17 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 					//Insert(ConceptId);
 
 					// TEST
-					auto Spot = m_List.begin() + (LocalPosition.Y() / lineHeight);
-					m_List.insert(Spot, ConceptId);
+					auto Spot = Entries.begin() + (LocalPosition.Y() / lineHeight);
+					Entries.insert(Spot, ConceptId);
 				}
 				else
 				{
-					auto ListEntry = static_cast<decltype(m_List.size())>(LocalPosition.Y() / lineHeight);
+					auto ListEntry = static_cast<decltype(Entries.size())>(LocalPosition.Y() / lineHeight);
 
-					if (ListEntry < m_List.size())
+					if (ListEntry < Entries.size())
 					{
-						m_TypingModule->SetString(GetConcept(m_List[ListEntry]).GetContent());
-						m_List.erase(m_List.begin() + ListEntry);
+						m_TypingModule->SetString(GetConcept(Entries[ListEntry]).GetContent());
+						Entries.erase(Entries.begin() + ListEntry);
 					}
 				}
 			};
@@ -90,6 +90,23 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			} ));
 		}
 
+		// TEST: Dir list
+		{
+			auto List = std::vector<std::string>({"dir 1", "dir2", "file 1", "file 2", "file 3"});
+			auto ListWidget = new MenuWidget<std::string>(Vector2n(-490, -390), List);
+			//ListWidget->AddBehavior(new DraggablePositionBehavior(*ListWidget));
+
+			ListWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)
+			{
+				g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
+
+				ListWidget->SetSelectedEntryId(LocalPosition);
+			};
+
+			MainCanvas->AddWidget(ListWidget);
+			//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
+		}
+
 		// TEST: Modify some Concept
 		{
 			auto Widget = new TextFieldWidget(Vector2n(-320, 470), *m_TypingModule);
@@ -114,7 +131,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Time widget
-		{
+		/*{
 			auto Content = []() -> std::string {
 				auto now = std::chrono::system_clock::now();
 
@@ -128,7 +145,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			LabelWidget->AddBehavior(new DraggablePositionBehavior(*LabelWidget));
 
 			MainCanvas->AddWidget(LabelWidget);
-		}
+		}*/
 
 		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
 
