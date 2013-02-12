@@ -245,27 +245,27 @@ void Widget::RemoveHoverPointer(Pointer * Pointer)
 	m_HoverPointers.erase(Pointer);
 }*/
 
-void Widget::ProcessManipulationBegin(const PointerState & PointerState)
+void Widget::ProcessManipulationBegin(const InputEvent & InputEvent)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationBegin(PointerState);
+		Behavior->ProcessManipulationBegin(InputEvent);
 	}
 }
 
-void Widget::ProcessManipulationUpdate(const PointerState & PointerState)
+void Widget::ProcessManipulationUpdate(const InputEvent & InputEvent)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationUpdate(PointerState);
+		Behavior->ProcessManipulationUpdate(InputEvent);
 	}
 }
 
-void Widget::ProcessManipulationEnd(const PointerState & PointerState)
+void Widget::ProcessManipulationEnd(const InputEvent & InputEvent)
 {
 	for (auto & Behavior : m_Behaviors)
 	{
-		Behavior->ProcessManipulationEnd(PointerState);
+		Behavior->ProcessManipulationEnd(InputEvent);
 	}
 }
 

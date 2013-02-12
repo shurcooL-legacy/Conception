@@ -18,13 +18,13 @@ public:
 	virtual void ProcessDoubleTap(const InputEvent & InputEvent, Vector2n Position) {}
 	virtual void ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount) {}
 
-	virtual void ProcessManipulationBegin(const PointerState & PointerState) {}
-	virtual void ProcessManipulationUpdate(const PointerState & PointerState) {}
-	virtual void ProcessManipulationEnd(const PointerState & PointerState) {}
+	virtual void ProcessManipulationBegin(const InputEvent & InputEvent) {}
+	virtual void ProcessManipulationUpdate(const InputEvent & InputEvent) {}
+	virtual void ProcessManipulationEnd(const InputEvent & InputEvent) {}
 
 	virtual void ProcessCharacter(InputEvent & InputEvent, const uint32 Character) {}
 
-	// THINK: Does it make sense to derive from InputListener and have `ProcesEvent()` low-level input process function here? Or should I have high-level events only, and make button presses available as trivial gestures?
+	// THINK: Does it make sense to derive from InputHandler and have `ProcesEvent()` low-level input process function here? Or should I have high-level events only, and make button presses available as trivial gestures?
 
 private:
 	GestureHandler(const GestureHandler &);

@@ -194,8 +194,9 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 	}
 }
 
-void Canvas::ProcessManipulationBegin(const PointerState & PointerState)
+void Canvas::ProcessManipulationBegin(const InputEvent & InputEvent)
 {
+	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationBegin()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
@@ -206,8 +207,9 @@ void Canvas::ProcessManipulationBegin(const PointerState & PointerState)
 	ModifyGestureRecognizer().m_ManipulationOffset = Vector2n(Camera.X() * CameraZ, Camera.Y() * CameraZ) + ParentLocalPosition;
 }
 
-void Canvas::ProcessManipulationUpdate(const PointerState & PointerState)
+void Canvas::ProcessManipulationUpdate(const InputEvent & InputEvent)
 {
+	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdate()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
@@ -219,7 +221,7 @@ void Canvas::ProcessManipulationUpdate(const PointerState & PointerState)
 	Camera.Y() = (GetGestureRecognizer().m_ManipulationOffset - ParentLocalPosition).Y() / CameraZ;
 }
 
-void Canvas::ProcessManipulationEnd(const PointerState & PointerState)
+void Canvas::ProcessManipulationEnd(const InputEvent & InputEvent)
 {
 	//printf("MultitouchTestBoxWidget::ProcessManipulationEnd()\n");
 }

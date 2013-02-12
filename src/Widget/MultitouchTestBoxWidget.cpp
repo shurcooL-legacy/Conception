@@ -98,8 +98,9 @@ void MultitouchTestBoxWidget::ProcessSlider(Pointer * Pointer, Input::InputId Sl
 	//m_Position.Y() += static_cast<sint32>(DragAmount.Y());
 }*/
 
-void MultitouchTestBoxWidget::ProcessManipulationBegin(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationBegin(const InputEvent & InputEvent)
 {
+	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationBegin()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
@@ -109,8 +110,9 @@ void MultitouchTestBoxWidget::ProcessManipulationBegin(const PointerState & Poin
 	ModifyGestureRecognizer().m_ManipulationOffset = GetPosition() - ParentLocalPosition;
 }
 
-void MultitouchTestBoxWidget::ProcessManipulationUpdate(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationUpdate(const InputEvent & InputEvent)
 {
+	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdate()\n");
 
 	/*Vector2d PositionDouble = GetParent()->GlobalToCanvas(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
@@ -120,7 +122,7 @@ void MultitouchTestBoxWidget::ProcessManipulationUpdate(const PointerState & Poi
 	ModifyPosition() = GetGestureRecognizer().m_ManipulationOffset + ParentLocalPosition;
 }
 
-void MultitouchTestBoxWidget::ProcessManipulationEnd(const PointerState & PointerState)
+void MultitouchTestBoxWidget::ProcessManipulationEnd(const InputEvent & InputEvent)
 {
 	//printf("MultitouchTestBoxWidget::ProcessManipulationEnd()\n");
 }

@@ -17,9 +17,9 @@ public:
 	void ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount);*/
 	//void ProcessDrag(Vector2d DragAmount) override;
 
-	void ProcessManipulationBegin(const PointerState & PointerState) override;
-	void ProcessManipulationUpdate(const PointerState & PointerState) override;
-	void ProcessManipulationEnd(const PointerState & PointerState) override;
+	void ProcessManipulationBegin(const InputEvent & InputEvent) override;
+	void ProcessManipulationUpdate(const InputEvent & InputEvent) override;
+	void ProcessManipulationEnd(const InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
 

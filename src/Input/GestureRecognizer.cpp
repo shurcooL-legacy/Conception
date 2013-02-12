@@ -548,21 +548,21 @@ MatchResult GestureRecognizer::MatchEventQueue(InputEventQueue::FilteredQueue & 
 		if (2 == Match.Status)
 		{
 			m_InManipulation = true;
-			m_Owner.ProcessManipulationBegin(InputEvent.m_PostEventState);
+			m_Owner.ProcessManipulationBegin(InputEvent);
 		}
 	}
 	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationUpdate(UnreservedEvents, InputEventIterator, m_InManipulation)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
-			m_Owner.ProcessManipulationUpdate(InputEvent.m_PostEventState);
+			m_Owner.ProcessManipulationUpdate(InputEvent);
 		}
 	}
 	else if (m_RecognizeManipulationTranslate && (Match = MatchManipulationEnd(UnreservedEvents, InputEventIterator, m_InManipulation, m_RecognizeManipulationTranslateButtonId)).AnySuccess())
 	{
 		if (2 == Match.Status)
 		{
-			m_Owner.ProcessManipulationEnd(InputEvent.m_PostEventState);
+			m_Owner.ProcessManipulationEnd(InputEvent);
 			m_InManipulation = false;
 		}
 	}
@@ -739,7 +739,8 @@ void GestureRecognizer::ProcessCanvasUpdated()
 	{
 		// HACK: Using the first pointer is a hack
 		// TODO: I should pass all connected pointers as a 'frame', they're all relevant
-		m_Owner.ProcessManipulationUpdate((*GetConnected().begin())->GetPointerState());
+		// HACK: Disabled because this commit changed signature for ProcessManipulationUpdate() and I don't have access to InputEvent here...
+		//m_Owner.ProcessManipulationUpdate((*GetConnected().begin())->GetPointerState());
 	}
 }
 

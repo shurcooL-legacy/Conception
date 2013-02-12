@@ -16,7 +16,7 @@ public:
 	void RemoveMapping(GestureRecognizer & GestureRecognizer);
 	void RemoveAllMappings();
 
-	bool ContainsMapping(const GestureRecognizer & GestureRecognizer) const;
+	bool ContainsMapping(const GestureRecognizer * GestureRecognizer) const;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 

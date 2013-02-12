@@ -20,10 +20,13 @@ void DraggablePositionBehavior::UnsetupGestureRecognizer()
 	m_Widget.ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 }
 
-void DraggablePositionBehavior::ProcessManipulationBegin(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationBegin(const InputEvent & InputEvent)
 {
-	// TODO: The if condition might not be quite what I'm looking for, need to fix it...
-	if (!m_Widget.HasTypingFocus())
+	const PointerState & PointerState = InputEvent.m_PostEventState;
+
+	// Check that either the widget is not selected, or the mouse is not hovering over the top-most typing pointer-active widget
+	if (   !m_Widget.HasAnyTypingFocus()
+		|| !InputEvent.m_Pointer->GetPointerMapping().ContainsMapping(g_InputManager->m_TypingPointer->GetPointerMapping().GetHoverer()))
 	{
 		auto ParentLocalPosition = m_Widget.GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
@@ -31,9 +34,13 @@ void DraggablePositionBehavior::ProcessManipulationBegin(const PointerState & Po
 	}
 }
 
-void DraggablePositionBehavior::ProcessManipulationUpdate(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationUpdate(const InputEvent & InputEvent)
 {
-	if (!m_Widget.HasTypingFocus())
+	const PointerState & PointerState = InputEvent.m_PostEventState;
+
+	// Check that either the widget is not selected, or the mouse is not hovering over the top-most typing pointer-active widget
+	if (   !m_Widget.HasAnyTypingFocus()
+		|| !InputEvent.m_Pointer->GetPointerMapping().ContainsMapping(g_InputManager->m_TypingPointer->GetPointerMapping().GetHoverer()))
 	{
 		auto ParentLocalPosition = m_Widget.GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));
 
@@ -41,7 +48,7 @@ void DraggablePositionBehavior::ProcessManipulationUpdate(const PointerState & P
 	}
 }
 
-void DraggablePositionBehavior::ProcessManipulationEnd(const PointerState & PointerState)
+void DraggablePositionBehavior::ProcessManipulationEnd(const InputEvent & InputEvent)
 {
 }
 

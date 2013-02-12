@@ -73,11 +73,11 @@ void PointerMapping::RemoveAllMappings()
 	}
 }
 
-bool PointerMapping::ContainsMapping(const GestureRecognizer & GestureRecognizer) const
+bool PointerMapping::ContainsMapping(const GestureRecognizer * GestureRecognizer) const
 {
 	for (auto & Entry : m_Entries)
 	{
-		if (&GestureRecognizer == Entry)
+		if (GestureRecognizer == Entry)
 			return true;
 	}
 
