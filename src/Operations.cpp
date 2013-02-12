@@ -202,13 +202,20 @@ std::vector<std::string> Ls(std::string & InOut)
 	return Autocompletions;
 }
 
-void LaunchProcessInBackground(std::string Command, std::string Argument)
+void LaunchProcessInBackground(std::initializer_list<std::string> Argv)
 {
 	auto Pid = fork();
 
 	if (0 == Pid)
 	{
-		execl(Command.c_str(), Command.c_str(), Argument.c_str(), (char *)0);
+		std::vector<char *> argv;
+		for (auto & arg : Argv)
+		{
+			argv.push_back(const_cast<char *>(arg.c_str()));
+		}
+		argv.push_back(nullptr);
+
+		execv(argv[0], &argv[0]);
 
 		// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 		//exit(1);		// Not needed, just in case I comment out the above

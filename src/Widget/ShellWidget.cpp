@@ -38,8 +38,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 						dup2(PipeInFd[0], 0);  // get stdin from the pipe
 						close(PipeInFd[0]);    // this descriptor is no longer needed
 
-						const char term[] = "TERM=xterm";
-						const char * envp[] = { term, nullptr };
+						const char * envp[] = { "TERM=xterm", nullptr };
 						execle("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0, envp);
 
 						// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
@@ -111,11 +110,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 			}
 
 			// Trim last newline, if there is one
-			{
-				if (   Output.size() >= 1
-					&& Output.back() == '\n')
-				Output.pop_back();
-			}
+			//TrimLastNewline(Output);
 
 			m_OutputWidget->SetContent(Output);
 		});

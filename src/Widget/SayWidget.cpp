@@ -11,7 +11,7 @@ SayWidget::SayWidget(Vector2n Position, TypingModule & TypingModule)
 	{
 		m_ExecuteWidget->SetAction([&]()
 		{
-			LaunchProcessInBackground("/usr/bin/say", m_InputWidget->GetContent());
+			LaunchProcessInBackground({"/usr/bin/say", m_InputWidget->GetContent()});
 		});
 	}
 

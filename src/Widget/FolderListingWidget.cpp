@@ -24,7 +24,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Ty
 		ListingWidget->m_OnChange = [&TypingModule, this, ListingWidget, Path](){
 			//std::cout << "Beep.\n";
 			//BeepWidget->m_ExecuteWidget->GetAction()();
-			LaunchProcessInBackground("/usr/bin/afplay", "data/hitsound.wav");		// HACK: OS X dependency
+			LaunchProcessInBackground({"/usr/bin/afplay", "--volume", "0.1", "data/hitsound.wav"});		// HACK: OS X dependency
 
 			if (nullptr != m_Child) {
 				this->RemoveWidget(m_Child);
