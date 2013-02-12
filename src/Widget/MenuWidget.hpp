@@ -161,39 +161,22 @@ template <typename T> void MenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 				}
 			}
 		}
-		else if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
-		{
-			if (Pressed)
-			{
-				{
-					InputEvent.m_Handled = true;
-				}
-
-				switch (ButtonId)
-				{
-				case 0:
-					{
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}
 	}
 
-	// TODO: Re-enable this but debug the crashing it causes, etc.
-	if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
-		|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
+	if (HasTypingFocus())
 	{
-		if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
+		if (   InputEvent.HasType(InputEvent::EventType::AXIS_EVENT)
+			|| InputEvent.HasType(InputEvent::EventType::CANVAS_MOVED_TEST))
 		{
-			if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
+			if (Pointer::VirtualCategory::POINTING == InputEvent.m_Pointer->GetVirtualCategory())
 			{
-				Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+				if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
+				{
+					Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+					Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-				SetSelectedEntryId(LocalPosition);
+					SetSelectedEntryId(LocalPosition);
+				}
 			}
 		}
 	}

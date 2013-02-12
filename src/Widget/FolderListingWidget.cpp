@@ -5,9 +5,30 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Ty
 {
 	auto List = Ls(Path);
 
-	if (!(   List.empty()
-		  || (   1 == List.size()
-			  && List.front() == "ls: " + Path + ": Not a directory")))
+	if (   1 == List.size()
+		&& List.front() == "ls: " + Path + ": Not a directory")
+	{
+		// TEST: Add a file preview pane
+		{
+#if 0
+			auto TextField = new TextFieldWidget(Vector2n(0, -430), *m_TypingModule);
+			TextField->AddBehavior(new DraggablePositionBehavior(*TextField));
+			MainCanvas->AddWidget(TextField);
+
+			TextField->SetContent(FromFileToString(Path->GetContent()));
+#else
+			auto PathString = Path.substr(0, Path.length() - 1);
+			auto Content = [PathString]() -> std::string {
+				return FromFileToString(PathString);
+			};
+			auto LabelWidget = new class LabelWidget(Vector2n(0, -430), Content, LabelWidget::Background::Normal);
+			AddWidget(LabelWidget);
+#endif
+		}
+	}
+	else if (!(   List.empty()
+			   || (   1 == List.size()
+				   && List.front() == "ls: " + Path + ": Not a directory")))
 	{
 		auto ListingWidget = new MenuWidget<std::string>(Vector2n(-600, -390), List);
 		//ListWidget->AddBehavior(new DraggablePositionBehavior(*ListWidget));

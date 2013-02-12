@@ -61,7 +61,9 @@ protected:
 
 	bool CheckHover() const;
 	bool CheckActive() const;
-	virtual bool HasTypingFocus() const;
+	bool HasTypingFocus() const;
+	bool HasTopmostTypingFocus() const;
+	bool HasAnyTypingFocus() const;
 
 private:
 	Widget(const Widget &) = delete;

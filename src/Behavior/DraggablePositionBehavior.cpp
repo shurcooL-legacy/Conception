@@ -22,6 +22,7 @@ void DraggablePositionBehavior::UnsetupGestureRecognizer()
 
 void DraggablePositionBehavior::ProcessManipulationBegin(const PointerState & PointerState)
 {
+	// TODO: The if condition might not be quite what I'm looking for, need to fix it...
 	if (!m_Widget.HasTypingFocus())
 	{
 		auto ParentLocalPosition = m_Widget.GlobalToParent(Vector2n(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition()));

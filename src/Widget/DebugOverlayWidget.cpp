@@ -13,6 +13,8 @@ DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
 			{
 				if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
 				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
+				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
+				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
 				else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
 				else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
 				else if (dynamic_cast<ToggleWidget *>(&i->GetOwner())) out << "\n ToggleWidget";
@@ -36,6 +38,8 @@ DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
 			{
 				if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
 				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
+				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
+				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
 				else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
 				else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
 				else if (dynamic_cast<ToggleWidget *>(&i->GetOwner())) out << "\n ToggleWidget";

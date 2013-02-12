@@ -40,8 +40,15 @@ void Widget::RemoveAllBehaviors()
 bool Widget::HasTypingFocus() const
 {
 #if 0
-	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));
+	return HasAnyTypingFocus();
 #else
+	return HasTopmostTypingFocus();
+#endif
+}
+
+// DEBUG: Not sure if I should make such a distinction as "topmost" widget, or better to avoid it, or have a "request/accept focus" system so then it's topmost-widget-that-requested-focus
+bool Widget::HasTopmostTypingFocus() const
+{
 	auto TypingPointerIterator = GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get());
 	if (GetGestureRecognizer().GetConnected().end() != TypingPointerIterator)
 	{
@@ -49,7 +56,11 @@ bool Widget::HasTypingFocus() const
 	}
 	else
 		return false;
-#endif
+}
+
+bool Widget::HasAnyTypingFocus() const
+{
+	return (GetGestureRecognizer().GetConnected().end() != GetGestureRecognizer().GetConnected().find(g_InputManager->m_TypingPointer.get()));
 }
 
 bool Widget::CheckHover() const
