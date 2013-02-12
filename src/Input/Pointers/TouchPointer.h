@@ -18,7 +18,7 @@ public:
 
 private:
 	TouchPointer(const TouchPointer &);
-	TouchPointer & operator =(const TouchPointer &);
+	TouchPointer & operator = (const TouchPointer &);
 };
 
 #endif // __TouchPointer_H__

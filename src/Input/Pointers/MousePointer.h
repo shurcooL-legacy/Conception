@@ -18,7 +18,7 @@ public:
 
 private:
 	MousePointer(const MousePointer &);
-	MousePointer & operator =(const MousePointer &);
+	MousePointer & operator = (const MousePointer &);
 };
 
 #endif // __MousePointer_H__

@@ -11,7 +11,7 @@ public:
 
 private:
 	MultitouchTestApp(const MultitouchTestApp &);
-	MultitouchTestApp & operator =(const MultitouchTestApp &);
+	MultitouchTestApp & operator = (const MultitouchTestApp &);
 
 	//std::unique_ptr<GestureRecognizer> m_GestureRecognizerTEST;
 };

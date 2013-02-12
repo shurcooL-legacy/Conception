@@ -18,7 +18,7 @@ public:
 
 private:
 	TypingPointer(const TypingPointer &);
-	TypingPointer & operator =(const TypingPointer &);
+	TypingPointer & operator = (const TypingPointer &);
 
 	//std::vector<bool>		m_ButtonsPressed;
 };

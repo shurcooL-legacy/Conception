@@ -28,7 +28,7 @@ public:
 
 private:
 	PointerMapping(const PointerMapping &) = delete;
-	PointerMapping & operator =(const PointerMapping &) = delete;
+	PointerMapping & operator = (const PointerMapping &) = delete;
 
 	void ChangeCapturer(GestureRecognizer * Capturer);
 

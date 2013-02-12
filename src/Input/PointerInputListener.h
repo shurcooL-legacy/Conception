@@ -26,7 +26,7 @@ public:
 
 private:
 	PointerInputListener(const PointerInputListener &);
-	PointerInputListener & operator =(const PointerInputListener &);
+	PointerInputListener & operator = (const PointerInputListener &);
 };
 #endif
 

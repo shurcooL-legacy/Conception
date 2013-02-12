@@ -14,7 +14,7 @@ public:
 
 private:
 	SystemInputListener(const SystemInputListener &);
-	SystemInputListener & operator =(const SystemInputListener &);
+	SystemInputListener & operator = (const SystemInputListener &);
 };
 #endif
 

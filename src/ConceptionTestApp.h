@@ -13,7 +13,7 @@ public:
 
 private:
 	ConceptionTestApp(const ConceptionTestApp &);
-	ConceptionTestApp & operator =(const ConceptionTestApp &);
+	ConceptionTestApp & operator = (const ConceptionTestApp &);
 
 	public:Project		m_CurrentProject;private:
 
