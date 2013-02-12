@@ -48,6 +48,8 @@ public:
 
 	bool m_Visible;
 
+	std::string m_DebugDescription = "";
+
 protected:
 	Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_ptr<Behavior>> Behaviors);
 

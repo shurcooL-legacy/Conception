@@ -110,6 +110,14 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				//std::cout << "Beep.\n";
 				//BeepWidget->m_ExecuteWidget->GetAction()();
 				LaunchProcessInBackground("/usr/bin/afplay", "data/hitsound.wav");		// HACK: OS X dependency
+
+				static MenuWidget<std::string> * PreviousMenu = nullptr;
+				if (nullptr != PreviousMenu) {
+					MainCanvas->RemoveWidget(PreviousMenu);
+				}
+				auto Path = *ListWidget->GetSelectedEntry() + "/";
+				auto List = Ls(Path);
+				MainCanvas->AddWidget(PreviousMenu = new MenuWidget<std::string>(Vector2n(-390, -390), List));
 			};
 
 			MainCanvas->AddWidget(ListWidget);
@@ -157,20 +165,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}*/
 
 		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
-
-#if 0
-		// "./GenProgram.go" file contents displayed (in real-time) in this Label Widget
-		{
-			auto Content = []() -> std::string {
-				//return FromFileToString("./GenProgram.go");
-				return FromFileToString("/Users/Dmitri/Desktop/goproj_play/src/gist.github.com/4670289.git/gistfile1.go");
-			};
-			auto LabelWidget = new class LabelWidget(Vector2n(-546, -186), Content, LabelWidget::Background::Normal);
-			LabelWidget->AddBehavior(new DraggablePositionBehavior(*LabelWidget));
-
-			MainCanvas->AddWidget(LabelWidget);
-		}
-#endif
 
 #if 1
 		{

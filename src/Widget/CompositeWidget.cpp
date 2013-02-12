@@ -20,23 +20,13 @@ CompositeWidget::~CompositeWidget()
 
 void CompositeWidget::AddWidget(Widget * Widget)
 {
-	m_WidgetsToBeAdded.push(std::unique_ptr<class Widget>(Widget));
+	m_WidgetsToBeAdded.push(std::shared_ptr<class Widget>(Widget));
 	Widget->SetParent(*this);
 }
 
 void CompositeWidget::RemoveWidget(Widget * Widget)
 {
-	// TODO: Finish
-	// HACK: This removes all widgets, not just the specified one
-
-	// For all connected pointers
-	while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
-	{
-		// Modify the pointer mapping of said pointer, and removed the widget which is being removed
-		Widget->ModifyGestureRecognizer().GetConnected().begin().operator *()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
-	}
-
-	m_Widgets.clear();
+	m_WidgetsToBeRemoved.push(Widget);
 }
 
 void CompositeWidget::Render()
@@ -169,6 +159,29 @@ void CompositeWidget::ProcessTimePassed(const double TimePassed)
 	}
 
 	Widget::ProcessTimePassed(TimePassed);		// For DraggablePositionBehavior::ProcessTimePassed() to get called
+
+	while (!m_WidgetsToBeRemoved.empty())
+	{
+		auto Widget = m_WidgetsToBeRemoved.front();
+		m_WidgetsToBeRemoved.pop();
+
+		// DEBUG: Not sure if still need to do this now that widget is removed after event queue processing, but maybe still needed to rid of persistent pointers
+		// For all connected pointers
+		while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
+		{
+			// Modify the pointer mapping of said pointer, and removed the widget which is being removed
+			Widget->ModifyGestureRecognizer().GetConnected().begin().operator *()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
+		}
+
+		for (auto it0 = m_Widgets.begin(); m_Widgets.end() != it0; ++it0)
+		{
+			if ((*it0).get() == Widget)
+			{
+				m_Widgets.erase(it0);
+				break;
+			}
+		}
+	}
 
 	while (!m_WidgetsToBeAdded.empty())
 	{
