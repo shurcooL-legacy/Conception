@@ -29,9 +29,10 @@ private:
 
 	std::vector<T>				m_Entries;
 
-	typename decltype(m_Entries)::size_type		m_SelectedEntryId = 0;
+	typename decltype(m_Entries)::size_type		m_SelectedEntryId = -1;
 
 	const Color		m_SelectedColor = Color(0.3529, 0.5686, 0.8235);
+	const Color		m_UnfocusedSelectedColor = Color(static_cast<uint8>(212), 212, 212);
 
 public:
 	void SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId);

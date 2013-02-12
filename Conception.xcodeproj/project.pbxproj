@@ -16,6 +16,7 @@
 		2A234D6616B464300072E797 /* ConceptStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6416B464300072E797 /* ConceptStream.cpp */; };
 		2A234D6A16B4974C0072E797 /* DimensionsStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6816B4974C0072E797 /* DimensionsStream.cpp */; };
 		2A234D6D16B4BA920072E797 /* StreamStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A234D6B16B4BA920072E797 /* StreamStream.cpp */; };
+		2A2DC67416C9E41D00300BB1 /* FolderListingWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2DC67216C9E41D00300BB1 /* FolderListingWidget.cpp */; };
 		2A34A6C71587AD6500D2AF16 /* ConceptStringBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */; };
 		2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3A49E816AE43D60023010C /* ShellWidget.cpp */; };
 		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
@@ -121,6 +122,8 @@
 		2A234D6916B4974C0072E797 /* DimensionsStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DimensionsStream.h; path = src/DimensionsStream.h; sourceTree = SOURCE_ROOT; };
 		2A234D6B16B4BA920072E797 /* StreamStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamStream.cpp; path = src/StreamStream.cpp; sourceTree = SOURCE_ROOT; };
 		2A234D6C16B4BA920072E797 /* StreamStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StreamStream.h; path = src/StreamStream.h; sourceTree = SOURCE_ROOT; };
+		2A2DC67216C9E41D00300BB1 /* FolderListingWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FolderListingWidget.cpp; sourceTree = "<group>"; };
+		2A2DC67316C9E41D00300BB1 /* FolderListingWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderListingWidget.h; sourceTree = "<group>"; };
 		2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConceptStringBoxWidget.cpp; sourceTree = "<group>"; };
 		2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConceptStringBoxWidget.h; sourceTree = "<group>"; };
 		2A3A49E816AE43D60023010C /* ShellWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShellWidget.cpp; sourceTree = "<group>"; };
@@ -355,6 +358,8 @@
 				2A3E2E781696AAFD00ECC0D2 /* DebugOverlayWidget.h */,
 				2AEECA14167B8F5A003799B4 /* FlowLayoutWidget.cpp */,
 				2AEECA15167B8F5A003799B4 /* FlowLayoutWidget.h */,
+				2A2DC67216C9E41D00300BB1 /* FolderListingWidget.cpp */,
+				2A2DC67316C9E41D00300BB1 /* FolderListingWidget.h */,
 				2ADBF3C715840A18007BDF94 /* FunctionWidget.cpp */,
 				2ADBF3C815840A19007BDF94 /* FunctionWidget.h */,
 				2ABE46811673CBBE0010923C /* LabelWidget.cpp */,
@@ -646,6 +651,7 @@
 				2A234D6A16B4974C0072E797 /* DimensionsStream.cpp in Sources */,
 				2A234D6D16B4BA920072E797 /* StreamStream.cpp in Sources */,
 				2AB692F116C48E0A009584FE /* Operations.cpp in Sources */,
+				2A2DC67416C9E41D00300BB1 /* FolderListingWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

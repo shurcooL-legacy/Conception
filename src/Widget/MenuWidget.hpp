@@ -13,7 +13,8 @@ template <typename T> MenuWidget<T>::~MenuWidget()
 
 template <typename T> const T * MenuWidget<T>::GetSelectedEntry() const
 {
-	if (!m_Entries.empty())
+	if (   m_SelectedEntryId >= 0
+		&& m_SelectedEntryId < m_Entries.size())
 		return &m_Entries[m_SelectedEntryId];
 	else
 		return nullptr;
@@ -95,7 +96,10 @@ template <typename T> void MenuWidget<T>::Render()
 		{
 			if (Entry - m_Entries.begin() == m_SelectedEntryId)
 			{
-				DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
+				if (HasTypingFocus())
+					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
+				else
+					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_UnfocusedSelectedColor, m_UnfocusedSelectedColor);
 			}
 
 			OpenGLStream << *Entry << endl;

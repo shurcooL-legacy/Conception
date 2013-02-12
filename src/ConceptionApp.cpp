@@ -90,39 +90,9 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			} ));
 		}
 
-		// TEST: Dir list
-		{
-			std::string Path = "";
-			auto List = Ls(Path);
-			auto ListWidget = new MenuWidget<std::string>(Vector2n(-600, -390), List);
-			//ListWidget->AddBehavior(new DraggablePositionBehavior(*ListWidget));
-
-			ListWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)
-			{
-				g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
-
-				ListWidget->SetSelectedEntryId(LocalPosition);
-			};
-
-			/*auto BeepWidget = new SayWidget(Vector2n::ZERO, *m_TypingModule);		// HACK: Memory leak
-			BeepWidget->m_InputWidget->SetContent("Beep.");*/
-			ListWidget->m_OnChange = [=](){
-				//std::cout << "Beep.\n";
-				//BeepWidget->m_ExecuteWidget->GetAction()();
-				LaunchProcessInBackground("/usr/bin/afplay", "data/hitsound.wav");		// HACK: OS X dependency
-
-				static MenuWidget<std::string> * PreviousMenu = nullptr;
-				if (nullptr != PreviousMenu) {
-					MainCanvas->RemoveWidget(PreviousMenu);
-				}
-				auto Path = *ListWidget->GetSelectedEntry() + "/";
-				auto List = Ls(Path);
-				MainCanvas->AddWidget(PreviousMenu = new MenuWidget<std::string>(Vector2n(-390, -390), List));
-			};
-
-			MainCanvas->AddWidget(ListWidget);
-			//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
-		}
+		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *m_TypingModule);
+		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));		// TODO: Figure out why it's not working
+		MainCanvas->AddWidget(FolderListing);
 
 		// TEST: Modify some Concept
 		{
