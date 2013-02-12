@@ -13,8 +13,8 @@ public:
 	virtual void ProcessTimePassed(const double TimePassed) {}
 
 private:
-	InputHandler(const InputHandler &) = delete;
-	InputHandler & operator = (const InputHandler &) = delete;
+//	InputHandler(const InputHandler &) = delete;
+//	InputHandler & operator = (const InputHandler &) = delete;
 };
 
 #endif // __InputHandler_H__

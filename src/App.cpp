@@ -255,6 +255,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 #endif
 						}
 
+						InputEvent.m_Pointer->m_PreviousPointerMappingTEST = InputEvent.m_Pointer->GetPointerMapping();
 						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
 						for (auto & Hit : Hits)
 						{

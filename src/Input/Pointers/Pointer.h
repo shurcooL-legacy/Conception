@@ -41,6 +41,7 @@ private:
 
 	InputHandler &		m_InputHandler;
 	PointerMapping		m_PointerMapping;
+public:PointerMapping		m_PreviousPointerMappingTEST;private:		// HACK: This is kinda a hack, I should probably move PointerMapping into PointerState?
 };
 
 #endif // __Pointer_H__

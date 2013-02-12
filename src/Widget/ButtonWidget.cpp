@@ -55,7 +55,7 @@ void ButtonWidget::ProcessEvent(InputEvent & InputEvent)
 
 	if (   IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent)
 		&& IsHit(GlobalToParent(GlobalPosition))
-		&& &GetGestureRecognizer() == InputEvent.m_Pointer->GetPointerMapping().GetHoverer())		// TODO: This doesn't work because it's "too late", the PointerMapping is already updated, need to access previous PointerMapping at Pointer Activation
+		&& InputEvent.m_Pointer->m_PreviousPointerMappingTEST.ContainsMapping(GetGestureRecognizer()))		// Make sure we're releasing pointer over same button that it originally went active on
 	{
 		m_Action();
 

@@ -13,6 +13,14 @@ PointerMapping::~PointerMapping()
 {
 }
 
+PointerMapping & PointerMapping::operator = (const PointerMapping & Other)
+{
+	m_Capturer = Other.m_Capturer;
+	m_Entries = Other.m_Entries;
+
+	return *this;
+}
+
 void PointerMapping::AddMapping(GestureRecognizer & Target)
 {
 	//Widget->SetActiveWidgetPointer(&m_ActiveWidget);
@@ -63,6 +71,17 @@ void PointerMapping::RemoveAllMappings()
 	{
 		MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, **m_Owner.GetConnected().begin());
 	}
+}
+
+bool PointerMapping::ContainsMapping(const GestureRecognizer & GestureRecognizer) const
+{
+	for (auto & Entry : m_Entries)
+	{
+		if (&GestureRecognizer == Entry)
+			return true;
+	}
+
+	return false;
 }
 
 void PointerMapping::ProcessEvent(InputEvent & InputEvent)

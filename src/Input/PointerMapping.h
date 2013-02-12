@@ -8,11 +8,15 @@ class PointerMapping
 public:
 	PointerMapping(Pointer & Owner);
 	~PointerMapping();
+	//PointerMapping(const PointerMapping &) = default;
+	PointerMapping & operator = (const PointerMapping &);
 
 	void AddMapping(GestureRecognizer & GestureRecognizer);
 	void DoneAdding();
 	void RemoveMapping(GestureRecognizer & GestureRecognizer);
 	void RemoveAllMappings();
+
+	bool ContainsMapping(const GestureRecognizer & GestureRecognizer) const;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
@@ -27,9 +31,6 @@ public:
 	//void RemoveHoverPointer(Pointer * Pointer);
 
 private:
-	PointerMapping(const PointerMapping &) = delete;
-	PointerMapping & operator = (const PointerMapping &) = delete;
-
 	void ChangeCapturer(GestureRecognizer * Capturer);
 
 	//GestureRecognizer *		m_Hoverer;
