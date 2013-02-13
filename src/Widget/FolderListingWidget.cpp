@@ -56,6 +56,17 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Ty
 
 		AddWidget(ListingWidget);
 		//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
+
+		auto Open = [=]() {
+			if (nullptr != ListingWidget->GetSelectedEntry())
+			{
+				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
+
+				std::cout << "Open sesame '" << FullPath << "'.\n";
+			}
+		};
+
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open));
 	}
 }
 

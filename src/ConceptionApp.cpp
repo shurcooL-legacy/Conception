@@ -94,6 +94,25 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));		// TODO: Figure out why it's not working
 		MainCanvas->AddWidget(FolderListing);
 
+		// TEST: Two dependencies
+		{
+			auto s1 = new TextFieldWidget(Vector2n(-620, 340), *m_TypingModule);
+			auto s2 = new TextFieldWidget(Vector2n(-620, 340+lineHeight+2), *m_TypingModule);
+			auto o = new TextFieldWidget(Vector2n(-560, 340), *m_TypingModule);
+
+			auto R = [=]() {
+				o->SetContent(s1->GetContent() + "\n" + s2->GetContent());
+			};
+
+			s1->m_OnChange = R;
+			s2->m_OnChange = R;
+			R();
+
+			MainCanvas->AddWidget(s1);
+			MainCanvas->AddWidget(s2);
+			MainCanvas->AddWidget(o);
+		}
+
 		// TEST: Modify some Concept
 		{
 			auto Widget = new TextFieldWidget(Vector2n(-320, 470), *m_TypingModule);
