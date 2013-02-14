@@ -8,7 +8,7 @@ class App
 public:
 	App(InputManager & InputManager);
 	virtual ~App();
-	
+
 	void Layout();
 
 	const InputManager & GetInputManager();

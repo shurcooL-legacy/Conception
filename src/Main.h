@@ -225,6 +225,7 @@ extern InputManager * g_InputManager;
 #include "Widget/ToggleWidget.h"
 #include "Widget/MultitouchTestBoxWidget.h"
 #include "Widget/TextFieldWidget.h"
+#include "Widget/TextFileWidget.h"
 #include "Widget/ConceptStringBoxWidget.h"
 #include "Widget/ListWidget.h"
 #include "Widget/ContextMenuWidget.h"

@@ -4,6 +4,7 @@
 
 typedef std::function<void(std::string &)> Operation;
 
+void PlayBeep();
 void TrimLastNewline(std::string & InOut);
 void Gofmt(std::string & InOut);
 std::vector<std::string> Ls(std::string & InOut);

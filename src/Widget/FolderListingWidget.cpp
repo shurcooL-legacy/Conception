@@ -1,6 +1,6 @@
 #include "../Main.h"
 
-FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, TypingModule & TypingModule)
+FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
 	auto List = Ls(Path);
@@ -42,27 +42,26 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Ty
 
 		/*auto BeepWidget = new SayWidget(Vector2n::ZERO, *m_TypingModule);		// HACK: Memory leak
 		BeepWidget->m_InputWidget->SetContent("Beep.");*/
-		ListingWidget->m_OnChange = [&TypingModule, this, ListingWidget, Path](){
-			//std::cout << "Beep.\n";
-			//BeepWidget->m_ExecuteWidget->GetAction()();
-			LaunchProcessInBackground({"/usr/bin/afplay", "--volume", "0.1", "data/hitsound.wav"});		// HACK: OS X dependency
+		ListingWidget->m_OnChange = [&AddTo, &TypingModule, this, ListingWidget, Path](){
+			PlayBeep();
 
 			if (nullptr != m_Child) {
 				this->RemoveWidget(m_Child);
 			}
 			auto NewPath = Path + *ListingWidget->GetSelectedEntry() + "/";
-			this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, TypingModule));
+			this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));
 		};
 
 		AddWidget(ListingWidget);
 		//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
 
-		auto Open = [=]() {
+		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
 			if (nullptr != ListingWidget->GetSelectedEntry())
 			{
 				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
 
 				std::cout << "Open sesame '" << FullPath << "'.\n";
+				AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
 			}
 		};
 

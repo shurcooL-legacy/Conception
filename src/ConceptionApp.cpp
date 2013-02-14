@@ -51,18 +51,19 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 #endif
 
+		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new ToggleWidget(Vector2n(-20, -350), [](bool State) { std::cout << "Testing this toggle widget! It's now set to " << State << ".\n"; }, true));
 		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-460, -100), *m_TypingModule));
 
-		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
+		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
 
 		// TEST: Open a file via path (read-only at first)
 		{
@@ -90,7 +91,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			} ));
 		}
 
-		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *m_TypingModule);
+		// Text File
+		MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GenProgram.go", *m_TypingModule));
+
+		// Folder Listing
+		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *MainCanvas, *m_TypingModule);
 		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));		// TODO: Figure out why it's not working
 		MainCanvas->AddWidget(FolderListing);
 
