@@ -92,7 +92,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// Folder Listing
 		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *MainCanvas, *m_TypingModule);
-		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));		// TODO: Figure out why it's not working
+		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));
 		MainCanvas->AddWidget(FolderListing);
 
 		// TEST: Two dependencies
