@@ -10,18 +10,14 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 	{
 		// TEST: Add a file preview pane
 		{
-#if 0
-			auto TextField = new TextFieldWidget(Vector2n(0, -430), *m_TypingModule);
-			TextField->AddBehavior(new DraggablePositionBehavior(*TextField));
-			MainCanvas->AddWidget(TextField);
-
-			TextField->SetContent(FromFileToString(Path->GetContent()));
-#else
 			auto PathString = Path.substr(0, Path.length() - 1);
+#if 0
+			AddWidget(new TextFileWidget(Vector2n::ZERO, PathString, *m_TypingModule));
+#else
 			auto Content = [PathString]() -> std::string {
 				return FromFileToString(PathString);
 			};
-			auto LabelWidget = new class LabelWidget(Vector2n(0, -430), Content, LabelWidget::Background::Normal);
+			auto LabelWidget = new class LabelWidget(Vector2n::ZERO, Content, LabelWidget::Background::Normal);
 			AddWidget(LabelWidget);
 #endif
 		}
@@ -31,7 +27,6 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				   && List.front() == "ls: " + Path + ": Not a directory")))
 	{
 		auto ListingWidget = new MenuWidget<std::string>(Vector2n(-600, -390), List);
-		//ListWidget->AddBehavior(new DraggablePositionBehavior(*ListWidget));
 
 		ListingWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)
 		{
@@ -40,8 +35,6 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 			ListingWidget->SetSelectedEntryId(LocalPosition);
 		};
 
-		/*auto BeepWidget = new SayWidget(Vector2n::ZERO, *m_TypingModule);		// HACK: Memory leak
-		BeepWidget->m_InputWidget->SetContent("Beep.");*/
 		ListingWidget->m_OnChange = [&AddTo, &TypingModule, this, ListingWidget, Path](){
 			PlayBeep();
 
@@ -53,7 +46,6 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		};
 
 		AddWidget(ListingWidget);
-		//g_InputManager->RequestTypingPointer(ListWidget->ModifyGestureRecognizer());
 
 		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
 			if (nullptr != ListingWidget->GetSelectedEntry())
