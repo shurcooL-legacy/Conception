@@ -17,7 +17,7 @@ public:
 
 	virtual bool HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const;
 	virtual void HitTest2(Vector2n ParentPosition, PointerMapping & Mapping) const;		// REWRITE of HitTest()
-	virtual bool IsHit(const Vector2n ParentPosition) const;		// TODO: Made it public cuz of some problem with Canvas::IsHit(), see if I can make it protected once again
+	virtual bool IsHit(const Vector2n ParentPosition) const;		// TODO: Made it public cuz of some problem with CanvasWidget::IsHit(), see if I can make it protected once again
 
 	//virtual bool ShouldMouseCursorVisible() const { return true; }
 

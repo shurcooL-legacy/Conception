@@ -4,7 +4,7 @@ SentienceApp::SentienceApp(InputManager & InputManager)
 	: App(InputManager)
 {
 	{
-		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(0, 0), true, true);
 		
 		auto * lf = new LifeFormWidget(Vector2n(0, 0));
 		MainCanvas->AddWidget(lf);

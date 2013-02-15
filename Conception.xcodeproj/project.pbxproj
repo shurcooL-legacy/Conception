@@ -21,7 +21,7 @@
 		2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3A49E816AE43D60023010C /* ShellWidget.cpp */; };
 		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
 		2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */; };
-		2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA54155465D90021D8EF /* Canvas.cpp */; };
+		2A487D0016CECD4C0088A0F3 /* CanvasWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A487CFE16CECD4C0088A0F3 /* CanvasWidget.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
 		2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA67155465D90021D8EF /* InputHandler.cpp */; };
@@ -137,8 +137,8 @@
 		2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContextMenuWidget.hpp; sourceTree = "<group>"; };
 		2A4490C016C899AC00F7EBC5 /* MenuWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuWidget.h; sourceTree = "<group>"; };
 		2A4490C116C899AC00F7EBC5 /* MenuWidget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuWidget.hpp; sourceTree = "<group>"; };
-		2A4FFA54155465D90021D8EF /* Canvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Canvas.cpp; path = src/Canvas.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		2A4FFA55155465D90021D8EF /* Canvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Canvas.h; path = src/Canvas.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A487CFE16CECD4C0088A0F3 /* CanvasWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CanvasWidget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		2A487CFF16CECD4C0088A0F3 /* CanvasWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasWidget.h; sourceTree = "<group>"; };
 		2A4FFA56155465D90021D8EF /* Concept.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Concept.cpp; path = src/Concept.cpp; sourceTree = SOURCE_ROOT; };
 		2A4FFA57155465D90021D8EF /* Concept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = Concept.h; path = src/Concept.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A4FFA58155465D90021D8EF /* ConceptionApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = ConceptionApp.cpp; path = src/ConceptionApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -352,6 +352,8 @@
 			children = (
 				2A4FFA8B155465D90021D8EF /* ButtonWidget.cpp */,
 				2A4FFA8C155465D90021D8EF /* ButtonWidget.h */,
+				2A487CFE16CECD4C0088A0F3 /* CanvasWidget.cpp */,
+				2A487CFF16CECD4C0088A0F3 /* CanvasWidget.h */,
 				2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */,
 				2A91C74B15D349AD0070E981 /* CompositeWidget.h */,
 				2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */,
@@ -427,8 +429,6 @@
 				2A4FFA86155465D90021D8EF /* App.cpp */,
 				2A4FFA87155465D90021D8EF /* App.h */,
 				2A0D47C81635B0BB00C7DD67 /* Behavior */,
-				2A4FFA54155465D90021D8EF /* Canvas.cpp */,
-				2A4FFA55155465D90021D8EF /* Canvas.h */,
 				2A4FFA56155465D90021D8EF /* Concept.cpp */,
 				2A4FFA57155465D90021D8EF /* Concept.h */,
 				2ADBF3CE15841AF2007BDF94 /* Conception */,
@@ -599,7 +599,6 @@
 				2A96BDF71540B0040010D618 /* thread.c in Sources */,
 				2A96BDF81540B0040010D618 /* time.c in Sources */,
 				2A96BDF91540B0040010D618 /* window.c in Sources */,
-				2A4FFA97155465D90021D8EF /* Canvas.cpp in Sources */,
 				2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */,
 				2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */,
 				2A4FFA9F155465D90021D8EF /* InputHandler.cpp in Sources */,
@@ -660,6 +659,7 @@
 				2AB692F116C48E0A009584FE /* Operations.cpp in Sources */,
 				2A2DC67416C9E41D00300BB1 /* FolderListingWidget.cpp in Sources */,
 				2A8820D116CD62C1004D4D4D /* TextFileWidget.cpp in Sources */,
+				2A487D0016CECD4C0088A0F3 /* CanvasWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

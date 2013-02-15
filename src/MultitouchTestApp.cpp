@@ -5,7 +5,7 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 {
 	{
 #if 0
-		auto MainCanvas = new Canvas(Vector2n(300, 0), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(300, 0), true, true);
 		MainCanvas->m_BlackBackgroundTEST = true;
 
 		MainCanvas->AddWidget(new MultitouchTestBoxWidget(Vector2n(-200 - 5, -200 - 5)));
@@ -16,11 +16,11 @@ MultitouchTestApp::MultitouchTestApp(InputManager & InputManager)
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));		// MainCanvas
 #else
-		/// Canvas inside Canvas test
+		/// CanvasWidget inside CanvasWidget test
 
-		auto OuterCanvasTEST = new Canvas(Vector2n(0, 0), true, true);
+		auto OuterCanvasTEST = new CanvasWidget(Vector2n(0, 0), true, true);
 
-		auto MainCanvas = new Canvas(Vector2n(-100, -340), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(-100, -340), true, true);
 		MainCanvas->m_BlackBackgroundTEST = true;
 
 		OuterCanvasTEST->AddWidget(MainCanvas);

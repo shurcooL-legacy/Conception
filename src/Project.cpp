@@ -36,7 +36,7 @@ Project::~Project()
 	}
 }
 
-void Project::LoadSampleGenProgram(Canvas & CanvasTEST)
+void Project::LoadSampleGenProgram(CanvasWidget & CanvasTEST)
 {
 	std_includes.push_back(FindConcept("iostream"));
 	std_includes.push_back(FindConcept("list"));
@@ -305,7 +305,7 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
-std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas, Canvas * RightCanvas, ToggleWidget * LiveToggle)
+std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, CanvasWidget * LeftCanvas, CanvasWidget * RightCanvas, ToggleWidget * LiveToggle)
 {
 	return [&, LeftCanvas, RightCanvas, LiveToggle]()
 	{

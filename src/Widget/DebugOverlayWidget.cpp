@@ -1,7 +1,7 @@
 #include "../Main.h"
 
-DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
-	: Canvas(Vector2n::ZERO, false, false)
+DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
+	: CanvasWidget(Vector2n::ZERO, false, false)
 {
 	{
 		auto Content = [MainCanvas]() -> std::string
@@ -11,7 +11,7 @@ DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
 			out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
 			for (auto & i : g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries)
 			{
-				if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
+				if (dynamic_cast<CanvasWidget *>(&i->GetOwner())) out << "\n CanvasWidget";
 				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
 				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
 				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
@@ -36,7 +36,7 @@ DebugOverlayWidget::DebugOverlayWidget(Canvas * MainCanvas)
 			out << "\nKB.PntrMppng.m_Entries.size(): " << g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries.size();
 			for (auto & i : g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries)
 			{
-				if (dynamic_cast<Canvas *>(&i->GetOwner())) out << "\n Canvas";
+				if (dynamic_cast<CanvasWidget *>(&i->GetOwner())) out << "\n CanvasWidget";
 				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
 				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
 				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";

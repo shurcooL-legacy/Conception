@@ -14,7 +14,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 	{
 		// Add Toolbar
 		{
-			auto Toolbar = new Canvas(Vector2n(0, 0), false, false);
+			auto Toolbar = new CanvasWidget(Vector2n(0, 0), false, false);
 
 			// Auto compile toggle
 			{
@@ -25,8 +25,8 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 			m_Widgets.push_back(std::unique_ptr<Widget>(Toolbar));
 		}
 
-		auto LeftCanvas = new Canvas(Vector2n(0, 16+2), false, true, Canvas::BehaviourScrolling::VerticalOnly);
-		auto RightCanvas = new Canvas(Vector2n(0, 16+2), false, true, Canvas::BehaviourScrolling::VerticalOnly);
+		auto LeftCanvas = new CanvasWidget(Vector2n(0, 16+2), false, true, CanvasWidget::BehaviourScrolling::VerticalOnly);
+		auto RightCanvas = new CanvasWidget(Vector2n(0, 16+2), false, true, CanvasWidget::BehaviourScrolling::VerticalOnly);
 
 		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
 		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
@@ -176,10 +176,10 @@ LiveEditorApp::~LiveEditorApp()
 void LiveEditorApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 {
 	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(Vector2n(WindowDimensions.X(), 16+2));		// Toolbar
+	static_cast<CanvasWidget *>(m_Widgets[0].get())->SetDimensions(Vector2n(WindowDimensions.X(), 16+2));		// Toolbar
 
-	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(Vector2n(m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1, WindowDimensions.Y()));
-	static_cast<Canvas *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
+	static_cast<CanvasWidget *>(m_Widgets[1].get())->SetDimensions(Vector2n(m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1, WindowDimensions.Y()));
+	static_cast<CanvasWidget *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
 
 	//m_OutputWidget->SetPosition(Vector2n(WindowDimensions.X() / 2, 0));
 }

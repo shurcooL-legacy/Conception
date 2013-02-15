@@ -1,6 +1,6 @@
 #include "Main.h"
 
-Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
+CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
 	: CompositeWidget(Position, {}, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
@@ -11,13 +11,13 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourSc
 	  m_BehaviourScrolling(BehaviourScrolling)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
-	if (   Canvas::BehaviourScrolling::Zooming == m_BehaviourScrolling
-		|| Canvas::BehaviourScrolling::Freeform == m_BehaviourScrolling)
+	if (   CanvasWidget::BehaviourScrolling::Zooming == m_BehaviourScrolling
+		|| CanvasWidget::BehaviourScrolling::Freeform == m_BehaviourScrolling)
 	{
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
 		//ModifyGestureRecognizer().m_RecognizeManipulationTranslateButtonId = 1;
 	}
-	else if (Canvas::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
+	else if (CanvasWidget::BehaviourScrolling::VerticalOnly == m_BehaviourScrolling)
 		ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
 	ModifyGestureRecognizer().m_RecognizeScroll = true;
 
@@ -27,11 +27,11 @@ Canvas::Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourSc
 	}
 }
 
-Canvas::~Canvas()
+CanvasWidget::~CanvasWidget()
 {
 }
 
-void Canvas::Render()
+void CanvasWidget::Render()
 {
 	if (m_HasBackground)
 	{
@@ -48,7 +48,7 @@ void Canvas::Render()
 	EndTransform();
 }
 
-bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
+bool CanvasWidget::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 {
 	bool InsideCanvas;
 
@@ -99,13 +99,13 @@ bool Canvas::HitTest(Vector2n ParentPosition, std::list<Widget *> * Hits) const
 	}
 }
 
-const Vector2n Canvas::GetDimensions() const
+const Vector2n CanvasWidget::GetDimensions() const
 {
 	return Widget::GetDimensions();
 }
 
 // Override CompositeWidget's behavior of including inner widgets
-bool Canvas::IsHit(const Vector2n ParentPosition) const
+bool CanvasWidget::IsHit(const Vector2n ParentPosition) const
 {
 	if (m_HasBackground)
 	{
@@ -124,7 +124,7 @@ bool Canvas::IsHit(const Vector2n ParentPosition) const
 }
 
 #if 0
-void Canvas::ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed)
+void CanvasWidget::ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pressed)
 {
 	if (0 == ButtonId)
 	{
@@ -139,7 +139,7 @@ void Canvas::ProcessButton(Pointer * Pointer, Input::InputId ButtonId, bool Pres
 	}
 }
 
-void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount)
+void CanvasWidget::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double MovedAmount)
 {
 	// TODO: Make it based on this widget being active/having captured the pointer, rather than pointer being active (i.e. not exclusive)
 	//if (Pointer->IsActive())
@@ -163,20 +163,20 @@ void Canvas::ProcessSlider(Pointer * Pointer, Input::InputId SliderId, double Mo
 }
 #endif
 
-void Canvas::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
+void CanvasWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
 {
-	//printf("Canvas %p::ProcessTap()\n", this);
+	//printf("CanvasWidget %p::ProcessTap()\n", this);
 	g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
 }
 
-/*void Canvas::ProcessDrag(Vector2d DragAmount)
+/*void CanvasWidget::ProcessDrag(Vector2d DragAmount)
 {
 	double A[2] = { 0, 0 };
 	MoveView(0, DragAmount[0], A);
 	MoveView(1, DragAmount[1], A);
 }*/
 
-void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
+void CanvasWidget::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 {
 	if (BehaviourScrolling::Zooming == m_BehaviourScrolling) {
 		auto WidgetLocalPosition = Widget::ParentToLocal(GlobalToParent(Vector2n(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition())));
@@ -194,7 +194,7 @@ void Canvas::ProcessScroll(InputEvent & InputEvent, Vector2n ScrollAmount)
 	}
 }
 
-void Canvas::ProcessManipulationBegin(const InputEvent & InputEvent)
+void CanvasWidget::ProcessManipulationBegin(const InputEvent & InputEvent)
 {
 	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationBegin()\n");
@@ -207,7 +207,7 @@ void Canvas::ProcessManipulationBegin(const InputEvent & InputEvent)
 	ModifyGestureRecognizer().m_ManipulationOffset = Vector2n(Camera.X() * CameraZ, Camera.Y() * CameraZ) + ParentLocalPosition;
 }
 
-void Canvas::ProcessManipulationUpdate(const InputEvent & InputEvent)
+void CanvasWidget::ProcessManipulationUpdate(const InputEvent & InputEvent)
 {
 	const PointerState & PointerState = InputEvent.m_PostEventState;
 	//printf("MultitouchTestBoxWidget::ProcessManipulationUpdate()\n");
@@ -221,12 +221,12 @@ void Canvas::ProcessManipulationUpdate(const InputEvent & InputEvent)
 	Camera.Y() = (GetGestureRecognizer().m_ManipulationOffset - ParentLocalPosition).Y() / CameraZ;
 }
 
-void Canvas::ProcessManipulationEnd(const InputEvent & InputEvent)
+void CanvasWidget::ProcessManipulationEnd(const InputEvent & InputEvent)
 {
 	//printf("MultitouchTestBoxWidget::ProcessManipulationEnd()\n");
 }
 
-void Canvas::ProcessTimePassed(const double TimePassed)
+void CanvasWidget::ProcessTimePassed(const double TimePassed)
 {
 	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
@@ -263,7 +263,7 @@ void Canvas::ProcessTimePassed(const double TimePassed)
 	CompositeWidget::ProcessTimePassed(TimePassed);
 }
 
-void Canvas::ProcessCanvasUpdated()
+void CanvasWidget::ProcessCanvasUpdated()
 {
 	Widget::ProcessCanvasUpdated();
 
@@ -273,7 +273,7 @@ void Canvas::ProcessCanvasUpdated()
 	}
 }
 
-void Canvas::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector2n ParentLocalPosition)
+void CanvasWidget::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector2n ParentLocalPosition)
 {
 	switch (Degree)
 	{
@@ -315,7 +315,7 @@ void Canvas::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector2n Par
 	}
 }
 
-void Canvas::RenderBackground()
+void CanvasWidget::RenderBackground()
 {
 	// HACK: Black background
 	if (m_BlackBackgroundTEST/*dynamic_cast<MultitouchTestApp *>(pMainApp)*/ && m_HasBackground)
@@ -350,12 +350,12 @@ void Canvas::RenderBackground()
 	glEnd();
 }
 
-const Rectanglen Canvas::GetScissorBox() const
+const Rectanglen CanvasWidget::GetScissorBox() const
 {
 	return m_ScissorBox;
 }
 
-void Canvas::SetScissorBox(Rectanglen ScissorBox)
+void CanvasWidget::SetScissorBox(Rectanglen ScissorBox)
 {
 	GLdouble ModelMatrix[16]; glGetDoublev(GL_MODELVIEW_MATRIX, ModelMatrix);
 	GLdouble ProjectionMatrix[16]; glGetDoublev(GL_PROJECTION_MATRIX, ProjectionMatrix);
@@ -372,7 +372,7 @@ void Canvas::SetScissorBox(Rectanglen ScissorBox)
 	m_ScissorBox.SetDimensions().Y() = static_cast<sint32>(std::lround(y2 - y1));
 
 	// Crop the scissor box by the parent scissor box
-	auto ParentCanvas = dynamic_cast<const Canvas *>(GetParent());
+	auto ParentCanvas = dynamic_cast<const CanvasWidget *>(GetParent());
 	if (nullptr != ParentCanvas)
 	{
 		auto ParentScissorBox = ParentCanvas->GetScissorBox();
@@ -408,7 +408,7 @@ void Canvas::SetScissorBox(Rectanglen ScissorBox)
 	glEnable(GL_SCISSOR_TEST);
 }
 
-void Canvas::SetupTransform()
+void CanvasWidget::SetupTransform()
 {
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glPushMatrix();
@@ -424,7 +424,7 @@ void Canvas::SetupTransform()
 	glTranslated(-Camera.X(), -Camera.Y(), 0);
 }
 
-void Canvas::EndTransform()
+void CanvasWidget::EndTransform()
 {
 	glPopMatrix();
 	glPopAttrib();
@@ -432,7 +432,7 @@ void Canvas::EndTransform()
 
 /*
 // DELETED: Because this functionality is there in HitTest()
-const bool Canvas::GlobalIsInsideCanvas(const Vector2n Position) const
+const bool CanvasWidget::GlobalIsInsideCanvas(const Vector2n Position) const
 {
 	return (   Position.X() >= m_Position.X()
 			&& Position.Y() >= m_Position.Y()
@@ -443,7 +443,7 @@ const bool Canvas::GlobalIsInsideCanvas(const Vector2n Position) const
 /*
 // TO BE DELETED: Because moved this specific functionality to general GlobalToLocal override
 // Precondition: GlobalIsInsideCanvas(Position) is true
-const Vector2d Canvas::GlobalToCanvas(const Vector2n Position) const
+const Vector2d CanvasWidget::GlobalToCanvas(const Vector2n Position) const
 {
 	Vector2d PositionDouble(Position.X(), Position.Y());
 	
@@ -462,7 +462,7 @@ const Vector2d Canvas::GlobalToCanvas(const Vector2n Position) const
 	}
 }*/
 
-const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
+const Vector2n CanvasWidget::ParentToLocal(const Vector2n ParentPosition) const
 {
 	auto WidgetLocalPosition = Widget::ParentToLocal(ParentPosition);
 
@@ -481,7 +481,7 @@ const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 	return PositionInt;
 }
 
-const Vector2n Canvas::LocalToParent(const Vector2n LocalPosition) const
+const Vector2n CanvasWidget::LocalToParent(const Vector2n LocalPosition) const
 {
 	Vector2d PositionDouble(LocalPosition.X(), LocalPosition.Y());
 
@@ -500,7 +500,7 @@ const Vector2n Canvas::LocalToParent(const Vector2n LocalPosition) const
 	return WidgetParentPosition;
 }
 
-/*const Vector2n Canvas::GlobalToLocal(const Vector2n GlobalPosition) const
+/*const Vector2n CanvasWidget::GlobalToLocal(const Vector2n GlobalPosition) const
 {
 	auto WidgetLocalPosition = Widget::GlobalToLocal(GlobalPosition);
 

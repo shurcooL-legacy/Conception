@@ -3,10 +3,10 @@
 #define __DebugOverlayWidget_H__
 
 class DebugOverlayWidget
-	: public Canvas
+	: public CanvasWidget
 {
 public:
-	DebugOverlayWidget(Canvas * MainCanvas = nullptr);
+	DebugOverlayWidget(CanvasWidget * MainCanvas = nullptr);
 	virtual ~DebugOverlayWidget();
 };
 

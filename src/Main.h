@@ -113,7 +113,7 @@ class ConceptStream;
 class OpenGLStream;
 class DimensionsStream;
 class StreamStream;
-class Canvas;
+class CanvasWidget;
 class App;
 class ConceptionApp;
 class ConceptionTestApp;
@@ -240,7 +240,7 @@ extern InputManager * g_InputManager;
 #include "Widget/TimeWidget.h"
 #include "Widget/FolderListingWidget.h"
 #include "Widget/ConnectionWidget.h"
-#include "Canvas.h"
+#include "Widget/CanvasWidget.h"
 #include "Widget/DebugOverlayWidget.h"
 #include "App.h"
 #include "ConceptionApp.h"

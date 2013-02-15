@@ -102,7 +102,7 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	}*/
 
 	{
-		auto MainCanvas = new Canvas(Vector2n(50, 50), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(50, 50), true, true);
 
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(0, 0), []() { printf("Button 3\n"); } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() { printf("Button 4\n"); } ));
@@ -113,13 +113,13 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 	}
 
 	{
-		auto MainCanvas2TEST = new Canvas(Vector2n(800, 100), true, true);
+		auto MainCanvas2TEST = new CanvasWidget(Vector2n(800, 100), true, true);
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas2TEST));
 	}
 
 	{
-		auto OverlayCanvas = new Canvas(Vector2n(0, 0), false, false);
+		auto OverlayCanvas = new CanvasWidget(Vector2n(0, 0), false, false);
 
 		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(10, 10), []() { printf("Button 1\n"); } ));
 		OverlayCanvas->AddWidget(new ButtonWidget(Vector2n(50, 10), []() { printf("Button 2\n"); } ));
@@ -136,7 +136,7 @@ ConceptionTestApp::ConceptionTestApp(InputManager & InputManager)
 		PopulateConcepts();
 
 		// Load program
-		m_CurrentProject.LoadSampleGenProgram(*static_cast<Canvas *>(m_Widgets[0].get()));		// HACK, TEST: Should use MainCanvas or something
+		m_CurrentProject.LoadSampleGenProgram(*static_cast<CanvasWidget *>(m_Widgets[0].get()));		// HACK, TEST: Should use MainCanvas or something
 	}
 }
 
@@ -148,8 +148,8 @@ ConceptionTestApp::~ConceptionTestApp()
 void ConceptionTestApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 {
 	// TODO: This is a hack, I should create a WindowResize listener type of thing and take care within Widget itself
-	static_cast<Canvas *>(m_Widgets[0].get())->SetDimensions(WindowDimensions + Vector2n(-200, -200));
-	static_cast<Canvas *>(m_Widgets[1].get())->SetDimensions(Vector2n(300, 500));
-	static_cast<Canvas *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
-	static_cast<Canvas *>(m_Widgets[3].get())->SetDimensions(WindowDimensions);
+	static_cast<CanvasWidget *>(m_Widgets[0].get())->SetDimensions(WindowDimensions + Vector2n(-200, -200));
+	static_cast<CanvasWidget *>(m_Widgets[1].get())->SetDimensions(Vector2n(300, 500));
+	static_cast<CanvasWidget *>(m_Widgets[2].get())->SetDimensions(WindowDimensions);
+	static_cast<CanvasWidget *>(m_Widgets[3].get())->SetDimensions(WindowDimensions);
 }

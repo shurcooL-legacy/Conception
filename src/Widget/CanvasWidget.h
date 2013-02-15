@@ -2,7 +2,7 @@
 #ifndef __Canvas_H__
 #define __Canvas_H__
 
-class Canvas
+class CanvasWidget
 	: public CompositeWidget
 {
 public:
@@ -12,8 +12,8 @@ public:
 		VerticalOnly
 	};
 
-	Canvas(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming);
-	~Canvas();
+	CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming);
+	~CanvasWidget();
 
 	void Render() override;
 
@@ -44,8 +44,8 @@ protected:
 	bool IsHit(const Vector2n ParentPosition) const override;
 
 private:
-	Canvas(const Canvas &) = delete;
-	Canvas & operator = (const Canvas &) = delete;
+	CanvasWidget(const CanvasWidget &) = delete;
+	CanvasWidget & operator = (const CanvasWidget &) = delete;
 
 	void RenderBackground();
 	const Rectanglen GetScissorBox() const;

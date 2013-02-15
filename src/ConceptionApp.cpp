@@ -10,7 +10,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	PopulateConcepts();
 
 	{
-		auto MainCanvas = new Canvas(Vector2n(0, 0), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(0, 0), true, true);
 		//MainCanvas->MoveView(0, 336);
 		MainCanvas->MoveView(1, -64);
 
@@ -193,7 +193,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 	{
 		// Load program
-		m_CurrentProject.LoadSampleGenProgram(*static_cast<Canvas *>(m_Widgets[0].get()));
+		m_CurrentProject.LoadSampleGenProgram(*static_cast<CanvasWidget *>(m_Widgets[0].get()));
 	}
 }
 

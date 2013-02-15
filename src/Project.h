@@ -8,7 +8,7 @@ public:
 	Project();
 	~Project();
 
-	void LoadSampleGenProgram(Canvas & CanvasTEST);
+	void LoadSampleGenProgram(CanvasWidget & CanvasTEST);
 
 	void GenerateProgram(const std::string & ProgramContent);
 	void GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent, std::vector<ConceptId> & Imports);
@@ -16,7 +16,7 @@ public:
 
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 
-	std::function<void()> GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, Canvas * LeftCanvas = nullptr, Canvas * RightCanvas = nullptr, ToggleWidget * LiveToggle = nullptr);
+	std::function<void()> GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, CanvasWidget * LeftCanvas = nullptr, CanvasWidget * RightCanvas = nullptr, ToggleWidget * LiveToggle = nullptr);
 	void SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST = nullptr);
 	void StartBackgroundThread();
 	void SomethingFromAppRenderTEST();
