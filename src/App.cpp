@@ -233,29 +233,43 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 #endif
 
+			// Calculate hits
+			std::list<Widget *> Hits;		// Front of list are top-most widgets
+			for (auto & Widget : reverse(m_Widgets))
+			{
+				Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
+
+				auto Result = Widget->HitTest(GlobalPosition, &Hits);
+#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
+				if (Result)
+					break;		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
+#endif
+			}
+
+			// Populate current PointerMappings (always, regardless if pointer is active or not)
+			{
+				if (IsPointerPointingMoveEvent<0>(InputEvent))
+				{
+					{
+						InputEvent.m_Pointer->m_CurrentPointerMappingTEST.RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
+						for (auto & Hit : Hits)
+						{
+							InputEvent.m_Pointer->m_CurrentPointerMappingTEST.AddMapping(Hit->ModifyGestureRecognizer());
+						}
+						InputEvent.m_Pointer->m_CurrentPointerMappingTEST.DoneAdding();
+					}
+				}
+			}
+
 #if 1
-			// Populate PointerMappings
+			// Populate PointerMappings (but only when pointer is moved while not active)
 			{
 				if (   IsPointerPointingMoveEvent<0>(InputEvent)
-					|| IsPointerPointingDeactivationEvent(InputEvent))
+					&& !IsPointerPointingDeactivationEvent(InputEvent))
 				{
 					//if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
 					if (false == InputEvent.m_Pointer->IsActive())
 					{
-						std::list<Widget *> Hits;		// Front of list are top-most widgets
-
-						for (auto & Widget : reverse(m_Widgets))
-						{
-							Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
-
-							auto Result = Widget->HitTest(GlobalPosition, &Hits);
-#if DECISION_POINTER_MAPPING_CONTAINS_SINGLE_TOPMOST_WIDGET
-							if (Result)
-								break;		// HACK: I need to do proper query if the HitTest prevents passthrough interest check
-#endif
-						}
-
-						InputEvent.m_Pointer->m_PreviousPointerMappingTEST = InputEvent.m_Pointer->GetPointerMapping();
 						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
 						for (auto & Hit : Hits)
 						{
@@ -414,6 +428,23 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				// Nothing matched this InputEvent at all, so delete it
 				Match.Status = 2;
 				Match.Events.push_back(*InputEventIterator);
+			}
+
+			// Populate PointerMappings (but only upon pointer deactivation event)
+			{
+				if (IsPointerPointingDeactivationEvent(InputEvent))
+				{
+					//if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
+					if (false == InputEvent.m_Pointer->IsActive())		// HACK: This check is kinda unnecessary here, but I kept it because this code is duplicated from top
+					{
+						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
+						for (auto & Hit : Hits)
+						{
+							InputEvent.m_Pointer->ModifyPointerMapping().AddMapping(Hit->ModifyGestureRecognizer());
+						}
+						InputEvent.m_Pointer->ModifyPointerMapping().DoneAdding();
+					}
+				}
 			}
 
 			if (Match.AnySuccess())

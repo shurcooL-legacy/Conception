@@ -50,6 +50,7 @@ public:
 	}
 
 	static const Color WHITE;
+	static const Color BLACK;
 
 private:
 	std::array<double, 3>		m_Components;

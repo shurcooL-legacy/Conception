@@ -41,7 +41,8 @@ private:
 
 	InputHandler &		m_InputHandler;
 	PointerMapping		m_PointerMapping;
-public:PointerMapping		m_PreviousPointerMappingTEST;private:		// HACK: This is kinda a hack, I should probably move PointerMapping into PointerState?
+public:PointerMapping		m_CurrentPointerMappingTEST;private:		// HACK: Competes with regular GetPointerMapping(), but represents _now_ state, regardless of pointer being active
+																		// TODO: Should probably merge this into GetPointerMapping(), but clone GetPointerMapping() into GetEventTargetPointerMapping() which is where events go (i.e. at pointer activation)
 };
 
 #endif // __Pointer_H__

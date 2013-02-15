@@ -30,7 +30,7 @@ void ToggleWidget::Render()
 		BorderColor[2] = 0.396;
 	}
 	//else if ((CheckHover() && !CheckAnyActive()) || (!CheckHover() && CheckActive()))
-	else if (CheckHover() && !CheckActive())
+	else if (CheckHover() ^ CheckActive())
 	{
 		BackgroundColor[0] = 1.0;
 		BackgroundColor[1] = 1.0;

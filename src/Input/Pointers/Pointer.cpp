@@ -5,8 +5,8 @@ Pointer::Pointer(InputHandler & MyInputHandler)
 	  m_IsActive(false),
 	  m_PointerState(),
 	  m_InputHandler(MyInputHandler),
-	  m_PointerMapping(*this),
-	  m_PreviousPointerMappingTEST(*this)
+	  m_PointerMapping(*this, false),
+	  m_CurrentPointerMappingTEST(*this, true)
 {
 	{
 		InputEvent InputEvent;

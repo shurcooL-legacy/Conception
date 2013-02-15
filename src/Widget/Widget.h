@@ -11,7 +11,7 @@ public:
 	void AddBehavior(Behavior * Behavior);
 	void RemoveAllBehaviors();
 
-	virtual void Render(/*WidgetManager & WidgetManager*/) = 0;
+	virtual void Render() = 0;
 
 	virtual MatchResult MatchEventQueue(InputEventQueue::FilteredQueue & UnreservedEvents);
 

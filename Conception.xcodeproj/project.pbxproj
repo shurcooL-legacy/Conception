@@ -206,6 +206,7 @@
 		2A8368CE155AD05300D25BC1 /* PointerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointerState.h; sourceTree = "<group>"; };
 		2A8820CF16CD62C1004D4D4D /* TextFileWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextFileWidget.cpp; sourceTree = "<group>"; };
 		2A8820D016CD62C1004D4D4D /* TextFileWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFileWidget.h; sourceTree = "<group>"; };
+		2A8820D216CD8E33004D4D4D /* ConnectionWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionWidget.h; sourceTree = "<group>"; };
 		2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompositeWidget.cpp; sourceTree = "<group>"; };
 		2A91C74B15D349AD0070E981 /* CompositeWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositeWidget.h; sourceTree = "<group>"; };
 		2A96BDD01540B0040010D618 /* cocoa_enable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cocoa_enable.m; sourceTree = "<group>"; };
@@ -355,6 +356,7 @@
 				2A91C74B15D349AD0070E981 /* CompositeWidget.h */,
 				2A34A6C51587AD6500D2AF16 /* ConceptStringBoxWidget.cpp */,
 				2A34A6C61587AD6500D2AF16 /* ConceptStringBoxWidget.h */,
+				2A8820D216CD8E33004D4D4D /* ConnectionWidget.h */,
 				2A42D9F616289823001DC834 /* ContextMenuWidget.h */,
 				2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */,
 				2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */,

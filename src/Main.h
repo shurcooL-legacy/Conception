@@ -239,6 +239,7 @@ extern InputManager * g_InputManager;
 #include "Widget/SayWidget.h"
 #include "Widget/TimeWidget.h"
 #include "Widget/FolderListingWidget.h"
+#include "Widget/ConnectionWidget.h"
 #include "Canvas.h"
 #include "Widget/DebugOverlayWidget.h"
 #include "App.h"

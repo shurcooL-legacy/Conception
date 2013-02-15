@@ -80,9 +80,9 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 				)
 			{
 				const PointerState & PointerState = Pointer->GetPointerState();
-				
+
 				const double SpeedMultiplier = 250;
-				
+
 				Vector2n GlobalPosition(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition());
 				Vector2n ParentPosition = GlobalToParent(GlobalPosition);
 				Vector2n LocalPosition = ParentToLocal(ParentPosition);

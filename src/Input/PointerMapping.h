@@ -6,7 +6,7 @@ class PointerMapping
 	: public InputHandler
 {
 public:
-	PointerMapping(Pointer & Owner);
+	PointerMapping(Pointer & Owner, bool IsPure);
 	~PointerMapping();
 	//PointerMapping(const PointerMapping &) = default;
 	PointerMapping & operator = (const PointerMapping &);
@@ -39,6 +39,8 @@ private:
 	// There is duplication of information between m_Entries and GetConnected(), but m_Entries has additional information (order of elements)
 	// that GetConnected() doesn't, so removing m_Entries outright won't work (perhaps I can change MutuallyConnectable to use std::vector instead of set?)
 	std::vector<GestureRecognizer *>		m_Entries;
+
+	bool m_IsPureTEST;		// If true, MutuallyConnectable stuff is skipped, only this instance contents are updated
 
 	Pointer &				m_Owner;
 

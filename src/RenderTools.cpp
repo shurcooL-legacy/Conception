@@ -1,6 +1,7 @@
 #include "Main.h"
 
 const Color Color::WHITE(static_cast<uint8>(255), 255, 255);
+const Color Color::BLACK(static_cast<uint8>(0), 0, 0);
 
 void InitializeOpenGL()
 {

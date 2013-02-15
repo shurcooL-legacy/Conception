@@ -63,7 +63,22 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
+		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 160), *m_TypingModule));
+
+		// TEST: Connection
+		{
+			auto Connection = new ConnectionWidget<TextFieldWidget>(Vector2n(0, 0), nullptr);
+			MainCanvas->AddWidget(Connection);
+
+			auto Content = [Connection]() -> std::string {
+				if (nullptr != Connection->Target())
+					return Connection->Target()->GetContent();
+				else
+					return "<Unconnected>";
+			};
+			auto Label = new class LabelWidget(Vector2n(16, 0), Content, LabelWidget::Background::Normal);
+			MainCanvas->AddWidget(Label);
+		}
 
 		// TEST: Open a file via path (read-only at first)
 		{

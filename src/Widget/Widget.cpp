@@ -65,14 +65,12 @@ bool Widget::HasAnyTypingFocus() const
 
 bool Widget::CheckHover() const
 {
-	//return !m_HoverPointers.empty();
-	//return false;
-	//return (!GetGestureRecognizer().GetConnected().empty());		// TEST
-
 	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
-		if (&GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer())
+		if (&GetGestureRecognizer() == Pointer->m_CurrentPointerMappingTEST.GetHoverer())
+		{
 			return true;
+		}
 	}
 
 	return false;
@@ -80,21 +78,10 @@ bool Widget::CheckHover() const
 
 bool Widget::CheckActive() const
 {
-	//return (this == WidgetManager.m_ActiveWidget);
-	/*for (auto Pointer : m_HoverPointers)
-	{
-		//if (this == Pointer->GetWidgetMapping().GetActiveWidget())
-		{
-			return true;
-		}
-	}*/
-
 	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
-		Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
-
-		if (   true == Pointer->GetPointerState().GetButtonState(0)
-			&& IsHit(GlobalToParent(GlobalPosition)))
+		if (   &GetGestureRecognizer() == Pointer->GetPointerMapping().GetHoverer()		// Pointer was hovering this very widged when pointer went active
+			&& true == Pointer->GetPointerState().GetButtonState(0))					// Pointer button 0 is down
 		{
 			return true;
 		}

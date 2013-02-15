@@ -28,7 +28,7 @@ void ButtonWidget::Render()
 		BorderColor[2] = 0.396;
 	}
 	//else if ((CheckHover() && !CheckAnyActive()) || (!CheckHover() && CheckActive()))
-	else if (CheckHover() && !CheckActive())
+	else if (CheckHover() ^ CheckActive())
 	{
 		BackgroundColor[0] = 1.0;
 		BackgroundColor[1] = 1.0;
@@ -36,9 +36,6 @@ void ButtonWidget::Render()
 		BorderColor[0] = 0.898;
 		BorderColor[1] = 0.765;
 		BorderColor[2] = 0.396;
-	}
-	else
-	{
 	}
 
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
@@ -54,8 +51,8 @@ void ButtonWidget::ProcessEvent(InputEvent & InputEvent)
 	Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
 
 	if (   IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent)
-		&& IsHit(GlobalToParent(GlobalPosition))
-		&& InputEvent.m_Pointer->m_PreviousPointerMappingTEST.ContainsMapping(&GetGestureRecognizer()))		// Make sure we're releasing pointer over same button that it originally went active on
+		&& &GetGestureRecognizer() == InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()		// IsHit(this button) should be true
+		&& &GetGestureRecognizer() == InputEvent.m_Pointer->GetPointerMapping().GetHoverer())		// Make sure we're releasing pointer over same button that it originally went active on, and nothing is in the way (i.e. button is hoverer)
 	{
 		m_Action();
 

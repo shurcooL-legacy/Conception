@@ -1,10 +1,11 @@
 #include "../Main.h"
 
-PointerMapping::PointerMapping(Pointer & Owner)
+PointerMapping::PointerMapping(Pointer & Owner, bool IsPure)
 	: InputHandler(),
 	  //m_HoverWidget(nullptr),
 	  m_Capturer(nullptr),
 	  m_Entries(),
+	  m_IsPureTEST(IsPure),
 	  m_Owner(Owner)
 {
 }
@@ -27,7 +28,8 @@ void PointerMapping::AddMapping(GestureRecognizer & Target)
 
 	m_Entries.push_back(&Target);
 
-	MutuallyConnectable<Pointer, GestureRecognizer>::Connect(m_Owner, Target);
+	if (!m_IsPureTEST)
+		MutuallyConnectable<Pointer, GestureRecognizer>::Connect(m_Owner, Target);
 }
 
 // TODO: Consider moving this to AddMapping()
@@ -54,7 +56,8 @@ void PointerMapping::RemoveMapping(GestureRecognizer & Target)
 		}
 	}
 
-	MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, Target);
+	if (!m_IsPureTEST)
+		MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, Target);
 }
 
 void PointerMapping::RemoveAllMappings()
@@ -67,10 +70,11 @@ void PointerMapping::RemoveAllMappings()
 
 	m_Entries.clear();
 
-	while (!m_Owner.GetConnected().empty())
-	{
-		MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, **m_Owner.GetConnected().begin());
-	}
+	if (!m_IsPureTEST)
+		while (!m_Owner.GetConnected().empty())
+		{
+			MutuallyConnectable<Pointer, GestureRecognizer>::Disconnect(m_Owner, **m_Owner.GetConnected().begin());
+		}
 }
 
 bool PointerMapping::ContainsMapping(const GestureRecognizer * GestureRecognizer) const
