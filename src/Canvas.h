@@ -53,11 +53,8 @@ private:
 	void SetupTransform();
 	void EndTransform();
 
-	//const bool GlobalIsInsideCanvas(const Vector2n Position) const;
-	//const Vector2d GlobalToCanvas(const Vector2n Position) const;
-
 	virtual const Vector2n ParentToLocal(const Vector2n ParentPosition) const override;
-	//virtual const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const override;		Got replaced by ParentToLocal()
+	virtual const Vector2n LocalToParent(const Vector2n LocalPosition) const override;
 
 	Vector2d Camera;
 	double CameraZ;

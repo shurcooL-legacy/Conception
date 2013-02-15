@@ -68,7 +68,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		// TEST: Connection
 		{
 			auto Connection = new ConnectionWidget<TextFieldWidget>(Vector2n(0, 0), nullptr);
-			MainCanvas->AddWidget(Connection);
 
 			auto Content = [Connection]() -> std::string {
 				if (nullptr != Connection->Target())
@@ -77,7 +76,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 					return "<Unconnected>";
 			};
 			auto Label = new class LabelWidget(Vector2n(16, 0), Content, LabelWidget::Background::Normal);
-			MainCanvas->AddWidget(Label);
+
+			auto FlowLayout = new FlowLayoutWidget(Vector2n(0, 0), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Blah blah"))), std::shared_ptr<Widget>(Connection), std::shared_ptr<Widget>(Label) }, {});
+			FlowLayout->AddBehavior(new DraggablePositionBehavior(*FlowLayout));
+			MainCanvas->AddWidget(FlowLayout);
 		}
 
 		// TEST: Open a file via path (read-only at first)

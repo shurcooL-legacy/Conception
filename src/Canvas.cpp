@@ -481,6 +481,25 @@ const Vector2n Canvas::ParentToLocal(const Vector2n ParentPosition) const
 	return PositionInt;
 }
 
+const Vector2n Canvas::LocalToParent(const Vector2n LocalPosition) const
+{
+	Vector2d PositionDouble(LocalPosition.X(), LocalPosition.Y());
+
+	if (!m_Centered)
+	{
+		PositionDouble = Vector2d((PositionDouble - Camera) * CameraZ);
+	}
+	else
+	{
+		PositionDouble = (PositionDouble - Camera) * CameraZ + (Vector2d(GetDimensions().X(), GetDimensions().Y()) * 0.5);
+	}
+
+	Vector2n PositionInt(static_cast<sint32>(std::lround(std::floor(PositionDouble.X()))), static_cast<sint32>(std::lround(std::floor(PositionDouble.Y()))));		// TODO: Loss of accuracy? Fix it if needed.
+
+	auto WidgetParentPosition = Widget::LocalToParent(PositionInt);
+	return WidgetParentPosition;
+}
+
 /*const Vector2n Canvas::GlobalToLocal(const Vector2n GlobalPosition) const
 {
 	auto WidgetLocalPosition = Widget::GlobalToLocal(GlobalPosition);

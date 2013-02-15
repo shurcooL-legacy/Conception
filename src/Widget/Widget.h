@@ -40,6 +40,10 @@ public:
 	void SetPosition(Vector2n Position);
 	void SetDimensions(Vector2n Dimensions);
 
+	virtual const Vector2n LocalToParent(const Vector2n LocalPosition) const;		// TODO: This should be one reversable virtual function, not two (i.e. DRY)
+	const Vector2n ParentToGlobal(const Vector2n ParentPosition) const;
+	const Vector2n LocalToGlobal(const Vector2n LocalPosition) const;
+
 	void ProcessManipulationBegin(const InputEvent & InputEvent) override;
 	void ProcessManipulationUpdate(const InputEvent & InputEvent) override;
 	void ProcessManipulationEnd(const InputEvent & InputEvent) override;

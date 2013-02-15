@@ -166,7 +166,6 @@ const Vector2n Widget::ParentToLocal(const Vector2n ParentPosition) const
 {
 	return ParentPosition - m_Position;
 }
-
 const Vector2n Widget::GlobalToParent(const Vector2n GlobalPosition) const
 {
 	Vector2n ParentPosition = GlobalPosition;
@@ -178,7 +177,6 @@ const Vector2n Widget::GlobalToParent(const Vector2n GlobalPosition) const
 
 	return ParentPosition;
 }
-
 const Vector2n Widget::GlobalToLocal(const Vector2n GlobalPosition) const
 {
 	/*Vector2d CanvasPositionDouble = GetParent()->GlobalToCanvas(GlobalPosition);
@@ -187,6 +185,27 @@ const Vector2n Widget::GlobalToLocal(const Vector2n GlobalPosition) const
 	return CanvasPosition - m_Position;*/
 
 	return ParentToLocal(GlobalToParent(GlobalPosition));
+}
+
+const Vector2n Widget::LocalToParent(const Vector2n LocalPosition) const
+{
+	auto Delta = Widget::ParentToLocal(LocalPosition) - LocalPosition;
+	return LocalPosition - Delta;
+}
+const Vector2n Widget::ParentToGlobal(const Vector2n ParentPosition) const
+{
+	Vector2n GlobalPosition = ParentPosition;
+
+	if (nullptr != GetParent())
+	{
+		GlobalPosition = GetParent()->LocalToGlobal(ParentPosition);
+	}
+
+	return GlobalPosition;
+}
+const Vector2n Widget::LocalToGlobal(const Vector2n LocalPosition) const
+{
+	return ParentToGlobal(LocalToParent(LocalPosition));
 }
 
 const Vector2n Widget::GetPosition() const

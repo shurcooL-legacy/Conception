@@ -20,7 +20,7 @@ private:
 };
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
-	: Widget(Position, Vector2n(14, 14), { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }),
+	: Widget(Position, Vector2n(16, 16), { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }),
 	  m_Target(Target)
 {
 }
@@ -59,9 +59,6 @@ template <typename T> void ConnectionWidget<T>::Render()
 
 	auto Center = GetPosition() + GetDimensions() / 2;
 
-	DrawCircle(Center, GetDimensions(), BackgroundColor, BorderColor);
-	DrawCircle(Center, Vector2n(6, 6), BorderColor, BorderColor);
-
 	if (CheckActive())
 	{
 		for (auto & Pointer : GetGestureRecognizer().GetConnected())
@@ -70,8 +67,7 @@ template <typename T> void ConnectionWidget<T>::Render()
 			{
 				const auto & PointerState = Pointer->GetPointerState();
 				Vector2n GlobalPosition(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition());
-				Vector2n ParentPosition = GlobalToParent(GlobalPosition);
-				Vector2n LocalPosition = ParentToLocal(ParentPosition);
+				Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
 				// TODO: Replace this with a resolution independent quad-line
 				glColor3dv(BorderColor.GetComponents());
@@ -81,9 +77,20 @@ template <typename T> void ConnectionWidget<T>::Render()
 				glEnd();
 			}
 		}
+	} else if (nullptr != m_Target) {
+		Vector2n GlobalPosition = m_Target->LocalToGlobal(m_Target->GetDimensions() / 2);
+		Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+
+		// TODO: Replace this with a resolution independent quad-line
+		glColor3dv(BorderColor.GetComponents());
+		glBegin(GL_LINES);
+			glVertex2i(Center.X(), Center.Y());
+			glVertex2i(GetPosition().X() + LocalPosition.X(), GetPosition().Y() + LocalPosition.Y());
+		glEnd();
 	}
 
-	//std::cout << m_Target << endl;
+	DrawCircle(Center, GetDimensions(), BackgroundColor, BorderColor);
+	DrawCircle(Center, Vector2n(6, 6), BorderColor, BorderColor);
 }
 
 template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputEvent)
