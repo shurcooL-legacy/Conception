@@ -6,7 +6,7 @@ class GofmtWidget
 	: public FlowLayoutWidget
 {
 public:
-	GofmtWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
+	GofmtWidget(Vector2n Position, TypingModule & TypingModule, TextFieldWidget * Target = nullptr);
 	~GofmtWidget();
 
 private:

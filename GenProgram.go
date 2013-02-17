@@ -2,5 +2,5 @@ package  main
 
 
 func main()         {
-	print("Hi.")
+	print("package main\n\n\n\n import  \"xx\"")
 }

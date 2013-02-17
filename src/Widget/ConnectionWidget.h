@@ -3,7 +3,8 @@
 #define __ConnectionWidget_H__
 
 template <typename T> class ConnectionWidget
-	: public Widget
+	: public Widget,
+	  public MutuallyConnectable<ConnectionWidget<T>, T>
 {
 public:
 	ConnectionWidget(Vector2n Position, T * Target = nullptr);
@@ -17,24 +18,54 @@ public:
 
 	T * Target() const { return m_Target; }
 
+	void NotifyChange() const;
 	std::function<void()> m_OnChange = nullptr;
 
 private:
+	void UpdateTarget(T * Target);
+
 	T * m_Target = nullptr;
 };
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
 	: Widget(Position, Vector2n(16, 16), { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }),
-	  m_Target(Target)
+	  m_Target(nullptr)		// It will actually be set inside the constructor, via a call to UpdateTarget(Target), but m_Target has to be nullptr at top of UpdateTarget()
 {
+	UpdateTarget(Target);
 }
 
 template <typename T> ConnectionWidget<T>::~ConnectionWidget()
 {
 }
 
+template <typename T> void ConnectionWidget<T>::UpdateTarget(T * Target)
+{
+	if (nullptr != m_Target)
+		MutuallyConnectable<ConnectionWidget<T>, T>::Disconnect(*this, *m_Target);
+
+	m_Target = Target;
+
+	if (nullptr != m_Target)
+		MutuallyConnectable<ConnectionWidget<T>, T>::Connect(*this, *m_Target);
+
+	if (nullptr != m_OnChange) {
+		m_OnChange();
+	}
+}
+
+template <typename T> void ConnectionWidget<T>::NotifyChange() const
+{
+	if (nullptr != m_OnChange) {
+		m_OnChange();
+	}
+}
+
 template <typename T> void ConnectionWidget<T>::Render()
 {
+	// TODO: Refactor this out
+	if (!m_Visible)
+		return;
+
 	Color BackgroundColor(0.99, 0.99, 0.99);
 	Color BorderColor(0.5, 0.5, 0.5);
 
@@ -107,12 +138,7 @@ template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputE
 
 		if (m_Target != Target)
 		{
-			m_Target = Target;
-			if (nullptr != m_OnChange) {
-				m_OnChange();
-			}
-
-			PlayBeep();
+			UpdateTarget(Target);
 		}
 
 		InputEvent.m_Handled = true;

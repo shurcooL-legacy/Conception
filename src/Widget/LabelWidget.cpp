@@ -18,6 +18,7 @@ LabelWidget::~LabelWidget()
 
 void LabelWidget::Render()
 {
+	// TODO: Refactor this out
 	if (!m_Visible)
 		return;
 

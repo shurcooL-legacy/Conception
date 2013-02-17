@@ -41,6 +41,7 @@ void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 
 void TextFieldWidget::Render()
 {
+	// TODO: Refactor this out
 	if (!m_Visible)
 		return;
 
@@ -784,6 +785,9 @@ void TextFieldWidget::UpdateContentLines()
 
 	if (nullptr != m_OnChange) {
 		m_OnChange();
+	}
+	for (auto ConnectionWidget : GetConnected()) {
+		ConnectionWidget->NotifyChange();
 	}
 }
 

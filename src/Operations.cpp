@@ -4,7 +4,7 @@ void PlayBeep()
 {
 	//std::cout << "Beep.\n";
 	//BeepWidget->m_ExecuteWidget->GetAction()();
-	LaunchProcessInBackground({"/usr/bin/afplay", "--volume", "0.2", "data/hitsound.wav"});		// HACK: OS X dependency
+	LaunchProcessInBackground({"/usr/bin/afplay", "--volume", "0.5", "data/hitsound.wav"});		// HACK: OS X dependency
 }
 
 // Trim last newline, if there is one

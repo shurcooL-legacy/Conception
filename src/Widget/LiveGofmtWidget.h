@@ -6,7 +6,7 @@ class LiveGofmtWidget
 	: public FlowLayoutWidget
 {
 public:
-	LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule, Project & Project);
+	LiveGofmtWidget(Vector2n Position, TypingModule & TypingModule);
 	~LiveGofmtWidget();
 
 private:
@@ -14,7 +14,7 @@ private:
 	LiveGofmtWidget & operator = (const LiveGofmtWidget &) = delete;
 
 	TextFieldWidget * m_SourceWidget;
-	TextFieldWidget * m_OutputWidget;
+	GofmtWidget * m_GofmtWidget;
 };
 
 #endif // __LiveGofmtWidget_H__
