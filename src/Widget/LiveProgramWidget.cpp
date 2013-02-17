@@ -2,8 +2,9 @@
 
 LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
+								   std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceWidget)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
+#if 0
 	{
 		m_SourceWidget->m_OnChange = Project.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
 
@@ -119,6 +120,9 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	}
 
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+#else
+	m_ProgramWidget->RemoveAllBehaviors();
+#endif
 }
 
 LiveProgramWidget::~LiveProgramWidget()

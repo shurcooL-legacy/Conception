@@ -55,7 +55,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
 		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
 		MainCanvas->AddWidget(new ToggleWidget(Vector2n(-20, -350), [](bool State) { std::cout << "Testing this toggle widget! It's now set to " << State << ".\n"; }, true));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
+		//MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new ProgramWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
@@ -67,6 +68,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule));
 
 		// TEST: Connection
+		if (false)
 		{
 			auto Connection = new ConnectionWidget<TextFieldWidget>(Vector2n(0, 0));
 
@@ -84,6 +86,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// TEST: Open a file via path (read-only at first)
+		if (false)
 		{
 			auto Path = new TextFieldWidget(Vector2n(40, -400), *m_TypingModule);
 			MainCanvas->AddWidget(Path);
@@ -106,7 +109,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Text File
-		MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GenProgram.go", *m_TypingModule));
+		//if (false)
+		{
+			MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GoLand/TestProgram.go", *m_TypingModule));
+		}
 
 		// Folder Listing
 		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *MainCanvas, *m_TypingModule);
@@ -144,6 +150,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Label resizing test
+		if (false)
 		{
 			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
 
@@ -212,8 +219,6 @@ ConceptionApp::~ConceptionApp()
 
 void ConceptionApp::Render()
 {
-	m_CurrentProject.SomethingFromAppRenderTEST();
-
 	App::Render();
 
 	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()

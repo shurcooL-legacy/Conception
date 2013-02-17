@@ -17,9 +17,7 @@ public:
 	std::vector<ConceptId> & GetStdIncludes() { return std_includes; }
 
 	std::function<void()> GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, CanvasWidget * LeftCanvas = nullptr, CanvasWidget * RightCanvas = nullptr, ToggleWidget * LiveToggle = nullptr);
-	void SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST = nullptr);
 	void StartBackgroundThread();
-	void SomethingFromAppRenderTEST();
 
 private:
 	Project(const Project &);
@@ -43,6 +41,8 @@ public:volatile double m_ProcessEndedTime;private:
 	const Color		m_FinishedErrorColor = Color(0.9, 0.9, 1);
 
 	static void GLFWCALL BackgroundThread(void * Argument);
+
+	friend class ProgramWidget;
 };
 
 #endif // __Project_H__

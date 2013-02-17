@@ -52,6 +52,7 @@
 		2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899C155A12A900F5EE37 /* InputListener.cpp */; };
 		2A807460153F06C700649628 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A80745F153F06C700649628 /* OpenGL.framework */; };
 		2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A807461153F06CD00649628 /* Cocoa.framework */; };
+		2A807D3E16D13AAB00FEC105 /* ProgramWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A807D3C16D13AAB00FEC105 /* ProgramWidget.cpp */; };
 		2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8368CB155AD04800D25BC1 /* PointerState.cpp */; };
 		2A8820D116CD62C1004D4D4D /* TextFileWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8820CF16CD62C1004D4D4D /* TextFileWidget.cpp */; };
 		2A91C74C15D349AD0070E981 /* CompositeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A91C74A15D349AD0070E981 /* CompositeWidget.cpp */; };
@@ -205,6 +206,8 @@
 		2A807413153F058500649628 /* Conception */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Conception; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A80745F153F06C700649628 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		2A807461153F06CD00649628 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		2A807D3C16D13AAB00FEC105 /* ProgramWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramWidget.cpp; sourceTree = "<group>"; };
+		2A807D3D16D13AAB00FEC105 /* ProgramWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramWidget.h; sourceTree = "<group>"; };
 		2A8368CB155AD04800D25BC1 /* PointerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerState.cpp; sourceTree = "<group>"; };
 		2A8368CE155AD05300D25BC1 /* PointerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PointerState.h; sourceTree = "<group>"; };
 		2A8820CF16CD62C1004D4D4D /* TextFileWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextFileWidget.cpp; sourceTree = "<group>"; };
@@ -390,6 +393,8 @@
 				2A4490C116C899AC00F7EBC5 /* MenuWidget.hpp */,
 				2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */,
 				2A4FFA90155465D90021D8EF /* MultitouchTestBoxWidget.h */,
+				2A807D3C16D13AAB00FEC105 /* ProgramWidget.cpp */,
+				2A807D3D16D13AAB00FEC105 /* ProgramWidget.h */,
 				2AD7123116B45B2E0000A55D /* SayWidget.cpp */,
 				2AD7123216B45B2E0000A55D /* SayWidget.h */,
 				2A3A49E816AE43D60023010C /* ShellWidget.cpp */,
@@ -666,6 +671,7 @@
 				2A8820D116CD62C1004D4D4D /* TextFileWidget.cpp in Sources */,
 				2A487D0016CECD4C0088A0F3 /* CanvasWidget.cpp in Sources */,
 				2A1CCA7B16D04E2D002F839E /* GofmtWidget.cpp in Sources */,
+				2A807D3E16D13AAB00FEC105 /* ProgramWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,8 @@ GofmtWidget::GofmtWidget(Vector2n Position, TypingModule & TypingModule, TextFie
 
 	m_SourceWidget->m_OnChange = [&]()
 	{
+		//PlayBeep();
+
 		std::string InOut = "";
 
 		if (nullptr != m_SourceWidget->Target())
@@ -25,13 +27,13 @@ GofmtWidget::GofmtWidget(Vector2n Position, TypingModule & TypingModule, TextFie
 			Op(InOut);
 		}
 
-		//PlayBeep();
 		m_OutputWidget->SetContent(InOut);
 	};
 
 	m_SourceWidget->m_OnChange();
 
-	//ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, Action));
+	// TODO: Make this work in LiveGofmtWidget too (currently the Cmd+R event doesn't go from LiveGofmtWidget to this GofmtWidget)
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
 }
 
 GofmtWidget::~GofmtWidget()

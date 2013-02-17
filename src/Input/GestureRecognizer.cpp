@@ -480,7 +480,9 @@ bool GestureRecognizer::ProcessShortcuts(InputEvent InputEvent)
 		if (   IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, true>(InputEvent, Shortcut.InputId)
 			&& Shortcut.Modifiers == InputEvent.m_PostEventState.GetModifiers())
 		{
-			Shortcut.Action();
+			if (nullptr != Shortcut.Action) {
+				Shortcut.Action();
+			}
 
 			return true;
 		}

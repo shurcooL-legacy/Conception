@@ -312,12 +312,6 @@ std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget,
 		// HACK
 		g_OutputWidget = &OutputWidget;
 
-		// HACK: No longer needed cuz of FlowLayoutWidget
-		//OutputWidget.SetPosition(Vector2n(SourceWidget.GetDimensions().X() + 2, 0));
-
-		//printf("m_SourceWidget->m_OnChange\n");
-		//m_OutputWidget->SetContent(m_OutputWidget->GetContent() + "+");
-
 		// LiveEditorApp resizing stuff
 		if (nullptr != LeftCanvas && nullptr != RightCanvas)
 		{
@@ -336,14 +330,6 @@ std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget,
 		}
 
 		GenerateProgram(SourceWidget.GetContent());
-		/*uint8 Status;
-		m_OutputWidget->SetContent(m_CurrentProject.RunProgram(Status));
-		if (0 == Status)
-			m_OutputWidget->SetBackground(Color(1.0, 1, 1));
-		else
-			m_OutputWidget->SetBackground(Color(1.0, 0, 0));*/
-
-		//m_CurrentProject.RunProgram(m_OutputWidget);
 
 		m_ProcessEndedTime = glfwGetTime();
 		m_BackgroundState = 0;
@@ -371,10 +357,6 @@ std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget,
 		m_ExpiredOutput = true;
 		m_BackgroundState = 1;
 	};
-}
-
-void Project::SetFunctionOnChange(TextFieldWidget & InputWidget, TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, TextFieldWidget * GenWidgetTEST)
-{
 }
 
 void GLFWCALL Project::BackgroundThread(void * Argument)
@@ -410,6 +392,11 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 			glfwSleep(0.2);
 		}
 		Write(" Done.\n");*/
+
+		// Clean up temporary files
+#if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
+		system("rm ./GenProgram");		// TODO: Error check?
+#endif
 
 		close(Project->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
@@ -476,7 +463,23 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 
 					ProcessResult = static_cast<uint8>(status >> 8);
 				}
-				
+
+				// If successful return value, double check the output file exists
+				if (0 == ProcessResult)
+				{
+					auto Path = std::string("./GenProgram");
+
+					auto List = Ls(Path);
+					if (   1 == List.size()
+						&& List.front() == "ls: " + Path + ": No such file or directory")
+					{
+						ProcessResult = 1;
+
+						write(Project->m_PipeFd[1], List.front().c_str(), List.front().length());
+						close(Project->m_PipeFd[1]);
+					}
+				}
+
 				std::cout << "Done in parent!\n";
 			}
 		}
@@ -586,56 +589,4 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 void Project::StartBackgroundThread()
 {
 	m_BackgroundThread.Start();
-}
-
-void Project::SomethingFromAppRenderTEST()
-{
-	TextFieldWidget * OutputWidget = g_OutputWidget;
-
-	// TEST: This should go to ProcessTimePassed() or something
-	if (-1 != m_PipeFd[0])
-	{
-		char buffer[1024];
-		ssize_t n;
-		while (0 != (n = read(m_PipeFd[0], buffer, sizeof(buffer))))
-		{
-			if (-1 == n) {
-				if (EAGAIN == errno) {
-					break;
-				} else {
-					/*if (m_ExpiredOutput)// && 0 != m_BackgroundState)
-					{
-						m_OutputWidget->SetContent("EXPIRED blah");
-						m_ExpiredOutput = false;
-					}*/
-
-					std::cerr << "Error: Reading from pipe " << m_PipeFd[0] << " failed with errno " << errno << ".\n";
-					break;
-				}
-			}
-			else
-			{
-				std::string str(buffer, n);
-				if (m_ExpiredOutput)
-				{
-					OutputWidget->SetContent(str);
-					m_ExpiredOutput = false;
-				}
-				else
-				{
-					OutputWidget->AppendContent(str);
-				}
-			}
-		}
-
-		// If the output is still expired after a second since process started, just clear the output
-		if (glfwGetTime() >= m_ProcessStartedTime + 1.0)
-		{
-			if (m_ExpiredOutput)
-			{
-				OutputWidget->SetContent("");
-				m_ExpiredOutput = false;
-			}
-		}
-	}
 }

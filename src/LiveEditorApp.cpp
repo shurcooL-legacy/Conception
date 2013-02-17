@@ -186,8 +186,6 @@ void LiveEditorApp::UpdateWindowDimensions(Vector2n WindowDimensions)
 
 void LiveEditorApp::Render()
 {
-	m_CurrentProject.SomethingFromAppRenderTEST();
-
 	App::Render();
 
 	// TODO, LOWER_PRIORITY: Perhaps generalize TypingModule to a Renderable object (rather than Widget) and standardize back into App, removing need for overloaded Render()
