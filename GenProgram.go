@@ -1,5 +1,6 @@
-package main
+package  main
 
-func main() {
+
+func main()        {
 	print("Hi.")
 }

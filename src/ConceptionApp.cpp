@@ -61,9 +61,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-460, -100), *m_TypingModule));
 
-		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
 		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 160), *m_TypingModule));
+		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule, m_CurrentProject));
 
 		// TEST: Connection
 		{

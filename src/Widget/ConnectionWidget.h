@@ -97,10 +97,15 @@ template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputE
 {
 	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent))
 	{
-		printf("Released\n");
+		T * Target = nullptr;
 		if (nullptr != InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer())
+			Target = dynamic_cast<T *>(&InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()->GetOwner());
+
+		if (m_Target != Target)
 		{
-			m_Target = dynamic_cast<T *>(&InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()->GetOwner());
+			m_Target = Target;
+
+			PlayBeep();
 		}
 
 		InputEvent.m_Handled = true;

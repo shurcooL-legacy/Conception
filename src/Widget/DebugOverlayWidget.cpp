@@ -11,48 +11,17 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 			out << "Mouse.PntrMppng.m_Entries.size(): " << g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries.size();
 			for (auto & i : g_InputManager->m_MousePointer->ModifyPointerMapping().m_Entries)
 			{
-				if (dynamic_cast<CanvasWidget *>(&i->GetOwner())) out << "\n CanvasWidget";
-				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
-				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
-				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
-				else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
-				else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
-				else if (dynamic_cast<ToggleWidget *>(&i->GetOwner())) out << "\n ToggleWidget";
-				else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
-				else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
-				else if (dynamic_cast<ListWidget<Concept> *>(&i->GetOwner())) out << "\n ListWidget<Concept>";
-				else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
-				else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
-				else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
-				else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
-				else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";
-				else if (dynamic_cast<ConceptStringBoxWidget *>(&i->GetOwner())) out << "\n ConceptStringBoxWidget";
-				else out << "\n (Unknown)";
+				PrintName(out, i);
 
 				auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
 				out << " (" << LocalPosition.X() << ", " << LocalPosition.Y() << ")";
+				out << " <" << static_cast<Widget *>(&i->GetOwner())->m_DebugDescription << ">";
 			}
 
 			out << "\nKB.PntrMppng.m_Entries.size(): " << g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries.size();
 			for (auto & i : g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries)
 			{
-				if (dynamic_cast<CanvasWidget *>(&i->GetOwner())) out << "\n CanvasWidget";
-				else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
-				else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
-				else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
-				else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
-				else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
-				else if (dynamic_cast<ToggleWidget *>(&i->GetOwner())) out << "\n ToggleWidget";
-				else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
-				else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
-				else if (dynamic_cast<ListWidget<Concept> *>(&i->GetOwner())) out << "\n ListWidget<Concept>";
-				else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
-				else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
-				else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
-				else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
-				else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";
-				else if (dynamic_cast<ConceptStringBoxWidget *>(&i->GetOwner())) out << "\n ConceptStringBoxWidget";
-				else out << "\n (Unknown)";
+				PrintName(out, i);
 			}
 
 			return out.str();
@@ -96,4 +65,29 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 
 DebugOverlayWidget::~DebugOverlayWidget()
 {
+}
+
+void DebugOverlayWidget::PrintName(std::ostringstream & out, GestureRecognizer *& i)
+{
+	if (dynamic_cast<CanvasWidget *>(&i->GetOwner())) out << "\n CanvasWidget";
+	else if (dynamic_cast<MultitouchTestBoxWidget *>(&i->GetOwner())) out << "\n MultitouchTestBoxWidget, color: " << static_cast<uint16>(static_cast<MultitouchTestBoxWidget *>(&i->GetOwner())->m_Color);
+	else if (dynamic_cast<ConnectionWidget<TextFieldWidget> *>(&i->GetOwner())) out << "\n ConnectionWidget<TextFieldWidget>";
+	else if (dynamic_cast<FolderListingWidget *>(&i->GetOwner())) out << "\n FolderListingWidget";
+	else if (dynamic_cast<MenuWidget<std::string> *>(&i->GetOwner())) out << "\n MenuWidget<std::string>";
+	else if (dynamic_cast<ContextMenuWidget<std::string> *>(&i->GetOwner())) out << "\n ContextMenuWidget<std::string>";
+	else if (dynamic_cast<TextFieldWidget *>(&i->GetOwner())) out << "\n TextFieldWidget";
+	else if (dynamic_cast<ToggleWidget *>(&i->GetOwner())) out << "\n ToggleWidget";
+	else if (dynamic_cast<ButtonWidget *>(&i->GetOwner())) out << "\n ButtonWidget";
+	else if (dynamic_cast<ListWidget<ConceptId> *>(&i->GetOwner())) out << "\n ListWidget<ConceptId>";
+	else if (dynamic_cast<ListWidget<Concept> *>(&i->GetOwner())) out << "\n ListWidget<Concept>";
+	else if (dynamic_cast<LiveFunctionWidget *>(&i->GetOwner())) out << "\n LiveFunctionWidget";
+	else if (dynamic_cast<LiveProgramWidget *>(&i->GetOwner())) out << "\n LiveProgramWidget";
+	else if (dynamic_cast<LiveGofmtWidget *>(&i->GetOwner())) out << "\n LiveGofmtWidget";
+	else if (dynamic_cast<GofmtWidget *>(&i->GetOwner())) out << "\n GofmtWidget";
+	else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
+	else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
+	else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
+	else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";
+	else if (dynamic_cast<ConceptStringBoxWidget *>(&i->GetOwner())) out << "\n ConceptStringBoxWidget";
+	else out << "\n (Unknown)";
 }

@@ -7,7 +7,10 @@ class DebugOverlayWidget
 {
 public:
 	DebugOverlayWidget(CanvasWidget * MainCanvas = nullptr);
-	virtual ~DebugOverlayWidget();
+	~DebugOverlayWidget();
+
+private:
+	static void PrintName(std::ostringstream & out, GestureRecognizer *& i);
 };
 
 #endif // __DebugOverlayWidget_H__
