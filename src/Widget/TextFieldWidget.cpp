@@ -358,6 +358,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 								AddWidget(AutocompletionsMenu);
 								g_InputManager->RequestTypingPointer(AutocompletionsMenu->ModifyGestureRecognizer());
 							}
+							else
+							{
+								HandledEvent = false;
+							}
 						}
 					}
 					break;

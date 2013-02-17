@@ -68,7 +68,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// TEST: Connection
 		{
-			auto Connection = new ConnectionWidget<TextFieldWidget>(Vector2n(0, 0), nullptr);
+			auto Connection = new ConnectionWidget<TextFieldWidget>(Vector2n(0, 0));
 
 			auto Content = [Connection]() -> std::string {
 				if (nullptr != Connection->Target())

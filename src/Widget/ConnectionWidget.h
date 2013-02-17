@@ -6,14 +6,18 @@ template <typename T> class ConnectionWidget
 	: public Widget
 {
 public:
-	ConnectionWidget(Vector2n Position, T * Target);
+	ConnectionWidget(Vector2n Position, T * Target = nullptr);
 	~ConnectionWidget();
 
 	void Render() override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
 
+	// HACK: void ProcessTimePassed(const double TimePassed) override { if (nullptr != m_OnChange) m_OnChange(); };
+
 	T * Target() const { return m_Target; }
+
+	std::function<void()> m_OnChange = nullptr;
 
 private:
 	T * m_Target = nullptr;
@@ -104,6 +108,9 @@ template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputE
 		if (m_Target != Target)
 		{
 			m_Target = Target;
+			if (nullptr != m_OnChange) {
+				m_OnChange();
+			}
 
 			PlayBeep();
 		}
