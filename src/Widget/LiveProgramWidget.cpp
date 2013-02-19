@@ -4,124 +4,121 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
 								   std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceWidget)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
-#if 0
+	m_ProgramWidget->RemoveAllBehaviors();
+
+	m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 	{
-		m_SourceWidget->m_OnChange = Project.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, nullptr, nullptr);
-
-		m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
-		{
-			std::vector<std::string> Autocompletions;
+		std::vector<std::string> Autocompletions;
 
 #if 0
-			Autocompletions = { "Line 1", "Line 2", "Line 3" };
+		Autocompletions = { "Line 1", "Line 2", "Line 3" };
 #else
-			// Get autocompletion using gocode
-			std::string Output = "";
+		// Get autocompletion using gocode
+		std::string Output = "";
+		{
+			int PipeFd[2];
+			pipe(PipeFd);
+			fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
+			std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+
+			uint8 ProcessResult;
+
 			{
-				int PipeFd[2];
-				pipe(PipeFd);
-				fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
-				std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+				auto Pid = fork();
 
-				uint8 ProcessResult;
-
+				if (0 == Pid)
 				{
-					auto Pid = fork();
+					close(PipeFd[0]);    // close reading end in the child
 
-					if (0 == Pid)
+					dup2(PipeFd[1], 1);  // send stdout to the pipe
+					dup2(PipeFd[1], 2);  // send stderr to the pipe
+
+					close(PipeFd[1]);    // this descriptor is no longer needed
+
+					// TODO: Should I be using the ./GenProgram.go file or something else?
+					execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+
+					//exit(1);		// Not needed, just in case I comment out the above
+					throw 0;
+				}
+				else if (-1 == Pid)
+				{
+					std::cerr << "Error forking.\n";
+					throw 0;
+				}
+				else
+				{
+					// Wait for child process to complete
 					{
-						close(PipeFd[0]);    // close reading end in the child
+						int status;
+						waitpid(Pid, &status, 0);
+						Pid = 0;
 
-						dup2(PipeFd[1], 1);  // send stdout to the pipe
-						dup2(PipeFd[1], 2);  // send stderr to the pipe
+						std::cout << "Child finished with status " << status << ".\n";
 
-						close(PipeFd[1]);    // this descriptor is no longer needed
-
-						execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
-
-						//exit(1);		// Not needed, just in case I comment out the above
-						throw 0;
+						ProcessResult = static_cast<uint8>(status >> 8);
 					}
-					else if (-1 == Pid)
+
+					// Read output from pipe and put it into Output
+					if (0 == ProcessResult)
 					{
-						std::cerr << "Error forking.\n";
-						throw 0;
-					}
-					else
-					{
-						// Wait for child process to complete
+						char buffer[1024];
+						ssize_t n;
+						while (0 != (n = read(PipeFd[0], buffer, sizeof(buffer))))
 						{
-							int status;
-							waitpid(Pid, &status, 0);
-							Pid = 0;
-
-							std::cout << "Child finished with status " << status << ".\n";
-
-							ProcessResult = static_cast<uint8>(status >> 8);
-						}
-
-						// Read output from pipe and put it into Output
-						if (0 == ProcessResult)
-						{
-							char buffer[1024];
-							ssize_t n;
-							while (0 != (n = read(PipeFd[0], buffer, sizeof(buffer))))
-							{
-								if (-1 == n) {
-									if (EAGAIN == errno) {
-										break;
-									} else {
-										std::cerr << "Error: Reading from pipe " << PipeFd[0] << " failed with errno " << errno << ".\n";
-										break;
-									}
-								}
-								else
-								{
-									Output.append(buffer, n);
+							if (-1 == n) {
+								if (EAGAIN == errno) {
+									break;
+								} else {
+									std::cerr << "Error: Reading from pipe " << PipeFd[0] << " failed with errno " << errno << ".\n";
+									break;
 								}
 							}
+							else
+							{
+								Output.append(buffer, n);
+							}
 						}
-
-						std::cout << "Done in parent!\n";
 					}
-				}
 
-				close(PipeFd[0]);
-				close(PipeFd[1]);
+					std::cout << "Done in parent!\n";
+				}
 			}
 
-			// Parse Output and populate Autocompletions
-			// TODO: Clean up
+			close(PipeFd[0]);
+			close(PipeFd[1]);
+		}
+
+		// Parse Output and populate Autocompletions
+		// TODO: Clean up
+		{
+			std::stringstream ss;
+			ss << Output;
+			std::string Line;
+
+			std::getline(ss, Line);		// Skip first line
+			std::getline(ss, Line);
+			while (!Line.empty() && !ss.eof())
 			{
-				std::stringstream ss;
-				ss << Output;
-				std::string Line;
-
-				std::getline(ss, Line);		// Skip first line
+				Autocompletions.push_back(Line);
 				std::getline(ss, Line);
-				while (!Line.empty() && !ss.eof())
-				{
-					Autocompletions.push_back(Line);
-					std::getline(ss, Line);
-				}
-				if (!Line.empty())
-					Autocompletions.push_back(Line);
 			}
+			if (!Line.empty())
+				Autocompletions.push_back(Line);
+		}
 #endif
 
-			return Autocompletions;
-		};
+		return Autocompletions;
+	};
 
+#if 0
 #if DECISION_USE_CPP_INSTEAD_OF_GO
-		m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
+	m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
 #else
-		m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
+	m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
 #endif
-	}
 
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
-#else
-	m_ProgramWidget->RemoveAllBehaviors();
 #endif
 }
 
