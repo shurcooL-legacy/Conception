@@ -125,19 +125,28 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		{
 			auto s1 = new TextFieldWidget(Vector2n(-620, 340), *m_TypingModule);
 			auto s2 = new TextFieldWidget(Vector2n(-620, 340+lineHeight+2), *m_TypingModule);
-			auto o = new TextFieldWidget(Vector2n(-560, 340), *m_TypingModule);
+			auto o = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			ConnectionWidget<TextFieldWidget> * c1, * c2;
+			auto oc = new FlowLayoutWidget(Vector2n(-560, 340), { std::shared_ptr<Widget>(c1 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s1)), std::shared_ptr<Widget>(c2 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s2)), std::shared_ptr<Widget>(o) }, {});
 
 			auto R = [=]() {
-				o->SetContent(s1->GetContent() + "\n" + s2->GetContent());
+				if (c1->Target() && c2->Target())
+				{
+					//o->SetContent(c1->Target()->GetContent() + "\n" + c2->Target()->GetContent());
+
+					auto Out = Diff(c1->Target()->GetContent(), c2->Target()->GetContent());
+					TrimLastNewline(Out);
+					o->SetContent(Out);
+				}
 			};
 
-			s1->m_OnChange = R;
-			s2->m_OnChange = R;
+			c1->m_OnChange = R;
+			c2->m_OnChange = R;
 			R();
 
 			MainCanvas->AddWidget(s1);
 			MainCanvas->AddWidget(s2);
-			MainCanvas->AddWidget(o);
+			MainCanvas->AddWidget(oc);
 		}
 
 		// TEST: Modify some Concept
@@ -215,6 +224,7 @@ ConceptionApp::~ConceptionApp()
 #if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 	system("rm ./GenProgram");
 	system("rm ./GenProgram.go");
+	system("rm ./GenDiff1.txt ./GenDiff2.txt");
 	system("./bin/gocode/gocode drop-cache");
 	system("./bin/gocode/gocode close");
 #endif

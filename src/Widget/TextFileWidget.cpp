@@ -9,11 +9,7 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		//PlayBeep();
 
 		// Write to file
-		{
-			//std::cout << "Writing the following to '" << Path << "':\n" << m_TextFieldWidget->GetContent() << endl;
-			std::ofstream OutFile(Path);
-			OutFile << m_TextFieldWidget->GetContent();
-		}
+		WriteToFile(Path, m_TextFieldWidget->GetContent());
 	};
 }
 
