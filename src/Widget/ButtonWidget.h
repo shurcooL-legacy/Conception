@@ -9,7 +9,7 @@ public:
 	ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action);
 	ButtonWidget(Vector2n Position, std::function<void()> Action)
 		: ButtonWidget(Position, Vector2n(30, 30), Action) {}
-	virtual ~ButtonWidget();
+	~ButtonWidget();
 
 	void Render() override;
 

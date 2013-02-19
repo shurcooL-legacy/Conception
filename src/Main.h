@@ -244,6 +244,7 @@ extern InputManager * g_InputManager;
 #include "Widget/FolderListingWidget.h"
 #include "Widget/CanvasWidget.h"
 #include "Widget/DebugOverlayWidget.h"
+#include "Widget/TankWidget.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "LiveEditorApp.h"

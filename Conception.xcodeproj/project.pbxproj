@@ -10,6 +10,7 @@
 		2A01AD71166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A01AD6F166D17C000AF7E9F /* NonDraggablePositionBehavior.cpp */; };
 		2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CA1635B10000C7DD67 /* Behavior.cpp */; };
 		2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */; };
+		2A140B8B16D2F9AB0015B9A1 /* TankWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A140B8916D2F9AB0015B9A1 /* TankWidget.cpp */; };
 		2A1CCA7B16D04E2D002F839E /* GofmtWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */; };
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
@@ -113,6 +114,8 @@
 		2A0D47CB1635B10000C7DD67 /* Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Behavior.h; path = src/Behavior/Behavior.h; sourceTree = SOURCE_ROOT; };
 		2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = DraggablePositionBehavior.cpp; path = src/Behavior/DraggablePositionBehavior.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DraggablePositionBehavior.h; path = src/Behavior/DraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A140B8916D2F9AB0015B9A1 /* TankWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TankWidget.cpp; sourceTree = "<group>"; };
+		2A140B8A16D2F9AB0015B9A1 /* TankWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TankWidget.h; sourceTree = "<group>"; };
 		2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GofmtWidget.cpp; sourceTree = "<group>"; };
 		2A1CCA7A16D04E2D002F839E /* GofmtWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GofmtWidget.h; sourceTree = "<group>"; };
 		2A2084D5162480D900AE524C /* LiveEditorApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = LiveEditorApp.cpp; path = src/LiveEditorApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -399,6 +402,8 @@
 				2AD7123216B45B2E0000A55D /* SayWidget.h */,
 				2A3A49E816AE43D60023010C /* ShellWidget.cpp */,
 				2A3A49E916AE43D60023010C /* ShellWidget.h */,
+				2A140B8916D2F9AB0015B9A1 /* TankWidget.cpp */,
+				2A140B8A16D2F9AB0015B9A1 /* TankWidget.h */,
 				2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */,
 				2A4FFA92155465D90021D8EF /* TextFieldWidget.h */,
 				2A8820CF16CD62C1004D4D4D /* TextFileWidget.cpp */,
@@ -672,6 +677,7 @@
 				2A487D0016CECD4C0088A0F3 /* CanvasWidget.cpp in Sources */,
 				2A1CCA7B16D04E2D002F839E /* GofmtWidget.cpp in Sources */,
 				2A807D3E16D13AAB00FEC105 /* ProgramWidget.cpp in Sources */,
+				2A140B8B16D2F9AB0015B9A1 /* TankWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
