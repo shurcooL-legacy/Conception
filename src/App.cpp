@@ -268,7 +268,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 					&& !IsPointerPointingDeactivationEvent(InputEvent))
 				{
 					//if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
-					if (false == InputEvent.m_Pointer->IsActive())
+					//if (false == InputEvent.m_Pointer->IsActive())
+					if (false == InputEvent.m_PostEventState.IsActive())
 					{
 						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
 						for (auto & Hit : Hits)
@@ -435,7 +436,8 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 				if (IsPointerPointingDeactivationEvent(InputEvent))
 				{
 					//if (nullptr == InputEvent.m_Pointer->GetPointerMapping().GetCapturer())
-					if (false == InputEvent.m_Pointer->IsActive())		// HACK: This check is kinda unnecessary here, but I kept it because this code is duplicated from top
+					//if (false == InputEvent.m_Pointer->IsActive())
+					if (false == InputEvent.m_PostEventState.IsActive())		// HACK: This check is kinda unnecessary here, but I kept it because this code is duplicated from top
 					{
 						InputEvent.m_Pointer->ModifyPointerMapping().RemoveAllMappings();		// TODO: Maybe only remove/add when there's change, rather than starting from scratch each time
 						for (auto & Hit : Hits)

@@ -22,10 +22,11 @@ public:
 	auto UpdateAxisState(Input::InputId AxisId) -> decltype((m_AxisStates[AxisId]));
 
 	bool IsAnyButtonsPressed() const;
+	bool IsActive() const;
 
 	enum class Modifiers : uint8 {
 		None = 0,
-		Shift,
+		Shift,		// TODO: Make sure that Shift belongs here...
 		Ctrl,
 		Alt,
 		Super

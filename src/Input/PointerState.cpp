@@ -71,6 +71,12 @@ bool PointerState::IsAnyButtonsPressed() const
 	return false;
 }
 
+// A pointer is defined to be active if any of its buttons are pressed down
+bool PointerState::IsActive() const
+{
+	return IsAnyButtonsPressed();
+}
+
 PointerState::Modifiers PointerState::GetModifiers() const
 {
 	bool Super = GetButtonState(GLFW_KEY_LSUPER) || GetButtonState(GLFW_KEY_RSUPER);

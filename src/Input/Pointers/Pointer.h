@@ -23,8 +23,6 @@ public:
 	const PointerState & GetPointerState();
 	PointerState & ModifyPointerState();
 
-	bool IsActive() const;
-
 protected:
 	Pointer(InputHandler & InputHandler);
 	virtual ~Pointer();
@@ -36,7 +34,6 @@ private:
 	Pointer(const Pointer &) = delete;
 	Pointer & operator = (const Pointer &) = delete;
 
-	bool				m_IsActive;
 	PointerState		m_PointerState;
 
 	InputHandler &		m_InputHandler;
