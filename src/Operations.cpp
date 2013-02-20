@@ -195,7 +195,7 @@ void Gofmt(std::string & InOut)
 
 std::vector<std::string> Ls(std::string & InOut)
 {
-	std::vector<std::string> Autocompletions;
+	std::vector<std::string> Entries;
 
 	std::string Output = "";
 	{
@@ -272,7 +272,7 @@ std::vector<std::string> Ls(std::string & InOut)
 		close(PipeFd[1]);
 	}
 
-	// Parse Output and populate Autocompletions
+	// Parse Output and populate Entries
 	// TODO: Clean up
 	{
 		std::stringstream ss;
@@ -282,14 +282,14 @@ std::vector<std::string> Ls(std::string & InOut)
 		std::getline(ss, Line);
 		while (!Line.empty() && !ss.eof())
 		{
-			Autocompletions.push_back(Line);
+			Entries.push_back(Line);
 			std::getline(ss, Line);
 		}
 		if (!Line.empty())
-			Autocompletions.push_back(Line);
+			Entries.push_back(Line);
 	}
 
-	return Autocompletions;
+	return Entries;
 }
 
 void LaunchProcessInBackground(std::initializer_list<std::string> Argv)
