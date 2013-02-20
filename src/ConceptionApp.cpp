@@ -69,6 +69,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule));
 		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule));
 
+		MainCanvas->AddWidget(new DiffWidget(Vector2n(-450, 340), *m_TypingModule));
+
 		// TEST: Connection
 		if (false)
 		{
@@ -132,11 +134,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto R = [=]() {
 				if (c1->Target() && c2->Target())
 				{
-					//o->SetContent(c1->Target()->GetContent() + "\n" + c2->Target()->GetContent());
-
-					auto Out = Diff(c1->Target()->GetContent(), c2->Target()->GetContent());
-					TrimLastNewline(Out);
-					o->SetContent(Out);
+					o->SetContent(c1->Target()->GetContent() + "\n" + c2->Target()->GetContent());
 				}
 			};
 
