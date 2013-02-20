@@ -77,8 +77,6 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 								}
 							}
 						}
-
-						std::cout << "Done in parent!\n";
 					}
 				}
 

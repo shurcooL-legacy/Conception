@@ -25,7 +25,7 @@ std::string Diff(const std::string & Content1, const std::string & Content2)
 
 				close(PipeFd[1]);    // this descriptor is no longer needed
 
-				execl("/usr/bin/diff", "/usr/bin/diff", "./GenDiff1.txt", "./GenDiff2.txt", (char *)0);
+				execl("/usr/bin/diff", "/usr/bin/diff", /*"-u",*/ "./GenDiff1.txt", "./GenDiff2.txt", (char *)0);
 
 				// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 				//exit(1);		// Not needed, just in case I comment out the above
@@ -70,8 +70,6 @@ std::string Diff(const std::string & Content1, const std::string & Content2)
 						}
 					}
 				}
-
-				std::cout << "Done in parent!\n";
 			}
 		}
 
@@ -115,7 +113,6 @@ void Gofmt(std::string & InOut)
 	pipe(PipeFd);
 	pipe(PipeInFd);
 	fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
-	std::cout << "gofmt: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
 
 	uint8 ProcessResult;
 
@@ -186,8 +183,6 @@ void Gofmt(std::string & InOut)
 					}
 				}
 			}
-
-			std::cout << "Done in parent!\n";
 		}
 	}
 
@@ -270,8 +265,6 @@ std::vector<std::string> Ls(std::string & InOut)
 						}
 					}
 				}
-
-				std::cout << "Done in parent!\n";
 			}
 		}
 

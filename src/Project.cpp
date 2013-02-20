@@ -281,8 +281,6 @@ void GLFWCALL RunProgramThread(void * Parameter)
 				else
 					OutputWidget->SetBackground(Color(1.0, 0, 0));
 			}
-
-			std::cout << "Done in parent!\n";
 		}
 	}
 }
@@ -479,8 +477,6 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 						close(Project->m_PipeFd[1]);
 					}
 				}
-
-				std::cout << "Done in parent!\n";
 			}
 		}
 
@@ -553,8 +549,6 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 
 					ProcessResult = static_cast<uint8>(status >> 8);
 				}
-				
-				std::cout << "Done in parent!\n";
 			}
 		}
 

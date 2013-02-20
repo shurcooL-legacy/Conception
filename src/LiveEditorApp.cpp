@@ -106,8 +106,6 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 									}
 								}
 							}
-
-							std::cout << "Done in parent!\n";
 						}
 					}
 

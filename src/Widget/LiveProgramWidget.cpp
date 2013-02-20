@@ -80,8 +80,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 							}
 						}
 					}
-
-					std::cout << "Done in parent!\n";
 				}
 			}
 
