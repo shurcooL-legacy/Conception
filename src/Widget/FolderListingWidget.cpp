@@ -91,7 +91,8 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 					break;
 				case GLFW_KEY_RIGHT:
 					{
-						if (nullptr != m_Child)
+						if (   nullptr != m_Child
+							&& nullptr != dynamic_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get()))
 						{
 							if (nullptr == static_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get())->GetSelectedEntry())
 								static_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get())->SetSelectedEntryId(0);
