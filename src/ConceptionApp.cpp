@@ -115,7 +115,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		// Text File
 		//if (false)
 		{
-			MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GoLand/TestProgram.go", *m_TypingModule));
+			MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GoLand/src/TestProgram.go", *m_TypingModule));
 		}
 
 		// Folder Listing

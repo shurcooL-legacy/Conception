@@ -363,6 +363,19 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 
 	auto Project = static_cast<class Project *>(Argument);
 
+	std::string GoPath = "GOPATH=";
+	// TODO: Move this elsewhere?!
+	// Get current working directory
+	{
+		auto cwd = getcwd(nullptr, 0);
+		if (nullptr != cwd) {
+			//printf("Using cwd = >%s<\n", cwd);
+			GoPath += cwd;
+			free(cwd);
+		}
+	}
+	GoPath += "/GoLand";
+
 	// Main loop
 	while (Thread->ShouldBeRunning())
 	{
@@ -423,7 +436,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
 #else
 				//execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
-				const char * envp[] = { "GOPATH=./GoLand", nullptr };
+				const char * envp[] = { GoPath.c_str(), nullptr };
 				execle("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0, envp);
 #endif
 

@@ -68,6 +68,14 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		};
 
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open));
+
+		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &)
+		{
+			ListingWidget->SetSelectedEntryId(LocalPosition);
+
+			Open();
+		};
+		ListingWidget->ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 	}
 }
 
