@@ -3,12 +3,22 @@
 FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
+	//printf("FolderListingWidget(Path = `%s`) created.\n", Path.c_str());
+	// If not empty and doesn't end with slash, add the slash
+	if (   !Path.empty()
+		&& '/' != Path.at(Path.length() - 1))
+	{
+		Path += "/";
+	}
+	//printf("FolderListingWidget(Path = `%s`) became.\n", Path.c_str());
+
 	auto List = Ls(Path);
 
 	if (   1 == List.size()
 		&& List.front() == "ls: " + Path + ": Not a directory")
 	{
 		// TEST: Add a file preview pane
+		//if (0)
 		{
 			auto PathString = Path.substr(0, Path.length() - 1);
 #if 0
@@ -41,7 +51,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 			if (nullptr != m_Child) {
 				this->RemoveWidget(m_Child);
 			}
-			auto NewPath = Path + *ListingWidget->GetSelectedEntry() + "/";
+			auto NewPath = Path + *ListingWidget->GetSelectedEntry();
 			this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));
 		};
 
