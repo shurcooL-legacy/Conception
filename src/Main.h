@@ -246,6 +246,7 @@ extern InputManager * g_InputManager;
 #include "Widget/DebugOverlayWidget.h"
 #include "Widget/TankWidget.h"
 #include "Widget/DiffWidget.h"
+#include "Widget/LiveCodeWidget.h"
 #include "App.h"
 #include "ConceptionApp.h"
 #include "LiveEditorApp.h"

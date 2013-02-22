@@ -69,7 +69,10 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule));
 		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule));
 
-		MainCanvas->AddWidget(new DiffWidget(Vector2n(-450, 340), *m_TypingModule));
+		for (auto i = 0; i < 3; ++i)
+			MainCanvas->AddWidget(new DiffWidget(Vector2n(-450, 340), *m_TypingModule));
+
+		MainCanvas->AddWidget(new LiveCodeWidget(Vector2n(-100, 220), *m_TypingModule, m_CurrentProject));
 
 		// TEST: Connection
 		if (false)
