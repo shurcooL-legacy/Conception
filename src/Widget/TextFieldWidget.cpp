@@ -223,6 +223,77 @@ void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Cha
 	}
 }
 
+// TODO: Merge this with MoveCaretHorizontallyRight()
+void TextFieldWidget::MoveCaretHorizontallyLeft(bool SuperActive, bool AltActive, bool ShiftActive)
+{
+	if (SuperActive && !AltActive)
+	{
+		auto LineNumber = GetLineNumber();
+
+		SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition, !ShiftActive);
+	}
+	else if (AltActive && !SuperActive)
+	{
+		{
+			// Skip spaces to the left
+			auto LookAt = m_CaretPosition - 1;
+			while (   LookAt != -1
+				   && !IsCoreCharacter(m_Content[LookAt]))
+			{
+				--LookAt;
+			}
+
+			// Skip non-spaces to the left
+			while (   LookAt != -1
+				   && IsCoreCharacter(m_Content[LookAt]))
+			{
+				--LookAt;
+			}
+
+			SetCaretPosition(LookAt + 1, !ShiftActive);
+		}
+	}
+	else
+	{
+		MoveCaretTry(-1, !ShiftActive);
+	}
+}
+
+void TextFieldWidget::MoveCaretHorizontallyRight(bool SuperActive, bool AltActive, bool ShiftActive)
+{
+	if (SuperActive && !AltActive)
+	{
+		auto LineNumber = GetLineNumber();
+
+		SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + m_ContentLines[LineNumber].m_Length, !ShiftActive);
+	}
+	else if (AltActive && !SuperActive)
+	{
+		{
+			// Skip spaces to the right
+			auto LookAt = m_CaretPosition;
+			while (   LookAt < m_Content.length()
+				   && !IsCoreCharacter(m_Content[LookAt]))
+			{
+				++LookAt;
+			}
+
+			// Skip non-spaces to the right
+			while (   LookAt < m_Content.length()
+				   && IsCoreCharacter(m_Content[LookAt]))
+			{
+				++LookAt;
+			}
+
+			SetCaretPosition(LookAt, !ShiftActive);
+		}
+	}
+	else
+	{
+		MoveCaretTry(+1, !ShiftActive);
+	}
+}
+
 void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 {
 	// DECISION
@@ -279,17 +350,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 						if (false == SelectionExisted)
 						{
-							if (m_CaretPosition > 0)
-							{
-								m_Content.erase(m_CaretPosition - 1, 1);
-								UpdateContentLines();
-								MoveCaret(-1, true);
-							}
+							MoveCaretHorizontallyLeft(SuperActive, AltActive, true);
+							EraseSelectionIfAny();
 						}
-						else
-						{
-							UpdateContentLines();
-						}
+
+						UpdateContentLines();
 					}
 					break;
 				case GLFW_KEY_DEL:
@@ -298,16 +363,11 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 
 						if (false == SelectionExisted)
 						{
-							if (m_CaretPosition < m_Content.length())
-							{
-								m_Content.erase(m_CaretPosition, 1);
-								UpdateContentLines();
-							}
+							MoveCaretHorizontallyRight(SuperActive, AltActive, true);
+							EraseSelectionIfAny();
 						}
-						else
-						{
-							UpdateContentLines();
-						}
+
+						UpdateContentLines();
 					}
 					break;
 				case GLFW_KEY_ENTER:
@@ -374,37 +434,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 						else
 						{
-							if (SuperActive && !AltActive)
-							{
-								auto LineNumber = GetLineNumber();
-
-								SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition, !ShiftActive);
-							}
-							else if (AltActive && !SuperActive)
-							{
-								{
-									// Skip spaces to the left
-									auto LookAt = m_CaretPosition - 1;
-									while (   LookAt != -1
-										   && !IsCoreCharacter(m_Content[LookAt]))
-									{
-										--LookAt;
-									}
-
-									// Skip non-spaces to the left
-									while (   LookAt != -1
-										   && IsCoreCharacter(m_Content[LookAt]))
-									{
-										--LookAt;
-									}
-
-									SetCaretPosition(LookAt + 1, !ShiftActive);
-								}
-							}
-							else
-							{
-								MoveCaretTry(-1, !ShiftActive);
-							}
+							MoveCaretHorizontallyLeft(SuperActive, AltActive, ShiftActive);
 						}
 					}
 					break;
@@ -416,37 +446,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 						else
 						{
-							if (SuperActive && !AltActive)
-							{
-								auto LineNumber = GetLineNumber();
-
-								SetCaretPosition(m_ContentLines[LineNumber].m_StartPosition + m_ContentLines[LineNumber].m_Length, !ShiftActive);
-							}
-							else if (AltActive && !SuperActive)
-							{
-								{
-									// Skip spaces to the right
-									auto LookAt = m_CaretPosition;
-									while (   LookAt < m_Content.length()
-										   && !IsCoreCharacter(m_Content[LookAt]))
-									{
-										++LookAt;
-									}
-
-									// Skip non-spaces to the right
-									while (   LookAt < m_Content.length()
-										   && IsCoreCharacter(m_Content[LookAt]))
-									{
-										++LookAt;
-									}
-
-									SetCaretPosition(LookAt, !ShiftActive);
-								}
-							}
-							else
-							{
-								MoveCaretTry(+1, !ShiftActive);
-							}
+							MoveCaretHorizontallyRight(SuperActive, AltActive, ShiftActive);
 						}
 					}
 					break;
