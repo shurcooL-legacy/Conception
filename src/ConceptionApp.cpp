@@ -64,8 +64,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-460, -100), *m_TypingModule));
 
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule));
-		MainCanvas->AddWidget(new TextFieldWidget(Vector2n(-400, 160), *m_TypingModule));
+		for (auto i = 0; i < 5; ++i) {
+			auto DraggableTextField = new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule);
+			DraggableTextField->AddBehavior(new DraggablePositionBehavior(*DraggableTextField));
+			MainCanvas->AddWidget(DraggableTextField);
+		}
 		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule));
 		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule));
 
