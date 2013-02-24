@@ -17,6 +17,7 @@ public:
 	// HACK: void ProcessTimePassed(const double TimePassed) override { if (nullptr != m_OnChange) m_OnChange(); };
 
 	T * Target() const { return m_Target; }
+	void SetTarget(T * Target);
 
 	void NotifyChange() const;
 	std::function<void()> m_OnChange = nullptr;
@@ -36,6 +37,14 @@ template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T
 
 template <typename T> ConnectionWidget<T>::~ConnectionWidget()
 {
+}
+
+template <typename T> void ConnectionWidget<T>::SetTarget(T * Target)
+{
+	if (m_Target != Target)
+	{
+		UpdateTarget(Target);
+	}
 }
 
 template <typename T> void ConnectionWidget<T>::UpdateTarget(T * Target)
@@ -136,10 +145,7 @@ template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputE
 		if (nullptr != InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer())
 			Target = dynamic_cast<T *>(&InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()->GetOwner());
 
-		if (m_Target != Target)
-		{
-			UpdateTarget(Target);
-		}
+		SetTarget(Target);
 
 		InputEvent.m_Handled = true;
 	}

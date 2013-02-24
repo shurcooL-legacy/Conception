@@ -28,13 +28,39 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		auto LeftCanvas = new CanvasWidget(Vector2n(0, 16+2), false, true, CanvasWidget::BehaviourScrolling::VerticalOnly);
 		auto RightCanvas = new CanvasWidget(Vector2n(0, 16+2), false, true, CanvasWidget::BehaviourScrolling::VerticalOnly);
 
-		LeftCanvas->AddWidget(m_SourceWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
-		RightCanvas->AddWidget(m_OutputWidget = new TextFieldWidget(Vector2n(1, 1), m_TypingModule));
+#if DECISION_USE_CPP_INSTEAD_OF_GO
+#		error Not implemented.
+#else
+		LeftCanvas->AddWidget(m_SourceWidget = new TextFileWidget(Vector2n(1, 1), "./GoLand/src/TestProgram.go", m_TypingModule));
+#endif
+		RightCanvas->AddWidget(m_OutputWidget = new ProgramWidget(Vector2n(1, 1), m_TypingModule, m_CurrentProject, m_SourceWidget->m_TextFieldWidget));
 
 		{
-			m_SourceWidget->m_OnChange = m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, m_LiveToggle);
+			m_SourceWidget->m_OnChange = [=]()
+			{
+				// LiveEditorApp resizing stuff
+				if (nullptr != LeftCanvas && nullptr != RightCanvas)
+				{
+					LeftCanvas->ModifyDimensions().X() = m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1;
+					RightCanvas->ModifyPosition().X() = m_SourceWidget->GetPosition().X() + m_SourceWidget->GetDimensions().X() + 1;
+				}
 
-			m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
+				// Live Toggle effect
+				if (nullptr != m_LiveToggle && !m_LiveToggle->GetState())
+				{
+					m_OutputWidget->SetTarget(nullptr);
+					m_OutputWidget->m_Visible = false;
+				}
+				else
+				{
+					m_OutputWidget->SetTarget(m_SourceWidget->m_TextFieldWidget);
+					m_OutputWidget->m_Visible = true;
+				}
+			};
+			m_SourceWidget->m_OnChange();
+
+			// TODO: Refactor this out
+			m_SourceWidget->m_TextFieldWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
 			{
 				std::vector<std::string> Autocompletions;
 
@@ -62,7 +88,8 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 							close(PipeFd[1]);    // this descriptor is no longer needed
 
-							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GenProgram.go", "autocomplete", "./GenProgram.go", std::to_string(m_SourceWidget->GetCaretPosition()).c_str(), (char *)0);
+							// Using ./GoLand/src/TestProgram.go file
+							execl("./bin/gocode/gocode", "./bin/gocode/gocode", "-f=nice", "-in=./GoLand/src/TestProgram.go", "autocomplete", "./GoLand/src/TestProgram.go", std::to_string(m_SourceWidget->m_TextFieldWidget->GetCaretPosition()).c_str(), (char *)0);
 
 							//exit(1);		// Not needed, just in case I comment out the above
 							throw 0;
@@ -136,21 +163,16 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 				return Autocompletions;
 			};
-
-#if DECISION_USE_CPP_INSTEAD_OF_GO
-			m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
-#else
-			m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
-#endif
 		}
 
 		m_Widgets.push_back(std::unique_ptr<Widget>(LeftCanvas));
 		m_Widgets.push_back(std::unique_ptr<Widget>(RightCanvas));
 
 		// Cmd+R Run shortcut
-		m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(*m_SourceWidget, *m_OutputWidget, LeftCanvas, RightCanvas, nullptr)));
+		// TODO: Doesn't work now because we have no control over `go run` here, it happens in ProgramWidget
+		//m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(LeftCanvas, RightCanvas, nullptr)));
 
-		g_InputManager->RequestTypingPointer(m_SourceWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
+		g_InputManager->RequestTypingPointer(m_SourceWidget->m_TextFieldWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}
 
 	// Prepare and start the thread
@@ -166,6 +188,7 @@ LiveEditorApp::~LiveEditorApp()
 	// Clean up temporary files
 #if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
 	system("rm ./GenProgram");
+	system("rm ./GenProgram.go");
 	system("./bin/gocode/gocode drop-cache");
 	system("./bin/gocode/gocode close");
 #endif
@@ -192,6 +215,7 @@ void LiveEditorApp::Render()
 	}
 }
 
+// DEBUG: This never gets called... so get rid of it, or make it work?
 void LiveEditorApp::ProcessEvent(InputEvent & InputEvent)
 {
 	// DEBUG, TEST: System key handling
@@ -210,12 +234,14 @@ void LiveEditorApp::ProcessEvent(InputEvent & InputEvent)
 					{
 					//case GLFW_KEY_F5:
 					case 'R':
-						if (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
-							|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER))
+						if (   InputEvent.m_PostEventState.GetButtonState(GLFW_KEY_LSUPER)
+							|| InputEvent.m_PostEventState.GetButtonState(GLFW_KEY_RSUPER))
 						{
 							/*m_CurrentProject.GenerateProgram(m_SourceWidget->GetContent());
 							m_OutputWidget->SetContent(m_CurrentProject.RunProgram(m_OutputWidget));*/
-							m_SourceWidget->m_OnChange();
+							//m_SourceWidget->m_OnChange();
+							// TODO
+							printf("Cmd+R in LiveEditorApp: This needs attention... it doesn't do what it used to anymore cuz now we need to call ProgramWidget's NotifyChange()\n");
 
 							InputEvent.m_Handled = true;
 						}

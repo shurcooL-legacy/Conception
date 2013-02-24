@@ -303,60 +303,6 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
-std::function<void()> Project::GetSourceOnChange(TextFieldWidget & SourceWidget, TextFieldWidget & OutputWidget, CanvasWidget * LeftCanvas, CanvasWidget * RightCanvas, ToggleWidget * LiveToggle)
-{
-	return [&, LeftCanvas, RightCanvas, LiveToggle]()
-	{
-		// HACK
-		g_OutputWidget = &OutputWidget;
-
-		// LiveEditorApp resizing stuff
-		if (nullptr != LeftCanvas && nullptr != RightCanvas)
-		{
-			LeftCanvas->ModifyDimensions().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
-			RightCanvas->ModifyPosition().X() = SourceWidget.GetPosition().X() + SourceWidget.GetDimensions().X() + 1;
-		}
-
-		if (nullptr != LiveToggle && !LiveToggle->GetState())
-		{
-			OutputWidget.m_Visible = false;
-			return;
-		}
-		else
-		{
-			OutputWidget.m_Visible = true;
-		}
-
-		GenerateProgram(SourceWidget.GetContent());
-
-		m_ProcessEndedTime = glfwGetTime();
-		m_BackgroundState = 0;
-
-		// Kill child processes
-		if (0 != m_LastPid)
-		{
-			std::cout << "Sending kill to last child pid " << m_LastPid << ".\n";
-			//auto Result = kill(0, SIGTERM);
-			auto Result = killpg(m_LastPid, SIGKILL);
-			//waitpid(m_LastPid, NULL, 0);
-
-			if (0 != Result) {
-				std::cerr << "Error: kill() failed with return " << Result << ", errno " << errno << ".\n";
-				//throw 0;
-			}
-		}
-
-		std::cout << "Closing " << m_PipeFd[0] << " and " << m_PipeFd[1] << "; ";
-		close(m_PipeFd[0]);		// Close the read end of the pipe in the parent
-		m_PipeFd[0] = m_PipeFd[1] = -1;
-
-		//m_OutputWidget->SetContent("");
-		m_ProcessStartedTime = glfwGetTime();
-		m_ExpiredOutput = true;
-		m_BackgroundState = 1;
-	};
-}
-
 void GLFWCALL Project::BackgroundThread(void * Argument)
 {
 	Thread * Thread = Thread::GetThisThreadAndRevertArgument(Argument);

@@ -6,8 +6,10 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	  m_Project(Project)
 {
-	if (nullptr != Target)
+	if (nullptr != Target) {
 		m_SourceWidget->m_Visible = false;
+		GetWidgets()[1]->m_Visible = false;		// Hide the "go run" label
+	}
 
 	{
 		m_SourceWidget->m_OnChange = [=, &Project]()
@@ -61,6 +63,9 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 			Project.m_ExpiredOutput = true;
 			Project.m_BackgroundState = 1;
 		};
+
+		// If there's already a Target for source, then refresh ourselves
+		m_SourceWidget->m_OnChange();
 	}
 
 	// TODO: Make this work in LiveProgramWidget too (currently the Cmd+R event doesn't go from LiveProgramWidget to this ProgramWidget)
@@ -69,6 +74,11 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 
 ProgramWidget::~ProgramWidget()
 {
+}
+
+void ProgramWidget::SetTarget(TextFieldWidget * Target)
+{
+	m_SourceWidget->SetTarget(Target);
 }
 
 void ProgramWidget::ProcessTimePassed(const double TimePassed)

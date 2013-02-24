@@ -27,8 +27,8 @@ private:
 
 	TypingModule	m_TypingModule;
 
-	TextFieldWidget * m_SourceWidget = nullptr;
-	TextFieldWidget * m_OutputWidget = nullptr;
+	TextFileWidget * m_SourceWidget = nullptr;
+	ProgramWidget * m_OutputWidget = nullptr;
 	ToggleWidget * m_LiveToggle = nullptr;
 };
 

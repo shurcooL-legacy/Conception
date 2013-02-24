@@ -343,10 +343,12 @@ void CanvasWidget::RenderBackground()
 		glTexCoord2d(-0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(-0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, 0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], 0.5 * m_CanvasSize[1]);
 		glTexCoord2d(0.5 * m_CanvasSize[0] / 256.0 - 0.5, -0.5 * m_CanvasSize[1] / 256.0 - 0.5); glVertex2d(0.5 * m_CanvasSize[0], -0.5 * m_CanvasSize[1]);*/
-		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
-		glTexCoord2d((-0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
-		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
-		glTexCoord2d((0.5 * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (-0.5 * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
+		const double Low = m_Centered ? -0.5 : 0;
+		const double High = Low + 1;
+		glTexCoord2d((Low * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (Low * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1]);
+		glTexCoord2d((Low * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (High * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0], GetPosition()[1] + GetDimensions()[1]);
+		glTexCoord2d((High * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (High * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1] + GetDimensions()[1]);
+		glTexCoord2d((High * GetDimensions()[0] + Camera.X() * CameraZ) / 256.0 / CameraZ - 0.5, (Low * GetDimensions()[1] + Camera.Y() * CameraZ) / 256.0 / CameraZ - 0.5); glVertex2i(GetPosition()[0] + GetDimensions()[0], GetPosition()[1]);
 	glEnd();
 }
 

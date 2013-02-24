@@ -9,6 +9,8 @@ public:
 	ProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project, TextFieldWidget * Target = nullptr);
 	~ProgramWidget();
 
+	void SetTarget(TextFieldWidget * Target);
+
 	void ProcessTimePassed(const double TimePassed) override;
 
 private:

@@ -11,6 +11,10 @@ FlowLayoutWidget::~FlowLayoutWidget()
 
 void FlowLayoutWidget::Render()
 {
+	// TODO: Refactor this out
+	if (!m_Visible)
+		return;
+
 	// Layout the widgets
 	{
 		std::vector<decltype(GetWidgets().size())> VisibleWidgets;
