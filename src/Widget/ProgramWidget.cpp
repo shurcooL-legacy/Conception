@@ -8,7 +8,6 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 {
 	if (nullptr != Target) {
 		m_SourceWidget->m_Visible = false;
-		GetWidgets()[1]->m_Visible = false;		// Hide the "go run" label
 	}
 
 	{
