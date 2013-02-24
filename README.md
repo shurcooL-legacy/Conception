@@ -36,3 +36,5 @@ These WIP screenshots present a partial outlook into the things I'm prototyping.
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Autocompletions%201.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Scrolling%20Motion%20Blur%201.png)
+
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-24%201302%20Second-order%20Diff.png)
