@@ -32,8 +32,8 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 
 						close(PipeFd[1]);    // this descriptor is no longer needed
 
-						const char * envp[] = { "TERM=xterm", nullptr };
-						execle("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0, envp);
+						putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
+						execl("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0);
 
 						// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 						//exit(1);		// Not needed, just in case I comment out the above

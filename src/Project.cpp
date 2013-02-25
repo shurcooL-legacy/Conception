@@ -381,9 +381,8 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 #if DECISION_USE_CPP_INSTEAD_OF_GO
 				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
 #else
-				//execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
-				const char * envp[] = { GoPath.c_str(), nullptr };
-				execle("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0, envp);
+				putenv(const_cast<char *>(GoPath.c_str()));		// HACK: Const cast
+				execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
 #endif
 
 				//exit(1);		// Not needed, just in case I comment out the above
