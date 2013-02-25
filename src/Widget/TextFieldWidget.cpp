@@ -935,7 +935,7 @@ uint32 TextFieldWidget::GetLeadingTabCount() const
 		++TabCount;
 	}
 
-	return TabCount;
+	return std::min<uint32>(TabCount, static_cast<uint32>(m_CaretPosition - m_ContentLines[GetLineNumber()].m_StartPosition));
 }
 
 bool TextFieldWidget::IsCoreCharacter(uint8 Character)
