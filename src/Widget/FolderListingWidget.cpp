@@ -42,23 +42,31 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		{
 			g_InputManager->RequestTypingPointer(ListingWidget->ModifyGestureRecognizer());
 
+			ListingWidget->SetSelectedEntryId(-1);		// Reset the selection regardless of what it was before
 			ListingWidget->SetSelectedEntryId(LocalPosition);
 		};
 
-		ListingWidget->m_OnChange = [&AddTo, &TypingModule, this, ListingWidget, Path](){
-			PlayBeep();
-
+		ListingWidget->m_OnChange = [&AddTo, &TypingModule, this, ListingWidget, Path]()
+		{
 			if (nullptr != m_Child) {
 				this->RemoveWidget(m_Child);
+				m_Child = nullptr;		// TODO: This is dangerous, easy to froget to set pointer to null... think about a better system
 			}
-			auto NewPath = Path + *ListingWidget->GetSelectedEntry();
-			this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));
+
+			if (nullptr != ListingWidget->GetSelectedEntry())
+			{
+				PlayBeep();
+
+				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
+				this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));
+			}
 		};
 
 		AddWidget(ListingWidget);
 
 		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
-			if (nullptr != ListingWidget->GetSelectedEntry())
+			if (   nullptr != ListingWidget->GetSelectedEntry()
+				&& '/' != *ListingWidget->GetSelectedEntry()->rbegin())		// Make sure it's not a folder, i.e. doesn't end with a slash
 			{
 				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
 
@@ -104,12 +112,15 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 						if (nullptr != ParentFolderListingWidget)
 						{
 							g_InputManager->RequestTypingPointer(ParentFolderListingWidget->GetWidgets()[0]->ModifyGestureRecognizer());
+
+							static_cast<MenuWidget<std::string> *>(GetWidgets()[0].get())->SetSelectedEntryId(-1);		// Clear selection
 						}
 					}
 					break;
 				case GLFW_KEY_RIGHT:
 					{
 						if (   nullptr != m_Child
+							&& !m_Child->GetWidgets().empty()		// Just in case its old widget is to be removed and new one is to be added at end of frame
 							&& nullptr != dynamic_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get()))
 						{
 							if (nullptr == static_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get())->GetSelectedEntry())

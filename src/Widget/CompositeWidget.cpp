@@ -8,6 +8,9 @@ CompositeWidget::CompositeWidget(Vector2n Position, Vector2n Dimensions, std::in
 	: Widget(Position, Dimensions, Behaviors),
 	  m_Widgets(Widgets)
 {
+	assert(m_WidgetsToBeAdded.empty());
+	assert(m_WidgetsToBeRemoved.empty());
+
 	for (auto & Widget : GetWidgets())
 	{
 		Widget->SetParent(*this);
@@ -26,7 +29,12 @@ void CompositeWidget::AddWidget(Widget * Widget)
 
 void CompositeWidget::RemoveWidget(Widget * Widget)
 {
-	m_WidgetsToBeRemoved.push(Widget);
+	// DEBUG: Ensure the same widget doesn't get removed twice
+	for (auto & Removee : m_WidgetsToBeRemoved) {
+		assert(Removee != Widget);
+	}
+
+	m_WidgetsToBeRemoved.push_back(Widget);
 }
 
 void CompositeWidget::Render()
@@ -163,10 +171,12 @@ void CompositeWidget::ProcessTimePassed(const double TimePassed)
 	while (!m_WidgetsToBeRemoved.empty())
 	{
 		auto Widget = m_WidgetsToBeRemoved.front();
-		m_WidgetsToBeRemoved.pop();
+		m_WidgetsToBeRemoved.pop_front();
 
 		// DEBUG: Not sure if still need to do this now that widget is removed after event queue processing, but maybe still needed to rid of persistent pointers
 		// For all connected pointers
+		// DEBUG: Disabled because it caused intermittent crashing of FolderListingWidget...
+		// DEBUG: Re-enabled because fixed root cause of crashing, it was this widget being deleted more than once because I wasn't resetting m_Child back to nullptr after deleting
 		while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
 		{
 			// Modify the pointer mapping of said pointer, and removed the widget which is being removed

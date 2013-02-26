@@ -39,6 +39,45 @@ func GetStructField(f interface{}, path []string) interface{} {
 	return nil
 }
 
+func GetStructField2(f interface{}, path []string) interface{} {
+	rangeOver, st := f.(map[string]interface{})
+
+	if !st {
+
+		return false
+	}
+
+	counter := 0
+	maxLen := len(path) - 1
+
+	//GOTO *Tail Recursion* more performant by reusing the stack frame
+NESTED:
+
+	for key, value := range rangeOver {
+
+		if key == path[counter] {
+
+			next, ok := value.(map[string]interface{})
+
+			if ok {
+
+				rangeOver = next
+				counter += 1
+				goto NESTED
+
+			} else {
+
+				if key == path[maxLen] {
+
+					return value
+				}
+			}
+		}
+
+	}
+	return nil //Key doesnt point to a value but to a map
+}
+
 func SetStructField(f interface{}, new_v interface{}, path []string) interface{} {
 	if len(path) == 0 {
 		return false
@@ -91,6 +130,8 @@ func main() {
 
 	fmt.Println("\nOk and the result is:")
 	fmt.Println(GetStructField(m, []string{"path", "to", "variable"}))
+	fmt.Println(GetStructField2(m, []string{"path", "to", "variable"}))
 	SetStructField(m, 42, []string{"path", "to", "variable"})
 	fmt.Println(GetStructField(m, []string{"path", "to", "variable"}))
+	fmt.Println(GetStructField2(m, []string{"path", "to", "variable"}))
 }

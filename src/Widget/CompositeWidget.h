@@ -34,7 +34,7 @@ private:
 
 	std::vector<std::shared_ptr<Widget>>		m_Widgets;
 	std::queue<std::shared_ptr<Widget>>			m_WidgetsToBeAdded;
-	std::queue<Widget *>						m_WidgetsToBeRemoved;
+	std::list<Widget *>							m_WidgetsToBeRemoved;
 
 protected:
 	const decltype(m_Widgets) & GetWidgets() const { return m_Widgets; }
