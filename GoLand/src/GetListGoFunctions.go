@@ -12,6 +12,8 @@ import (
 	//"github.com/davecgh/go-spew/spew"
 )
 
+var _ = ast.Walk
+
 func PrintCode(fset *token.FileSet, node interface{}) {
 	var buf bytes.Buffer
 	buf.String()
@@ -42,7 +44,7 @@ func GetListGoFunctions(file string) {
 }
 
 func main() {
-	file := "./GoLand/src/TestProgram.go"
+	file := "/usr/local/go/src/pkg/go/ast/walk.go"
 
 	GetListGoFunctions(file)
 }

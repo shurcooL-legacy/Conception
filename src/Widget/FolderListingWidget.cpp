@@ -74,8 +74,21 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
 			}
 		};
-
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open));
+
+		auto CopyPath = [&AddTo, &TypingModule, ListingWidget, Path]() {
+			if (nullptr != ListingWidget->GetSelectedEntry())
+			{
+				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
+
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+				glfwSetClipboardString(FullPath);
+#else
+				m_TypingModule.SetString(FullPath);
+#endif
+			}
+		};
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('C', PointerState::Modifiers::Super, CopyPath));
 
 		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &)
 		{
