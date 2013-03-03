@@ -9,9 +9,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_TargetCaretColumnX(0),
 	  m_ContentLines(),
 	  m_MaxLineLength(0),
-	  m_TypingModule(TypingModule),
-	  m_OnChange(),
-	  m_GetAutocompletions()
+	  m_TypingModule(TypingModule)
 {
 	SetupGestureRecognizer();
 
@@ -110,7 +108,7 @@ void TextFieldWidget::Render()
 
 	Vector2n CaretPosition;
 
-	// Remember caret position at selection front
+	// Remember caret position (selection front case)
 	if (std::min(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
 	{
 		CaretPosition = OpenGLStream.GetCaretPosition();
@@ -129,13 +127,24 @@ void TextFieldWidget::Render()
 	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
 	OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
 
-	// Remember caret position at selection back
+	// Remember caret position (selection back case)
 	if (std::max(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
 	{
 		CaretPosition = OpenGLStream.GetCaretPosition();
 	}
 
 	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
+
+	// Render line annotations
+	if (nullptr != m_GetLineAnnotations)
+	{
+		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+			auto ExpandedLength = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length) / charWidth;
+			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
+			OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
+			OpenGLStream << m_GetLineAnnotations(LineNumber);
+		}
+	}
 
 	//if (CheckHover())
 	// HACK
@@ -783,6 +792,11 @@ void TextFieldWidget::UpdateContentLines()
 	ModifyDimensions().X() = std::max<sint32>(static_cast<sint32>(m_MaxLineLength * charWidth), 3 * charWidth);
 	ModifyDimensions().Y() = std::max<sint32>(static_cast<sint32>(m_ContentLines.size()) * lineHeight, 1 * lineHeight);
 
+	NotifyChange();
+}
+
+void TextFieldWidget::NotifyChange()
+{
 	if (nullptr != m_OnChange) {
 		m_OnChange();
 	}
@@ -791,6 +805,7 @@ void TextFieldWidget::UpdateContentLines()
 	}
 }
 
+// Gets expanded column number in pixels (i.e. divide by charWidth to get in characters)
 uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type LineNumber, std::vector<ContentLine>::size_type ColumnNumber) const
 {
 	uint32 CaretPositionX = 0;
@@ -898,6 +913,7 @@ void TextFieldWidget::GetLineAndColumnNumber(std::vector<ContentLine>::size_type
 	}
 }
 
+// Gets the line number where the caret (m_CaretPosition) is currently located
 std::vector<TextFieldWidget::ContentLine>::size_type TextFieldWidget::GetLineNumber() const
 {
 	std::vector<ContentLine>::size_type LineNumber = 0;

@@ -1,9 +1,11 @@
 #include "../Main.h"
 
-LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
-	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceWidget)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
+LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path, TypingModule & TypingModule, Project & Project)
+	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceFileWidget = new TextFileWidget(Vector2n::ZERO, Path, TypingModule)),
+								   std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceFileWidget->m_TextFieldWidget)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
+	  m_SourceWidget(m_SourceFileWidget->m_TextFieldWidget)
 {
+	m_SourceFileWidget->RemoveAllBehaviors();
 	m_ProgramWidget->RemoveAllBehaviors();
 
 	m_SourceWidget->m_GetAutocompletions = [&]() -> std::vector<std::string>
@@ -109,6 +111,11 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 		return Autocompletions;
 	};
 
+	m_SourceWidget->m_GetLineAnnotations = [=](uint32 LineNumber)
+	{
+		return std::to_string(LineNumber + 1) + "-" + (m_ProgramWidget->m_OutputWidget->GetContent().length() >= 3 ? m_ProgramWidget->m_OutputWidget->GetContent().substr(0, 3) : "...");
+	};
+
 #if 0
 #if DECISION_USE_CPP_INSTEAD_OF_GO
 	m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
@@ -120,6 +127,6 @@ LiveProgramWidget::LiveProgramWidget(Vector2n Position, TypingModule & TypingMod
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(); } ));
 }
 
-LiveProgramWidget::~LiveProgramWidget()
+LiveProgramFileWidget::~LiveProgramFileWidget()
 {
 }

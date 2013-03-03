@@ -18,7 +18,7 @@ private:
 	ProgramWidget & operator = (const ProgramWidget &) = delete;
 
 	ConnectionWidget<TextFieldWidget> * m_SourceWidget;
-	TextFieldWidget * m_OutputWidget;
+public:TextFieldWidget * m_OutputWidget;private:
 
 	Project & m_Project;
 };

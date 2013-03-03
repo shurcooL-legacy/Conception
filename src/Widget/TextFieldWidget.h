@@ -16,7 +16,9 @@ private:
 	struct ContentLine
 	{
 		decltype(m_CaretPosition)		m_StartPosition;
-		decltype(m_StartPosition)		m_Length;
+		decltype(m_StartPosition)		m_Length;				// In number of items
+		// DEBUG: Disabled because it's just an optimization
+		//decltype(m_StartPosition)		m_ExpandedLength;		// In physical space taken up by characters
 
 		ContentLine(decltype(m_StartPosition) StartPosition, decltype(m_Length) Length)
 			: m_StartPosition(StartPosition),
@@ -32,8 +34,9 @@ private:
 	Color								m_BackgroundColor = Color::WHITE;
 
 public:
-	std::function<void()>							m_OnChange;
-	std::function<std::vector<std::string>()>		m_GetAutocompletions;
+	std::function<void()>							m_OnChange = nullptr;
+	std::function<std::vector<std::string>()>		m_GetAutocompletions = nullptr;
+	std::function<std::string(uint32)>				m_GetLineAnnotations = nullptr;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	~TextFieldWidget();
@@ -47,6 +50,9 @@ public:
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
+
+	// TODO: Generalize this to all automate-able widgets?
+	void NotifyChange();		// Called when this widget changes, to notify its connected widgets
 
 	std::string GetContent() const;
 	void SetContent(std::string Content);

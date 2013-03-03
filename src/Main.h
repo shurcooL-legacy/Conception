@@ -237,6 +237,7 @@ extern InputManager * g_InputManager;
 #include "Widget/LifeFormWidget.h"
 #include "Widget/ProgramWidget.h"
 #include "Widget/LiveProgramWidget.h"
+#include "Widget/LiveProgramFileWidget.h"
 #include "Widget/LiveFunctionWidget.h"
 #include "Widget/GofmtWidget.h"
 #include "Widget/LiveGofmtWidget.h"

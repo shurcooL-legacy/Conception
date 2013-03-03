@@ -57,10 +57,13 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new ToggleWidget(Vector2n(-20, -350), [](bool State) { std::cout << "Testing this toggle widget! It's now set to " << State << ".\n"; }, true));
 		MainCanvas->AddWidget(new TankWidget(Vector2n(40, -350)));
 		MainCanvas->AddWidget(new TankWidget(Vector2n(80, -350)));
-		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 160), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new ProgramWidget(Vector2n(-100, 100), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -300), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-100, -100), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveFunctionWidget(Vector2n(-100, 160), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveCodeWidget(Vector2n(-100, 220), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-220, -300), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-220, -100), *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -100), "./GoLand/src/TestProgram2.go", *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -300), "./GoLand/src/TestProgram.go", *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-460, -100), *m_TypingModule));
 
@@ -74,8 +77,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		for (auto i = 0; i < 3; ++i)
 			MainCanvas->AddWidget(new DiffWidget(Vector2n(-450, 340), *m_TypingModule));
-
-		MainCanvas->AddWidget(new LiveCodeWidget(Vector2n(-100, 220), *m_TypingModule, m_CurrentProject));
 
 		// TEST: Connection
 		if (false)
@@ -116,12 +117,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				MainCanvas->AddWidget(LabelWidget);
 #endif
 			} ));
-		}
-
-		// Text File
-		//if (false)
-		{
-			MainCanvas->AddWidget(new TextFileWidget(Vector2n(240, -230), "./GoLand/src/TestProgram.go", *m_TypingModule));
 		}
 
 		// Folder Listing
