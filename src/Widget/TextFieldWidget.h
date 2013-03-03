@@ -61,6 +61,7 @@ public:
 	decltype(m_CaretPosition) GetCaretPosition() const;
 
 	void SetBackground(Color BackgroundColor);
+	Color GetBackground() const;
 
 protected:
 

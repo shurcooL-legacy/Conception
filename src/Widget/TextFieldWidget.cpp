@@ -685,6 +685,11 @@ void TextFieldWidget::SetBackground(Color BackgroundColor)
 	m_BackgroundColor = BackgroundColor;
 }
 
+Color TextFieldWidget::GetBackground() const
+{
+	return m_BackgroundColor;
+}
+
 void TextFieldWidget::SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn)
 {
 	m_CaretPosition = CaretPosition;

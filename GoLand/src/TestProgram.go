@@ -1,10 +1,16 @@
-package main
+package main                                                  
 
-//import . "gist.github.com/5022726.git"
-
-//var _ = GetWeeklyIncome
+//import "fmt"
+import "time"
+import "os"
+import "os/exec"
 
 func main() {
-	//print("$" + GetWeeklyIncome("shurcooL"))
-	printx("Hello testing. How are you doing?")
+	var x = 5
+	y := 7
+	InlineErrorHighlighting
+	
+	time.Sleep(0)
+
+	fmt.Print(x)
 }

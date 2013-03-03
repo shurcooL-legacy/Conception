@@ -1,5 +1,14 @@
 #include "Main.h"
 
+std::string TrimFirstSpace(const std::string & In)
+{
+	if (   In.length() >= 1
+		&& In[0] == ' ')
+		return In.substr(1);
+	else
+		return In;
+}
+
 std::string Diff(const std::string & Content1, const std::string & Content2)
 {
 	WriteToFile("./GenDiff1.txt", Content1);
