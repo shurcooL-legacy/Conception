@@ -37,6 +37,8 @@ These WIP screenshots present a partial outlook into the things I'm prototyping.
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Go%20Live%20Editor%201.png)
 
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-03_0113%20Inline%20Errors.png)
+
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Autocompletions%201.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Scrolling%20Motion%20Blur%201.png)
