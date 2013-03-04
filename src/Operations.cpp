@@ -324,7 +324,6 @@ void LaunchProcessInBackground(std::initializer_list<std::string> Argv)
 	else if (-1 == Pid)
 	{
 		std::cerr << "Error forking.\n";
-		throw 0;
 	}
 	else
 	{

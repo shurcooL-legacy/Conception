@@ -391,7 +391,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 			else if (-1 == Project->m_LastPid)
 			{
 				std::cerr << "Error forking.\n";
-				throw 0;
+				ProcessResult = 1;
 			}
 			else
 			{
@@ -481,7 +481,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 			else if (-1 == Project->m_LastPid)
 			{
 				std::cerr << "Error forking.\n";
-				throw 0;
+				ProcessResult = 1;
 			}
 			else
 			{
