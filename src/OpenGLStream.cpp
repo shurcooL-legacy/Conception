@@ -1,9 +1,14 @@
 #include "Main.h"
 
 OpenGLStream::OpenGLStream(Vector2n CaretPosition)
+	: OpenGLStream(CaretPosition, Color::BLACK)
+{}
+
+OpenGLStream::OpenGLStream(Vector2n CaretPosition, Color Foreground)
 	: ConceptStream(),
 	  m_CaretPosition(CaretPosition),
 	  m_LineStartX(CaretPosition.X()),
+	  m_Foreground(Foreground),
 	  m_BackgroundColor(1.0, 1.0, 1.0)
 {
 }
@@ -48,7 +53,7 @@ OpenGLStream & OpenGLStream::operator << (const ConceptInstance & ConceptInstanc
 
 OpenGLStream & OpenGLStream::operator << (const std::string & String)
 {
-	glColor3d(0, 0, 0);
+	glColor3dv(m_Foreground.GetComponents());
 
 	std::string::size_type Start = 0, End;
 	do

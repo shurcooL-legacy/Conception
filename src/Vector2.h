@@ -20,6 +20,9 @@ public:
 
 	Vector2<T> & operator = (const Vector2<T> & Other);
 
+	bool operator == (const Vector2<T> & Other) const;
+	bool operator != (const Vector2<T> & Other) const;
+
 	Vector2<T> & operator += (const Vector2<T> & Other);
 	Vector2<T> & operator -= (const Vector2<T> & Other);
 

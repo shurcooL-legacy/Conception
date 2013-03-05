@@ -63,6 +63,8 @@ public:
 	void SetBackground(Color BackgroundColor);
 	Color GetBackground() const;
 
+	Color m_Foreground = Color::BLACK;
+
 protected:
 
 private:

@@ -102,8 +102,7 @@ void TextFieldWidget::Render()
 		}
 	}
 
-	glColor3d(0, 0, 0);
-	OpenGLStream OpenGLStream(GetPosition());
+	OpenGLStream OpenGLStream(GetPosition(), m_Foreground);
 	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
 	Vector2n CaretPosition;

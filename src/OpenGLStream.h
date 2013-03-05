@@ -7,6 +7,7 @@ class OpenGLStream
 {
 public:
 	OpenGLStream(Vector2n CaretPosition);
+	OpenGLStream(Vector2n CaretPosition, Color Foreground);
 	~OpenGLStream();
 
 	OpenGLStream & operator << (const ConceptId ConceptId) override;
@@ -36,6 +37,7 @@ private:
 	Vector2n		m_CaretPosition;
 	sint32			m_LineStartX;
 
+	Color			m_Foreground;
 	Color			m_BackgroundColor;
 
 	friend OpenGLStream & endl(OpenGLStream & stream);
