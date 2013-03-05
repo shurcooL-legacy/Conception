@@ -7,7 +7,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 	  m_Project(Project)
 {
 	if (nullptr != Target) {
-		m_SourceWidget->m_Visible = false;
+		m_SourceWidget->SetDimensions(Vector2n::ZERO);
 	}
 
 	{
@@ -82,6 +82,11 @@ void ProgramWidget::SetTarget(TextFieldWidget * Target)
 
 void ProgramWidget::ProcessTimePassed(const double TimePassed)
 {
+	if (m_SourceWidget->m_LiveToggle->GetState())
+		m_OutputWidget->m_Foreground = Color::BLACK;
+	else
+		m_OutputWidget->m_Foreground = Color(0.5, 0.5, 0.5);
+
 	// If we have some for us
 	if (m_OutputWidget == g_OutputWidget)
 	{

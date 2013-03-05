@@ -5,13 +5,13 @@ DiffWidget::DiffWidget(Vector2n Position, TypingModule & TypingModule, TextField
 								   std::shared_ptr<Widget>(m_Source2Widget = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, Target2)),
 								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("diff"), LabelWidget::Background::Normal)),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) },
-								 { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
+								 { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) } )
 {
 	if (   nullptr != Target1
 		&& nullptr != Target2)
 	{
-		m_Source1Widget->m_Visible = false;
-		m_Source2Widget->m_Visible = false;
+		m_Source1Widget->SetDimensions(Vector2n::ZERO);
+		m_Source2Widget->SetDimensions(Vector2n::ZERO);
 	}
 
 	auto OnChange = [=]()

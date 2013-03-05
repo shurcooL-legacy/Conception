@@ -1,7 +1,11 @@
 #include "../Main.h"
 
 FlowLayoutWidget::FlowLayoutWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors)
-	: CompositeWidget(Position, Widgets, Behaviors)
+	: FlowLayoutWidget(Position, Vector2n::ZERO, Widgets, Behaviors)
+{}
+
+FlowLayoutWidget::FlowLayoutWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors)
+	: CompositeWidget(Position, Dimensions, Widgets, Behaviors)
 {
 }
 
@@ -34,7 +38,7 @@ void FlowLayoutWidget::Render()
 
 			if (0 == WidgetIndexIndex)
 			{
-				GetWidgets()[WidgetIndex]->SetPosition(Vector2n::ZERO);
+				GetWidgets()[WidgetIndex]->SetPosition(Vector2n(Widget::GetDimensions().X(), 0));
 			}
 			else
 			{

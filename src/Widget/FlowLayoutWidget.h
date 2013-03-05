@@ -7,6 +7,7 @@ class FlowLayoutWidget
 {
 public:
 	FlowLayoutWidget(Vector2n Position, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors);
+	FlowLayoutWidget(Vector2n Position, Vector2n Dimensions, std::initializer_list<std::shared_ptr<Widget>> Widgets, std::vector<std::shared_ptr<Behavior>> Behaviors);
 	~FlowLayoutWidget();
 
 	void Render() override;

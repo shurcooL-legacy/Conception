@@ -152,7 +152,7 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 		return "";
 	};
 
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(); } ));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(true); } ));
 }
 
 LiveProgramFileWidget::~LiveProgramFileWidget()

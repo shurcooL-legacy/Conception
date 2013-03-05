@@ -52,7 +52,7 @@ public:
 	void ProcessTimePassed(const double TimePassed) override;
 
 	// TODO: Generalize this to all automate-able widgets?
-	void NotifyChange();		// Called when this widget changes, to notify its connected widgets
+	void NotifyChange(bool OverrideLiveToggle = false);		// Called when this widget changes, to notify its connected widgets
 
 	std::string GetContent() const;
 	void SetContent(std::string Content);

@@ -799,13 +799,13 @@ void TextFieldWidget::UpdateContentLines()
 	NotifyChange();
 }
 
-void TextFieldWidget::NotifyChange()
+void TextFieldWidget::NotifyChange(bool OverrideLiveToggle)
 {
 	if (nullptr != m_OnChange) {
 		m_OnChange();
 	}
 	for (auto ConnectionWidget : GetConnected()) {
-		ConnectionWidget->NotifyChange();
+		ConnectionWidget->NotifyChange(OverrideLiveToggle);
 	}
 }
 

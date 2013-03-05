@@ -171,6 +171,7 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 		// Cmd+R Run shortcut
 		// TODO: Doesn't work now because we have no control over `go run` here, it happens in ProgramWidget
 		//m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_CurrentProject.GetSourceOnChange(LeftCanvas, RightCanvas, nullptr)));
+		m_SourceWidget->ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->m_TextFieldWidget->NotifyChange(); } ));
 
 		g_InputManager->RequestTypingPointer(m_SourceWidget->m_TextFieldWidget->ModifyGestureRecognizer());		// Activate source widget for editing on startup
 	}
