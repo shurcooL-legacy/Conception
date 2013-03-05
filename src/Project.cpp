@@ -515,13 +515,6 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		/*uint8 Char = '\0';
 		write(App->m_PipeFd[1], &Char, 1);*/
 
-		// HACK: This is dangerous, shouldn't modify OutputWidget contents from this thread, should send a signal to main thread, or use a mutex
-		if (Project->m_ExpiredOutput)
-		{
-			OutputWidget->SetContent("");
-			Project->m_ExpiredOutput = false;
-		}
-
 		//close(App->m_PipeFd[0]);		// Close the read end of the pipe in the parent
 		//close(App->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 

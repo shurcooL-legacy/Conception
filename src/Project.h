@@ -33,7 +33,7 @@ public:volatile double m_ProcessEndedTime;private:
 	int				m_PipeFd[2];
 	Thread			m_BackgroundThread;
 
-	const Color		m_CompilingColor = Color(0.9, 0.9, 0.9);
+	const Color		m_CompilingColor = Color(0.98, 0.98, 0.98);
 	const Color		m_RunningColor = Color(1.0, 1, 1);
 	const Color		m_ErrorCompileColor = Color(1.0, 0.9, 0.9);
 	const Color		m_FinishedSuccessColor = Color(0.9, 1, 0.9);
