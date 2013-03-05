@@ -152,14 +152,6 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 		return "";
 	};
 
-#if 0
-#if DECISION_USE_CPP_INSTEAD_OF_GO
-	m_SourceWidget->SetContent(FromFileToString("./GenProgram.cpp"));
-#else
-	m_SourceWidget->SetContent(FromFileToString("./GenProgram.go"));
-#endif
-#endif
-
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(); } ));
 }
 

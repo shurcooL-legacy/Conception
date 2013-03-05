@@ -16,7 +16,7 @@ private:
 	TextFileWidget & operator = (const TextFileWidget &) = delete;
 
 	// HACK, TODO: Keep this private by generalizing some interface so ConnectionWidget<TextFieldWidget> can accept TextFileWidget too
-public:TextFieldWidget * m_TextFieldWidget;private:
+	public:TextFieldWidget * m_TextFieldWidget;private:
 };
 
 #endif // __TextFileWidget_H__
