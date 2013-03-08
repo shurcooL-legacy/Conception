@@ -15,27 +15,6 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 		{
 			PlayBeep();
 
-			// HACK
-			g_OutputWidget = m_OutputWidget;
-
-#if 0
-			if (nullptr != LiveToggle && !LiveToggle->GetState())
-			{
-				OutputWidget.m_Visible = false;
-				return;
-			}
-			else
-			{
-				OutputWidget.m_Visible = true;
-			}
-#endif
-
-			std::string Content = "";
-			if (nullptr != m_SourceWidget->Target()) {
-				Content = m_SourceWidget->Target()->GetContent();
-			}
-			Project.GenerateProgram(Content);
-
 			Project.m_ProcessEndedTime = glfwGetTime();
 			Project.m_BackgroundState = 0;
 
@@ -57,6 +36,23 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 			close(Project.m_PipeFd[0]);		// Close the read end of the pipe in the parent
 			Project.m_PipeFd[0] = Project.m_PipeFd[1] = -1;
 
+			if (!m_SourceWidget->m_LiveToggle->GetState())
+			{
+				//OutputWidget.m_Visible = false;
+				return;
+			}
+			else
+			{
+				//OutputWidget.m_Visible = true;
+			}
+
+			std::string Content = "";
+			if (nullptr != m_SourceWidget->Target()) {
+				Content = m_SourceWidget->Target()->GetContent();
+			}
+			Project.GenerateProgram(Content);
+
+			g_OutputWidget = m_OutputWidget;		// HACK
 			//m_OutputWidget->SetContent("");
 			Project.m_ProcessStartedTime = glfwGetTime();
 			Project.m_ExpiredOutput = true;
