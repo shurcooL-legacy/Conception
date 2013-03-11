@@ -13,6 +13,8 @@ private:
 	ShellWidget(const ShellWidget &) = delete;
 	ShellWidget & operator = (const ShellWidget &) = delete;
 
+// HACK that this is public?
+public:
 	TextFieldWidget * m_CommandWidget;
 	ButtonWidget * m_ExecuteWidget;
 	TextFieldWidget * m_OutputWidget;

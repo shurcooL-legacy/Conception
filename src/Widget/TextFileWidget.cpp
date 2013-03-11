@@ -19,6 +19,29 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 			m_OnChange();
 		}
 	};
+
+	// TEST: Line Gutters
+#if 0
+	//if ("./Gen/5086673/gistfile1.go" == Path)
+	m_TextFieldWidget->m_GetLineGutters = [=](uint32 LineNumber) -> std::string
+	{
+#if 0
+		std::string x = "."; Ls(x);
+		return std::to_string(LineNumber + 1);
+#endif
+		// HACK: Pass file folder and name info
+		auto Separator = Path.find_last_of('/');
+		if (0 == Separator) throw 0;		// TODO: Handle "/rooted_paths" properly
+		std::string Folder = std::string::npos != Separator ? Path.substr(0, Separator) : "./";
+		std::string Filename = std::string::npos != Separator ? Path.substr(Separator + 1) : Path;
+		if (0 == LineNumber)
+			return Folder;
+		else if (1 == LineNumber)
+			return Filename;
+		else
+			throw 0;
+	};
+#endif
 }
 
 TextFileWidget::~TextFileWidget()

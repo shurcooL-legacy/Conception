@@ -35,8 +35,9 @@ private:
 
 public:
 	std::function<void()>							m_OnChange = nullptr;
-	std::function<std::vector<std::string>()>		m_GetAutocompletions = nullptr;
+	std::function<std::vector<std::string>(decltype(m_CaretPosition))>		m_GetAutocompletions = nullptr;
 	std::function<std::string(uint32)>				m_GetLineAnnotations = nullptr;
+	std::function<std::string(uint32)>				m_GetLineGutters = nullptr;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	~TextFieldWidget();

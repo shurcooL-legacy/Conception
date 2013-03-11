@@ -134,6 +134,7 @@ void TextFieldWidget::Render()
 
 	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
 
+	// TODO: Optimize by calling this function once and cache the results (instead of once per line which is pretty stupid)
 	// Render line annotations
 	if (nullptr != m_GetLineAnnotations)
 	{
@@ -142,6 +143,66 @@ void TextFieldWidget::Render()
 			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
 			OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
 			OpenGLStream << m_GetLineAnnotations(LineNumber);
+		}
+	}
+
+	// TODO: Optimize by calling this function once and cache the results (instead of once per line which is really stupid)
+	// Render line gutters
+	if (nullptr != m_GetLineGutters)
+	{
+		/*for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+			auto LineGutter = m_GetLineGutters(LineNumber);
+			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - Concept::GetDimensions(LineGutter).X(), LineNumber * lineHeight));
+			OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
+			OpenGLStream << LineGutter;
+		}*/
+
+		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, m_TypingModule));
+
+		// HACK: Use m_GetLineGutters to get the path
+		std::string Command = "cd " + m_GetLineGutters(0) + "\ngit diff --no-ext-diff -U0 " + m_GetLineGutters(1) + " | grep -e \"^@@ \"";
+
+		Shell->m_CommandWidget->SetContent(Command);
+		Shell->m_ExecuteWidget->GetAction()();
+		auto DiffOut = Shell->m_OutputWidget->GetContent();
+		TrimLastNewline(DiffOut);
+
+		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - charWidth, LineNumber * lineHeight));
+			OpenGLStream.SetBackgroundColor(Color(0.9, 1, 0.9));
+
+			// Go through each line
+			// TODO: Clean up
+			{
+				std::stringstream ss;
+				ss << DiffOut;
+				std::string Line;
+
+				for (;;)
+				{
+					std::getline(ss, Line);
+
+					// Parse one go error line
+					try
+					{
+						std::string OneChanged = "@@ -" + std::to_string(LineNumber + 1) + " +" + std::to_string(LineNumber + 1) + " @@";
+						std::string OneAdded = "@@ -" + std::to_string(LineNumber + 0) + ",0 +" + std::to_string(LineNumber + 1) + " @@";
+
+						if (Line.substr(0, OneChanged.length()) == OneChanged) {
+							OpenGLStream << " ";
+							DrawCircle(OpenGLStream.GetCaretPosition() + Vector2n(-charWidth, lineHeight) / 2, Vector2n(6, 4), Color::BLACK, Color::BLACK);
+							break;
+						} else if (Line.substr(0, OneAdded.length()) == OneAdded) {
+							OpenGLStream << "+";
+							break;
+						}
+					}
+					catch (...) {}
+
+					if (ss.eof())
+						break;
+				}
+			}
 		}
 	}
 
