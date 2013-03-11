@@ -9,7 +9,7 @@ public:
 	ToggleWidget(Vector2n Position, Vector2n Dimensions, std::function<void(bool)> OnChange, bool State);
 	ToggleWidget(Vector2n Position, std::function<void(bool)> OnChange, bool State)
 		: ToggleWidget(Position, Vector2n(40, 16), OnChange, State) {}
-	virtual ~ToggleWidget();
+	~ToggleWidget();
 
 	void Render() override;
 

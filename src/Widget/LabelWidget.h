@@ -13,7 +13,7 @@ public:
 
 	LabelWidget(const Vector2n Position, const std::function<std::string()> & Content, Background Background = Background::None);
 	LabelWidget(const Vector2n Position, const std::string & Content, Background Background = Background::None);
-	virtual ~LabelWidget();
+	~LabelWidget();
 
 	void Render() override;
 

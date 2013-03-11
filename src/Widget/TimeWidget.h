@@ -7,7 +7,7 @@ class TimeWidget
 {
 public:
 	TimeWidget(Vector2n Position);
-	virtual ~TimeWidget();
+	~TimeWidget();
 };
 
 #endif // __TimeWidget_H__
