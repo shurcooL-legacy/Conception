@@ -41,7 +41,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 					}
 					else if (-1 == Pid)
 					{
-						std::cerr << "Error forking.\n";
+						perror("Error forking");
 						throw 0;
 					}
 					else

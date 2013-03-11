@@ -48,3 +48,8 @@ bool LabelWidget::IsHit(const Vector2n ParentPosition) const
 		return Widget::IsHit(ParentPosition);
 	}
 }
+
+std::string LabelWidget::GetContent() const
+{
+	return m_Content();
+}

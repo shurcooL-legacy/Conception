@@ -55,7 +55,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 
 			if (nullptr != ListingWidget->GetSelectedEntry())
 			{
-				PlayBeep();
+				//PlayBeep();
 
 				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
 				this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));

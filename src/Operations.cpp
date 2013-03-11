@@ -42,7 +42,7 @@ std::string Diff(const std::string & Content1, const std::string & Content2)
 			}
 			else if (-1 == Pid)
 			{
-				std::cerr << "Error forking.\n";
+				perror("Error forking");
 				throw 0;
 			}
 			else
@@ -150,7 +150,7 @@ void Gofmt(std::string & InOut)
 		}
 		else if (-1 == Pid)
 		{
-			std::cerr << "Error forking.\n";
+			perror("Error forking");
 			throw 0;
 		}
 		else
@@ -238,7 +238,7 @@ std::vector<std::string> Ls(std::string & InOut)
 			}
 			else if (-1 == Pid)
 			{
-				std::cerr << "Error forking.\n";
+				perror("Error forking");
 				throw 0;
 			}
 			else
@@ -323,7 +323,7 @@ void LaunchProcessInBackground(std::initializer_list<std::string> Argv)
 	}
 	else if (-1 == Pid)
 	{
-		std::cerr << "Error forking.\n";
+		perror("Error forking");
 	}
 	else
 	{

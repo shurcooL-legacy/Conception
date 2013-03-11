@@ -13,7 +13,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 	{
 		m_SourceWidget->m_OnChange = [=, &Project]()
 		{
-			PlayBeep();
+			//PlayBeep();
 
 			Project.m_ProcessEndedTime = glfwGetTime();
 			Project.m_BackgroundState = 0;

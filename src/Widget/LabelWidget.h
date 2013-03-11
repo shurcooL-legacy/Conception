@@ -19,6 +19,8 @@ public:
 
 	bool IsHit(const Vector2n ParentPosition) const override;
 
+	std::string GetContent() const;
+
 private:
 	std::function<std::string()> m_Content;
 
