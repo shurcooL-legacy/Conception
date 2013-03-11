@@ -407,15 +407,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							// Popup autocompletion list
 							if (nullptr != m_GetAutocompletions)
 							{
-								auto Autocompletions = m_GetAutocompletions();
-
-								/*std::cout << "--- Autocompletions ---\n";
-								for (auto & Entry : m_Autocompletions)
-								{
-									std::cout << Entry << "\n";
-								}
-								std::cout << "-----------------------\n";*/
-
+								auto Autocompletions = m_GetAutocompletions(GetCaretPosition());
 								auto AutocompletionsMenu = new ContextMenuWidget<std::string>(GetCaretLocalPosition() + Vector2n(0, lineHeight), Autocompletions);
 								AutocompletionsMenu->m_DoubleTapAction = [=](Vector2n, std::vector<std::string> &){
 									// TODO: Do something on double-tap, like insert the selected autocompletion into parent
