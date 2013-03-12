@@ -14,11 +14,15 @@ DiffWidget::DiffWidget(Vector2n Position, TypingModule & TypingModule, TextField
 		m_Source2Widget->SetDimensions(Vector2n::ZERO);
 	}
 
+	m_OutputWidget->m_GetLineHighlighting = GetLineHighlighting();
+
 	auto OnChange = [=]()
 	{
 		if (m_Source1Widget->Target() && m_Source2Widget->Target())
 		{
 			auto Out = Diff(m_Source1Widget->Target()->GetContent(), m_Source2Widget->Target()->GetContent());
+
+			SkipFirstLines(Out, 2);
 
 			// Trim last newline, if there is one
 			TrimLastNewline(Out);

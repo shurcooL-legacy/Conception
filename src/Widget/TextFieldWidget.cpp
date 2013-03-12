@@ -102,6 +102,19 @@ void TextFieldWidget::Render()
 		}
 	}
 
+	// Render line highlighting
+	if (nullptr != m_GetLineHighlighting)
+	{
+		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber)
+		{
+			auto LineColor = m_GetLineHighlighting(LineNumber, m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length));
+
+			if (Color::WHITE != LineColor) {
+				DrawBoxBorderless(GetPosition() + Vector2n(0, LineNumber * lineHeight), Vector2n(GetDimensions()[0], lineHeight), LineColor);
+			}
+		}
+	}
+
 	OpenGLStream OpenGLStream(GetPosition(), m_Foreground);
 	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
@@ -160,7 +173,7 @@ void TextFieldWidget::Render()
 		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, m_TypingModule));
 
 		// HACK: Use m_GetLineGutters to get the path
-		std::string Command = "cd " + m_GetLineGutters(0) + "\ngit diff --no-ext-diff -U0 " + m_GetLineGutters(1) + " | grep -e \"^@@ \"";
+		std::string Command = "cd " + m_GetLineGutters(0) + "\ngit diff --no-ext-diff -U0 -- " + m_GetLineGutters(1) + " | grep -e \"^@@ \"";
 
 		Shell->m_CommandWidget->SetContent(Command);
 		Shell->m_ExecuteWidget->GetAction()();
@@ -859,6 +872,12 @@ void TextFieldWidget::NotifyChange(bool OverrideLiveToggle)
 	}
 	for (auto ConnectionWidget : GetConnected()) {
 		ConnectionWidget->NotifyChange(OverrideLiveToggle);
+	}
+
+	// HACK: Manually call NotifyChange() of parent if it happens to be a TextFileWidget... this doesn't quite scale, need to figure out a better way
+	auto Parent = dynamic_cast<TextFileWidget *>(ModifyParent());
+	if (nullptr != Parent) {
+		Parent->NotifyChange(OverrideLiveToggle);
 	}
 }
 

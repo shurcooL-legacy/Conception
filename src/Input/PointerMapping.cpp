@@ -88,6 +88,11 @@ bool PointerMapping::ContainsMapping(const GestureRecognizer * GestureRecognizer
 	return false;
 }
 
+const std::vector<GestureRecognizer *> & PointerMapping::GetEntries() const
+{
+	return m_Entries;
+}
+
 void PointerMapping::ProcessEvent(InputEvent & InputEvent)
 {
 	if (nullptr == m_Capturer)

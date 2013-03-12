@@ -7,17 +7,13 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 	  m_Path(Path)
 {
 	m_TextFieldWidget->SetContent(FromFileToString(Path));
-	m_TextFieldWidget->m_OnChange = [=]()
+	m_OnChange = [=]()		// Saving takes place in TextFileWidget when it gets its NotifyChange() from the contained TextFieldWidget
 	{
 		//PlayBeep();
+		//printf("Saving '%s'.\n", Path.c_str());
 
 		// Write to file
 		WriteToFile(Path, m_TextFieldWidget->GetContent());
-
-		// Call TextFileWidget's m_OnChange when the TextFieldWidget is modified
-		if (nullptr != m_OnChange) {
-			m_OnChange();
-		}
 	};
 
 	// TEST: Line Gutters
@@ -30,10 +26,8 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		return std::to_string(LineNumber + 1);
 #endif
 		// HACK: Pass file folder and name info
-		auto Separator = Path.find_last_of('/');
-		if (0 == Separator) throw 0;		// TODO: Handle "/rooted_paths" properly
-		std::string Folder = std::string::npos != Separator ? Path.substr(0, Separator) : "./";
-		std::string Filename = std::string::npos != Separator ? Path.substr(Separator + 1) : Path;
+		std::string Folder = ParsePath(Path, 0);
+		std::string Filename = ParsePath(Path, 1);
 		if (0 == LineNumber)
 			return Folder;
 		else if (1 == LineNumber)
@@ -48,12 +42,23 @@ TextFileWidget::~TextFileWidget()
 {
 }
 
+void TextFileWidget::NotifyChange(bool OverrideLiveToggle)
+{
+	if (nullptr != m_OnChange) {
+		m_OnChange();
+	}
+	for (auto ConnectionWidget : GetConnected()) {
+		ConnectionWidget->NotifyChange(OverrideLiveToggle);
+	}
+}
+
 void TextFileWidget::ProcessTimePassed(const double TimePassed)
 {
 	// Check if the file has been changed externally, and if so, override this widget
 	{
 		auto NewContent = FromFileToString(m_Path);
 		if (NewContent != m_TextFieldWidget->GetContent())
+			// TODO: Make it so that a 'save' is not called in turn...
 			m_TextFieldWidget->SetContent(NewContent);
 	}
 

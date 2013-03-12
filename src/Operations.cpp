@@ -1,5 +1,27 @@
 #include "Main.h"
 
+std::function<Color(uint32, const std::string &)> GetLineHighlighting()
+{
+	return [](uint32 LineNumber, const std::string & Line) -> Color
+	{
+		if (Line.length() >= 1 && Line[0] == '+') return Color(0.9, 1, 0.9);
+		else if (Line.length() >= 1 && Line[0] == '-') return Color(1.0, 0.9, 0.9);
+		else return Color::WHITE;
+	};
+}
+
+std::string ParsePath(std::string Path, uint8 Mode)
+{
+	auto Separator = Path.find_last_of('/');
+	if (0 == Separator) throw 0;		// TODO: Handle "/rooted_paths" properly
+	std::string Folder = std::string::npos != Separator ? Path.substr(0, Separator) : "./";
+	std::string Filename = std::string::npos != Separator ? Path.substr(Separator + 1) : Path;
+
+	if (0 == Mode) return Folder;
+	else if (1 == Mode) return Filename;
+	else throw 0;
+}
+
 std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletions(std::string Path)
 {
 	return [Path](std::string::size_type CaretPosition) -> std::vector<std::string>
@@ -109,6 +131,26 @@ std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletio
 	};
 }
 
+void SkipFirstLines(std::string & InOut, uint32 LinesToSkip)
+{
+	std::string::size_type FoundNewline = 0;
+	while (LinesToSkip-- >= 1)
+	{
+		FoundNewline = InOut.find('\n', FoundNewline);
+		if (std::string::npos == FoundNewline)
+			break;
+		else
+			++FoundNewline;
+	}
+
+	if (std::string::npos == FoundNewline)
+		InOut = "";
+	else if (0 != FoundNewline)
+	{
+		InOut = InOut.substr(FoundNewline);
+	}
+}
+
 std::string TrimFirstSpace(const std::string & In)
 {
 	if (   In.length() >= 1
@@ -116,6 +158,16 @@ std::string TrimFirstSpace(const std::string & In)
 		return In.substr(1);
 	else
 		return In;
+}
+
+// Trim last newline, if there is one
+void TrimLastNewline(std::string & InOut)
+{
+	if (   InOut.size() >= 1
+		&& InOut.back() == '\n')
+	{
+		InOut.pop_back();
+	}
 }
 
 std::string Diff(const std::string & Content1, const std::string & Content2)
@@ -143,7 +195,7 @@ std::string Diff(const std::string & Content1, const std::string & Content2)
 
 				close(PipeFd[1]);    // this descriptor is no longer needed
 
-				execl("/usr/bin/diff", "/usr/bin/diff", /*"-u",*/ "./GenDiff1.txt", "./GenDiff2.txt", (char *)0);
+				execl("/usr/bin/diff", "/usr/bin/diff", "--unified", "./GenDiff1.txt", "./GenDiff2.txt", (char *)0);
 
 				// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 				//exit(1);		// Not needed, just in case I comment out the above
@@ -210,16 +262,6 @@ void PlayBeep()
 	//std::cout << "Beep.\n";
 	//BeepWidget->m_ExecuteWidget->GetAction()();
 	LaunchProcessInBackground({"/usr/bin/afplay", "--volume", "0.5", "data/Cannot Distribute/hitsound.wav"});		// HACK: OS X dependency
-}
-
-// Trim last newline, if there is one
-void TrimLastNewline(std::string & InOut)
-{
-	if (   InOut.size() >= 1
-		&& InOut.back() == '\n')
-	{
-		InOut.pop_back();
-	}
 }
 
 void Gofmt(std::string & InOut)

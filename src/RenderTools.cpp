@@ -26,6 +26,21 @@ void InitializeOpenGL()
 	glClearColor(1, 1, 1, 1);
 }
 
+void DrawBoxBorderless(Vector2n Position, Vector2n Size, Color Color)
+{
+	glDisable(GL_TEXTURE_2D);
+
+	glBegin(GL_QUADS);
+		glColor3dv(Color.GetComponents());
+		glVertex2i(Position.X(), Position.Y());
+		glVertex2i(Position.X(), Position.Y() + Size.Y());
+		glVertex2i(Position.X() + Size.X(), Position.Y() + Size.Y());
+		glVertex2i(Position.X() + Size.X(), Position.Y());
+	glEnd();
+
+	glEnable(GL_TEXTURE_2D);
+}
+
 void DrawBox(Vector2n Position, Vector2n Size)
 {
 	DrawBox(Position, Size, Color(1.0, 1.0, 1.0));

@@ -28,6 +28,8 @@ public:
 	GestureRecognizer * GetCapturer() const;
 	GestureRecognizer * GetHoverer() const;
 
+	const std::vector<GestureRecognizer *> & GetEntries() const;
+
 	//void RemoveHoverPointer(Pointer * Pointer);
 
 private:

@@ -34,10 +34,11 @@ private:
 	Color								m_BackgroundColor = Color::WHITE;
 
 public:
-	std::function<void()>							m_OnChange = nullptr;
+	std::function<void()>													m_OnChange = nullptr;
 	std::function<std::vector<std::string>(decltype(m_CaretPosition))>		m_GetAutocompletions = nullptr;
-	std::function<std::string(uint32)>				m_GetLineAnnotations = nullptr;
-	std::function<std::string(uint32)>				m_GetLineGutters = nullptr;
+	std::function<std::string(uint32)>										m_GetLineAnnotations = nullptr;
+	std::function<Color(uint32, const std::string &)>						m_GetLineHighlighting = nullptr;
+	std::function<std::string(uint32)>										m_GetLineGutters = nullptr;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	~TextFieldWidget();

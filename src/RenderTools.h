@@ -7,12 +7,7 @@ class Color
 public:
 	Color(double Red, double Green, double Blue)
 		: m_Components( { Red, Green, Blue } )
-	{
-		// TODO: Once VC11 gets initializer lists, I can use them...
-		/*m_Components[0] = Red;
-		m_Components[1] = Green;
-		m_Components[2] = Blue;*/
-	}
+	{}
 
 	Color(uint8 Red, uint8 Green, uint8 Blue)
 		: Color(Red / 255.0, Green / 255.0, Blue / 255.0)
@@ -57,6 +52,8 @@ private:
 };
 
 void InitializeOpenGL();
+
+void DrawBoxBorderless(Vector2n Position, Vector2n Size, Color Color);
 
 void DrawBox(Vector2n Position, Vector2n Size);
 void DrawBox(Vector2n Position, Vector2n Size, Color BackgroundColor);

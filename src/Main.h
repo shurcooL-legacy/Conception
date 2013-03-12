@@ -91,13 +91,7 @@ class InputEventQueue;
 class InputManager;
 class InputHandler;
 class InputListener;
-class PointerInputListener;
-class ControlModuleMapping;
-class ControlModule;
-class UnrealCameraModule;
 class TypingModule;
-class WidgetModule;
-class WidgetManager;
 class PointerMapping;
 class Widget;
 class CompositeWidget;
@@ -244,6 +238,8 @@ extern InputManager * g_InputManager;
 #include "Widget/ShellWidget.h"
 #include "Widget/SayWidget.h"
 #include "Widget/TimeWidget.h"
+#include "Widget/GitStatusWidget.h"
+#include "Widget/GitDiffWidget.h"
 #include "Widget/FolderListingWidget.h"
 #include "Widget/CanvasWidget.h"
 #include "Widget/DebugOverlayWidget.h"

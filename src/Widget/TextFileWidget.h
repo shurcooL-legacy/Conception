@@ -3,7 +3,8 @@
 #define __TextFileWidget_H__
 
 class TextFileWidget
-	: public CompositeWidget
+	: public CompositeWidget,
+	  public MutuallyConnectable<TextFileWidget, ConnectionWidget<TextFileWidget>>
 {
 public:
 	TextFileWidget(Vector2n Position, std::string Path, TypingModule & TypingModule);
@@ -12,6 +13,9 @@ public:
 	void ProcessTimePassed(const double TimePassed) override;
 
 	std::string GetPath() const;
+
+	// TODO: Generalize this to all automate-able widgets?
+	void NotifyChange(bool OverrideLiveToggle = false);		// Called when this widget changes, to notify its connected widgets
 
 	std::function<void()> m_OnChange = nullptr;
 

@@ -150,9 +150,14 @@ template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputE
 {
 	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent))
 	{
+		// Go through all widgets currently under pointer (from top to bottom), looking for first <T *> entry
 		T * Target = nullptr;
-		if (nullptr != InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer())
-			Target = dynamic_cast<T *>(&InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()->GetOwner());
+		for (auto & Entry : InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetEntries())
+		{
+			Target = dynamic_cast<T *>(&Entry->GetOwner());
+			if (nullptr != Target)
+				break;
+		}
 
 		SetTarget(Target);
 
