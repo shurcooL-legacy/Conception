@@ -796,11 +796,15 @@ void TextFieldWidget::MoveCaretVerticallyTry(sint32 MoveAmount, bool ResetSelect
 	{
 		if (LineNumber > 0)
 			--LineNumber;
+		else
+			m_TargetCaretColumnX = 0;		// Go to beginning of first line
 	}
 	else if (+1 == MoveAmount)
 	{
 		if (LineNumber < m_ContentLines.size() - 1)
 			++LineNumber;
+		else
+			m_TargetCaretColumnX = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length);		// Go to end of last line
 	}
 	//m_CaretPosition = std::min(m_ContentLines[LineNumber].m_StartPosition + ColumnNumber, m_ContentLines[LineNumber].m_StartPosition + m_ContentLines[LineNumber].m_Length);
 	{
