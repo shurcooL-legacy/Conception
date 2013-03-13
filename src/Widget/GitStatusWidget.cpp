@@ -5,10 +5,6 @@ GitStatusWidget::GitStatusWidget(Vector2n Position, TypingModule & TypingModule,
 								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("git status"), LabelWidget::Background::Normal)),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
-	if (nullptr != Target) {
-		m_SourceWidget->SetDimensions(Vector2n::ZERO);
-	}
-
 	m_SourceWidget->m_OnChange = [&]()
 	{
 		std::string InOut = "";

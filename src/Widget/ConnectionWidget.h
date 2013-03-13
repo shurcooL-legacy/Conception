@@ -3,7 +3,7 @@
 #define __ConnectionWidget_H__
 
 template <typename T> class ConnectionWidget
-	: public FlowLayoutWidget,
+	: public CompositeWidget,
 	  public MutuallyConnectable<ConnectionWidget<T>, T>
 {
 public:
@@ -13,6 +13,8 @@ public:
 	void Render() override;
 
 	void ProcessEvent(InputEvent & InputEvent) override;
+
+	const Vector2n GetDimensions() const override;
 
 	// HACK: void ProcessTimePassed(const double TimePassed) override { if (nullptr != m_OnChange) m_OnChange(); };
 
@@ -27,13 +29,16 @@ private:
 
 	public:ToggleWidget * m_LiveToggle;private:
 
+	bool m_FusedConnector;		// Set to be true when constructed with a non-null target, it hides the connector but keeps LiveToggle visible
+
 	T * m_Target = nullptr;
 };
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
-	: FlowLayoutWidget(Position, Vector2n(16, 16), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State) { NotifyChange(true); }, true)) },
-												   { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
-	  m_Target(nullptr)		// It will actually be set inside the constructor, via a call to UpdateTarget(Target), but m_Target has to be nullptr at top of UpdateTarget()
+	: CompositeWidget(Position, Vector2n(16, 16), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State) { NotifyChange(true); }, true)) },
+												  { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
+	  m_FusedConnector(nullptr != Target),
+	  m_Target(nullptr)		// It will actually be set inside the constructor, via a call to UpdateTarget(Target), but m_Target has to be nullptr at top of UpdateTarget(),
 {
 	UpdateTarget(Target);
 }
@@ -79,7 +84,7 @@ template <typename T> void ConnectionWidget<T>::Render()
 	if (!m_Visible)
 		return;
 
-	if (Vector2n::ZERO != Widget::GetDimensions())
+	if (!m_FusedConnector)
 	{
 		Color BackgroundColor(0.99, 0.99, 0.99);
 		Color BorderColor(0.5, 0.5, 0.5);
@@ -107,7 +112,9 @@ template <typename T> void ConnectionWidget<T>::Render()
 		{
 		}
 
-		auto Center = GetPosition() + Widget::GetDimensions() / 2;
+		auto Center = GetPosition() + GetDimensions() / 2;
+
+		bool LiveToggleShouldBeVisible = false;
 
 		if (CheckActive())
 		{
@@ -137,13 +144,32 @@ template <typename T> void ConnectionWidget<T>::Render()
 				glVertex2i(Center.X(), Center.Y());
 				glVertex2i(GetPosition().X() + LocalPosition.X(), GetPosition().Y() + LocalPosition.Y());
 			glEnd();
+
+			LiveToggleShouldBeVisible = true;
+			m_LiveToggle->SetPosition(GetDimensions() / 4 + LocalPosition / 4 - m_LiveToggle->GetDimensions() / 2);
 		}
 
-		DrawCircle(Center, Widget::GetDimensions(), BackgroundColor, BorderColor);
+		m_LiveToggle->m_Visible = LiveToggleShouldBeVisible;
+
+		DrawCircle(Center, GetDimensions(), BackgroundColor, BorderColor);
 		DrawCircle(Center, Vector2n(6, 6), BorderColor, BorderColor);
 	}
+	else
+	// Connector is hidden but the toggle is still visible
+	{
+		m_LiveToggle->SetPosition(Vector2n::ZERO);
+		m_LiveToggle->m_Visible = true;
+	}
 
-	FlowLayoutWidget::Render();
+	CompositeWidget::Render();
+}
+
+template <typename T> const Vector2n ConnectionWidget<T>::GetDimensions() const
+{
+	if (!m_FusedConnector)
+		return Widget::GetDimensions();
+	else
+		return m_LiveToggle->GetDimensions();
 }
 
 template <typename T> void ConnectionWidget<T>::ProcessEvent(InputEvent & InputEvent)

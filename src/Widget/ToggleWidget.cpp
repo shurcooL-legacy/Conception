@@ -16,6 +16,10 @@ ToggleWidget::~ToggleWidget()
 
 void ToggleWidget::Render()
 {
+	// TODO: Refactor this out
+	if (!m_Visible)
+		return;
+
 	//ButtonWidget::Render();
 	Color BackgroundColor(0.99, 0.99, 0.99);
 	Color BorderColor(0.5, 0.5, 0.5);

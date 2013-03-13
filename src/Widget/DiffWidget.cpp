@@ -7,13 +7,6 @@ DiffWidget::DiffWidget(Vector2n Position, TypingModule & TypingModule, TextField
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) },
 								 { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) } )
 {
-	if (   nullptr != Target1
-		&& nullptr != Target2)
-	{
-		m_Source1Widget->SetDimensions(Vector2n::ZERO);
-		m_Source2Widget->SetDimensions(Vector2n::ZERO);
-	}
-
 	m_OutputWidget->m_GetLineHighlighting = GetLineHighlighting();
 
 	auto OnChange = [=]()

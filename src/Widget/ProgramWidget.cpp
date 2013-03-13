@@ -6,10 +6,6 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	  m_Project(Project)
 {
-	if (nullptr != Target) {
-		m_SourceWidget->SetDimensions(Vector2n::ZERO);
-	}
-
 	{
 		m_SourceWidget->m_OnChange = [=, &Project]()
 		{
