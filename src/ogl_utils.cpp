@@ -30,7 +30,7 @@ void OglUtilsPrint(double X, double Y, int iFont, PrintAlignment nAlignment, con
 		glTranslated(X - (strlen(chText)+0) * fontWidth[iFont], Y, 0);
 
 	//const double Scale = 1.05; glScaled(Scale, Scale, Scale);
-	glTranslated(-4, -1, 0);
+	glTranslated(-4 + 0.25, -1, 0);
 
 	glListBase(oFontBase[iFont]);
 	//glCallLists(strlen(chAsciiCodes), GL_UNSIGNED_BYTE, chAsciiCodes);

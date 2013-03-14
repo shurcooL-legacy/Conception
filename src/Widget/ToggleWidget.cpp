@@ -49,9 +49,9 @@ void ToggleWidget::Render()
 
 		glColor3d(0, 0, 0);
 		if (m_State)
-			OglUtilsPrint(GetPosition().X() + 12+3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "1");
+			OglUtilsPrint(GetPosition().X() + 12+3, GetPosition().Y() + 0.5, 0, PrintAlignment::CENTER, "1");
 		else
-			OglUtilsPrint(GetPosition().X() + 28-3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "0");
+			OglUtilsPrint(GetPosition().X() + 28-3, GetPosition().Y() + 0.5, 0, PrintAlignment::CENTER, "0");
 
 		DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), CheckHover() ? BorderColor : Color(static_cast<uint8>(240), 240, 240), BorderColor * 0.7);
 	}
@@ -62,9 +62,9 @@ void ToggleWidget::Render()
 
 		glColor3d(0, 0, 0);
 		if (m_State)
-			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2 + 0.5, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "+");
+			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "+");
 		else
-			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2 + 0.5, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "-");
+			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "-");
 	}
 }
 
