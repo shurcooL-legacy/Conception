@@ -154,10 +154,10 @@ bool Widget::IsHit(const Vector2n ParentPosition) const
 	if (!m_Visible)
 		return false;
 
-	bool Hit = (   ParentPosition.X() >= m_Position.X()
-				&& ParentPosition.Y() >= m_Position.Y()
-				&& ParentPosition.X() <  m_Position.X() + m_Dimensions.X()
-				&& ParentPosition.Y() <  m_Position.Y() + m_Dimensions.Y());
+	bool Hit = (   ParentPosition.X() >= GetPosition().X()
+				&& ParentPosition.Y() >= GetPosition().Y()
+				&& ParentPosition.X() <  GetPosition().X() + GetDimensions().X()
+				&& ParentPosition.Y() <  GetPosition().Y() + GetDimensions().Y());
 
 	return Hit;
 }

@@ -145,6 +145,7 @@ const Vector2n CompositeWidget::GetDimensions() const
 {
 	auto Dimensions = Widget::GetDimensions();
 
+#if 1
 	// TODO: Figure out if this is what I want to do... and make it proper, etc.
 	for (auto & Widget : GetWidgets())
 	{
@@ -155,6 +156,7 @@ const Vector2n CompositeWidget::GetDimensions() const
 		if (FarCorner.Y() > Dimensions.Y())
 			Dimensions.Y() = FarCorner.Y();
 	}
+#endif
 
 	return Dimensions;
 }
@@ -209,5 +211,11 @@ bool CompositeWidget::IsHit(const Vector2n ParentPosition) const
 			return true;
 	}
 
-	return Widget::IsHit(ParentPosition);
+	// TODO: Think this through. This is kinda a hacky solution that works for now, but I'd better clean this up in the long term
+	// Assume that zero m_Dimensions indicate that this CompositeWidget is pure, consisting only of its children
+	// While non-zero m_Dimensions mean the CompositeWidget includes children + itself
+	if (Vector2n::ZERO == Widget::GetDimensions())
+		return false;
+	else
+		return Widget::IsHit(ParentPosition);
 }

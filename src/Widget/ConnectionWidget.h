@@ -35,7 +35,7 @@ private:
 };
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
-	: CompositeWidget(Position, Vector2n(16, 16), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State) { NotifyChange(true); }, true)) },
+	: CompositeWidget(Position, Vector2n(16, 16), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [&](bool State) { NotifyChange(true); }, true)) },
 												  { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
 	  m_FusedConnector(nullptr != Target),
 	  m_Target(nullptr)		// It will actually be set inside the constructor, via a call to UpdateTarget(Target), but m_Target has to be nullptr at top of UpdateTarget(),

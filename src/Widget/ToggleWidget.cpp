@@ -20,8 +20,7 @@ void ToggleWidget::Render()
 	if (!m_Visible)
 		return;
 
-	//ButtonWidget::Render();
-	Color BackgroundColor(0.99, 0.99, 0.99);
+	Color BackgroundColor = m_State ? Color(0.9, 1, 0.9) : Color(1.0, 0.9, 0.9);
 	Color BorderColor(0.5, 0.5, 0.5);
 
 	if (CheckHover() && CheckActive())
@@ -36,9 +35,6 @@ void ToggleWidget::Render()
 	//else if ((CheckHover() && !CheckAnyActive()) || (!CheckHover() && CheckActive()))
 	else if (CheckHover() ^ CheckActive())
 	{
-		BackgroundColor[0] = 1.0;
-		BackgroundColor[1] = 1.0;
-		BackgroundColor[2] = 1.0;
 		BorderColor[0] = 0.898;
 		BorderColor[1] = 0.765;
 		BorderColor[2] = 0.396;
@@ -47,15 +43,29 @@ void ToggleWidget::Render()
 	{
 	}
 
-	DrawInnerRoundedBox(GetPosition(), Vector2n(40, 16), 8, BackgroundColor, BorderColor);
+	if (Vector2n(40, 16) == GetDimensions())
+	{
+		DrawInnerRoundedBox(GetPosition(), Vector2n(40, 16), 8, BackgroundColor, BorderColor);
 
-	glColor3d(0, 0, 0);
-	if (m_State)
-		OglUtilsPrint(GetPosition().X() + 12+3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "1");
+		glColor3d(0, 0, 0);
+		if (m_State)
+			OglUtilsPrint(GetPosition().X() + 12+3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "1");
+		else
+			OglUtilsPrint(GetPosition().X() + 28-3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "0");
+
+		DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), CheckHover() ? BorderColor : Color(static_cast<uint8>(240), 240, 240), BorderColor * 0.7);
+	}
 	else
-		OglUtilsPrint(GetPosition().X() + 28-3, GetPosition().Y()+0.5, 0, PrintAlignment::CENTER, "0");
+	{
+		// TODO: Unfinished... this looks bad, hard to differentiate
+		DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
-	DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), CheckHover() ? BorderColor : Color(static_cast<uint8>(240), 240, 240), BorderColor * 0.7);
+		glColor3d(0, 0, 0);
+		if (m_State)
+			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2 + 0.5, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "+");
+		else
+			OglUtilsPrint(GetPosition().X() + GetDimensions().X() / 2 + 0.5, GetPosition().Y() + (GetDimensions().Y() - lineHeight) / 2 + 0.5, 0, PrintAlignment::CENTER, "-");
+	}
 }
 
 bool ToggleWidget::GetState() const

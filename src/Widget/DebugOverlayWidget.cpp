@@ -14,6 +14,7 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 				PrintName(out, i);
 
 				auto LocalPosition = dynamic_cast<Widget *>(&i->GetOwner())->GlobalToLocal(Vector2n(g_InputManager->m_MousePointer->GetPointerState().GetAxisState(0).GetPosition(), g_InputManager->m_MousePointer->GetPointerState().GetAxisState(1).GetPosition()));
+				out << " [" << static_cast<Widget *>(&i->GetOwner())->GetDimensions().X() << ", " << static_cast<Widget *>(&i->GetOwner())->GetDimensions().Y() << "]";
 				out << " (" << LocalPosition.X() << ", " << LocalPosition.Y() << ")";
 				out << " <" << static_cast<Widget *>(&i->GetOwner())->m_DebugDescription << ">";
 			}
@@ -47,12 +48,18 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 		AddWidget(new LabelWidget(Vector2n(0, 180), Content));
 	}
 
+	// Time in top right corner
+	// TODO: Add support for reference frames other than top left corner as origin
+	auto TimeWidget = new class TimeWidget(Vector2n(1280 - 13 * charWidth - 1, 1));
+	//TimeWidget->SetPosition(TimeWidget->GetPosition() - Vector2n(TimeWidget->GetDimensions().X(), 0));		// This doesn't work because its dimensions are updated after render...
+	AddWidget(TimeWidget);
+
 	// Visibility toggle
 	{
 		auto ToggleWidget = new class ToggleWidget(Vector2n(1, 1), [=](bool State) {
 															// Toggle visibility of all widgets but the last one (i.e. this toggle)
 															// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
-															for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 1 != Widget; ++Widget)
+															for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 2 != Widget; ++Widget)
 															{
 																(*Widget)->m_Visible = State;
 															}
@@ -87,6 +94,8 @@ void DebugOverlayWidget::PrintName(std::ostringstream & out, GestureRecognizer *
 	else if (dynamic_cast<LiveGofmtWidget *>(&i->GetOwner())) out << "\n LiveGofmtWidget";
 	else if (dynamic_cast<GofmtWidget *>(&i->GetOwner())) out << "\n GofmtWidget";
 	else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
+	else if (dynamic_cast<LiveProgramFileWidget *>(&i->GetOwner())) out << "\n LiveProgramFileWidget";
+	else if (dynamic_cast<LiveCodeWidget *>(&i->GetOwner())) out << "\n LiveCodeWidget";
 	else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
 	else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
 	else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";
