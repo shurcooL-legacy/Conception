@@ -53,7 +53,7 @@ void ToggleWidget::Render()
 		else
 			OglUtilsPrint(GetPosition().X() + 28-3, GetPosition().Y() + 0.5, 0, PrintAlignment::CENTER, "0");
 
-		DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), CheckHover() ? BorderColor : Color(static_cast<uint8>(240), 240, 240), BorderColor * 0.7);
+		DrawCircle(GetPosition() + Vector2n(8 + 24 * m_State, 8), Vector2n(14, 14), Color(1.0, 1, 1), BorderColor);
 	}
 	else
 	{
