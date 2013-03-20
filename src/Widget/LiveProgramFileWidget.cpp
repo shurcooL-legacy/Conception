@@ -15,8 +15,9 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 		//return std::to_string(LineNumber + 1) + "-" + (m_ProgramWidget->m_OutputWidget->GetContent().length() >= 3 ? m_ProgramWidget->m_OutputWidget->GetContent().substr(0, 3) : "...");
 
 		// HACK: Using hardcoded color, make this better
-		// Don't do this if the result is not compile error
-		if (Color(1.0, 0.9, 0.9) != m_ProgramWidget->m_OutputWidget->GetBackground())
+		// Don't do this if the result is not compile error, or if Live Toggle is off
+		if (   Color(1.0, 0.9, 0.9) != m_ProgramWidget->m_OutputWidget->GetBackground()
+			|| false == m_ProgramWidget->m_SourceWidget->m_LiveToggle->GetState())
 			return "";
 
 		// TODO: Clean up
