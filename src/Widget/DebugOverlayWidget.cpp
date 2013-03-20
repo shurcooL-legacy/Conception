@@ -50,7 +50,7 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 
 	// Time in top right corner
 	// TODO: Add support for reference frames other than top left corner as origin
-	auto TimeWidget = new class TimeWidget(Vector2n(1280 - 13 * charWidth - 1, 1));
+	auto TimeWidget = new class TimeWidget(Vector2n(1536 - 13 * charWidth - 1, 1));
 	//TimeWidget->SetPosition(TimeWidget->GetPosition() - Vector2n(TimeWidget->GetDimensions().X(), 0));		// This doesn't work because its dimensions are updated after render...
 	AddWidget(TimeWidget);
 
@@ -94,6 +94,7 @@ void DebugOverlayWidget::PrintName(std::ostringstream & out, GestureRecognizer *
 	else if (dynamic_cast<LiveGofmtWidget *>(&i->GetOwner())) out << "\n LiveGofmtWidget";
 	else if (dynamic_cast<GofmtWidget *>(&i->GetOwner())) out << "\n GofmtWidget";
 	else if (dynamic_cast<TypingModule *>(&i->GetOwner())) out << "\n TypingModule";
+	else if (dynamic_cast<GitFileWidget *>(&i->GetOwner())) out << "\n GitFileWidget";
 	else if (dynamic_cast<LiveProgramFileWidget *>(&i->GetOwner())) out << "\n LiveProgramFileWidget";
 	else if (dynamic_cast<LiveCodeWidget *>(&i->GetOwner())) out << "\n LiveCodeWidget";
 	else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";

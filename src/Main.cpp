@@ -88,7 +88,7 @@ int main(int argc, char * argv[])
 		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 32);
 
 		const bool Fullscreen = static_cast<bool>(0);
-		const Vector2n WindowDimensons(1280, 960);
+		const Vector2n WindowDimensons(1536, 960);
 
 		if (!Fullscreen) {
 			glfwOpenWindow(WindowDimensons.X(), WindowDimensons.Y(), DesktopMode.RedBits, DesktopMode.GreenBits, DesktopMode.BlueBits, 0, 0, 0, GLFW_WINDOW);
