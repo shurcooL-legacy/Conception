@@ -69,51 +69,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new GitStatusWidget(Vector2n(-380, 280), *m_TypingModule));
 		MainCanvas->AddWidget(new GitDiffWidget(Vector2n(-380, 300), *m_TypingModule));
 
-		// TEST: Parsing go compiler errors
-		{
-			auto In = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
-			auto Out = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
-			auto FlowLayout = new FlowLayoutWidget(Vector2n(-100, 0), { std::shared_ptr<Widget>(In), std::shared_ptr<Widget>(Out) }, {});
-			FlowLayout->AddBehavior(new DraggablePositionBehavior(*FlowLayout));
-			MainCanvas->AddWidget(FlowLayout);
-
-			In->m_OnChange = [=]()
-			{
-				std::string Output;
-				// TODO: Clean up
-				{
-					std::stringstream ss;
-					auto Input = In->GetContent();
-					TrimLastNewline(Input);
-					ss << Input;
-					std::string Line;
-
-					std::getline(ss, Line);		// Skip first line
-					for (;;)
-					{
-						std::getline(ss, Line);
-
-						// Parse one go error line
-						try
-						{
-							auto FirstColon = Line.find(':');
-							auto SecondColon = Line.find(':', FirstColon + 1);
-							uint32 LineNumber = std::stoi(Line.substr(FirstColon + 1, SecondColon - (FirstColon + 1)));
-
-							Output += std::to_string(LineNumber) + ": " + Line.substr(SecondColon + 1) + '\n';
-						}
-						catch (...) {}
-
-						if (ss.eof())
-							break;
-					}
-				}
-
-				Out->SetContent(Output);
-			};
-			In->SetContent("# command-line-arguments\n./GenProgram.go:9: undefined: printx\n./GenProgram.go:10: Somer error: missing }.\n");		// DEBUG: Initial content
-		}
-
 		for (auto i = 0; i < 5; ++i) {
 			auto DraggableTextField = new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule);
 			DraggableTextField->AddBehavior(new DraggablePositionBehavior(*DraggableTextField));
