@@ -17,7 +17,7 @@ GitDiffWidget::GitDiffWidget(Vector2n Position, TypingModule & TypingModule, Tex
 			std::string Filename = ParsePath(m_SourceWidget->Target()->GetPath(), 1);
 
 			auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
-			std::string Command = "cd \"" + Folder + "\"\ngit diff --no-ext-diff -- \"" + Filename + "\"";
+			std::string Command = "cd \'" + Folder + "\'\ngit diff --no-ext-diff -- \'" + Filename + "\'";
 			//Command += " | tail -n +5";		// Skip the first 4 lines (if any)
 			Shell->m_CommandWidget->SetContent(Command);
 			Shell->m_ExecuteWidget->GetAction()();

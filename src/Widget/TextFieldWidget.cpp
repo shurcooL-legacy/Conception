@@ -176,7 +176,7 @@ void TextFieldWidget::Render()
 		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, m_TypingModule));
 
 		// HACK: Use m_GetLineGutters to get the path
-		std::string Command = "cd " + m_GetLineGutters(0) + "\ngit diff --no-ext-diff -U0 -- " + m_GetLineGutters(1) + " | grep -e \"^@@ \"";
+		std::string Command = "cd \'" + m_GetLineGutters(0) + "\'\ngit diff --no-ext-diff -U0 -- " + m_GetLineGutters(1) + " | grep -e \'^@@ \'";
 
 		Shell->m_CommandWidget->SetContent(Command);
 		Shell->m_ExecuteWidget->GetAction()();
