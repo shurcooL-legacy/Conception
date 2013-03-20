@@ -93,6 +93,8 @@ void TextFieldWidget::Render()
 			}
 		}
 	}
+// TEST: Disable temporarily so that m_Dependee will work
+#if 0
 	if (!GetWidgets().empty())
 	{
 		auto Autocompletion = static_cast<ContextMenuWidget<std::string> *>(GetWidgets()[0].get())->GetSelectedEntry();
@@ -101,6 +103,7 @@ void TextFieldWidget::Render()
 			ContentWithInsertion.insert(m_CaretPosition, *Autocompletion);
 		}
 	}
+#endif
 
 	// Render line highlighting
 	if (nullptr != m_GetLineHighlighting)
@@ -643,6 +646,8 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 				{
 					// If the context menu is visible and mouse goes down outside it, close it
 					// TODO: Make this general, it should also close when widget loses focus, etc.
+// TEST: Disable temporarily so that m_Dependee will work
+#if 0
 					{
 						if (   !GetWidgets().empty()
 							&& GetWidgets()[0]->GetGestureRecognizer().GetConnected().end() == GetWidgets()[0]->GetGestureRecognizer().GetConnected().find(InputEvent.m_Pointer))
@@ -652,6 +657,7 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 							RemoveWidget(GetWidgets()[0].get());
 						}
 					}
+#endif
 
 					bool HandledEvent = true;		// Assume true at first
 

@@ -1,9 +1,9 @@
 #include "../Main.h"
 
 TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule & TypingModule)
-	: CompositeWidget(Position, { std::shared_ptr<Widget>(new LabelWidget(Vector2n(0, -lineHeight - 2), Path, LabelWidget::Background::Normal)),
-								  std::shared_ptr<Widget>(m_TextFieldWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) },
-								{ std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
+	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(new LabelWidget(Vector2n(0, -lineHeight - 2), Path, LabelWidget::Background::Normal)),
+								   std::shared_ptr<Widget>(m_TextFieldWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) },
+								 { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }, FlowLayoutWidget::LayoutType::Vertical),
 	  m_Path(Path)
 {
 	m_TextFieldWidget->SetContent(FromFileToString(Path));
@@ -36,6 +36,12 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 			throw 0;
 	};
 #endif
+
+	if (IsFileTrackedByGit(Path)) {
+		auto GitDiff = new GitDiffWidget(Vector2n::ZERO, TypingModule, this);
+		GitDiff->RemoveAllBehaviors();
+		AddWidget(GitDiff);
+	}
 }
 
 TextFileWidget::~TextFileWidget()
@@ -47,6 +53,11 @@ void TextFileWidget::NotifyChange(bool OverrideLiveToggle)
 	if (nullptr != m_OnChange) {
 		m_OnChange();
 	}
+	NotifyExternalChange(OverrideLiveToggle);
+}
+
+void TextFileWidget::NotifyExternalChange(bool OverrideLiveToggle)
+{
 	for (auto ConnectionWidget : GetConnected()) {
 		ConnectionWidget->NotifyChange(OverrideLiveToggle);
 	}

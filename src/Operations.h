@@ -4,6 +4,7 @@
 
 typedef std::function<void(std::string &)> Operation;
 
+bool IsFileTrackedByGit(std::string Path);
 std::function<Color(uint32, const std::string &)> GetLineHighlighting();
 std::string ParsePath(std::string Path, uint8 Mode);
 std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletions(std::string Path);

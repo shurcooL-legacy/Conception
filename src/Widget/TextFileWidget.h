@@ -3,7 +3,7 @@
 #define __TextFileWidget_H__
 
 class TextFileWidget
-	: public CompositeWidget,
+	: public FlowLayoutWidget,
 	  public MutuallyConnectable<TextFileWidget, ConnectionWidget<TextFileWidget>>
 {
 public:
@@ -15,7 +15,8 @@ public:
 	std::string GetPath() const;
 
 	// TODO: Generalize this to all automate-able widgets?
-	void NotifyChange(bool OverrideLiveToggle = false);		// Called when this widget changes, to notify its connected widgets
+	void NotifyChange(bool OverrideLiveToggle = false);				// Called when this widget changes, to notify its connected widgets
+	void NotifyExternalChange(bool OverrideLiveToggle = false);		// Called when an external dependency changes, to notify its connected widgets
 
 	std::function<void()> m_OnChange = nullptr;
 

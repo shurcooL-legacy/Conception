@@ -52,6 +52,14 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 		return "";
 	};
 
+	// Add Dependee connector to the source widget (for connecting text fields that the source widget depends on)
+	{
+		auto Dependee = new ConnectionWidget<TextFieldWidget>(Vector2n(-16 - 2, 0));
+		// TODO: Should do NotifyExternalChange() as long as I don't expect the contents of this thing to actually depend on the dependee...
+		Dependee->m_OnChange = [=]() { m_SourceWidget->NotifyChange(); };
+		m_SourceWidget->AddWidget(Dependee);
+	}
+
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(true); } ));
 }
 
