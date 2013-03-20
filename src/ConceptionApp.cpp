@@ -69,7 +69,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new GitStatusWidget(Vector2n(-380, 280), *m_TypingModule));
 		MainCanvas->AddWidget(new GitDiffWidget(Vector2n(-380, 300), *m_TypingModule));
 		MainCanvas->AddWidget(new TextFileWidget(Vector2n(600, -600), "./GoLand/src/gist.github.com/5034040.git/gistfile1.go", *m_TypingModule));
-		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(100, 0), "./Git Repo Test/main file.go", *m_TypingModule, m_CurrentProject));
+		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(100, 0), "./GoLand/src/Git Repo Test/main file.go", *m_TypingModule, m_CurrentProject));
 
 		for (auto i = 0; i < 5; ++i) {
 			auto DraggableTextField = new TextFieldWidget(Vector2n(-460, 160), *m_TypingModule);
