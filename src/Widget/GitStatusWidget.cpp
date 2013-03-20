@@ -14,7 +14,7 @@ GitStatusWidget::GitStatusWidget(Vector2n Position, TypingModule & TypingModule,
 			std::string Folder = ParsePath(m_SourceWidget->Target()->GetPath(), 0);
 
 			auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
-			std::string Command = "cd " + Folder + "\ngit status";
+			std::string Command = "cd \"" + Folder + "\"\ngit status";
 			Shell->m_CommandWidget->SetContent(Command);
 			Shell->m_ExecuteWidget->GetAction()();
 			InOut = Shell->m_OutputWidget->GetContent();
