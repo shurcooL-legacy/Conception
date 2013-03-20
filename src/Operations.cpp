@@ -2,8 +2,8 @@
 
 bool IsFileTrackedByGit(std::string Path)
 {
-	std::string Folder = ParsePath(Path, 0);
-	std::string Filename = ParsePath(Path, 1);
+	const std::string Folder = ParsePath(Path, 0);
+	const std::string Filename = ParsePath(Path, 1);
 
 	auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
 	std::string Command = "cd \"" + Folder + "\"\ngit ls-files --error-unmatch -- \"" + Filename + "\" > /dev/null 2> /dev/null\necho -n $?";

@@ -77,6 +77,8 @@ void ConceptStringBoxWidget::SetupGestureRecognizer()
 void ConceptStringBoxWidget::ProcessTimePassed(const double TimePassed)
 {
 	SetupGestureRecognizer();
+
+	Widget::ProcessTimePassed(TimePassed);
 }
 
 void ConceptStringBoxWidget::Render()

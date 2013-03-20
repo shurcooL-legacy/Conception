@@ -129,4 +129,6 @@ void ProgramWidget::ProcessTimePassed(const double TimePassed)
 			}
 		}
 	}
+
+	FlowLayoutWidget::ProcessTimePassed(TimePassed);
 }

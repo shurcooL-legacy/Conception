@@ -16,6 +16,9 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		WriteToFile(Path, m_TextFieldWidget->GetContent());
 	};
 
+	const std::string Folder = ParsePath(Path, 0);
+	const std::string Filename = ParsePath(Path, 1);
+
 	// TEST: Line Gutters
 #if 0
 	//if ("./Gen/5086673/gistfile1.go" == Path)
@@ -26,8 +29,6 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		return std::to_string(LineNumber + 1);
 #endif
 		// HACK: Pass file folder and name info
-		std::string Folder = ParsePath(Path, 0);
-		std::string Filename = ParsePath(Path, 1);
 		if (0 == LineNumber)
 			return Folder;
 		else if (1 == LineNumber)
@@ -41,6 +42,20 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		auto GitDiff = new GitDiffWidget(Vector2n::ZERO, TypingModule, this);
 		GitDiff->RemoveAllBehaviors();
 		AddWidget(GitDiff);
+
+		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [=]() {
+																	auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
+																	std::string Command = "cd \"" + Folder + "\"\ngit commit --allow-empty-message -m '' -- \"" + Filename + "\"";
+																	Command += "\ngit push origin master";
+																	Shell->m_CommandWidget->SetContent(Command);
+																	Shell->m_ExecuteWidget->GetAction()();
+																	this->NotifyExternalChange();		// Do this to triger potential GitDiffWidget, GitStatusWidget, etc.
+
+																	//std::cerr << "Commit & Push: '" << Folder << "' folder and '" << Filename << "' file.\n";
+																	std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+																},
+																"Commit & Push");
+		AddWidget(GitCommit);
 	}
 }
 
@@ -73,7 +88,7 @@ void TextFileWidget::ProcessTimePassed(const double TimePassed)
 			m_TextFieldWidget->SetContent(NewContent);
 	}
 
-	CompositeWidget::ProcessTimePassed(TimePassed);
+	FlowLayoutWidget::ProcessTimePassed(TimePassed);
 }
 
 std::string TextFileWidget::GetPath() const

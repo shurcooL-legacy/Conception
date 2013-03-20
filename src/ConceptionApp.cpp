@@ -14,6 +14,16 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		//MainCanvas->MoveView(0, 336);
 		MainCanvas->MoveView(1, -64);
 
+#if 0
+		// DEBUG: Focus on one widget at a time
+		{
+			MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -300), "./GoLand/src/TestProgram.go", *m_TypingModule, m_CurrentProject));
+			m_Widgets.push_back(std::unique_ptr<Widget>(MainCanvas));
+			m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget(MainCanvas)));		// DEBUG: Print debug info
+			goto DebugSkipOtherWidgets;
+		}
+#endif
+
 #if 1
 		{
 			auto StdIncludesList = new ListWidget<ConceptId>(Vector2n::ZERO, m_CurrentProject.GetStdIncludes(), *m_TypingModule);
@@ -52,8 +62,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 #endif
 
 		MainCanvas->AddWidget(new ConceptStringBoxWidget(Vector2n(-400, 100 + 400), *m_TypingModule));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-100, -350), []() { std::cout << "Hi from anon func.\n"; } ));
-		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-60, -350), []() { std::cout << "Second button.\n"; } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-200, -350), []() { std::cout << "Hi from anon func.\n"; } ));
+		MainCanvas->AddWidget(new ButtonWidget(Vector2n(-160, -350), []() { std::cout << "Second button.\n"; }, "Button Label" ));
 		MainCanvas->AddWidget(new ToggleWidget(Vector2n(-20, -350), [](bool State) { std::cout << "Testing this toggle widget! It's now set to " << State << ".\n"; }, true));
 		MainCanvas->AddWidget(new TankWidget(Vector2n(40, -350)));
 		MainCanvas->AddWidget(new TankWidget(Vector2n(80, -350)));
@@ -194,8 +204,6 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(LabelWidget);
 		}*/
 
-		MainCanvas->AddWidget(new TimeWidget(Vector2n(360, -360)));		// Time widget
-
 #if 1
 		{
 			MainCanvas->AddWidget(new ListWidget<Concept *>(Vector2n(-730 - 450, -250), Concepts, *m_TypingModule));
@@ -209,6 +217,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		m_Widgets.push_back(std::unique_ptr<Widget>(new DebugOverlayWidget(MainCanvas)));		// DEBUG: Print debug info
 	}
 
+DebugSkipOtherWidgets:
 	// Prepare and start the thread
 	{
 		m_CurrentProject.StartBackgroundThread();

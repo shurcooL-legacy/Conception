@@ -123,4 +123,6 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 		ModifyPosition().X() = m_PositionD.X();
 		ModifyPosition().Y() = m_PositionD.Y();
 	}
+
+	Widget::ProcessTimePassed(TimePassed);
 }

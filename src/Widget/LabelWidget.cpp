@@ -1,15 +1,16 @@
 #include "../Main.h"
 
+LabelWidget::LabelWidget(const Vector2n Position, const std::string & Content, Background Background)
+	: LabelWidget(Position, [=]() { return Content; }, Background)
+{}
+
 LabelWidget::LabelWidget(const Vector2n Position, const std::function<std::string()> & Content, Background Background)
 	: Widget(Position, Vector2n::ZERO, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ }),
 	  m_Content(Content),
 	  m_Background(Background)
 {
-}
-
-LabelWidget::LabelWidget(const Vector2n Position, const std::string & Content, Background Background)
-	: LabelWidget(Position, [=]() { return Content; }, Background)
-{
+	// Calculate widget dimensions on init
+	ModifyDimensions() = Concept::GetDimensions(m_Content());
 }
 
 LabelWidget::~LabelWidget()

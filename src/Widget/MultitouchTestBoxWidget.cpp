@@ -156,4 +156,6 @@ void MultitouchTestBoxWidget::ProcessTimePassed(const double TimePassed)
 			}
 		}
 	}
+
+	Widget::ProcessTimePassed(TimePassed);
 }

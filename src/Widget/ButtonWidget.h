@@ -3,12 +3,13 @@
 #define __ButtonWidget_H__
 
 class ButtonWidget
-	: public Widget
+	: public CompositeWidget
 {
 public:
-	ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action);
+	ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action, std::string Label = "");
 	ButtonWidget(Vector2n Position, std::function<void()> Action)
 		: ButtonWidget(Position, Vector2n(30, 30), Action) {}
+	ButtonWidget(Vector2n Position, std::function<void()> Action, std::string Label);
 	~ButtonWidget();
 
 	void Render() override;

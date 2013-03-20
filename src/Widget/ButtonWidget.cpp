@@ -1,12 +1,24 @@
 #include "../Main.h"
 
-ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action)
-	: Widget(Position, Dimensions, { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }),
+ButtonWidget::ButtonWidget(Vector2n Position, std::function<void()> Action, std::string Label)
+	: ButtonWidget(Position, Vector2n::ZERO, Action, Label)
+{}
+
+ButtonWidget::ButtonWidget(Vector2n Position, Vector2n Dimensions, std::function<void()> Action, std::string Label)
+	: CompositeWidget(Position, Dimensions, { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ }, {}),
 	  m_Action(Action)
 {
 	assert(nullptr != m_Action);
 
 	//ModifyGestureRecognizer().m_RecognizeTap = true;
+
+	if (!Label.empty())
+	{
+		auto Offset = Vector2n(4, 2);
+		auto x = new LabelWidget(Offset, Label);
+		ModifyDimensions() = x->GetDimensions() + Offset * 2;
+		AddWidget(x);
+	}
 }
 
 ButtonWidget::~ButtonWidget()
@@ -39,6 +51,8 @@ void ButtonWidget::Render()
 	}
 
 	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
+
+	CompositeWidget::Render();
 }
 
 /*void ButtonWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
