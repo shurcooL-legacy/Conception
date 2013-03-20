@@ -16,7 +16,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 				int PipeFd[2];			// Pipe for reading from child's stdout+stderr
 				pipe(PipeFd);
 				fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
-				std::cout << "gofmt: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+				//std::cout << "gofmt: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
 
 				uint8 ProcessResult;
 
@@ -52,7 +52,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 							waitpid(Pid, &status, 0);
 							Pid = 0;
 
-							std::cout << "Child finished with status " << status << ".\n";
+							//std::cout << "Child finished with status " << status << ".\n";
 
 							ProcessResult = static_cast<uint8>(status >> 8);
 						}

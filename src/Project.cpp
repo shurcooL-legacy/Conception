@@ -352,14 +352,14 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 
 		// Clean up temporary files
 #if (defined(__APPLE__) && defined(__MACH__)) || defined(__linux)
-		system("rm ./GenProgram");		// TODO: Error check?
+		system("rm -f ./GenProgram");		// TODO: Error check?
 #endif
 
 		close(Project->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		pipe(Project->m_PipeFd);
 		fcntl(Project->m_PipeFd[0], F_SETFL, O_NONBLOCK);
-		std::cout << "opened " << Project->m_PipeFd[0] << " and " << Project->m_PipeFd[1] << ".\n";
+		//std::cout << "opened " << Project->m_PipeFd[0] << " and " << Project->m_PipeFd[1] << ".\n";
 
 		uint8 ProcessResult;
 
@@ -395,12 +395,12 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 			}
 			else
 			{
-				std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
+				//std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
 				//setpgrp();
 				setpgid(Project->m_LastPid, Project->m_LastPid);
-				std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
+				//std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
 
-				std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
+				//std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
 
 				//OutputWidget->SetBackground(Color(0.9, 0.9, 0.9));
 
@@ -410,7 +410,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 					waitpid(Project->m_LastPid, &status, 0);
 					Project->m_LastPid = 0;
 
-					std::cout << "Child finished with status " << status << ".\n";
+					//std::cout << "Child finished with status " << status << ".\n";
 
 					// If killed, just skip
 					if (   WIFSIGNALED(status)
@@ -485,12 +485,12 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 			}
 			else
 			{
-				std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
+				//std::cout << "Before: " << getpgid(Project->m_LastPid) << ".\n";
 				//setpgrp();
 				setpgid(Project->m_LastPid, Project->m_LastPid);
-				std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
+				//std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
 
-				std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
+				//std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
 
 				// Wait for child process to complete
 				{
@@ -498,7 +498,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 					waitpid(Project->m_LastPid, &status, 0);
 					Project->m_LastPid = 0;
 
-					std::cout << "Child finished with status " << status << ".\n";
+					//std::cout << "Child finished with status " << status << ".\n";
 
 					// If killed, just skip
 					if (   WIFSIGNALED(status)

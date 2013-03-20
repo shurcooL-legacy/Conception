@@ -17,7 +17,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 			// Kill child processes
 			if (0 != Project.m_LastPid)
 			{
-				std::cout << "Sending kill to last child pid " << Project.m_LastPid << ".\n";
+				//std::cout << "Sending kill to last child pid " << Project.m_LastPid << ".\n";
 				//auto Result = kill(0, SIGTERM);
 				auto Result = killpg(Project.m_LastPid, SIGKILL);
 				//waitpid(m_LastPid, NULL, 0);
@@ -28,7 +28,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 				}
 			}
 
-			std::cout << "Closing " << Project.m_PipeFd[0] << " and " << Project.m_PipeFd[1] << "; ";
+			//std::cout << "Closing " << Project.m_PipeFd[0] << " and " << Project.m_PipeFd[1] << "; ";
 			close(Project.m_PipeFd[0]);		// Close the read end of the pipe in the parent
 			Project.m_PipeFd[0] = Project.m_PipeFd[1] = -1;
 

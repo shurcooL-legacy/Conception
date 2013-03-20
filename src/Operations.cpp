@@ -37,7 +37,7 @@ std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletio
 			int PipeFd[2];
 			pipe(PipeFd);
 			fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
-			std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
+			//std::cout << "gocode: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
 
 			uint8 ProcessResult;
 
@@ -72,7 +72,7 @@ std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletio
 						waitpid(Pid, &status, 0);
 						Pid = 0;
 
-						std::cout << "Child finished with status " << status << ".\n";
+						//std::cout << "Child finished with status " << status << ".\n";
 
 						ProcessResult = static_cast<uint8>(status >> 8);
 					}
@@ -214,7 +214,7 @@ std::string Diff(const std::string & Content1, const std::string & Content2)
 					waitpid(Pid, &status, 0);
 					Pid = 0;
 
-					std::cout << "Child finished with status " << status << ".\n";
+					//std::cout << "Child finished with status " << status << ".\n";
 
 					ProcessResult = static_cast<uint8>(status >> 8);
 				}
@@ -317,7 +317,7 @@ void Gofmt(std::string & InOut)
 				waitpid(Pid, &status, 0);
 				Pid = 0;
 
-				std::cout << "Child finished with status " << status << ".\n";
+				//std::cout << "Child finished with status " << status << ".\n";
 
 				ProcessResult = static_cast<uint8>(status >> 8);
 			}
@@ -400,7 +400,7 @@ std::vector<std::string> Ls(std::string & InOut)
 					waitpid(Pid, &status, 0);
 					Pid = 0;
 
-					std::cout << "Child finished with status " << status << ".\n";
+					//std::cout << "Child finished with status " << status << ".\n";
 
 					ProcessResult = static_cast<uint8>(status >> 8);
 				}
