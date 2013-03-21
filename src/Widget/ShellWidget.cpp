@@ -2,6 +2,7 @@
 
 ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_CommandWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
+								   std::shared_ptr<Widget>(m_StdInWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
 								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("bash"), LabelWidget::Background::Normal)),
 								   //std::shared_ptr<Widget>(m_ExecuteWidget = new ButtonWidget(Vector2n::ZERO, Vector2n(16, 16), [&](){} )),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
@@ -14,7 +15,9 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 			std::string Output = "";
 			{
 				int PipeFd[2];			// Pipe for reading from child's stdout+stderr
+				int PipeInFd[2];		// Pipe for writing to child process stdin
 				pipe(PipeFd);
+				pipe(PipeInFd);
 				fcntl(PipeFd[0], F_SETFL, O_NONBLOCK);
 				//std::cout << "gofmt: Opened " << PipeFd[0] << " and " << PipeFd[1] << ".\n";
 
@@ -32,6 +35,10 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 
 						close(PipeFd[1]);    // this descriptor is no longer needed
 
+						close(PipeInFd[1]);    // close writing end in the child
+						dup2(PipeInFd[0], 0);  // get stdin from the pipe
+						close(PipeInFd[0]);    // this descriptor is no longer needed
+
 						putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
 						execl("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0);
 
@@ -46,6 +53,11 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 					}
 					else
 					{
+						// Write to child's stdin and end it
+						// TODO: Error check the write, perhaps need multiple tries to fully flush it
+						write(PipeInFd[1], m_StdInWidget->GetContent().c_str(), m_StdInWidget->GetContent().length());
+						close(PipeInFd[1]);
+
 						// Wait for child process to complete
 						{
 							int status;
@@ -82,6 +94,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 
 				close(PipeFd[0]);
 				close(PipeFd[1]);
+				close(PipeInFd[0]);
 			}
 
 			// Find clear code, make it do its job

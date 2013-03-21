@@ -1,5 +1,16 @@
 #include "Main.h"
 
+// Really stupid hardcoded method to parse Json for id field, enough to hold me over until Golang reimplementation
+const std::string ParseGistId(const std::string & JsonResponse)
+{
+	std::string FirstMarkerString = "\"id\": \"";
+	auto FirstMarker = JsonResponse.find(FirstMarkerString);
+	if (std::string::npos == FirstMarker) throw 0;
+	auto SecondMarker = JsonResponse.find('\"', FirstMarker + FirstMarkerString.length());
+	if (std::string::npos == SecondMarker) throw 0;
+	return JsonResponse.substr(FirstMarker + FirstMarkerString.length(), SecondMarker - (FirstMarker + FirstMarkerString.length()));
+}
+
 bool IsFileTrackedByGit(std::string Path)
 {
 	const std::string Folder = ParsePath(Path, 0);

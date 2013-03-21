@@ -16,6 +16,7 @@ private:
 // HACK that this is public?
 public:
 	TextFieldWidget * m_CommandWidget;
+	TextFieldWidget * m_StdInWidget;
 	ButtonWidget * m_ExecuteWidget;
 	TextFieldWidget * m_OutputWidget;
 };
