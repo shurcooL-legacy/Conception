@@ -67,6 +67,8 @@ public:
 
 	Color m_Foreground = Color::BLACK;
 
+	bool m_Private = false;
+
 protected:
 
 private:

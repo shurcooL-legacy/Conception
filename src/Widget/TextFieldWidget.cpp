@@ -118,6 +118,11 @@ void TextFieldWidget::Render()
 		}
 	}
 
+	// If this is a private field (e.g., for passwords), show all characters as asterisks
+	if (m_Private) {
+		ContentWithInsertion.assign(m_Content.length(), '*');
+	}
+
 	OpenGLStream OpenGLStream(GetPosition(), m_Foreground);
 	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
@@ -573,33 +578,39 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 					break;
 				case 'X':
 					{
-						if (SuperActive)
+						if (!m_Private)
 						{
-							if (!GetSelectionContent().empty())
+							if (SuperActive)
 							{
+								if (!GetSelectionContent().empty())
+								{
 #if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
-								glfwSetClipboardString(GetSelectionContent());
+									glfwSetClipboardString(GetSelectionContent());
 #else
-								m_TypingModule.SetString(GetSelectionContent());
+									m_TypingModule.SetString(GetSelectionContent());
 #endif
 
-								EraseSelectionIfAny();
-								UpdateContentLines();
+									EraseSelectionIfAny();
+									UpdateContentLines();
+								}
 							}
 						}
 					}
 					break;
 				case 'C':
 					{
-						if (SuperActive)
+						if (!m_Private)
 						{
-							if (!GetSelectionContent().empty())
+							if (SuperActive)
 							{
+								if (!GetSelectionContent().empty())
+								{
 #if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
-								glfwSetClipboardString(GetSelectionContent());
+									glfwSetClipboardString(GetSelectionContent());
 #else
-								m_TypingModule.SetString(GetSelectionContent());
+									m_TypingModule.SetString(GetSelectionContent());
 #endif
+								}
 							}
 						}
 					}
