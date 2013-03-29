@@ -155,6 +155,26 @@ void TextFieldWidget::Render()
 
 	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
 
+	//if (CheckHover())
+	// HACK
+	if (HasTypingFocus())
+	{
+		// Draw caret
+		//if (static_cast<int>(glfwGetTime() * 2) % 2)
+		{
+			glPushMatrix();
+			glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);
+			glColor3d(0, 0, 0);
+			glBegin(GL_QUADS);
+			glVertex2d(-1, 0);
+			glVertex2d(-1, lineHeight);
+			glVertex2d(+1, lineHeight);
+			glVertex2d(+1, 0);
+			glEnd();
+			glPopMatrix();
+		}
+	}
+
 	// TODO: Optimize by calling this function once and cache the results (instead of once per line which is pretty stupid)
 	// Render line annotations
 	if (nullptr != m_GetLineAnnotations)
@@ -227,27 +247,57 @@ void TextFieldWidget::Render()
 		}
 	}
 
-	//if (CheckHover())
-	// HACK
-	if (HasTypingFocus())
+	// Higher-level overview for zoomed out view
+	if (m_GolangHighlightHighLevel)
 	{
-		// Draw caret
-		//if (static_cast<int>(glfwGetTime() * 2) % 2)
+		double Alpha = 1;
+
 		{
-			glPushMatrix();
-			glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);
-			glColor3d(0, 0, 0);
-			glBegin(GL_QUADS);
-				glVertex2d(-1, 0);
-				glVertex2d(-1, lineHeight);
-				glVertex2d(+1, lineHeight);
-				glVertex2d(+1, 0);
-			glEnd();
-			glPopMatrix();
+			auto Zero = LocalToGlobal(Vector2n::ZERO);
+			auto One = LocalToGlobal(Vector2n(1000000000, 0));
+
+			auto Scale = (One.X() - Zero.X()) / 1000000000.0;
+
+			const double Slope = -1.0 / (0.5 - 0.25);
+			Alpha = Scale * Slope - (0.5 * Slope);
+			if (Alpha > 1) Alpha = 1;
+		}
+
+		if (Alpha > 0)
+		{
+			glColor4d(0, 0.5, 0, Alpha);
+
+			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); )
+			{
+				auto FuncLineNumber = FindLineThatStartsWith("func", LineNumber); if (m_ContentLines.size() == FuncLineNumber) break;
+				auto FuncEndLineNumber = FindLineThatStartsWith("}", FuncLineNumber); if (m_ContentLines.size() == FuncEndLineNumber) break;
+				std::string FuncLine = m_Content.substr(m_ContentLines[FuncLineNumber].m_StartPosition, m_ContentLines[FuncLineNumber].m_Length);
+
+				glPushMatrix();
+				{
+					double Scale = 8;//FuncEndLineNumber + 1 - FuncLineNumber;
+					glScaled(Scale, Scale, 1);
+					OglUtilsPrint(GetPosition().X() / Scale, GetPosition().Y() / Scale + (FuncLineNumber * lineHeight) / Scale, 0, LEFT, FuncLine.c_str());
+				}
+				glPopMatrix();
+
+				LineNumber = FuncEndLineNumber + 1;
+			}
 		}
 	}
 
 	CompositeWidget::Render();
+}
+
+uint32 TextFieldWidget::FindLineThatStartsWith(const std::string Target, const uint32 StartingPoint)
+{
+	for (uint32 LineNumber = StartingPoint; LineNumber < m_ContentLines.size(); ++LineNumber)
+	{
+		if (m_ContentLines[LineNumber].m_Length >= Target.length() && m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, Target.length()) == Target)
+			return LineNumber;
+	}
+
+	return static_cast<uint32>(m_ContentLines.size());
 }
 
 void TextFieldWidget::ProcessTap(const InputEvent & InputEvent, Vector2n Position)
@@ -908,14 +958,14 @@ uint32 TextFieldWidget::GetCaretPositionX(std::vector<ContentLine>::size_type Li
 	uint32 CaretPositionX = 0;
 
 	{
-		std::string Line = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, ColumnNumber);
+		std::string PartialLine = m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, ColumnNumber);
 
 		std::string::size_type Start = 0, End;
 		do
 		{
-			End = Line.find_first_of('\t', Start);
+			End = PartialLine.find_first_of('\t', Start);
 
-			auto Length = ((std::string::npos != End) ? End : Line.length()) - Start;
+			auto Length = ((std::string::npos != End) ? End : PartialLine.length()) - Start;
 			//PrintSegment(Line.substr(Start, Length));
 			CaretPositionX += Length * charWidth;
 			if (std::string::npos != End)

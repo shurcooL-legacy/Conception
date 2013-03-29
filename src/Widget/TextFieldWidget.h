@@ -39,6 +39,7 @@ public:
 	std::function<std::string(uint32)>										m_GetLineAnnotations = nullptr;
 	std::function<Color(uint32, const std::string &)>						m_GetLineHighlighting = nullptr;
 	std::function<std::string(uint32)>										m_GetLineGutters = nullptr;
+	bool																	m_GolangHighlightHighLevel = true;
 
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	~TextFieldWidget();
@@ -94,6 +95,7 @@ private:
 	std::vector<ContentLine>::size_type GetLineNumber() const;
 	const Vector2n GetCaretLocalPosition() const;
 	uint32 GetLeadingTabCount() const;
+	uint32 FindLineThatStartsWith(const std::string Target, const uint32 StartingPoint = 0);
 
 	static bool IsCoreCharacter(uint8 Character);
 };
