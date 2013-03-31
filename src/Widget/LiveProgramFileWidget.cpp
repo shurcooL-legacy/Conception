@@ -53,8 +53,9 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 	};
 
 	// Add Dependee connector to the source widget (for connecting text fields that the source widget depends on)
+	for (int i = 0; i < 3; ++i)
 	{
-		auto Dependee = new ConnectionWidget<TextFieldWidget>(Vector2n(-16 - 2, 0));
+		auto Dependee = new ConnectionWidget<TextFieldWidget>(Vector2n(-16 - 2, (16 + 2) * i));
 		// TODO: Should do NotifyExternalChange() as long as I don't expect the contents of this thing to actually depend on the dependee...
 		Dependee->m_OnChange = [=]() { m_SourceWidget->NotifyChange(); };
 		m_SourceWidget->AddWidget(Dependee);
