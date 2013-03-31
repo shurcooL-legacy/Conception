@@ -113,10 +113,13 @@ void InputManager::RequestTypingPointer(GestureRecognizer & Target)
 		m_TypingPointer->ModifyPointerMapping().DoneAdding();
 #else
 		m_TypingPointer->ModifyPointerMapping().RemoveAllMappings();
-		m_TypingPointer->ModifyPointerMapping().AddMapping(Target);
-		for (auto Parent = static_cast<Widget *>(&Target.GetOwner())->ModifyParent(); nullptr != Parent; Parent = Parent->ModifyParent())
+		if (nullptr != &Target)		// HACK: I should use pointer rather than reference (but too lazy to manually change all invokations...)
 		{
-			m_TypingPointer->ModifyPointerMapping().AddMapping(Parent->ModifyGestureRecognizer());
+			m_TypingPointer->ModifyPointerMapping().AddMapping(Target);
+			for (auto Parent = static_cast<Widget *>(&Target.GetOwner())->ModifyParent(); nullptr != Parent; Parent = Parent->ModifyParent())
+			{
+				m_TypingPointer->ModifyPointerMapping().AddMapping(Parent->ModifyGestureRecognizer());
+			}
 		}
 		m_TypingPointer->ModifyPointerMapping().DoneAdding();
 #endif

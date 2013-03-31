@@ -27,6 +27,8 @@ private:
 	// HACK, TODO: Keep this private by generalizing some interface so ConnectionWidget<TextFieldWidget> can accept TextFileWidget too
 	public:TextFieldWidget * m_TextFieldWidget;private:
 
+	ToggleWidget * m_FileMinimizeToggle;
+
 	std::string m_Path;
 };
 

@@ -1,9 +1,13 @@
 #include "../Main.h"
 
 TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule & TypingModule)
-	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(new LabelWidget(Vector2n(0, -lineHeight - 2), Path, LabelWidget::Background::Normal)),
-								   std::shared_ptr<Widget>(m_TextFieldWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) },
-								 { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }, FlowLayoutWidget::LayoutType::Vertical),
+	: FlowLayoutWidget(Position, {
+		std::shared_ptr<Widget>(new FlowLayoutWidget(Vector2n::ZERO, {
+			std::shared_ptr<Widget>(m_FileMinimizeToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [](bool State) { if (!State) g_InputManager->RequestTypingPointer(*static_cast<GestureRecognizer *>(nullptr)); }, true)),
+			std::shared_ptr<Widget>(new LabelWidget(Vector2n(0, -lineHeight - 2), Path, LabelWidget::Background::Normal))
+		}, {})),
+		std::shared_ptr<Widget>(m_TextFieldWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule))
+	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }, FlowLayoutWidget::LayoutType::Vertical),
 	  m_Path(Path)
 {
 	m_TextFieldWidget->SetContent(FromFileToString(Path));
@@ -44,19 +48,21 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		AddWidget(GitDiff);
 
 		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [=]() {
-																	auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
-																	std::string Command = "cd \'" + Folder + "\'\ngit commit --allow-empty-message -m '' -- \'" + Filename + "\'";
-																	Command += "\ngit push origin master";
-																	Shell->m_CommandWidget->SetContent(Command);
-																	Shell->m_ExecuteWidget->GetAction()();
-																	this->NotifyExternalChange();		// Do this to triger potential GitDiffWidget, GitStatusWidget, etc.
+				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
+				std::string Command = "cd \'" + Folder + "\'\ngit commit --allow-empty-message -m '' -- \'" + Filename + "\'";
+				Command += "\ngit push origin master";
+				Shell->m_CommandWidget->SetContent(Command);
+				Shell->m_ExecuteWidget->GetAction()();
+				this->NotifyExternalChange();		// Do this to triger potential GitDiffWidget, GitStatusWidget, etc.
 
-																	//std::cerr << "Commit & Push: '" << Folder << "' folder and '" << Filename << "' file.\n";
-																	std::cerr << Shell->m_OutputWidget->GetContent() << endl;
-																},
-																"Commit & Push");
+				//std::cerr << "Commit & Push: '" << Folder << "' folder and '" << Filename << "' file.\n";
+				std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+			},
+			"Commit & Push");
 		AddWidget(GitCommit);
 	}
+
+	m_TextFieldWidget->m_MinimizeToggle = m_FileMinimizeToggle;
 }
 
 TextFileWidget::~TextFileWidget()

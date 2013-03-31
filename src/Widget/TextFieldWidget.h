@@ -41,6 +41,8 @@ public:
 	std::function<std::string(uint32)>										m_GetLineGutters = nullptr;
 	bool																	m_GolangHighlightHighLevel = true;
 
+	const ToggleWidget * m_MinimizeToggle = nullptr;
+
 	TextFieldWidget(Vector2n Position, TypingModule & TypingModule);
 	~TextFieldWidget();
 
@@ -53,6 +55,8 @@ public:
 	void ProcessEvent(InputEvent & InputEvent) override;
 
 	void ProcessTimePassed(const double TimePassed) override;
+
+	const Vector2n GetDimensions() const override;
 
 	// TODO: Generalize this to all automate-able widgets?
 	void NotifyChange(bool OverrideLiveToggle = false);		// Called when this widget changes, to notify its connected widgets
@@ -96,6 +100,8 @@ private:
 	const Vector2n GetCaretLocalPosition() const;
 	uint32 GetLeadingTabCount() const;
 	uint32 FindLineThatStartsWith(const std::string Target, const uint32 StartingPoint = 0);
+
+	bool IsNotMinimized() const;
 
 	static bool IsCoreCharacter(uint8 Character);
 };

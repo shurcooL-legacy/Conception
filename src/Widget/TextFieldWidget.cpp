@@ -26,8 +26,16 @@ void TextFieldWidget::SetupGestureRecognizer()
 	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
 
 	// HACK: Recognize taps when unselected only; but this needs to be automated
-	ModifyGestureRecognizer().m_RecognizeTap = !HasTypingFocus();
-	ModifyGestureRecognizer().m_RecognizeDoubleTap = true;//HasTypingFocus();
+	ModifyGestureRecognizer().m_RecognizeTap =    !HasTypingFocus()
+											   && IsNotMinimized();
+	ModifyGestureRecognizer().m_RecognizeDoubleTap =    true//HasTypingFocus()
+													 && IsNotMinimized();
+}
+
+bool TextFieldWidget::IsNotMinimized() const
+{
+	return (   nullptr == m_MinimizeToggle
+			|| m_MinimizeToggle->GetState());
 }
 
 void TextFieldWidget::ProcessTimePassed(const double TimePassed)
@@ -35,6 +43,16 @@ void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 	SetupGestureRecognizer();
 
 	CompositeWidget::ProcessTimePassed(TimePassed);		// For DraggablePositionBehavior::ProcessTimePassed() to get called
+}
+
+const Vector2n TextFieldWidget::GetDimensions() const
+{
+	if (IsNotMinimized())
+		return CompositeWidget::GetDimensions();
+	else
+	{
+		return Vector2n(3 * charWidth, 1 * lineHeight);
+	}
 }
 
 void TextFieldWidget::Render()
@@ -76,215 +94,229 @@ void TextFieldWidget::Render()
 	glEnd();*/
 	DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
-	// TEST
-	auto ContentWithInsertion = m_Content;
-	if (!m_TypingModule.GetString().empty())
+	if (IsNotMinimized())
 	{
-		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		// TEST
+		auto ContentWithInsertion = m_Content;
+		if (!m_TypingModule.GetString().empty())
 		{
-			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			for (auto & Pointer : GetGestureRecognizer().GetConnected())
 			{
-				Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
-				Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
-				LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
+				if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+				{
+					Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+					Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+					LocalPosition = m_TypingModule.GetInsertionPosition(LocalPosition);
 
-				auto InsertionPosition = GetNearestCaretPosition(LocalPosition);
-				ContentWithInsertion.insert(InsertionPosition, m_TypingModule.GetString());
+					auto InsertionPosition = GetNearestCaretPosition(LocalPosition);
+					ContentWithInsertion.insert(InsertionPosition, m_TypingModule.GetString());
+				}
 			}
 		}
-	}
 // TEST: Disable temporarily so that m_Dependee will work
 #if 0
-	if (!GetWidgets().empty())
-	{
-		auto Autocompletion = static_cast<ContextMenuWidget<std::string> *>(GetWidgets()[0].get())->GetSelectedEntry();
-
-		if (nullptr != Autocompletion) {
-			ContentWithInsertion.insert(m_CaretPosition, *Autocompletion);
-		}
-	}
-#endif
-
-	// Render line highlighting
-	if (nullptr != m_GetLineHighlighting)
-	{
-		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber)
+		if (!GetWidgets().empty())
 		{
-			auto LineColor = m_GetLineHighlighting(LineNumber, m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length));
+			auto Autocompletion = static_cast<ContextMenuWidget<std::string> *>(GetWidgets()[0].get())->GetSelectedEntry();
 
-			if (Color::WHITE != LineColor) {
-				DrawBoxBorderless(GetPosition() + Vector2n(0, LineNumber * lineHeight), Vector2n(GetDimensions()[0], lineHeight), LineColor);
+			if (nullptr != Autocompletion) {
+				ContentWithInsertion.insert(m_CaretPosition, *Autocompletion);
 			}
 		}
-	}
+#endif
 
-	// If this is a private field (e.g., for passwords), show all characters as asterisks
-	if (m_Private) {
-		ContentWithInsertion.assign(m_Content.length(), '*');
-	}
+		// Render line highlighting
+		if (nullptr != m_GetLineHighlighting)
+		{
+			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber)
+			{
+				auto LineColor = m_GetLineHighlighting(LineNumber, m_Content.substr(m_ContentLines[LineNumber].m_StartPosition, m_ContentLines[LineNumber].m_Length));
 
-	OpenGLStream OpenGLStream(GetPosition(), m_Foreground);
-	OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
+				if (Color::WHITE != LineColor) {
+					DrawBoxBorderless(GetPosition() + Vector2n(0, LineNumber * lineHeight), Vector2n(GetDimensions()[0], lineHeight), LineColor);
+				}
+			}
+		}
 
-	Vector2n CaretPosition;
+		// If this is a private field (e.g., for passwords), show all characters as asterisks
+		if (m_Private) {
+			ContentWithInsertion.assign(m_Content.length(), '*');
+		}
 
-	// Remember caret position (selection front case)
-	if (std::min(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
-	{
-		CaretPosition = OpenGLStream.GetCaretPosition();
-	}
+		OpenGLStream OpenGLStream(GetPosition(), m_Foreground);
+		OpenGLStream << ContentWithInsertion.substr(0, std::min(m_CaretPosition, m_SelectionPosition));
 
-	// Draw selected text as highlighted
-	if (HasTypingFocus())
-	{
-		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(195), 212, 242));
+		Vector2n CaretPosition;
+
+		// Remember caret position (selection front case)
+		if (std::min(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
+		{
+			CaretPosition = OpenGLStream.GetCaretPosition();
+		}
+
+		// Draw selected text as highlighted
+		if (HasTypingFocus())
+		{
+			OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(195), 212, 242));
+		}
+		else
+		{
+			OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(240), 240, 240));
+		}
+		auto SelectionLength = GetSelectionLength();
+		OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
+		OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
+
+		// Remember caret position (selection back case)
+		if (std::max(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
+		{
+			CaretPosition = OpenGLStream.GetCaretPosition();
+		}
+
+		OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
+
+		//if (CheckHover())
+		// HACK
+		if (HasTypingFocus())
+		{
+			// Draw caret
+			//if (static_cast<int>(glfwGetTime() * 2) % 2)
+			{
+				glPushMatrix();
+				glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);
+				glColor3d(0, 0, 0);
+				glBegin(GL_QUADS);
+				glVertex2d(-1, 0);
+				glVertex2d(-1, lineHeight);
+				glVertex2d(+1, lineHeight);
+				glVertex2d(+1, 0);
+				glEnd();
+				glPopMatrix();
+			}
+		}
+
+		// TODO: Optimize by calling this function once and cache the results (instead of once per line which is pretty stupid)
+		// Render line annotations
+		if (nullptr != m_GetLineAnnotations)
+		{
+			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+				auto ExpandedLength = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length) / charWidth;
+				class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
+				OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
+				OpenGLStream << m_GetLineAnnotations(LineNumber);
+			}
+		}
+
+		// TODO: Optimize by calling this function once and cache the results (instead of once per line which is really stupid)
+		// Render line gutters
+		if (nullptr != m_GetLineGutters)
+		{
+			/*for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+				auto LineGutter = m_GetLineGutters(LineNumber);
+				class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - Concept::GetDimensions(LineGutter).X(), LineNumber * lineHeight));
+				OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
+				OpenGLStream << LineGutter;
+			}*/
+
+			auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, m_TypingModule));
+
+			// HACK: Use m_GetLineGutters to get the path
+			std::string Command = "cd \'" + m_GetLineGutters(0) + "\'\ngit diff --no-ext-diff -U0 -- " + m_GetLineGutters(1) + " | grep -e \'^@@ \'";
+
+			Shell->m_CommandWidget->SetContent(Command);
+			Shell->m_ExecuteWidget->GetAction()();
+			auto DiffOut = Shell->m_OutputWidget->GetContent();
+			TrimLastNewline(DiffOut);
+
+			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+				class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - charWidth, LineNumber * lineHeight));
+				OpenGLStream.SetBackgroundColor(Color(0.9, 1, 0.9));
+
+				// Go through each line
+				// TODO: Clean up
+				{
+					std::stringstream ss;
+					ss << DiffOut;
+					std::string Line;
+
+					for (;;)
+					{
+						std::getline(ss, Line);
+
+						// Parse one go error line
+						try
+						{
+							std::string OneChanged = "@@ -" + std::to_string(LineNumber + 1) + " +" + std::to_string(LineNumber + 1) + " @@";
+							std::string OneAdded = "@@ -" + std::to_string(LineNumber + 0) + ",0 +" + std::to_string(LineNumber + 1) + " @@";
+
+							if (Line.substr(0, OneChanged.length()) == OneChanged) {
+								OpenGLStream << " ";
+								DrawCircle(OpenGLStream.GetCaretPosition() + Vector2n(-charWidth, lineHeight) / 2, Vector2n(6, 4), Color::BLACK, Color::BLACK);
+								break;
+							} else if (Line.substr(0, OneAdded.length()) == OneAdded) {
+								OpenGLStream << "+";
+								break;
+							}
+						}
+						catch (...) {}
+
+						if (ss.eof())
+							break;
+					}
+				}
+			}
+		}
+
+		// High-level overview for zoomed out view
+		if (m_GolangHighlightHighLevel)
+		{
+			double Alpha = 1;
+
+			{
+				auto Zero = LocalToGlobal(Vector2n::ZERO);
+				auto One = LocalToGlobal(Vector2n(1000, 0));
+				double Scale = (One.X() - Zero.X()) / 1000.0;
+
+				const double Slope = -1.0 / (0.5 - 0.25);
+				Alpha = Scale * Slope - (0.5 * Slope);
+				if (Alpha > 1) Alpha = 1;
+			}
+
+			if (Alpha > 0)
+			{
+				glColor4d(0, 0.5, 0, Alpha);
+
+				for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); )
+				{
+					auto FuncLineNumber = FindLineThatStartsWith("func", LineNumber); if (m_ContentLines.size() == FuncLineNumber) break;
+					auto FuncEndLineNumber = FindLineThatStartsWith("}", FuncLineNumber); if (m_ContentLines.size() == FuncEndLineNumber) break;
+					std::string FuncLine = m_Content.substr(m_ContentLines[FuncLineNumber].m_StartPosition, m_ContentLines[FuncLineNumber].m_Length);
+
+					glPushMatrix();
+					{
+						double Scale = 8;//FuncEndLineNumber + 1 - FuncLineNumber;
+						glScaled(Scale, Scale, 1);
+						OglUtilsPrint(GetPosition().X() / Scale, GetPosition().Y() / Scale + (FuncLineNumber * lineHeight) / Scale, 0, LEFT, FuncLine.c_str());
+					}
+					glPopMatrix();
+
+					LineNumber = FuncEndLineNumber + 1;
+				}
+			}
+		}
 	}
 	else
 	{
-		OpenGLStream.SetBackgroundColor(Color(static_cast<uint8>(240), 240, 240));
-	}
-	auto SelectionLength = GetSelectionLength();
-	OpenGLStream << ContentWithInsertion.substr(std::min(m_CaretPosition, m_SelectionPosition), SelectionLength);
-	OpenGLStream.SetBackgroundColor(Color(1.0, 1.0, 1.0));
-
-	// Remember caret position (selection back case)
-	if (std::max(m_CaretPosition, m_SelectionPosition) == m_CaretPosition)
-	{
-		CaretPosition = OpenGLStream.GetCaretPosition();
+		OpenGLStream OpenGLStream(GetPosition(), Color(0.5, 0.5, 0.5));
+		OpenGLStream << "...";
 	}
 
-	OpenGLStream << ContentWithInsertion.substr(std::max(m_CaretPosition, m_SelectionPosition));
-
-	//if (CheckHover())
-	// HACK
-	if (HasTypingFocus())
-	{
-		// Draw caret
-		//if (static_cast<int>(glfwGetTime() * 2) % 2)
-		{
-			glPushMatrix();
-			glTranslated(CaretPosition.X(), CaretPosition.Y(), 0);
-			glColor3d(0, 0, 0);
-			glBegin(GL_QUADS);
-			glVertex2d(-1, 0);
-			glVertex2d(-1, lineHeight);
-			glVertex2d(+1, lineHeight);
-			glVertex2d(+1, 0);
-			glEnd();
-			glPopMatrix();
-		}
-	}
-
-	// TODO: Optimize by calling this function once and cache the results (instead of once per line which is pretty stupid)
-	// Render line annotations
-	if (nullptr != m_GetLineAnnotations)
-	{
-		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
-			auto ExpandedLength = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length) / charWidth;
-			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
-			OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
-			OpenGLStream << m_GetLineAnnotations(LineNumber);
-		}
-	}
-
-	// TODO: Optimize by calling this function once and cache the results (instead of once per line which is really stupid)
-	// Render line gutters
-	if (nullptr != m_GetLineGutters)
-	{
-		/*for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
-			auto LineGutter = m_GetLineGutters(LineNumber);
-			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - Concept::GetDimensions(LineGutter).X(), LineNumber * lineHeight));
-			OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
-			OpenGLStream << LineGutter;
-		}*/
-
-		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, m_TypingModule));
-
-		// HACK: Use m_GetLineGutters to get the path
-		std::string Command = "cd \'" + m_GetLineGutters(0) + "\'\ngit diff --no-ext-diff -U0 -- " + m_GetLineGutters(1) + " | grep -e \'^@@ \'";
-
-		Shell->m_CommandWidget->SetContent(Command);
-		Shell->m_ExecuteWidget->GetAction()();
-		auto DiffOut = Shell->m_OutputWidget->GetContent();
-		TrimLastNewline(DiffOut);
-
-		for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
-			class OpenGLStream OpenGLStream(GetPosition() + Vector2n(-1 - charWidth, LineNumber * lineHeight));
-			OpenGLStream.SetBackgroundColor(Color(0.9, 1, 0.9));
-
-			// Go through each line
-			// TODO: Clean up
-			{
-				std::stringstream ss;
-				ss << DiffOut;
-				std::string Line;
-
-				for (;;)
-				{
-					std::getline(ss, Line);
-
-					// Parse one go error line
-					try
-					{
-						std::string OneChanged = "@@ -" + std::to_string(LineNumber + 1) + " +" + std::to_string(LineNumber + 1) + " @@";
-						std::string OneAdded = "@@ -" + std::to_string(LineNumber + 0) + ",0 +" + std::to_string(LineNumber + 1) + " @@";
-
-						if (Line.substr(0, OneChanged.length()) == OneChanged) {
-							OpenGLStream << " ";
-							DrawCircle(OpenGLStream.GetCaretPosition() + Vector2n(-charWidth, lineHeight) / 2, Vector2n(6, 4), Color::BLACK, Color::BLACK);
-							break;
-						} else if (Line.substr(0, OneAdded.length()) == OneAdded) {
-							OpenGLStream << "+";
-							break;
-						}
-					}
-					catch (...) {}
-
-					if (ss.eof())
-						break;
-				}
-			}
-		}
-	}
-
-	// Higher-level overview for zoomed out view
-	if (m_GolangHighlightHighLevel)
-	{
-		double Alpha = 1;
-
-		{
-			auto Zero = LocalToGlobal(Vector2n::ZERO);
-			auto One = LocalToGlobal(Vector2n(1000000000, 0));
-
-			auto Scale = (One.X() - Zero.X()) / 1000000000.0;
-
-			const double Slope = -1.0 / (0.5 - 0.25);
-			Alpha = Scale * Slope - (0.5 * Slope);
-			if (Alpha > 1) Alpha = 1;
-		}
-
-		if (Alpha > 0)
-		{
-			glColor4d(0, 0.5, 0, Alpha);
-
-			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); )
-			{
-				auto FuncLineNumber = FindLineThatStartsWith("func", LineNumber); if (m_ContentLines.size() == FuncLineNumber) break;
-				auto FuncEndLineNumber = FindLineThatStartsWith("}", FuncLineNumber); if (m_ContentLines.size() == FuncEndLineNumber) break;
-				std::string FuncLine = m_Content.substr(m_ContentLines[FuncLineNumber].m_StartPosition, m_ContentLines[FuncLineNumber].m_Length);
-
-				glPushMatrix();
-				{
-					double Scale = 8;//FuncEndLineNumber + 1 - FuncLineNumber;
-					glScaled(Scale, Scale, 1);
-					OglUtilsPrint(GetPosition().X() / Scale, GetPosition().Y() / Scale + (FuncLineNumber * lineHeight) / Scale, 0, LEFT, FuncLine.c_str());
-				}
-				glPopMatrix();
-
-				LineNumber = FuncEndLineNumber + 1;
-			}
-		}
-	}
+	// HACK: Should create a system for this to be done automatically
+	// Position toggle in the top right corner
+	/*if (nullptr != m_MinimizeToggle) {
+		m_MinimizeToggle->ModifyPosition().X() = 0;		// This is needed so the next CompositeWidget::GetDimensions() isn't affected by this widget
+		m_MinimizeToggle->ModifyPosition().X() = GetDimensions().X() - m_MinimizeToggle->GetDimensions().X();
+	}*/
 
 	CompositeWidget::Render();
 }
@@ -351,6 +383,10 @@ void TextFieldWidget::ProcessDoubleTap(const InputEvent & InputEvent, Vector2n P
 
 void TextFieldWidget::ProcessCharacter(InputEvent & InputEvent, const uint32 Character)
 {
+	// TEST: If minimized, don't handle editing events
+	if (!IsNotMinimized())
+		return;
+
 	if (Character < 128u)
 	{
 		EraseSelectionIfAny();
@@ -459,6 +495,10 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 	{
 		return;
 	}*/
+
+	// TEST: If minimized, don't handle editing events
+	if (!IsNotMinimized())
+		return;
 
 	auto SelectionLength = GetSelectionLength();
 
