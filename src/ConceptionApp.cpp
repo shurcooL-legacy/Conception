@@ -170,7 +170,7 @@ std::cerr << Command << endl;
 		}
 
 		// Folder Listing
-		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "", *MainCanvas, *m_TypingModule);
+		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "..", *MainCanvas, *m_TypingModule);
 		//auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "/Users/Dmitri/Desktop/goproj_play", *MainCanvas, *m_TypingModule);
 		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));
 		MainCanvas->AddWidget(FolderListing);
