@@ -53,9 +53,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				}
 			};
 
-			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("#include <"), LabelWidget::Background::None)),
-																						std::shared_ptr<Widget>(StdIncludesList),
-																						std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string(">"), LabelWidget::Background::None)) }, {});
+			auto LabelledStdIncludesList = new FlowLayoutWidget(Vector2n(-280, -250), {
+				std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("#include <"), LabelWidget::Background::None)),
+				std::shared_ptr<Widget>(StdIncludesList),
+				std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string(">"), LabelWidget::Background::None))
+			}, {});
 			LabelledStdIncludesList->AddBehavior(new DraggablePositionBehavior(*LabelledStdIncludesList));
 			MainCanvas->AddWidget(LabelledStdIncludesList);
 		}
@@ -141,7 +143,10 @@ std::cerr << Command << endl;
 			};
 			auto Label = new class LabelWidget(Vector2n(16, 0), Content, LabelWidget::Background::Normal);
 
-			auto FlowLayout = new FlowLayoutWidget(Vector2n(0, 0), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Blah blah"))), std::shared_ptr<Widget>(Connection), std::shared_ptr<Widget>(Label) }, {});
+			auto FlowLayout = new FlowLayoutWidget(Vector2n(0, 0), {
+				std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Blah blah"))), std::shared_ptr<Widget>(Connection),
+				std::shared_ptr<Widget>(Label)
+			}, {});
 			FlowLayout->AddBehavior(new DraggablePositionBehavior(*FlowLayout));
 			MainCanvas->AddWidget(FlowLayout);
 		}
@@ -181,7 +186,11 @@ std::cerr << Command << endl;
 			auto s2 = new TextFieldWidget(Vector2n(-620, 340+lineHeight+2), *m_TypingModule);
 			auto o = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
 			ConnectionWidget<TextFieldWidget> * c1, * c2;
-			auto oc = new FlowLayoutWidget(Vector2n(-560, 340), { std::shared_ptr<Widget>(c1 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s1)), std::shared_ptr<Widget>(c2 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s2)), std::shared_ptr<Widget>(o) }, {});
+			auto oc = new FlowLayoutWidget(Vector2n(-560, 340), {
+				std::shared_ptr<Widget>(c1 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s1)),
+				std::shared_ptr<Widget>(c2 = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, s2)),
+				std::shared_ptr<Widget>(o)
+			}, {});
 
 			auto R = [=]() {
 				if (c1->Target() && c2->Target())
@@ -220,7 +229,10 @@ std::cerr << Command << endl;
 			};
 			auto LabelWidget = new class LabelWidget(Vector2n::ZERO, Content, LabelWidget::Background::Normal);
 
-			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), { std::shared_ptr<Widget>(SourceWidget), std::shared_ptr<Widget>(LabelWidget) }, {}));
+			MainCanvas->AddWidget(new FlowLayoutWidget(Vector2n(-100, -450), {
+				std::shared_ptr<Widget>(SourceWidget),
+				std::shared_ptr<Widget>(LabelWidget)
+			}, {}));
 		}
 
 		// Time widget

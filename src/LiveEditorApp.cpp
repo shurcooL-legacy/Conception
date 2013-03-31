@@ -18,7 +18,10 @@ LiveEditorApp::LiveEditorApp(InputManager & InputManager)
 
 			// Auto compile toggle
 			{
-				Toolbar->AddWidget(new FlowLayoutWidget(Vector2n(1, 1), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State) { if (State) { m_SourceWidget->m_OnChange(); } }, true)), std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Live Compilation & Execution"))) }, {} ));
+				Toolbar->AddWidget(new FlowLayoutWidget(Vector2n(1, 1), {
+					std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, [&](bool State) { if (State) { m_SourceWidget->m_OnChange(); } }, true)),
+					std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Live Compilation & Execution")))
+				}, {}));
 				//m_LiveToggle->UpdateHACK();
 			}
 

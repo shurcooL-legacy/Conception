@@ -3,10 +3,11 @@
 LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
 	: CompositeWidget(Position, {
 		std::shared_ptr<Widget>(m_ToggleWidget = new ToggleWidget(Vector2n(-1, -18), [=](bool State) { m_LiveProgramWidget->m_SourceWidget->m_Visible = State; }, true)),
-		std::shared_ptr<Widget>(new FlowLayoutWidget(Vector2n::ZERO, { std::shared_ptr<Widget>(m_InputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
-								   std::shared_ptr<Widget>(m_LiveProgramWidget = new LiveProgramWidget(Vector2n::ZERO, TypingModule, Project)) }, { }))
-
+		std::shared_ptr<Widget>(new FlowLayoutWidget(Vector2n::ZERO, {
+			std::shared_ptr<Widget>(m_InputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
+			std::shared_ptr<Widget>(m_SourceWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
+			std::shared_ptr<Widget>(m_LiveProgramWidget = new LiveProgramWidget(Vector2n::ZERO, TypingModule, Project))
+		}, {}))
 	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) })
 {
 	m_LiveProgramWidget->RemoveAllBehaviors();
@@ -50,9 +51,11 @@ LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingM
 			}
 		};
 
-		auto LabelledImportList = new FlowLayoutWidget(Vector2n(-280, -100), { std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("import (\""), LabelWidget::Background::None)),
-																			   std::shared_ptr<Widget>(ImportList),
-																			   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("\")"), LabelWidget::Background::None)) }, {});
+		auto LabelledImportList = new FlowLayoutWidget(Vector2n(-280, -100), {
+			std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("import (\""), LabelWidget::Background::None)),
+			std::shared_ptr<Widget>(ImportList),
+			std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("\")"), LabelWidget::Background::None))
+		}, {});
 		static_cast<FlowLayoutWidget *>(GetWidgets()[1].get())->AddWidget(LabelledImportList);
 	}
 }
