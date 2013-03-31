@@ -241,21 +241,21 @@ void CanvasWidget::ProcessTimePassed(const double TimePassed)
 			{
 				if (PointerState.GetButtonState(GLFW_KEY_LEFT) && !PointerState.GetButtonState(GLFW_KEY_RIGHT))
 				{
-					MoveView(0, -SpeedMultiplier * TimePassed);
+					MoveView(0, SpeedMultiplier * TimePassed);
 				}
 				else if (PointerState.GetButtonState(GLFW_KEY_RIGHT) && !PointerState.GetButtonState(GLFW_KEY_LEFT))
 				{
-					MoveView(0, SpeedMultiplier * TimePassed);
+					MoveView(0, -SpeedMultiplier * TimePassed);
 				}
 			}
 
 			if (PointerState.GetButtonState(GLFW_KEY_UP) && !PointerState.GetButtonState(GLFW_KEY_DOWN))
 			{
-				MoveView(1, -SpeedMultiplier * TimePassed);
+				MoveView(1, SpeedMultiplier * TimePassed);
 			}
 			else if (PointerState.GetButtonState(GLFW_KEY_DOWN) && !PointerState.GetButtonState(GLFW_KEY_UP))
 			{
-				MoveView(1, SpeedMultiplier * TimePassed);
+				MoveView(1, -SpeedMultiplier * TimePassed);
 			}
 		}
 	}
