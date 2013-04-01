@@ -10,6 +10,8 @@ TODO so that Conception can be implemented within Conception:
 
 #include "Main.h"
 
+std::string g_GoPath;
+
 #ifdef WIN32
 namespace std
 {
@@ -59,6 +61,20 @@ int main(int argc, char * argv[])
 
 
 
+	// Initialize the value of GoPath
+	{
+		g_GoPath = "GOPATH=";
+		// Get current working directory
+		{
+			auto cwd = getcwd(nullptr, 0);
+			if (nullptr != cwd) {
+				//printf("Using cwd = >%s<\n", cwd);
+				g_GoPath += cwd;
+				free(cwd);
+			}
+		}
+		g_GoPath += "/GoLand";
+	}
 
 	glfwInit();
 	// Verify the GLFW library and header versions match
