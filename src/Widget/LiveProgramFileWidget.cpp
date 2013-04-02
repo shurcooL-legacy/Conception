@@ -1,9 +1,11 @@
 #include "../Main.h"
 
 LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path, TypingModule & TypingModule, Project & Project)
-	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceFileWidget = new TextFileWidget(Vector2n::ZERO, Path, TypingModule)),
-								   std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceFileWidget->m_TextFieldWidget)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
-	  m_SourceWidget(m_SourceFileWidget->m_TextFieldWidget)
+  : FlowLayoutWidget(Position, {
+		std::shared_ptr<Widget>(m_SourceFileWidget = new TextFileWidget(Vector2n::ZERO, Path, TypingModule)),
+		std::shared_ptr<Widget>(m_ProgramWidget = new ProgramWidget(Vector2n::ZERO, TypingModule, Project, m_SourceFileWidget->m_TextFieldWidget))
+	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
+	m_SourceWidget(m_SourceFileWidget->m_TextFieldWidget)
 {
 	m_SourceFileWidget->RemoveAllBehaviors();
 	m_ProgramWidget->RemoveAllBehaviors();

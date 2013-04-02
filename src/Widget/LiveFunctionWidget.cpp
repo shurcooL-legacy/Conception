@@ -1,7 +1,7 @@
 #include "../Main.h"
 
 LiveFunctionWidget::LiveFunctionWidget(Vector2n Position, TypingModule & TypingModule, Project & Project)
-	: CompositeWidget(Position, {
+  : CompositeWidget(Position, {
 		std::shared_ptr<Widget>(m_ToggleWidget = new ToggleWidget(Vector2n(-1, -18), [=](bool State) { m_LiveProgramWidget->m_SourceWidget->m_Visible = State; }, true)),
 		std::shared_ptr<Widget>(new FlowLayoutWidget(Vector2n::ZERO, {
 			std::shared_ptr<Widget>(m_InputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)),
