@@ -11,6 +11,7 @@
 		2A0D47CC1635B10000C7DD67 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CA1635B10000C7DD67 /* Behavior.cpp */; };
 		2A0D47CF1635DF0600C7DD67 /* DraggablePositionBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A0D47CD1635DF0600C7DD67 /* DraggablePositionBehavior.cpp */; };
 		2A140B8B16D2F9AB0015B9A1 /* TankWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A140B8916D2F9AB0015B9A1 /* TankWidget.cpp */; };
+		2A148144170A5B8E0015E99A /* GodocWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A148142170A5B8E0015E99A /* GodocWidget.cpp */; };
 		2A1CCA7B16D04E2D002F839E /* GofmtWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */; };
 		2A2084D81624822C00AE524C /* LiveEditorApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A2084D5162480D900AE524C /* LiveEditorApp.cpp */; };
 		2A21998C15C8857100867486 /* SentienceApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A21998A15C8857100867486 /* SentienceApp.cpp */; };
@@ -122,6 +123,8 @@
 		2A0D47CE1635DF0600C7DD67 /* DraggablePositionBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DraggablePositionBehavior.h; path = src/Behavior/DraggablePositionBehavior.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2A140B8916D2F9AB0015B9A1 /* TankWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TankWidget.cpp; sourceTree = "<group>"; };
 		2A140B8A16D2F9AB0015B9A1 /* TankWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TankWidget.h; sourceTree = "<group>"; };
+		2A148142170A5B8E0015E99A /* GodocWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GodocWidget.cpp; sourceTree = "<group>"; };
+		2A148143170A5B8E0015E99A /* GodocWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GodocWidget.h; sourceTree = "<group>"; };
 		2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GofmtWidget.cpp; sourceTree = "<group>"; };
 		2A1CCA7A16D04E2D002F839E /* GofmtWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GofmtWidget.h; sourceTree = "<group>"; };
 		2A2084D5162480D900AE524C /* LiveEditorApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = LiveEditorApp.cpp; path = src/LiveEditorApp.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -404,6 +407,8 @@
 				2A9D4D9216F536FA00CB14DD /* GitFileWidget.h */,
 				2AC9F4D816EE5AA200C2AAC8 /* GitStatusWidget.cpp */,
 				2AC9F4D916EE5AA200C2AAC8 /* GitStatusWidget.h */,
+				2A148142170A5B8E0015E99A /* GodocWidget.cpp */,
+				2A148143170A5B8E0015E99A /* GodocWidget.h */,
 				2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */,
 				2A1CCA7A16D04E2D002F839E /* GofmtWidget.h */,
 				2ABE46811673CBBE0010923C /* LabelWidget.cpp */,
@@ -714,6 +719,7 @@
 				2AC9F4DA16EE5AA200C2AAC8 /* GitStatusWidget.cpp in Sources */,
 				2AC9F4DD16EE6D0A00C2AAC8 /* GitDiffWidget.cpp in Sources */,
 				2A9D4D9316F536FA00CB14DD /* GitFileWidget.cpp in Sources */,
+				2A148144170A5B8E0015E99A /* GodocWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

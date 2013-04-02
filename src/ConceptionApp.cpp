@@ -75,12 +75,25 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new LiveCodeWidget(Vector2n(-100, 220), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-220, -300), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-220, -100), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -100), "./GoLand/src/TestProgram2.go", *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -300), "./GoLand/src/TestProgram.go", *m_TypingModule, m_CurrentProject));
+		//MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -100), "./GoLand/src/TestProgram2.go", *m_TypingModule, m_CurrentProject));
+		//MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -300), "./GoLand/src/TestProgram.go", *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-460, -100), *m_TypingModule));
 		MainCanvas->AddWidget(new GitStatusWidget(Vector2n(-380, 280), *m_TypingModule));
 		MainCanvas->AddWidget(new GitDiffWidget(Vector2n(-380, 300), *m_TypingModule));
+
+		{
+			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			auto GodocWidget = new class GodocWidget(Vector2n::ZERO, *m_TypingModule, SourceWidget);
+			GodocWidget->RemoveAllBehaviors();
+
+			auto LiveGodocWidget = new FlowLayoutWidget(Vector2n(400, -400), {
+				std::shared_ptr<Widget>(SourceWidget),
+				std::shared_ptr<Widget>(GodocWidget)
+			}, {});
+			LiveGodocWidget->AddBehavior(new DraggablePositionBehavior(*LiveGodocWidget));
+			MainCanvas->AddWidget(LiveGodocWidget);
+		}
 
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});

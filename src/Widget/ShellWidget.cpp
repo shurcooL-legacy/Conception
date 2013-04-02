@@ -41,7 +41,8 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 
 						putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
 						putenv(const_cast<char *>(g_GoPath.c_str()));		// HACK: Const cast
-						/* TODO: Add go/bin to $PATH */
+						// HACK: Add go/bin to $PATH by hardcoding the whole PATH for OS X
+						putenv(const_cast<char *>("PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/go/bin"));
 						execl("/bin/bash", "/bin/bash", "-c", m_CommandWidget->GetContent().c_str(), (char *)0);
 
 						// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
