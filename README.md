@@ -23,28 +23,30 @@ Screenshots
 -----------
 These WIP screenshots present a partial outlook into the things I'm prototyping.
 
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/2013-04-02_1406%20Godoc%20Widget.png)
+
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-19%202144%20Diff%20and%20Connections.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/videos/LiveCodeWidget.gif)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/2013-03-20_2356%20First%20Gist%20Created%20%26%20Cloned%20from%20Conception.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Two%20Programs.png)
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-24%201302%20Second-order%20Diff.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-27_1926%20TDD%20Workflow.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Screen%20Shot%202012-10-17%20at%201.43.55%20PM.png)
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Two%20Programs.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/List%201.png)
-
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Go%20Live%20Editor%201.png)
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-29_0134%20High%20level%20highlighting%20for%20zoomed%20out%20view.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-03_0113%20Inline%20Errors.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Autocompletions%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-29_0134%20High%20level%20highlighting%20for%20zoomed%20out%20view.png)
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Go%20Live%20Editor%201.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Scrolling%20Motion%20Blur%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-24%201302%20Second-order%20Diff.png)
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/List%201.png)
+
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Screen%20Shot%202012-10-17%20at%201.43.55%20PM.png)
