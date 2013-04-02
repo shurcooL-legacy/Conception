@@ -288,19 +288,20 @@ void TextFieldWidget::Render()
 
 				for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); )
 				{
-					auto FuncLineNumber = FindLineThatStartsWith("func", LineNumber); if (m_ContentLines.size() == FuncLineNumber) break;
-					auto FuncEndLineNumber = FindLineThatStartsWith("}", FuncLineNumber); if (m_ContentLines.size() == FuncEndLineNumber) break;
+					const std::string FuncStartSignature = "func ";
+					auto FuncLineNumber = FindLineThatStartsWith(FuncStartSignature, LineNumber); if (m_ContentLines.size() == FuncLineNumber) break;
+					//auto FuncEndLineNumber = FindLineThatStartsWith("}", FuncLineNumber); if (m_ContentLines.size() == FuncEndLineNumber) break;
 					std::string FuncLine = m_Content.substr(m_ContentLines[FuncLineNumber].m_StartPosition, m_ContentLines[FuncLineNumber].m_Length);
 
 					glPushMatrix();
 					{
 						double Scale = 8;//FuncEndLineNumber + 1 - FuncLineNumber;
 						glScaled(Scale, Scale, 1);
-						OglUtilsPrint(GetPosition().X() / Scale, GetPosition().Y() / Scale + (FuncLineNumber * lineHeight) / Scale, 0, LEFT, FuncLine.c_str());
+						OglUtilsPrint(GetPosition().X() / Scale, GetPosition().Y() / Scale + (FuncLineNumber * lineHeight) / Scale, 0, LEFT, FuncLine.c_str() + FuncStartSignature.length());
 					}
 					glPopMatrix();
 
-					LineNumber = FuncEndLineNumber + 1;
+					LineNumber = FuncLineNumber + 1;
 				}
 			}
 		}
