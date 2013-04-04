@@ -3,7 +3,7 @@
 #define __FolderListingWidget_H__
 
 class FolderListingWidget
-	: public FlowLayoutWidget
+  : public FlowLayoutWidget
 {
 public:
 	FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule);

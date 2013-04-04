@@ -70,12 +70,12 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 				}
 			}
 
-			// Print out all available shortcuts
+			// Print out all available shortcuts (in some sorted order)
 			for (auto & aS : AvailShortcuts)
 			{
 				auto & S = aS.second;
 
-				if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general
+				if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general (Modifier -> string)
 					out << "Cmd+";
 				out << static_cast<char>(S.InputId);
 				out << " - " << S.Description;

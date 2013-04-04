@@ -3,8 +3,8 @@
 #define __TextFieldWidget_H__
 
 class TextFieldWidget
-	: public CompositeWidget,
-	  public MutuallyConnectable<TextFieldWidget, ConnectionWidget<TextFieldWidget>>
+  : public CompositeWidget,
+	public MutuallyConnectable<TextFieldWidget, ConnectionWidget<TextFieldWidget>>
 {
 private:
 	std::string							m_Content;

@@ -3,7 +3,7 @@
 #define __DebugOverlayWidget_H__
 
 class DebugOverlayWidget
-	: public CanvasWidget
+  : public CanvasWidget
 {
 public:
 	DebugOverlayWidget(CanvasWidget * MainCanvas = nullptr);

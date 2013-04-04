@@ -58,14 +58,13 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				//PlayBeep();
 
 				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
-				this->AddWidget(m_Child = new FolderListingWidget(Vector2n(-390, -390), NewPath, AddTo, TypingModule));
+				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule));
 			}
 		};
 
 		AddWidget(ListingWidget);
 
-		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]()
-		{
+		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
 			if (   nullptr != ListingWidget->GetSelectedEntry()
 				&& '/' != *ListingWidget->GetSelectedEntry()->rbegin())		// Make sure it's not a folder, i.e. doesn't end with a slash
 			{
@@ -91,8 +90,8 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('I', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
 
-		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &)
-		{
+		// Double tap to select and open file
+		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &) {
 			ListingWidget->SetSelectedEntryId(LocalPosition);
 
 			Open();
