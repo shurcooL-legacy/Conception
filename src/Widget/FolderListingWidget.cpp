@@ -38,7 +38,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 	{
 		auto ListingWidget = new FolderListingPureWidget(Vector2n::ZERO, List, Path, TypingModule);
 
-		ListingWidget->m_TapAction = [ListingWidget, &TypingModule](Vector2n LocalPosition, std::vector<std::string> & m_List)
+		ListingWidget->m_TapAction = [ListingWidget, this, &TypingModule](Vector2n LocalPosition, std::vector<std::string> & m_List)
 		{
 			auto Entry = TypingModule.TakeString();
 
@@ -60,8 +60,18 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 			{
 				g_InputManager->RequestTypingPointer(ListingWidget->ModifyGestureRecognizer());
 
-				ListingWidget->SetSelectedEntryId(-1);		// Reset the selection regardless of what it was before
 				ListingWidget->SetSelectedEntryId(LocalPosition);
+
+				// Reset the selection of child folder listing (if any)
+				if (   nullptr != this->m_Child
+					&& !m_Child->GetWidgets().empty())
+				{
+					auto FolderListingPure = dynamic_cast<FolderListingPureWidget *>(m_Child->GetWidgets()[0].get());
+					if (nullptr != FolderListingPure)
+					{
+						FolderListingPure->SetSelectedEntryId(-1);
+					}
+				}
 			}
 		};
 
@@ -148,20 +158,23 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 						{
 							g_InputManager->RequestTypingPointer(ParentFolderListingWidget->GetWidgets()[0]->ModifyGestureRecognizer());
 
-							static_cast<MenuWidget<std::string> *>(GetWidgets()[0].get())->SetSelectedEntryId(-1);		// Clear selection
+							static_cast<FolderListingPureWidget *>(GetWidgets()[0].get())->SetSelectedEntryId(-1);		// Clear selection
 						}
 					}
 					break;
 				case GLFW_KEY_RIGHT:
 					{
 						if (   nullptr != m_Child
-							&& !m_Child->GetWidgets().empty()		// Just in case its old widget is to be removed and new one is to be added at end of frame
-							&& nullptr != dynamic_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get()))
+							&& !m_Child->GetWidgets().empty())		// Just in case its old widget is to be removed and new one is to be added at end of frame
 						{
-							if (nullptr == static_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get())->GetSelectedEntry())
-								static_cast<MenuWidget<std::string> *>(m_Child->GetWidgets()[0].get())->SetSelectedEntryId(0);
+							auto FolderListingPure = dynamic_cast<FolderListingPureWidget *>(m_Child->GetWidgets()[0].get());
+							if (nullptr != FolderListingPure)
+							{
+								if (nullptr == FolderListingPure->GetSelectedEntry())
+									FolderListingPure->SetSelectedEntryId(0);
 
-							g_InputManager->RequestTypingPointer(m_Child->GetWidgets()[0]->ModifyGestureRecognizer());
+								g_InputManager->RequestTypingPointer(m_Child->GetWidgets()[0]->ModifyGestureRecognizer());
+							}
 						}
 					}
 					break;
