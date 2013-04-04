@@ -75,7 +75,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
 			}
 		};
-		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open));
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open File"));
 
 		auto CopyPath = [&AddTo, &TypingModule, ListingWidget, Path]() {
 			if (nullptr != ListingWidget->GetSelectedEntry())
@@ -89,7 +89,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 #endif
 			}
 		};
-		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('C', PointerState::Modifiers::Super, CopyPath));
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('C', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
 
 		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &)
 		{

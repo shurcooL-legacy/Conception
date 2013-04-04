@@ -45,7 +45,38 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 			return out.str();
 		};
 
-		AddWidget(new LabelWidget(Vector2n(0, 180), Content));
+		AddWidget(new LabelWidget(Vector2n(0, 240), Content));
+	}
+
+	// Visualizer of currently available shortcuts
+	{
+		auto Content = []() -> std::string
+		{
+			std::ostringstream out;
+
+			for (auto & i : g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries)
+			{
+				for (auto & S : i->m_Shortcuts)
+				{
+					// TODO: Highlight shortcuts that can be activated in current state (e.g. Cmd+O does nothing when a folder is selected, etc.)
+
+					if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general
+						out << "Cmd+";
+					out << static_cast<char>(S.InputId);
+					out << " - " << S.Description;
+					out << endl;
+				}
+
+				// TODO: Avoid repeating overlapping shortcuts in a smarter way than just ignoring all next widgets
+				if (!i->m_Shortcuts.empty())
+					break;
+			}
+
+			return out.str();
+		};
+
+		// TODO: Make it right aligned to edge of screen
+		AddWidget(new LabelWidget(Vector2n(1536 - 19 * charWidth, lineHeight + 2), Content));
 	}
 
 	// Time in top right corner
@@ -57,13 +88,13 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 	// Visibility toggle
 	{
 		auto ToggleWidget = new class ToggleWidget(Vector2n(1, 1), [=](bool State) {
-															// Toggle visibility of all widgets but the last one (i.e. this toggle)
-															// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
-															for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 2 != Widget; ++Widget)
-															{
-																(*Widget)->m_Visible = State;
-															}
-														}, false);
+				// Toggle visibility of all widgets but the last one (i.e. this toggle)
+				// TODO: Fix problem where upon initialize, OnChange is called before this widget has been added, so 2nd last widget is not hidden
+				for (auto Widget = GetWidgets().begin(); GetWidgets().end() != Widget && GetWidgets().end() - 3 != Widget; ++Widget)
+				{
+					(*Widget)->m_Visible = State;
+				}
+			}, false);
 		AddWidget(ToggleWidget);
 		ProcessTimePassed(0);		// HACK: Get all the widgets actually added
 		ToggleWidget->UpdateHACK();

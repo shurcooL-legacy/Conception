@@ -34,7 +34,7 @@ fi");
 	m_SourceWidget->m_OnChange();
 
 	// TODO: Make this work in LiveGodocWidget too (currently the Cmd+R event doesn't go from LiveGodocWidget to this GodocWidget)
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange, "Run/Refresh"));
 }
 
 GodocWidget::~GodocWidget()

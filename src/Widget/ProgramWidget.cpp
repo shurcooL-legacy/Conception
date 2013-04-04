@@ -60,7 +60,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 	}
 
 	// TODO: Make this work in LiveProgramWidget too (currently the Cmd+R event doesn't go from LiveProgramWidget to this ProgramWidget)
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange, "Run/Refresh"));
 }
 
 ProgramWidget::~ProgramWidget()

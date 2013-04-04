@@ -32,7 +32,7 @@ GofmtWidget::GofmtWidget(Vector2n Position, TypingModule & TypingModule, TextFie
 	m_SourceWidget->m_OnChange();
 
 	// TODO: Make this work in LiveGofmtWidget too (currently the Cmd+R event doesn't go from LiveGofmtWidget to this GofmtWidget)
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange, "Run/Refresh"));
 }
 
 GofmtWidget::~GofmtWidget()

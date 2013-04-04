@@ -94,9 +94,13 @@ public:
 		Input::InputId				InputId;
 		PointerState::Modifiers		Modifiers;
 		std::function<void()>		Action;
+		std::string					Description;
 
+		ShortcutEntry(Input::InputId InputId, PointerState::Modifiers Modifiers, std::function<void()> Action, std::string Description)
+		  : InputId(InputId), Modifiers(Modifiers), Action(Action), Description(Description)
+		{}
 		ShortcutEntry(Input::InputId InputId, PointerState::Modifiers Modifiers, std::function<void()> Action)
-			: InputId(InputId), Modifiers(Modifiers), Action(Action)
+		  : ShortcutEntry(InputId, Modifiers, Action, "")
 		{}
 	};
 
@@ -116,6 +120,10 @@ private:
 	std::list<ShortcutEntry> m_Shortcuts;
 
 	GestureHandler &			m_Owner;
+
+	// DEBUG: For m_Shortcuts printing
+	// TODO: Make m_Shortcuts available publicly, get rid of this friend class thing
+	friend class DebugOverlayWidget;
 };
 
 #endif // __GestureRecognizer_H__

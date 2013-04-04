@@ -119,7 +119,7 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 		});
 	}
 
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_ExecuteWidget->GetAction()));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_ExecuteWidget->GetAction(), "Run/Refresh"));
 }
 
 ShellWidget::~ShellWidget()

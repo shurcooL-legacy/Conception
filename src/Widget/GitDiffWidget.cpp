@@ -33,7 +33,7 @@ GitDiffWidget::GitDiffWidget(Vector2n Position, TypingModule & TypingModule, Tex
 
 	m_SourceWidget->m_OnChange();
 
-	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange));
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, m_SourceWidget->m_OnChange, "Run/Refresh"));
 }
 
 GitDiffWidget::~GitDiffWidget()
