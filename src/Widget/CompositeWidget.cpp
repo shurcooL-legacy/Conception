@@ -175,19 +175,9 @@ void CompositeWidget::ProcessTimePassed(const double TimePassed)
 		auto Widget = m_WidgetsToBeRemoved.front();
 		m_WidgetsToBeRemoved.pop_front();
 
-		// DEBUG: Not sure if still need to do this now that widget is removed after event queue processing, but maybe still needed to rid of persistent pointers
-		// For all connected pointers
-		// DEBUG: Disabled because it caused intermittent crashing of FolderListingWidget...
-		// DEBUG: Re-enabled because fixed root cause of crashing, it was this widget being deleted more than once because I wasn't resetting m_Child back to nullptr after deleting
-		while (!Widget->ModifyGestureRecognizer().GetConnected().empty())
-		{
-			// Modify the pointer mapping of said pointer, and removed the widget which is being removed
-			Widget->ModifyGestureRecognizer().GetConnected().begin().operator *()->ModifyPointerMapping().RemoveMapping(Widget->ModifyGestureRecognizer());
-		}
-
 		for (auto it0 = m_Widgets.begin(); m_Widgets.end() != it0; ++it0)
 		{
-			if ((*it0).get() == Widget)
+			if (Widget == (*it0).get())
 			{
 				m_Widgets.erase(it0);
 				break;

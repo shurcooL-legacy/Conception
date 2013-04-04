@@ -755,3 +755,16 @@ void GestureRecognizer::AddShortcut(ShortcutEntry ShortcutEntry)
 {
 	m_Shortcuts.push_back(ShortcutEntry);
 }
+
+void GestureRecognizer::RemoveShortcut(ShortcutEntry::Key Key)
+{
+	for (auto it0 = m_Shortcuts.begin(); it0 != m_Shortcuts.end(); ++it0)
+	{
+		if (   it0->InputId == Key.first
+			&& it0->Modifiers == Key.second)
+		{
+			m_Shortcuts.erase(it0);
+			break;
+		}
+	}
+}

@@ -17,6 +17,15 @@ Widget::Widget(Vector2n Position, Vector2n Dimensions, std::vector<std::shared_p
 
 Widget::~Widget()
 {
+	// DEBUG: Not sure if still need to do this now that widget is removed after event queue processing, but maybe still needed to rid of persistent pointers
+	// For all connected pointers
+	// DEBUG: Disabled because it caused intermittent crashing of FolderListingWidget...
+	// DEBUG: Re-enabled because fixed root cause of crashing, it was this widget being deleted more than once because I wasn't resetting m_Child back to nullptr after deleting
+	while (!ModifyGestureRecognizer().GetConnected().empty())
+	{
+		// Modify the pointer mapping of said pointer, and removed the widget which is being removed
+		ModifyGestureRecognizer().GetConnected().begin().operator *()->ModifyPointerMapping().RemoveMapping(ModifyGestureRecognizer());
+	}
 }
 
 void Widget::AddBehavior(Behavior * Behavior)

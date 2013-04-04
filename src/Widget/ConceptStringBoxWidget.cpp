@@ -6,7 +6,7 @@ ConceptStringBoxWidget::ConceptStringBoxWidget(Vector2n Position, TypingModule &
 	  m_CaretPosition(0),
 	  m_TypingModule(TypingModule)
 {
-	SetupGestureRecognizer();
+	UpdateGestureRecognizer();
 
 	// DEBUG: Irregular starting state, for testing
 	{
@@ -66,7 +66,7 @@ ConceptStringBoxWidget::~ConceptStringBoxWidget()
 {
 }
 
-void ConceptStringBoxWidget::SetupGestureRecognizer()
+void ConceptStringBoxWidget::UpdateGestureRecognizer()
 {
 	//ModifyGestureRecognizer().m_RecognizeTap = true;
 
@@ -76,7 +76,7 @@ void ConceptStringBoxWidget::SetupGestureRecognizer()
 
 void ConceptStringBoxWidget::ProcessTimePassed(const double TimePassed)
 {
-	SetupGestureRecognizer();
+	UpdateGestureRecognizer();
 
 	Widget::ProcessTimePassed(TimePassed);
 }

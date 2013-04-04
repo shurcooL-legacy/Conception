@@ -11,7 +11,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_MaxLineLength(0),
 	  m_TypingModule(TypingModule)
 {
-	SetupGestureRecognizer();
+	UpdateGestureRecognizer();
 
 	UpdateContentLines();		// This is here at least for resize
 }
@@ -20,7 +20,7 @@ TextFieldWidget::~TextFieldWidget()
 {
 }
 
-void TextFieldWidget::SetupGestureRecognizer()
+void TextFieldWidget::UpdateGestureRecognizer()
 {
 	//ModifyGestureRecognizer().m_RecognizeTap = true;
 	//ModifyGestureRecognizer().m_RecognizeDoubleTap = true;
@@ -40,7 +40,7 @@ bool TextFieldWidget::IsNotMinimized() const
 
 void TextFieldWidget::ProcessTimePassed(const double TimePassed)
 {
-	SetupGestureRecognizer();
+	UpdateGestureRecognizer();
 
 	CompositeWidget::ProcessTimePassed(TimePassed);		// For DraggablePositionBehavior::ProcessTimePassed() to get called
 }

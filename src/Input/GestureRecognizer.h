@@ -96,6 +96,8 @@ public:
 		std::function<void()>		Action;
 		std::string					Description;
 
+		typedef std::pair<Input::InputId, PointerState::Modifiers> Key;
+
 		ShortcutEntry(Input::InputId InputId, PointerState::Modifiers Modifiers, std::function<void()> Action, std::string Description)
 		  : InputId(InputId), Modifiers(Modifiers), Action(Action), Description(Description)
 		{}
@@ -105,6 +107,7 @@ public:
 	};
 
 	void AddShortcut(ShortcutEntry ShortcutEntry);
+	void RemoveShortcut(ShortcutEntry::Key Key);
 
 private:
 	GestureRecognizer(const GestureRecognizer &);

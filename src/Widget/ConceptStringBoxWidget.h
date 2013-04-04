@@ -25,7 +25,7 @@ private:
 
 	TypingModule & m_TypingModule;
 
-	void SetupGestureRecognizer();
+	void UpdateGestureRecognizer();
 
 	void SetCaretPosition(decltype(m_CaretPosition) CaretPosition, bool ResetSelection, bool UpdateTargetCaretColumn = true);
 	void MoveCaretTry(sint32 MoveAmount, bool ResetSelection);

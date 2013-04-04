@@ -12,12 +12,24 @@ DraggablePositionBehavior::~DraggablePositionBehavior()
 void DraggablePositionBehavior::SetupGestureRecognizer()
 {
 	m_Widget.ModifyGestureRecognizer().m_RecognizeManipulationTranslate = true;
+
+	// TEST: Close shortcut (assume if the widget is draggable, you might as well make it closeable)
+	{
+		auto Close = [this]() {
+			if (nullptr != this->m_Widget.GetParent())
+				this->m_Widget.ModifyParent()->RemoveWidget(&this->m_Widget);
+		};
+		m_Widget.ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('W', PointerState::Modifiers::Super, Close, "Close"));
+	}
 }
 
 void DraggablePositionBehavior::UnsetupGestureRecognizer()
 {
 	// TODO: This is wrong, I shouldn't change state... instead it should be calculated based on a function call?
 	m_Widget.ModifyGestureRecognizer().m_RecognizeManipulationTranslate = false;
+
+	// TODO: Unify this together with SetupGestureRecognizer, reduce duplication
+	m_Widget.ModifyGestureRecognizer().RemoveShortcut(GestureRecognizer::ShortcutEntry::Key('W', PointerState::Modifiers::Super));
 }
 
 void DraggablePositionBehavior::ProcessManipulationBegin(const InputEvent & InputEvent)

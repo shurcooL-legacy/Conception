@@ -54,7 +54,7 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 		{
 			std::ostringstream out;
 
-			std::map<std::pair<PointerState::Modifiers, Input::InputId>, GestureRecognizer::ShortcutEntry &> AvailShortcuts;
+			std::map<GestureRecognizer::ShortcutEntry::Key, GestureRecognizer::ShortcutEntry &> AvailShortcuts;
 
 			// Find all non-overlapping available shortcuts
 			for (auto & i : g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries)
@@ -64,7 +64,7 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 					// TODO: Highlight shortcuts that can be activated in current state (e.g. Cmd+O does nothing when a folder is selected, etc.)
 
 					// Only add this shortcut if there isn't any other overlapping one (i.e., with the same signature <Modifier, InputId>)
-					auto Key = decltype(AvailShortcuts)::key_type(S.Modifiers, S.InputId);
+					auto Key = decltype(AvailShortcuts)::key_type(S.InputId, S.Modifiers);
 					if (AvailShortcuts.end() == AvailShortcuts.find(Key))
 						AvailShortcuts.insert(decltype(AvailShortcuts)::value_type(Key, S));
 				}
