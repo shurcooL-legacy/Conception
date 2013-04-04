@@ -2,6 +2,8 @@
 #ifndef __Utilities_H__
 #define __Utilities_H__
 
+bool HasEnding(const std::string & fullString, const std::string & ending);
+
 // Clipboard (from GLFW 3.0)
 void glfwSetClipboardString(std::string string);
 std::string glfwGetClipboardString();

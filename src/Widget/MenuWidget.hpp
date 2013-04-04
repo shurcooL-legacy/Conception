@@ -1,6 +1,7 @@
-template <typename T> MenuWidget<T>::MenuWidget(Vector2n Position, std::vector<T> & Entries)
-	: Widget(Position, Vector2n::ZERO, {}),
-	  m_Entries(Entries)
+template <typename T> MenuWidget<T>::MenuWidget(Vector2n Position, std::vector<T> & Entries, TypingModule * TypingModule)
+  : Widget(Position, Vector2n::ZERO, {}),
+	m_Entries(Entries),
+	m_TypingModule(TypingModule)
 {
 	ModifyGestureRecognizer().m_RecognizeTap = true;
 
@@ -90,16 +91,36 @@ template <typename T> void MenuWidget<T>::Render()
 
 		DrawAroundBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
+		// TEST
+		auto Spot = m_Entries.end();
+		if (   nullptr != m_TypingModule
+			&& !m_TypingModule->GetString().empty())
+		{
+			for (auto & Pointer : GetGestureRecognizer().GetConnected())
+			{
+				if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+				{
+					Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+					Vector2n LocalPosition(GlobalToLocal(GlobalPosition));
+
+					Spot = m_Entries.begin() + (LocalPosition.Y() / lineHeight);
+				}
+			}
+		}
+
 		OpenGLStream OpenGLStream(GetPosition());
 		//for (auto & Entry : m_Entries)
 		for (auto Entry = m_Entries.begin(); m_Entries.end() != Entry; ++Entry)
 		{
+			if (Entry == Spot)
+				OpenGLStream << endl;
+
 			if (Entry - m_Entries.begin() == m_SelectedEntryId)
 			{
 				if (HasTypingFocus())
-					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
+					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin() + (Entry >= Spot)) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_SelectedColor, m_SelectedColor);
 				else
-					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin()) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_UnfocusedSelectedColor, m_UnfocusedSelectedColor);
+					DrawBox(GetPosition() + Vector2n(0, static_cast<sint32>((Entry - m_Entries.begin() + (Entry >= Spot)) * lineHeight)), Vector2n(GetDimensions().X(), lineHeight), m_UnfocusedSelectedColor, m_UnfocusedSelectedColor);
 			}
 
 			OpenGLStream << *Entry << endl;
@@ -172,10 +193,14 @@ template <typename T> void MenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 			{
 				if (true == InputEvent.m_Pointer->GetPointerState().GetButtonState(0))
 				{
-					Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
-					Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
+					if (!(   nullptr != m_TypingModule
+						  && !m_TypingModule->GetString().empty()))
+					{
+						Vector2n GlobalPosition(InputEvent.m_Pointer->GetPointerState().GetAxisState(0).GetPosition(), InputEvent.m_Pointer->GetPointerState().GetAxisState(1).GetPosition());
+						Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
-					SetSelectedEntryId(LocalPosition);
+						SetSelectedEntryId(LocalPosition);
+					}
 				}
 			}
 		}
@@ -190,6 +215,21 @@ template <typename T> void MenuWidget<T>::UpdateDimensions()
 	{
 		Dimensions.X() = std::max<sint32>(Dimensions.X(), Concept::GetDimensions(Entry).X());
 		Dimensions.Y() += Concept::GetDimensions(Entry).Y();
+	}
+
+	// TEST
+	if (   nullptr != m_TypingModule
+		&& !m_TypingModule->GetString().empty())
+	{
+		for (auto & Pointer : GetGestureRecognizer().GetConnected())
+		{
+			if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+			{
+				Dimensions.X() = std::max<sint32>(Dimensions.X(), static_cast<sint32>(m_TypingModule->GetString().length() * charWidth));
+				Dimensions.Y() += 1 * lineHeight;
+				break;
+			}
+		}
 	}
 
 	Vector2n MinDimensions(3 * charWidth, lineHeight);

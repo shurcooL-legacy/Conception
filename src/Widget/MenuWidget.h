@@ -6,7 +6,7 @@ template <typename T> class MenuWidget
 	: public Widget
 {
 public:
-	MenuWidget(Vector2n Position, std::vector<T> & List);
+	MenuWidget(Vector2n Position, std::vector<T> & List, TypingModule * TypingModule = nullptr);
 	virtual ~MenuWidget();
 
 	const T * GetSelectedEntry() const;
@@ -33,6 +33,8 @@ private:
 
 	const Color		m_SelectedColor = Color(0.3529, 0.5686, 0.8235);
 	const Color		m_UnfocusedSelectedColor = Color(static_cast<uint8>(212), 212, 212);
+
+	TypingModule * m_TypingModule;
 
 public:
 	void SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId);

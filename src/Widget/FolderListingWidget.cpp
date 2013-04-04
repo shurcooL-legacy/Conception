@@ -1,6 +1,6 @@
 #include "../Main.h"
 
-FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule)
+FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
 	//printf("FolderListingWidget(Path = `%s`) created.\n", Path.c_str());
@@ -36,17 +36,36 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 			   || (   1 == List.size()
 				   && List.front() == "ls: " + Path + ": Not a directory")))
 	{
-		auto ListingWidget = new FolderListingPureWidget(Vector2n::ZERO, List, Path);
+		auto ListingWidget = new FolderListingPureWidget(Vector2n::ZERO, List, Path, TypingModule);
 
-		ListingWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)
+		ListingWidget->m_TapAction = [ListingWidget, &TypingModule](Vector2n LocalPosition, std::vector<std::string> & m_List)
 		{
-			g_InputManager->RequestTypingPointer(ListingWidget->ModifyGestureRecognizer());
+			auto Entry = TypingModule.TakeString();
 
-			ListingWidget->SetSelectedEntryId(-1);		// Reset the selection regardless of what it was before
-			ListingWidget->SetSelectedEntryId(LocalPosition);
+			if (!Entry.empty())
+			{
+				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
+				Shell->m_WorkingFolder->SetTarget(ListingWidget);
+
+				if (HasEnding(Entry, "/"))
+					//std::cerr << "Should create folder \"" << Entry << "\" inside \"" << ListingWidget->GetPath() << "\"." << endl;
+					Shell->m_CommandWidget->SetContent("mkdir \"" + Entry + "\"");
+				else {
+					Shell->m_CommandWidget->SetContent("touch \"" + Entry + "\"");
+				}
+
+				Shell->m_ExecuteWidget->GetAction()();
+			}
+			else
+			{
+				g_InputManager->RequestTypingPointer(ListingWidget->ModifyGestureRecognizer());
+
+				ListingWidget->SetSelectedEntryId(-1);		// Reset the selection regardless of what it was before
+				ListingWidget->SetSelectedEntryId(LocalPosition);
+			}
 		};
 
-		ListingWidget->m_OnChange = [&AddTo, &TypingModule, this, ListingWidget, Path]()
+		ListingWidget->m_OnChange = [&AddTo, &TypingModule, &Project, this, ListingWidget, Path]()
 		{
 			if (nullptr != m_Child) {
 				this->RemoveWidget(m_Child);
@@ -58,20 +77,23 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				//PlayBeep();
 
 				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
-				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule));
+				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule, Project));
 			}
 		};
 
 		AddWidget(ListingWidget);
 
-		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
+		auto Open = [&AddTo, &TypingModule, &Project, ListingWidget, Path]() {
 			if (   nullptr != ListingWidget->GetSelectedEntry()
 				&& '/' != *ListingWidget->GetSelectedEntry()->rbegin())		// Make sure it's not a folder, i.e. doesn't end with a slash
 			{
 				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
 
 				std::cout << "Open sesame '" << FullPath << "'.\n";
-				AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
+				if (HasEnding(FullPath, ".go"))
+					AddTo.AddWidget(new LiveProgramFileWidget(Vector2n(240, -230), FullPath, TypingModule, Project));
+				else
+					AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
 			}
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open File"));

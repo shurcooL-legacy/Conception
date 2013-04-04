@@ -56,8 +56,8 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		GitDiff->RemoveAllBehaviors();
 		AddWidget(GitDiff);
 
-		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [=]() {
-				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
+		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [=, &TypingModule]() {
+				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
 				std::string Command = "cd \'" + Folder + "\'\ngit commit --allow-empty-message -m '' -- \'" + Filename + "\'";
 				Command += "\ngit push origin master";
 				Shell->m_CommandWidget->SetContent(Command);

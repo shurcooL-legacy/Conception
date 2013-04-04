@@ -6,7 +6,7 @@ class FolderListingWidget
   : public FlowLayoutWidget
 {
 public:
-	FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule);
+	FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project);
 	~FolderListingWidget();
 
 	void ProcessEvent(InputEvent & InputEvent) override;

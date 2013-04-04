@@ -7,7 +7,7 @@ class FolderListingPureWidget
 	public MutuallyConnectable<FolderListingPureWidget, ConnectionWidget<FolderListingPureWidget>>
 {
 public:
-	FolderListingPureWidget(Vector2n Position, std::vector<std::string> & List, std::string Path);
+	FolderListingPureWidget(Vector2n Position, std::vector<std::string> & List, std::string Path, TypingModule & TypingModule);
 	~FolderListingPureWidget();
 
 	std::string GetPath() const;

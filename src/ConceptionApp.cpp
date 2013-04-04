@@ -103,7 +103,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			auto Action = [=]()
 			{
 				// Create a gist
-				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
+				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *m_TypingModule));
 				Shell->m_CommandWidget->SetContent("curl -d '{\"public\":true,\"files\":{\"main.go\":{\"content\":\"package main\\n\\nimport (\\n)\\n\\nfunc main() {\\n}\"}}}' 'https://api.github.com/gists' --config - 2> /dev/null");
 				Shell->m_StdInWidget->SetContent("-u \"" + Username->GetContent() + ":" + Password->GetContent() + "\"");
 				Shell->m_ExecuteWidget->GetAction()();
@@ -199,8 +199,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Folder Listing
-		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "..", *MainCanvas, *m_TypingModule);
-		//auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "/Users/Dmitri/Desktop/goproj_play", *MainCanvas, *m_TypingModule);
+		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "..", *MainCanvas, *m_TypingModule, m_CurrentProject);
 		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));
 		MainCanvas->AddWidget(FolderListing);
 
