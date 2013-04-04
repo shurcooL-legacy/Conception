@@ -36,7 +36,6 @@ private:
 public:
 	std::function<void()>													m_OnChange = nullptr;
 	std::function<std::vector<std::string>(decltype(m_CaretPosition))>		m_GetAutocompletions = nullptr;
-	std::function<std::string(uint32)>										m_GetLineAnnotations = nullptr;
 	std::function<Color(uint32, const std::string &)>						m_GetLineHighlighting = nullptr;
 	std::function<std::string(uint32)>										m_GetLineGutters = nullptr;
 	bool																	m_GolangHighlightHighLevel = true;

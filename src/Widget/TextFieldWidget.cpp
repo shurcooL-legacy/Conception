@@ -197,13 +197,21 @@ void TextFieldWidget::Render()
 
 		// TODO: Optimize by calling this function once and cache the results (instead of once per line which is pretty stupid)
 		// Render line annotations
-		if (nullptr != m_GetLineAnnotations)
-		{
-			for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
-				auto ExpandedLength = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length) / charWidth;
-				class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
-				OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
-				OpenGLStream << m_GetLineAnnotations(LineNumber);
+		for (auto & ConnectionWidget : GetConnected()) {
+			auto * ProgramWidget = dynamic_cast<class ProgramWidget *>(ConnectionWidget->ModifyParent());
+			if (nullptr != ProgramWidget) {
+				auto GetLineAnnotations = ProgramWidget->m_GetLineAnnotations;
+				if (nullptr != GetLineAnnotations)
+				{
+					for (uint32 LineNumber = 0; LineNumber < m_ContentLines.size(); ++LineNumber) {
+						auto ExpandedLength = GetCaretPositionX(LineNumber, m_ContentLines[LineNumber].m_Length) / charWidth;
+						class OpenGLStream OpenGLStream(GetPosition() + Vector2n(static_cast<uint32>(ExpandedLength + 1) * charWidth, LineNumber * lineHeight));
+						OpenGLStream.SetBackgroundColor(Color(1.0, 0.9, 0.9));		// HACK: Hardcoded color of failed compilation
+						OpenGLStream << GetLineAnnotations(LineNumber);
+					}
+
+					break;
+				}
 			}
 		}
 

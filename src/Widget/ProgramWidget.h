@@ -16,6 +16,8 @@ public:
 	ConnectionWidget<TextFieldWidget> * m_SourceWidget;
 	TextFieldWidget * m_OutputWidget;
 
+	std::function<std::string(uint32)>		m_GetLineAnnotations = nullptr;
+
 private:
 	ProgramWidget(const ProgramWidget &) = delete;
 	ProgramWidget & operator = (const ProgramWidget &) = delete;
