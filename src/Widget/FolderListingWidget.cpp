@@ -32,11 +32,11 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 #endif
 		}
 	}
-	else if (!(   List.empty()
+	else if (!(   false//List.empty()		// Try to allow empty folders? See what happens
 			   || (   1 == List.size()
 				   && List.front() == "ls: " + Path + ": Not a directory")))
 	{
-		auto ListingWidget = new MenuWidget<std::string>(Vector2n(-600, -390), List);
+		auto ListingWidget = new FolderListingPureWidget(Vector2n::ZERO, List, Path);
 
 		ListingWidget->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & m_List)
 		{

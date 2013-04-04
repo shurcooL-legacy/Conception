@@ -18,7 +18,7 @@ public:
 
 	// HACK: void ProcessTimePassed(const double TimePassed) override { if (nullptr != m_OnChange) m_OnChange(); };
 
-	T * Target() const { return m_Target; }
+	T * Target() const;
 	void SetTarget(T * Target);
 
 	void NotifyChange(bool OverrideLiveToggle = false) const;
@@ -30,26 +30,32 @@ private:
 	public:ToggleWidget * m_LiveToggle;private:
 
 	bool m_FusedConnector;		// Set to be true when constructed with a non-null target, it hides the connector but keeps LiveToggle visible
-
-	T * m_Target = nullptr;
 };
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
-	: CompositeWidget(Position, Vector2n(16, 16), { std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [&](bool State) { NotifyChange(true); }, true)) },
-												  { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
-	  m_FusedConnector(nullptr != Target),
-	  m_Target(nullptr)		// It will actually be set inside the constructor, via a call to UpdateTarget(Target), but m_Target has to be nullptr at top of UpdateTarget(),
+  : CompositeWidget(Position, Vector2n(16, 16), {
+		std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [&](bool State) { NotifyChange(true); }, true))
+	}, { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
+	m_FusedConnector(nullptr != Target)
 {
-	UpdateTarget(Target);
+	SetTarget(Target);
 }
 
 template <typename T> ConnectionWidget<T>::~ConnectionWidget()
 {
 }
 
+template <typename T> T * ConnectionWidget<T>::Target() const
+{
+	if (false == MutuallyConnectable<ConnectionWidget<T>, T>::GetConnected().empty())
+		return *(MutuallyConnectable<ConnectionWidget<T>, T>::GetConnected().begin());		// Not empty, return the first connected thing
+	else
+		return nullptr;																		// Is empty, so return nullptr
+}
+
 template <typename T> void ConnectionWidget<T>::SetTarget(T * Target)
 {
-	if (m_Target != Target)
+	if (this->Target() != Target)
 	{
 		UpdateTarget(Target);
 	}
@@ -57,13 +63,11 @@ template <typename T> void ConnectionWidget<T>::SetTarget(T * Target)
 
 template <typename T> void ConnectionWidget<T>::UpdateTarget(T * Target)
 {
-	if (nullptr != m_Target)
-		MutuallyConnectable<ConnectionWidget<T>, T>::Disconnect(*this, *m_Target);
+	if (nullptr != this->Target())
+		MutuallyConnectable<ConnectionWidget<T>, T>::Disconnect(*this, *this->Target());
 
-	m_Target = Target;
-
-	if (nullptr != m_Target)
-		MutuallyConnectable<ConnectionWidget<T>, T>::Connect(*this, *m_Target);
+	if (nullptr != Target)
+		MutuallyConnectable<ConnectionWidget<T>, T>::Connect(*this, *Target);
 
 	NotifyChange();
 }
@@ -134,8 +138,8 @@ template <typename T> void ConnectionWidget<T>::Render()
 					glEnd();
 				}
 			}
-		} else if (nullptr != m_Target) {
-			Vector2n GlobalPosition = m_Target->LocalToGlobal(m_Target->GetDimensions() / 2);
+		} else if (nullptr != Target()) {
+			Vector2n GlobalPosition = Target()->LocalToGlobal(Target()->GetDimensions() / 2);
 			Vector2n LocalPosition = GlobalToLocal(GlobalPosition);
 
 			// TODO: Replace this with a resolution independent quad-line

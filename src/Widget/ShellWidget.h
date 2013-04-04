@@ -15,6 +15,7 @@ private:
 
 // HACK that this is public?
 public:
+	ConnectionWidget<FolderListingPureWidget> * m_WorkingFolder;
 	TextFieldWidget * m_CommandWidget;
 	TextFieldWidget * m_StdInWidget;
 	ButtonWidget * m_ExecuteWidget;
