@@ -8,6 +8,24 @@ FolderListingPureWidget::FolderListingPureWidget(Vector2n Position, std::vector<
 FolderListingPureWidget::~FolderListingPureWidget()
 {}
 
+void FolderListingPureWidget::ProcessTimePassed(const double TimePassed)
+{
+	auto Now = glfwGetTime();
+	if (Now >= m_NextRefresh)
+	{
+		m_NextRefresh = Now + 0.250;		// Refresh again after 250 ms
+
+		auto List = Ls(GetPath());
+		if (m_Entries != List) {
+			SetSelectedEntryId(-1);
+
+			m_Entries = List;
+		}
+	}
+
+	MenuWidget<std::string>::ProcessTimePassed(TimePassed);
+}
+
 std::string FolderListingPureWidget::GetPath() const
 {
 	return m_Path;

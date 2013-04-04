@@ -3,7 +3,7 @@
 #define __MenuWidget_H__
 
 template <typename T> class MenuWidget
-	: public Widget
+  : public Widget
 {
 public:
 	MenuWidget(Vector2n Position, std::vector<T> & List, TypingModule * TypingModule = nullptr);
@@ -24,7 +24,7 @@ public:
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction = nullptr;
 	std::function<void(Vector2n, std::vector<T> &)>		m_DoubleTapAction = nullptr;		// TODO: Inconsistency, this is here while GR.RecDblTap is off
 
-private:
+protected:
 	void UpdateDimensions();
 
 	std::vector<T>				m_Entries;

@@ -10,6 +10,8 @@ public:
 	FolderListingPureWidget(Vector2n Position, std::vector<std::string> & List, std::string Path, TypingModule & TypingModule);
 	~FolderListingPureWidget();
 
+	void ProcessTimePassed(const double TimePassed) override;
+
 	std::string GetPath() const;
 
 private:
@@ -17,6 +19,8 @@ private:
 	FolderListingPureWidget & operator = (const FolderListingPureWidget &) = delete;
 
 	std::string m_Path;
+
+	double m_NextRefresh = 0;
 };
 
 #endif // __FolderListingPureWidget_H__

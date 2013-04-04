@@ -11,7 +11,7 @@ const std::string ParseGistId(const std::string & JsonResponse)
 	return JsonResponse.substr(FirstMarker + FirstMarkerString.length(), SecondMarker - (FirstMarker + FirstMarkerString.length()));
 }
 
-bool IsFileTrackedByGit(std::string Path)
+bool IsFileTrackedByGit(const std::string Path)
 {
 	const std::string Folder = ParsePath(Path, 0);
 	const std::string Filename = ParsePath(Path, 1);
@@ -33,7 +33,7 @@ std::function<Color(uint32, const std::string &)> GetLineHighlighting()
 	};
 }
 
-std::string ParsePath(std::string Path, uint8 Mode)
+std::string ParsePath(const std::string Path, uint8 Mode)
 {
 	auto Separator = Path.find_last_of('/');
 	if (0 == Separator) throw 0;		// TODO: Handle "/rooted_paths" properly
@@ -45,7 +45,7 @@ std::string ParsePath(std::string Path, uint8 Mode)
 	else throw 0;
 }
 
-std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletions(std::string Path)
+std::function<std::vector<std::string>(std::string::size_type)> GetAutocompletions(const std::string Path)
 {
 	return [Path](std::string::size_type CaretPosition) -> std::vector<std::string>
 	{
@@ -376,7 +376,7 @@ void Gofmt(std::string & InOut)
 	InOut = Output;
 }
 
-std::vector<std::string> Ls(std::string & InOut)
+std::vector<std::string> Ls(const std::string Path)
 {
 	std::vector<std::string> Entries;
 
@@ -401,10 +401,10 @@ std::vector<std::string> Ls(std::string & InOut)
 				close(PipeFd[1]);    // this descriptor is no longer needed
 
 				// TODO: Option -p misses symbolic link folders, so change to using -F option and do some parsing, or something
-				if (InOut.empty())
+				if (Path.empty())
 					execl("/bin/ls", "/bin/ls", "-p", (char *)0);
 				else
-					execl("/bin/ls", "/bin/ls", "-p", InOut.c_str(), (char *)0);
+					execl("/bin/ls", "/bin/ls", "-p", Path.c_str(), (char *)0);
 
 				// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 				//exit(1);		// Not needed, just in case I comment out the above
