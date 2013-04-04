@@ -67,8 +67,8 @@ MatchResult MatchTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQu
 MatchResult MatchDoubleTap2(const InputEventQueue::FilteredQueue & Queue, InputEventQueue::FilteredQueue::const_iterator InputEventIterator);
 
 class GestureRecognizer
-	: public InputHandler,
-	  public MutuallyConnectable<GestureRecognizer, Pointer>
+  : public InputHandler,
+	public MutuallyConnectable<GestureRecognizer, Pointer>
 {
 public:
 	GestureRecognizer(GestureHandler & Owner);
@@ -91,9 +91,9 @@ public:
 	Vector2n			m_ManipulationOffset;
 
 	struct ShortcutEntry {
-		Input::InputId InputId;
-		PointerState::Modifiers Modifiers;
-		std::function<void()> Action;
+		Input::InputId				InputId;
+		PointerState::Modifiers		Modifiers;
+		std::function<void()>		Action;
 
 		ShortcutEntry(Input::InputId InputId, PointerState::Modifiers Modifiers, std::function<void()> Action)
 			: InputId(InputId), Modifiers(Modifiers), Action(Action)

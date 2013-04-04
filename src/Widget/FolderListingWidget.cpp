@@ -64,7 +64,8 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 
 		AddWidget(ListingWidget);
 
-		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]() {
+		auto Open = [&AddTo, &TypingModule, ListingWidget, Path]()
+		{
 			if (   nullptr != ListingWidget->GetSelectedEntry()
 				&& '/' != *ListingWidget->GetSelectedEntry()->rbegin())		// Make sure it's not a folder, i.e. doesn't end with a slash
 			{
@@ -84,7 +85,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 #if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
 				glfwSetClipboardString(FullPath);
 #else
-				m_TypingModule.SetString(FullPath);
+				TypingModule.SetString(FullPath);
 #endif
 			}
 		};

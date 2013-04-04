@@ -4,7 +4,7 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 	: CanvasWidget(Vector2n::ZERO, false, false)
 {
 	{
-		auto Content = [MainCanvas]() -> std::string
+		auto Content = []() -> std::string
 		{
 			std::ostringstream out;
 
