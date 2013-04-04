@@ -39,6 +39,8 @@ These WIP screenshots present a partial outlook into the things I'm prototyping.
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-29_0134%20High%20level%20highlighting%20for%20zoomed%20out%20view.png)
 
+![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-04-03_2242%20Display%20currently%20available%20shortcuts.png)
+
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-03_0113%20Inline%20Errors.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Autocompletions%201.png)
