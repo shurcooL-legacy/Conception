@@ -104,7 +104,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			{
 				// Create a gist
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<class TypingModule *>(nullptr)));
-				Shell->m_CommandWidget->SetContent("curl -d '{\"public\":true,\"files\":{\"main.go\":{\"content\":\"package main\\n\\nimport (\\n\\t\\n)\\n\\nfunc main() {\\n\\t\\n}\"}}}' 'https://api.github.com/gists' --config - 2> /dev/null");
+				Shell->m_CommandWidget->SetContent("curl -d '{\"public\":true,\"files\":{\"main.go\":{\"content\":\"package main\\n\\nimport (\\n)\\n\\nfunc main() {\\n}\"}}}' 'https://api.github.com/gists' --config - 2> /dev/null");
 				Shell->m_StdInWidget->SetContent("-u \"" + Username->GetContent() + ":" + Password->GetContent() + "\"");
 				Shell->m_ExecuteWidget->GetAction()();
 				Shell->m_StdInWidget->SetContent("");
@@ -123,11 +123,21 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				Command += "\nmkdir -p \"./src/gist.github.com\"";
 				Command += "\ncd \"./src/gist.github.com\"";
 				Command += "\ngit clone https://gist.github.com/" + GistId + ".git \"./" + GistId + ".git\"";
-std::cerr << Command << endl;
 				Shell->m_CommandWidget->SetContent(Command);
 				Shell->m_ExecuteWidget->GetAction()();
-
 				std::cerr << "Cloned gist successfully!\n" << Shell->m_OutputWidget->GetContent() << endl;
+
+				// Open it in a new LiveProgramFileWidget
+				const auto FullPath = "./GoLand/src/gist.github.com/" + GistId + ".git/main.go";
+				MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-200, -590), FullPath, *m_TypingModule, m_CurrentProject));
+
+				// Copy import statement to clipboard
+				const auto ImportStatement = ". \"gist.github.com/" + GistId + ".git\"";
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+				glfwSetClipboardString(ImportStatement);
+#else
+				m_TypingModule->SetString(ImportStatement);
+#endif
 			};
 			FlowLayout->AddWidget(new ButtonWidget(Vector2n::ZERO, Action, "+ Gist"));
 			MainCanvas->AddWidget(FlowLayout);
