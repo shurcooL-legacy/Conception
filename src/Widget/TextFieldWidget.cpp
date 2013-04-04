@@ -512,14 +512,14 @@ void TextFieldWidget::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
-				auto ControlActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LCTRL)
-									  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RCTRL));
-				auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
-									|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT));
-				auto SuperActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
-									|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER));
-				auto AltActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LALT)
-								  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RALT));
+				const auto ControlActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LCTRL)
+											|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RCTRL));
+				const auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT));
+				const auto SuperActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER));
+				const auto AltActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LALT)
+										|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RALT));
 
 				bool HandledEvent = true;		// Assume true at first
 

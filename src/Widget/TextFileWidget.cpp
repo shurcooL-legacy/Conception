@@ -23,6 +23,15 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 	const std::string Folder = ParsePath(Path, 0);
 	const std::string Filename = ParsePath(Path, 1);
 
+	auto CopyPath = [this, &TypingModule]() {
+#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
+		glfwSetClipboardString(this->m_Path);
+#else
+		TypingModule.SetString(this->m_Path);
+#endif
+	};
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('I', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
+
 	// TEST: Line Gutters
 #if 0
 	//if ("./Gen/5086673/gistfile1.go" == Path)

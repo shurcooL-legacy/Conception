@@ -89,7 +89,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 #endif
 			}
 		};
-		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('C', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('I', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
 
 		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &)
 		{

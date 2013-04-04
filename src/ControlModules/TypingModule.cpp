@@ -67,38 +67,83 @@ void TypingModule::ProcessEvent(InputEvent & InputEvent)
 
 			if (Pressed)
 			{
+				const auto ControlActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LCTRL)
+											|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RCTRL));
+				const auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT));
+				const auto SuperActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER));
+				const auto AltActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LALT)
+										|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RALT));
+
+				bool HandledEvent = true;		// Assume true at first
+
 				switch (ButtonId)
 				{
 				case GLFW_KEY_BACKSPACE:
 					{
-						// Erase the last character in string
 						if (!m_Typed.empty())
 						{
+							// Erase the last character in string
 							m_Typed.erase(m_Typed.end() - 1);
 						}
-
-						InputEvent.m_Handled = true;
+						else
+							HandledEvent = false;
 					}
 					break;
 				case GLFW_KEY_DEL:
+				case GLFW_KEY_ESC:
 					{
-						// Erase the entire string
-						m_Typed.clear();
-
-						InputEvent.m_Handled = true;
+						if (!m_Typed.empty())
+						{
+							// Erase the entire string
+							m_Typed.clear();
+						}
+						else
+							HandledEvent = false;
 					}
 					break;
-				case GLFW_KEY_ESC:
-					if (!m_Typed.empty())
+				case 'X':
 					{
-						// Erase the entire string
-						m_Typed.clear();
-
-						InputEvent.m_Handled = true;
+						if (   SuperActive
+							&& !GetString().empty())
+						{
+							glfwSetClipboardString(TakeString());
+						}
+						else
+							HandledEvent = false;
+					}
+					break;
+				case 'C':
+					{
+						if (   SuperActive
+							&& !GetString().empty())
+						{
+							glfwSetClipboardString(GetString());
+						}
+						else
+							HandledEvent = false;
+					}
+					break;
+				case 'V':
+					{
+						if (   SuperActive
+							&& !glfwGetClipboardString().empty())
+						{
+							m_Typed.append(glfwGetClipboardString());
+						}
+						else
+							HandledEvent = false;
 					}
 					break;
 				default:
+					HandledEvent = false;
 					break;
+				}
+
+				if (HandledEvent)
+				{
+					InputEvent.m_Handled = true;
 				}
 			}
 		}

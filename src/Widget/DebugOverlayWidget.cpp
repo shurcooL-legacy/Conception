@@ -54,22 +54,32 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 		{
 			std::ostringstream out;
 
+			std::map<std::pair<PointerState::Modifiers, Input::InputId>, GestureRecognizer::ShortcutEntry &> AvailShortcuts;
+
+			// Find all non-overlapping available shortcuts
 			for (auto & i : g_InputManager->m_TypingPointer->ModifyPointerMapping().m_Entries)
 			{
 				for (auto & S : i->m_Shortcuts)
 				{
 					// TODO: Highlight shortcuts that can be activated in current state (e.g. Cmd+O does nothing when a folder is selected, etc.)
 
-					if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general
-						out << "Cmd+";
-					out << static_cast<char>(S.InputId);
-					out << " - " << S.Description;
-					out << endl;
+					// Only add this shortcut if there isn't any other overlapping one (i.e., with the same signature <Modifier, InputId>)
+					auto Key = decltype(AvailShortcuts)::key_type(S.Modifiers, S.InputId);
+					if (AvailShortcuts.end() == AvailShortcuts.find(Key))
+						AvailShortcuts.insert(decltype(AvailShortcuts)::value_type(Key, S));
 				}
+			}
 
-				// TODO: Avoid repeating overlapping shortcuts in a smarter way than just ignoring all next widgets
-				if (!i->m_Shortcuts.empty())
-					break;
+			// Print out all available shortcuts
+			for (auto & aS : AvailShortcuts)
+			{
+				auto & S = aS.second;
+
+				if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general
+					out << "Cmd+";
+				out << static_cast<char>(S.InputId);
+				out << " - " << S.Description;
+				out << endl;
 			}
 
 			return out.str();
