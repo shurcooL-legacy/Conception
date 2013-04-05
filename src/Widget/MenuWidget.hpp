@@ -21,11 +21,6 @@ template <typename T> const T * MenuWidget<T>::GetSelectedEntry() const
 		return nullptr;
 }
 
-/*template <typename T> void MenuWidget<T>::SetSelectedEntryId(decltype(m_SelectedEntryId) SelectedEntryId)
-{
-	m_SelectedEntryId = SelectedEntryId;
-}*/
-
 template <typename T> void MenuWidget<T>::SetSelectedEntryId(Vector2n LocalPosition)
 {
 	decltype(m_SelectedEntryId) NewSelectedEntryId;
@@ -49,6 +44,36 @@ template <typename T> void MenuWidget<T>::SetSelectedEntryId(decltype(m_Selected
 		if (nullptr != m_OnChange) {
 			m_OnChange();
 		}
+	}
+}
+
+template <typename T> void MenuWidget<T>::UpdateEntries(const std::vector<T> & Entries)
+{
+	if (m_Entries != Entries)
+	{
+		bool SelectionChangedToNone = false;
+
+		// Figure out what the m_SelectedEntryId should be for the new Entries
+		if (m_SelectedEntryId < m_Entries.size())
+		{
+			auto SelectedEntry = m_Entries[m_SelectedEntryId];
+
+			SelectionChangedToNone = true;		// Assume true until for loop...
+			for (auto it0 = Entries.begin(); Entries.end() != it0; ++it0)
+			{
+				if (SelectedEntry == *it0)
+				{
+					m_SelectedEntryId = it0 - Entries.begin();		// The new entries contain the same selected entry, so just update m_SelectedEntryId and do nothing else
+					SelectionChangedToNone = false;					// Unless got here
+					break;
+				}
+			}
+		}
+
+		m_Entries = Entries;
+
+		if (SelectionChangedToNone)		// If not found (i.e. changed from something selected to nothing selected), trigger an OnChange event
+			SetSelectedEntryId(-1);
 	}
 }
 

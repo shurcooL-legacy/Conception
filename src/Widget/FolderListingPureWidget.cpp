@@ -16,11 +16,7 @@ void FolderListingPureWidget::ProcessTimePassed(const double TimePassed)
 		m_NextRefresh = Now + 0.250;		// Refresh again after 250 ms
 
 		auto List = Ls(GetPath());
-		if (m_Entries != List) {
-			SetSelectedEntryId(-1);
-
-			m_Entries = List;
-		}
+		UpdateEntries(List);
 	}
 
 	MenuWidget<std::string>::ProcessTimePassed(TimePassed);

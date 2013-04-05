@@ -13,6 +13,8 @@ public:
 
 	void SetSelectedEntryId(Vector2n LocalPosition);
 
+	void UpdateEntries(const std::vector<T> & Entries);
+
 	void Render() override;
 
 	void ProcessTap(const InputEvent & InputEvent, Vector2n Position) override;
@@ -24,7 +26,7 @@ public:
 	std::function<void(Vector2n, std::vector<T> &)>		m_TapAction = nullptr;
 	std::function<void(Vector2n, std::vector<T> &)>		m_DoubleTapAction = nullptr;		// TODO: Inconsistency, this is here while GR.RecDblTap is off
 
-protected:
+private:
 	void UpdateDimensions();
 
 	std::vector<T>				m_Entries;
