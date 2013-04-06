@@ -52,3 +52,15 @@ These WIP screenshots present a partial outlook into the things I'm prototyping.
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/List%201.png)
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Screen%20Shot%202012-10-17%20at%201.43.55%20PM.png)
+
+Notes
+-----
+The Xcode project is the most up to date and should allow you to compile and run right away.
+
+There's a makefile for Linux. It compiles with the latest clang.
+
+Can be compiled on Windows, but since I use some C++11 features that Visual Studio 2012 doesn't support yet, it will take some effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
+
+Since it executes code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
+
+It assumes golang is installed (i.e. /usr/local/go/bin/go exists). You might have to change this path if your go binary is elswhere.
