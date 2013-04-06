@@ -61,6 +61,6 @@ There's a makefile for Linux. It compiles with the latest clang.
 
 Can be compiled on Windows, but since I use some C++11 features that Visual Studio 2012 doesn't support yet, it will take some effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
 
-Since it executes code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
+Since it can execute code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
 
 It assumes golang is installed (i.e. /usr/local/go/bin/go exists). You might have to change this path if your go binary is elswhere.
