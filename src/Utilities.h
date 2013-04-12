@@ -2,7 +2,7 @@
 #ifndef __Utilities_H__
 #define __Utilities_H__
 
-bool HasEnding(const std::string & fullString, const std::string & ending);
+bool HasSuffix(const std::string & s, const std::string & suffix);
 
 // Clipboard (from GLFW 3.0)
 void glfwSetClipboardString(std::string string);

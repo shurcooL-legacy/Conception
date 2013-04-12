@@ -1,6 +1,6 @@
 #include "Main.h"
 
-CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling)
+CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling, TypingModule * pTypingModule, Project * pProject)
 	: CompositeWidget(Position, {}, {}),
 	  m_BlackBackgroundTEST(false),
 	  Camera(0, 0),
@@ -24,6 +24,24 @@ CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground,
 	if (m_HasBackground)
 	{
 		g_InputManager->RequestTypingPointer(ModifyGestureRecognizer());
+	}
+
+	if (   nullptr != pTypingModule
+		&& nullptr != pProject
+		&& m_HasBackground)
+	{
+		auto & TypingModule = *pTypingModule;
+		auto & Project = *pProject;
+
+		auto Open = [this, &TypingModule, &Project]() {
+			if (0 != TypingModule.GetString().length())
+			{
+				std::string FullPath = TypingModule.TakeString();
+
+				AddWidgetForPath(FullPath, *this, TypingModule, Project);
+			}
+		};
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open Path"));
 	}
 }
 

@@ -12,7 +12,7 @@ public:
 		VerticalOnly
 	};
 
-	CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming);
+	CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling = BehaviourScrolling::Zooming, TypingModule * pTypingModule = nullptr, Project * pProject = nullptr);
 	~CanvasWidget();
 
 	void Render() override;

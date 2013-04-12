@@ -10,7 +10,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 	PopulateConcepts();
 
 	{
-		auto MainCanvas = new CanvasWidget(Vector2n(0, 0), true, true);
+		auto MainCanvas = new CanvasWidget(Vector2n(0, 0), true, true, CanvasWidget::BehaviourScrolling::Zooming, m_TypingModule, &m_CurrentProject);
 		//MainCanvas->MoveView(0, 336);
 		MainCanvas->MoveView(1, -64);
 
@@ -75,8 +75,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new LiveCodeWidget(Vector2n(-100, 220), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-270, -300), *m_TypingModule, m_CurrentProject));
 		MainCanvas->AddWidget(new LiveProgramWidget(Vector2n(-270, -100), *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -100), "./GoLand/src/TestProgram2.go", *m_TypingModule, m_CurrentProject));
-		MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-100, -300), "./GoLand/src/TestProgram.go", *m_TypingModule, m_CurrentProject));
+		AddWidgetForPath("./GoLand/src/TestProgram2.go", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-100, -100));
+		AddWidgetForPath("./GoLand/src/TestProgram.go", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-100, -300));
 		MainCanvas->AddWidget(new ShellWidget(Vector2n(-460, 60), *m_TypingModule));
 		MainCanvas->AddWidget(new SayWidget(Vector2n(-560, -100), *m_TypingModule));
 		MainCanvas->AddWidget(new GitStatusWidget(Vector2n(-380, 280), *m_TypingModule));
@@ -199,9 +199,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Folder Listing
-		auto FolderListing = new FolderListingWidget(Vector2n(-600, -390), "..", *MainCanvas, *m_TypingModule, m_CurrentProject);
-		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));
-		MainCanvas->AddWidget(FolderListing);
+		AddWidgetForPath("../", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
 
 		// TEST: Two dependencies
 		{

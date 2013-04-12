@@ -18,4 +18,7 @@ private:
 	FolderListingWidget * m_Child = nullptr;
 };
 
+void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project);
+void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, Vector2n Position);
+
 #endif // __FolderListingWidget_H__

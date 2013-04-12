@@ -1,9 +1,9 @@
 #include "Main.h"
 
-bool HasEnding(const std::string & fullString, const std::string & ending)
+bool HasSuffix(const std::string & s, const std::string & suffix)
 {
-	if (fullString.length() >= ending.length()) {
-		return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+	if (s.length() >= suffix.length()) {
+		return (0 == s.compare(s.length() - suffix.length(), suffix.length(), suffix));
 	} else {
 		return false;
 	}

@@ -3,14 +3,12 @@
 FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
-	//printf("FolderListingWidget(Path = `%s`) created.\n", Path.c_str());
 	// If not empty and doesn't end with slash, add the slash
 	if (   !Path.empty()
-		&& '/' != Path.at(Path.length() - 1))
+		&& !HasSuffix(Path, "/"))
 	{
 		Path += "/";
 	}
-	//printf("FolderListingWidget(Path = `%s`) became.\n", Path.c_str());
 
 	auto List = Ls(Path);
 
@@ -47,7 +45,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
 				Shell->m_WorkingFolder->SetTarget(ListingWidget);
 
-				if (HasEnding(Entry, "/"))
+				if (HasSuffix(Entry, "/"))
 					//std::cerr << "Should create folder \"" << Entry << "\" inside \"" << ListingWidget->GetPath() << "\"." << endl;
 					Shell->m_CommandWidget->SetContent("mkdir \"" + Entry + "\"");
 				else {
@@ -94,16 +92,11 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		AddWidget(ListingWidget);
 
 		auto Open = [&AddTo, &TypingModule, &Project, ListingWidget, Path]() {
-			if (   nullptr != ListingWidget->GetSelectedEntry()
-				&& '/' != *ListingWidget->GetSelectedEntry()->rbegin())		// Make sure it's not a folder, i.e. doesn't end with a slash
+			if (nullptr != ListingWidget->GetSelectedEntry())
 			{
 				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
 
-				std::cout << "Open sesame '" << FullPath << "'.\n";
-				if (HasEnding(FullPath, ".go"))
-					AddTo.AddWidget(new LiveProgramFileWidget(Vector2n(240, -230), FullPath, TypingModule, Project));
-				else
-					AddTo.AddWidget(new TextFileWidget(Vector2n(240, -230), FullPath, TypingModule));
+				AddWidgetForPath(FullPath, AddTo, TypingModule, Project);
 			}
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open File"));
@@ -134,6 +127,44 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 
 FolderListingWidget::~FolderListingWidget()
 {
+}
+
+void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project)
+{
+	auto Position = Vector2n::ZERO;
+	for (auto & Pointer : AddTo.GetGestureRecognizer().GetConnected())
+	{
+		if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
+		{
+			Vector2n GlobalPosition(Pointer->GetPointerState().GetAxisState(0).GetPosition(), Pointer->GetPointerState().GetAxisState(1).GetPosition());
+			Vector2n LocalPosition = AddTo.GlobalToLocal(GlobalPosition);
+			Position = LocalPosition;
+			break;
+		}
+	}
+
+	AddWidgetForPath(FullPath, AddTo, TypingModule, Project, Position);
+}
+
+// TODO: Consider moving this to CompositeWidget or CanvasWidget as a member function
+void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, Vector2n Position)
+{
+	// TODO: Add better check if the path is a folder or file (rather than relying on suffix forward slash), take it from FodlerListingWidget's constructor
+	if (HasSuffix(FullPath, "/"))
+	{
+		// Folder Listing
+		auto FolderListing = new FolderListingWidget(Position, FullPath, AddTo, TypingModule, Project);
+		FolderListing->AddBehavior(new DraggablePositionBehavior(*FolderListing));
+		AddTo.AddWidget(FolderListing);
+	}
+	else
+	{
+		// Open file
+		if (HasSuffix(FullPath, ".go"))
+			AddTo.AddWidget(new LiveProgramFileWidget(Position, FullPath, TypingModule, Project));
+		else
+			AddTo.AddWidget(new TextFileWidget(Position, FullPath, TypingModule));
+	}
 }
 
 void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)

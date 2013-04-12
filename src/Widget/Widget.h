@@ -61,7 +61,7 @@ protected:
 
 	virtual const Vector2n ParentToLocal(const Vector2n ParentPosition) const;
 	const Vector2n GlobalToParent(const Vector2n GlobalPosition) const;
-	const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const;
+public:const Vector2n GlobalToLocal(const Vector2n GlobalPosition) const;protected:
 
 	bool CheckHover() const;
 	bool CheckActive() const;
