@@ -129,7 +129,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 				// Open it in a new LiveProgramFileWidget
 				const auto FullPath = "./GoLand/src/gist.github.com/" + GistId + ".git/main.go";
-				MainCanvas->AddWidget(new LiveProgramFileWidget(Vector2n(-200, -590), FullPath, *m_TypingModule, m_CurrentProject));
+				AddWidgetForPath(FullPath, *MainCanvas, *m_TypingModule, m_CurrentProject);
 
 				// Copy import statement to clipboard
 				const auto ImportStatement = ". \"gist.github.com/" + GistId + ".git\"";

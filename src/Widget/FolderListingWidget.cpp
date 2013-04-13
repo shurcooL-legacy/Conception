@@ -132,6 +132,8 @@ FolderListingWidget::~FolderListingWidget()
 void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project)
 {
 	auto Position = Vector2n::ZERO;
+
+	// Try to get the postion of the mouse cursor
 	for (auto & Pointer : AddTo.GetGestureRecognizer().GetConnected())
 	{
 		if (Pointer::VirtualCategory::POINTING == Pointer->GetVirtualCategory())
