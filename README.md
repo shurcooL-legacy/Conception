@@ -9,6 +9,8 @@ It started off from [this tweet](https://twitter.com/shurcooL/status/17311076872
 
 Please steal any good ideas you see here. I'd rather have them benefit the world than die in obscurity.
 
+If you like the project and would like to support me in its further development, please consider backing me at <https://www.gittip.com/shurcooL>.
+
 Motivation
 ----------
 - Right now it's often easier to write code from scratch to do something, rather than find existing code that already does it. Conception is about flipping that.
