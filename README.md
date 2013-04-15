@@ -9,7 +9,7 @@ It started off from [this tweet](https://twitter.com/shurcooL/status/17311076872
 
 Please steal any good ideas you see here. I'd rather have them benefit the world than die in obscurity.
 
-If you like the project and would like to support me in its further development, please consider backing me at <https://www.gittip.com/shurcooL>.
+If you like the project and would like to support me in its further development, please consider backing me at [![](https://dl.dropboxusercontent.com/u/8554242/dmitri/Gittip.png)](https://www.gittip.com/shurcooL/). You can make it possible for me to keep working on this full-time while keeping it free!
 
 Motivation
 ----------
@@ -20,6 +20,10 @@ Motivation
 - Instead of dumbing down code for the existing tools, why not make more advanced tools to read code as if debugging the program. (https://twitter.com/shurcooL/status/156526541214457856)
 
 - What if you could change the public API of a library (in order to improve it) without breaking an unknown number of things that use the said library. That would require the dependencies to be known, and editable. That is not currently possible, but it may be possible if all code is within one open system. The payoff would be the ability to improve anything without fear of breakage; nothing would have to be written in stone.
+
+Demonstration
+-------------
+There is a 5 minute [video](http://www.youtube.com/watch?v=DNJ7HqlV55k) demonstrating Conception.
 
 Screenshots
 -----------
