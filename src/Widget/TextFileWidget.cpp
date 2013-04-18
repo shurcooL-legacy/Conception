@@ -32,6 +32,17 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 	};
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('I', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
 
+	auto OpenExternal = [Path, &TypingModule]() {
+		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
+		std::string Command = "open \'" + Path + "\'";
+		Shell->m_CommandWidget->SetContent(Command);
+		Shell->m_ExecuteWidget->GetAction()();
+
+		std::cerr << "Doing: " << Shell->m_CommandWidget->GetContent() << endl;
+		std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+	};
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('E', PointerState::Modifiers::Super, OpenExternal, "Open in External Editor"));
+
 	// TEST: Line Gutters
 #if 0
 	//if ("./Gen/5086673/gistfile1.go" == Path)
@@ -56,7 +67,7 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 		GitDiff->RemoveAllBehaviors();
 		AddWidget(GitDiff);
 
-		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [=, &TypingModule]() {
+		auto GitCommit = new ButtonWidget(Vector2n(-160, -350), [this, Folder, Filename, &TypingModule]() {
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
 				std::string Command = "cd \'" + Folder + "\'\ngit commit --allow-empty-message -m '' -- \'" + Filename + "\'";
 				Command += "\ngit push origin master";

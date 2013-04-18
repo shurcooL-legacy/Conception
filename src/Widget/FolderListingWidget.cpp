@@ -92,28 +92,41 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		AddWidget(ListingWidget);
 
 		auto Open = [&AddTo, &TypingModule, &Project, ListingWidget, Path]() {
+			std::string FullPath = Path;
 			if (nullptr != ListingWidget->GetSelectedEntry())
-			{
-				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
+				FullPath += *ListingWidget->GetSelectedEntry();
 
-				AddWidgetForPath(FullPath, AddTo, TypingModule, Project);
-			}
+			AddWidgetForPath(FullPath, AddTo, TypingModule, Project);
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open File"));
 
 		auto CopyPath = [&AddTo, &TypingModule, ListingWidget, Path]() {
+			std::string FullPath = Path;
 			if (nullptr != ListingWidget->GetSelectedEntry())
-			{
-				std::string FullPath = Path + *ListingWidget->GetSelectedEntry();
+				FullPath += *ListingWidget->GetSelectedEntry();
 
 #if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
-				glfwSetClipboardString(FullPath);
+			glfwSetClipboardString(FullPath);
 #else
-				TypingModule.SetString(FullPath);
+			TypingModule.SetString(FullPath);
 #endif
-			}
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('I', PointerState::Modifiers::Super, CopyPath, "Copy Path"));
+
+		auto OpenExternal = [&TypingModule, ListingWidget, Path]() {
+			std::string FullPath = Path;
+			if (nullptr != ListingWidget->GetSelectedEntry())
+				FullPath += *ListingWidget->GetSelectedEntry();
+
+			auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
+			std::string Command = "open \'" + FullPath + "\'";
+			Shell->m_CommandWidget->SetContent(Command);
+			Shell->m_ExecuteWidget->GetAction()();
+
+			std::cerr << "Doing: " << Shell->m_CommandWidget->GetContent() << endl;
+			std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+		};
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('E', PointerState::Modifiers::Super, OpenExternal, "Open in External Editor"));
 
 		// Double tap to select and open file
 		ListingWidget->m_DoubleTapAction = [ListingWidget, Open](Vector2n LocalPosition, std::vector<std::string> &) {
