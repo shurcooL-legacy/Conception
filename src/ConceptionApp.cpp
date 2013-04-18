@@ -199,7 +199,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Folder Listing
-		AddWidgetForPath("../", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
+		AddWidgetForPath("./", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
+		AddWidgetForPath("GoLand/../", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -590));
 
 		// TEST: Two dependencies
 		{
