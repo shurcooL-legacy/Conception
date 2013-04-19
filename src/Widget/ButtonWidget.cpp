@@ -50,7 +50,7 @@ void ButtonWidget::Render()
 		BorderColor[2] = 0.396;
 	}
 
-	DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
+	DrawInnerBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
 	CompositeWidget::Render();
 }

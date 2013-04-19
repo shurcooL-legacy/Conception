@@ -16,7 +16,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 		&& List.front() == "ls: " + Path + ": Not a directory")
 	{
 		// TEST: Add a file preview pane
-		//if (0)
+		if (false)
 		{
 			auto PathString = Path.substr(0, Path.length() - 1);
 #if 0

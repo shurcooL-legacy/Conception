@@ -58,7 +58,7 @@ void ToggleWidget::Render()
 	else
 	{
 		// TODO: Unfinished... this looks bad, hard to differentiate
-		DrawBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
+		DrawInnerBox(GetPosition(), GetDimensions(), BackgroundColor, BorderColor);
 
 		glColor3d(0, 0, 0);
 		if (m_State)
