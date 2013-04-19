@@ -2,7 +2,7 @@
 
 std::vector<Concept *> Concepts;
 
-void Concept::Draw(Vector2n Position) const
+void Concept::Render(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250) * 1.075, Color(static_cast<uint8>(195), 212, 242));
@@ -182,7 +182,7 @@ void VerifyNoDuplicateConcepts(std::vector<Concept *> & Concepts)
 	}
 }
 
-void ConceptBasic::Draw(Vector2n Position) const
+void ConceptBasic::Render(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
@@ -221,7 +221,7 @@ std::string ConceptBasic::GetContent() const
 	return m_Content;
 }
 
-/*void ConceptCompound::Draw(Vector2n Position) const
+/*void ConceptCompound::Render(Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
@@ -262,7 +262,7 @@ std::string ConceptCompound::GetContent() const
 
 ConceptParameters ConceptParameterized::EmptyParameters;
 
-void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
+void ConceptParameterized::Render(const ConceptParameters & ConceptParameters, Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(ConceptParameters), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
@@ -279,7 +279,7 @@ void ConceptParameterized::Draw(const ConceptParameters & ConceptParameters, Vec
 	for (decltype(Content)::size_type i = 0; i < Content.size(); ++i)
 	{
 		//OpenGLStream << GetConcept(ConceptString[i]).GetContent(ConceptParameters);
-		GetConcept(Content[i]).Draw(ConceptParameters, CaretPosition);
+		GetConcept(Content[i]).Render(ConceptParameters, CaretPosition);
 
 		Vector2n InnerDimensions = GetConcept(Content[i]).GetDimensions(ConceptParameters);
 
@@ -320,7 +320,7 @@ std::string ConceptParameterized::GetContent(const ConceptParameters & ConceptPa
 
 ConceptParameters ConceptParameterized2::EmptyParameters;
 
-void ConceptParameterized2::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
+void ConceptParameterized2::Render(const ConceptParameters & ConceptParameters, Vector2n Position) const
 {
 #if DECISION_CONCEPTS_DISPLAYED_SMALL
 	DrawInnerBox(Position, GetDimensions(ConceptParameters), Color(static_cast<uint8>(233), 239, 250), Color(static_cast<uint8>(195), 212, 242));
@@ -401,9 +401,9 @@ ConceptInstance::ConceptInstance(ConceptId ConceptId, std::initializer_list<::Co
 	return *this;
 }*/
 
-void ConceptInstance::Draw(Vector2n Position) const
+void ConceptInstance::Render(Vector2n Position) const
 {
-	GetConcept(m_ConceptId).Draw(GetParameters(), Position);
+	GetConcept(m_ConceptId).Render(GetParameters(), Position);
 }
 
 Vector2n ConceptInstance::GetDimensions() const
@@ -416,9 +416,9 @@ std::string ConceptInstance::GetContent() const
 	return GetConcept(m_ConceptId).GetContent(GetParameters());
 }
 
-void ConceptInstance::Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const
+void ConceptInstance::Render(const ConceptParameters & ConceptParameters, Vector2n Position) const
 {
-	GetConcept(m_ConceptId).Draw(GetParameters() + ConceptParameters, Position);
+	GetConcept(m_ConceptId).Render(GetParameters() + ConceptParameters, Position);
 }
 
 Vector2n ConceptInstance::GetDimensions(const ConceptParameters & ConceptParameters) const

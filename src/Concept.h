@@ -76,11 +76,11 @@ public:
 
 	virtual ~Concept() {}
 
-	virtual void Draw(Vector2n Position) const;
+	virtual void Render(Vector2n Position) const;
 	virtual Vector2n GetDimensions() const;
 	virtual std::string GetContent() const;
 
-	virtual void Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const { Draw(Position); }
+	virtual void Render(const ConceptParameters & ConceptParameters, Vector2n Position) const { Render(Position); }
 	virtual Vector2n GetDimensions(const ConceptParameters & ConceptParameters) const { return GetDimensions(); }
 	virtual std::string GetContent(const ConceptParameters & ConceptParameters) const { return GetContent(); }
 
@@ -242,7 +242,7 @@ public:
 	{
 	}
 
-	void Draw(Vector2n Position) const override;
+	void Render(Vector2n Position) const override;
 	Vector2n GetDimensions() const override;
 	std::string GetContent() const override;
 
@@ -262,7 +262,7 @@ public:
 	{
 	}
 
-	void Draw(Vector2n Position) const override;
+	void Render(Vector2n Position) const override;
 	Vector2n GetDimensions() const override;
 	std::string GetContent() const override;
 
@@ -280,11 +280,11 @@ public:
 	{
 	}
 
-	void Draw(Vector2n Position) const override { Draw(EmptyParameters, Position); }
+	void Render(Vector2n Position) const override { Render(EmptyParameters, Position); }
 	Vector2n GetDimensions() const override { return GetDimensions(EmptyParameters); }
 	std::string GetContent() const override { return GetContent(EmptyParameters); }
 
-	void Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
+	void Render(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
 	Vector2n GetDimensions(const ConceptParameters & ConceptParameters) const override;
 	std::string GetContent(const ConceptParameters & ConceptParameters) const override;
 
@@ -304,11 +304,11 @@ public:
 	{
 	}
 
-	void Draw(Vector2n Position) const override { Draw(EmptyParameters, Position); }
+	void Render(Vector2n Position) const override { Render(EmptyParameters, Position); }
 	Vector2n GetDimensions() const override { return GetDimensions(EmptyParameters); }
 	std::string GetContent() const override { return GetContent(EmptyParameters); }
 
-	void Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
+	void Render(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
 	Vector2n GetDimensions(const ConceptParameters & ConceptParameters) const override;
 	std::string GetContent(const ConceptParameters & ConceptParameters) const override;
 
@@ -333,11 +333,11 @@ public:
 	//ConceptInstance(const ConceptInstance & Other);
 	/*ConceptInstance & operator = (const ConceptInstance & Other);*/
 
-	void Draw(Vector2n Position) const override;
+	void Render(Vector2n Position) const override;
 	Vector2n GetDimensions() const override;
 	std::string GetContent() const override;
 
-	void Draw(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
+	void Render(const ConceptParameters & ConceptParameters, Vector2n Position) const override;
 	Vector2n GetDimensions(const ConceptParameters & ConceptParameters) const override;
 	std::string GetContent(const ConceptParameters & ConceptParameters) const override;
 
