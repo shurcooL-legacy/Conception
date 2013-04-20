@@ -63,10 +63,12 @@ Notes
 -----
 The Xcode project is the most up to date and should allow you to compile and run right away.
 
-There's a makefile for Linux. It compiles with the latest clang.
+There's a makefile for Linux. It [compiles](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Conception%20on%20Linux.png) with the latest clang, but is largely untested.
 
 Can be compiled on Windows, but since I use some C++11 features that Visual Studio 2012 doesn't support yet, it will take some effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
 
 Since it can execute code live, it's potentially as dangerous as a terminal (i.e. don't try to delete files).
 
 It assumes golang is installed (i.e. /usr/local/go/bin/go exists). You might have to change this path if your go binary is elswhere.
+
+For git-related stuff, it assumes git is in your bash's $PATH.
