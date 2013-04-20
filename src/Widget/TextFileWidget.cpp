@@ -73,7 +73,7 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 				Command += "\ngit push origin master";
 				Shell->m_CommandWidget->SetContent(Command);
 				Shell->m_ExecuteWidget->GetAction()();
-				this->NotifyExternalChange();		// Do this to triger potential GitDiffWidget, GitStatusWidget, etc.
+				this->NotifyExternalChange();		// Do this to trigger potential GitDiffWidget, GitStatusWidget, etc.
 
 				//std::cerr << "Commit & Push: '" << Folder << "' folder and '" << Filename << "' file.\n";
 				std::cerr << Shell->m_OutputWidget->GetContent() << endl;

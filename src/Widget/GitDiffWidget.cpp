@@ -7,6 +7,9 @@ GitDiffWidget::GitDiffWidget(Vector2n Position, TypingModule & TypingModule, Tex
 {
 	m_OutputWidget->m_GetLineHighlighting = GetLineHighlighting();
 
+	// TODO: Not quite sure if MinimizeToggle is applicable here, as the content is not really there
+	m_OutputWidget->m_MinimizeToggle = m_SourceWidget->m_LiveToggle;
+
 	m_SourceWidget->m_OnChange = [&]()
 	{
 		std::string InOut = "";

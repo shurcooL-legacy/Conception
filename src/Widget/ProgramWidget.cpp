@@ -6,6 +6,9 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	  m_Project(Project)
 {
+	// TODO: Not quite sure if MinimizeToggle is applicable here, as the content is not really there
+	m_OutputWidget->m_MinimizeToggle = m_SourceWidget->m_LiveToggle;
+
 	{
 		m_SourceWidget->m_OnChange = [=, &Project]()
 		{
@@ -116,11 +119,6 @@ void ProgramWidget::SetTarget(TextFieldWidget * Target)
 
 void ProgramWidget::ProcessTimePassed(const double TimePassed)
 {
-	if (m_SourceWidget->m_LiveToggle->GetState())
-		m_OutputWidget->m_Foreground = Color::BLACK;
-	else
-		m_OutputWidget->m_Foreground = Color(0.5, 0.5, 0.5);
-
 	// If we have some for us
 	if (m_OutputWidget == g_OutputWidget)
 	{
