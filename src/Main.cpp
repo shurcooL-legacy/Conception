@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
 		{
 			auto cwd = getcwd(nullptr, 0);
 			if (nullptr != cwd) {
-				//printf("Using cwd = >%s<\n", cwd);
+				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
 				g_GoPath += cwd;
 				free(cwd);
 			}
