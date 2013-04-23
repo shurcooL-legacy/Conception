@@ -180,20 +180,37 @@ template <typename T> void MenuWidget<T>::ProcessEvent(InputEvent & InputEvent)
 		{
 			if (Pressed)
 			{
+				const auto ControlActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LCTRL)
+											|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RCTRL));
+				const auto ShiftActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSHIFT)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSHIFT));
+				const auto SuperActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LSUPER)
+										  || InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RSUPER));
+				const auto AltActive = (   InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_LALT)
+										|| InputEvent.m_Pointer->GetPointerState().GetButtonState(GLFW_KEY_RALT));
+
 				bool HandledEvent = true;		// Assume true at first
 
 				switch (ButtonId)
 				{
 				case GLFW_KEY_UP:
 					{
-						if (m_SelectedEntryId > 0)
-							SetSelectedEntryId(m_SelectedEntryId - 1);
+						if (!SuperActive) {
+							if (m_SelectedEntryId > 0)
+								SetSelectedEntryId(m_SelectedEntryId - 1);
+						} else {
+							SetSelectedEntryId(0);
+						}
 					}
 					break;
 				case GLFW_KEY_DOWN:
 					{
-						if (m_SelectedEntryId < m_Entries.size() - 1)
-							SetSelectedEntryId(m_SelectedEntryId + 1);
+						if (!SuperActive) {
+							if (m_SelectedEntryId < m_Entries.size() - 1)
+								SetSelectedEntryId(m_SelectedEntryId + 1);
+						} else {
+							SetSelectedEntryId(m_Entries.size() - 1);
+						}
 					}
 					break;
 				default:
