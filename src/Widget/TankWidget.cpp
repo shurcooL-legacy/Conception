@@ -72,7 +72,8 @@ void TankWidget::Render()
 
 void TankWidget::ProcessEvent(InputEvent & InputEvent)
 {
-	if (IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent))
+	if (   IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent)
+		&& &GetGestureRecognizer() == InputEvent.m_Pointer->GetPointerMapping().GetHoverer())		// Pointer was hovering this very widged when pointer went active
 	{
 		const auto & PointerState = InputEvent.m_Pointer->GetPointerState();
 		Vector2n GlobalPosition(PointerState.GetAxisState(0).GetPosition(), PointerState.GetAxisState(1).GetPosition());
