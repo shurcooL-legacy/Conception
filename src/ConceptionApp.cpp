@@ -131,13 +131,11 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				const auto FullPath = "./GoLand/src/gist.github.com/" + GistId + ".git/main.go";
 				AddWidgetForPath(FullPath, *MainCanvas, *m_TypingModule, m_CurrentProject);
 
-				// Copy import statement to clipboard
-				const auto ImportStatement = ". \"gist.github.com/" + GistId + ".git\"";
-#if DECISION_USE_CLIPBOARD_INSTEAD_OF_TypingModule
-				glfwSetClipboardString(ImportStatement);
-#else
-				m_TypingModule->SetString(ImportStatement);
-#endif
+				// Place import statement in the typing module, if it's empty...
+				if (m_TypingModule->GetString().empty()) {
+					const auto ImportStatement = ". \"gist.github.com/" + GistId + ".git\"";
+					m_TypingModule->SetString(ImportStatement);
+				}
 			};
 			FlowLayout->AddWidget(new ButtonWidget(Vector2n::ZERO, Action, "+ Gist"));
 			MainCanvas->AddWidget(FlowLayout);
@@ -200,7 +198,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// Folder Listing
 		AddWidgetForPath("./", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
-		AddWidgetForPath("GoLand/../", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -590));
+		AddWidgetForPath("/Users/Dmitri/Dropbox/Work/2013/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -590));
 
 		// TEST: Two dependencies
 		{
