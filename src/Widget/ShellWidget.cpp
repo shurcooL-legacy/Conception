@@ -39,10 +39,6 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 					dup2(PipeInFd[0], 0);  // get stdin from the pipe
 					close(PipeInFd[0]);    // this descriptor is no longer needed
 
-					putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
-					putenv(const_cast<char *>(g_GoPath.c_str()));		// HACK: Const cast
-					// HACK: Add go/bin to $PATH by hardcoding the whole PATH for OS X
-					putenv(const_cast<char *>("PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/go/bin"));
 					std::string Command;
 					if (nullptr != m_WorkingFolder->Target())
 						Command = std::string("cd \"") + m_WorkingFolder->Target()->GetPath() + "\"\n" + m_CommandWidget->GetContent();

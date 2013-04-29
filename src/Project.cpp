@@ -368,7 +368,6 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 #if DECISION_USE_CPP_INSTEAD_OF_GO
 				execl("/usr/bin/clang++", "/usr/bin/clang++", "./GenProgram.cpp", "-o", "./GenProgram", (char *)0);
 #else
-				putenv(const_cast<char *>(g_GoPath.c_str()));		// HACK: Const cast
 				execl("/usr/local/go/bin/go", "/usr/local/go/bin/go", "build", "./GenProgram.go", (char *)0);
 #endif
 

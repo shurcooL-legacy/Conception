@@ -10,8 +10,6 @@ TODO so that Conception can be implemented within Conception:
 
 #include "Main.h"
 
-std::string g_GoPath;
-
 #ifdef WIN32
 namespace std
 {
@@ -61,19 +59,26 @@ int main(int argc, char * argv[])
 
 
 
-	// Initialize the value of GoPath
+	// Set env vars
+	std::string GoPath;		// This has to exist even after putenv() call because putenv simply adds a pointer rather than copying the value
 	{
-		g_GoPath = "GOPATH=";
+		// Initialize the value of GoPath
+		GoPath = "GOPATH=";
 		// Get current working directory
 		{
 			auto cwd = getcwd(nullptr, 0);
 			if (nullptr != cwd) {
 				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
-				g_GoPath += cwd;
+				GoPath += cwd;
 				free(cwd);
 			}
 		}
-		g_GoPath += "/GoLand";
+		GoPath += "/GoLand";
+
+		putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
+		putenv(const_cast<char *>(GoPath.c_str()));		// HACK: Const cast
+		// HACK: Add go/bin to $PATH by hardcoding the whole PATH for OS X
+		putenv(const_cast<char *>("PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/go/bin"));		// HACK: Const cast
 	}
 
 	glfwInit();

@@ -182,7 +182,6 @@ typedef Rectangle<sint32> Rectanglen;
 typedef Rectangle<double> Rectangled;
 
 extern InputManager * g_InputManager;
-extern std::string g_GoPath;
 
 #include "Utilities.h"
 #include "MutuallyConnectable.h"
