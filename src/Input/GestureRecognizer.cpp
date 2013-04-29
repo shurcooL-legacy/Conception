@@ -480,9 +480,7 @@ bool GestureRecognizer::ProcessShortcuts(InputEvent InputEvent)
 		if (   IsPointerButtonEvent<Pointer::VirtualCategory::TYPING, true>(InputEvent, Shortcut.InputId)
 			&& Shortcut.Modifiers == InputEvent.m_PostEventState.GetModifiers())
 		{
-			if (nullptr != Shortcut.Action) {
-				Shortcut.Action();
-			}
+			Shortcut.Action();
 
 			return true;
 		}
@@ -587,6 +585,8 @@ void GestureRecognizer::ProcessEvent(InputEvent & InputEvent)
 	// DEBUG: This check is probably not needed anymore... it should always pass, due to new architecture
 	if (true == InputEvent.m_Handled)
 	{
+		printf("Exception in void GestureRecognizer::ProcessEvent(InputEvent & InputEvent), InputEvent.m_Handled is not false!");
+		throw 0;
 		return;
 	}
 

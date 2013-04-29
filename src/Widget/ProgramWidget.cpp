@@ -83,7 +83,10 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 			ss << Input;
 			std::string Line;
 
-			std::getline(ss, Line);		// Skip first line
+			// Skip first line if it starts with "#"
+			if (Line.length() >= 1 && '#' == Line[0])
+				std::getline(ss, Line);
+
 			for (;;)
 			{
 				std::getline(ss, Line);

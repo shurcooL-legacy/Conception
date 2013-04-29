@@ -74,6 +74,7 @@ bool Widget::HasAnyTypingFocus() const
 
 bool Widget::CheckHover() const
 {
+	// DEBUG: Why only loop over the connected pointers? If I'm using m_CurrentPointerMappingTEST, then it may not be connected at all... Doesn't make sense, I should fix this inconsistency
 	for (auto & Pointer : GetGestureRecognizer().GetConnected())
 	{
 		if (&GetGestureRecognizer() == Pointer->m_CurrentPointerMappingTEST.GetHoverer())
