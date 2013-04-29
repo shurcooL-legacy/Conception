@@ -75,14 +75,20 @@ bool OglUtilsInitFont()
 		glNewList(oFontBase[0] + iLoop1, GL_COMPILE);
 			//const float offset = 0.002f;
 			const float offset = 0.004f;
+#if DECISION_RENDER_TEXT_VCENTERED_MID
+			float VerticalOffset = 0.00125f;
+			if (('a' <= iLoop1 && iLoop1 <= 'z') || '_' == iLoop1) VerticalOffset = -0.00225f;
+#else
+			float VerticalOffset = 0;
+#endif
 			glBegin(GL_QUADS);
-				glTexCoord2f(fCharX+offset, 1 - fCharY - 0.0625f+offset);
+				glTexCoord2f(fCharX+offset, 1 - fCharY - 0.0625f+offset + VerticalOffset);
 				glVertex2i(0, 16);
-				glTexCoord2f(fCharX + 0.0625f-offset, 1 - fCharY - 0.0625f+offset);
+				glTexCoord2f(fCharX + 0.0625f-offset, 1 - fCharY - 0.0625f+offset + VerticalOffset);
 				glVertex2i(16, 16);
-				glTexCoord2f(fCharX + 0.0625f-offset, 1 - fCharY-offset);
+				glTexCoord2f(fCharX + 0.0625f-offset, 1 - fCharY-offset + VerticalOffset);
 				glVertex2i(16, 0);
-				glTexCoord2f(fCharX+offset, 1 - fCharY-offset);
+				glTexCoord2f(fCharX+offset, 1 - fCharY-offset + VerticalOffset);
 				glVertex2i(0, 0);
 			glEnd();
 			glTranslated(fontWidth[0], 0.0, 0.0);

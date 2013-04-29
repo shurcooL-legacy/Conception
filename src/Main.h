@@ -78,6 +78,7 @@ namespace std
 #define DECISION_CONCEPTS_DISPLAYED_SMALL 1
 #define DECISION_USE_CPP_INSTEAD_OF_GO 0
 #define DECISION_LIST_WIDGET_IS_COMPOSITE 0
+#define DECISION_RENDER_TEXT_VCENTERED_MID 1		// If true, aligns the font vertically along middle rather than bottom
 
 class Concept;
 class ConceptBasic;
