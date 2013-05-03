@@ -1,6 +1,6 @@
 #include "../Main.h"
 
-FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project)
+FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, bool FilePreviewShouldBeVisible)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
 	// If not empty and doesn't end with slash, add the slash
@@ -15,8 +15,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 	if (   1 == List.size()
 		&& List.front() == "ls: " + Path + ": Not a directory")
 	{
-		// TEST: Add a file preview pane
-		if (false)
+		// Add a file preview pane
 		{
 			auto PathString = Path.substr(0, Path.length() - 1);
 #if 0
@@ -26,6 +25,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				return FromFileToString(PathString);
 			};
 			auto LabelWidget = new class LabelWidget(Vector2n::ZERO, Content, LabelWidget::Background::Normal);
+			LabelWidget->m_Visible = FilePreviewShouldBeVisible;
 			AddWidget(LabelWidget);
 #endif
 		}
@@ -85,7 +85,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				//PlayBeep();
 
 				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
-				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule, Project));
+				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule, Project, m_FilePreviewShouldBeVisible));
 			}
 		};
 
@@ -224,6 +224,18 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 						}
 					}
 					break;
+				case GLFW_KEY_SPACE:
+					{
+						m_FilePreviewShouldBeVisible = !m_FilePreviewShouldBeVisible;
+
+						if (   nullptr != m_Child
+							&& m_Child->GetWidgets().size() >= 1
+							&& nullptr != dynamic_cast<LabelWidget *>(m_Child->GetWidgets()[0].get()))		// HACK: First widget is a label, means it's a file preview, but this isn't a very future-proof method to find out...
+						{
+							m_Child->GetWidgets()[0]->m_Visible = m_FilePreviewShouldBeVisible;
+						}
+					}
+					break;
 				default:
 					HandledEvent = false;
 					break;
@@ -235,5 +247,10 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 				}
 			}
 		}
+	}
+
+	if (InputEvent.HasType(InputEvent::EventType::CHARACTER_EVENT))
+	{
+		InputEvent.m_Handled = true;
 	}
 }

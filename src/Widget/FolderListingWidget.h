@@ -6,7 +6,7 @@ class FolderListingWidget
   : public FlowLayoutWidget
 {
 public:
-	FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project);
+	FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, bool FilePreviewShouldBeVisible = false);
 	~FolderListingWidget();
 
 	void ProcessEvent(InputEvent & InputEvent) override;
@@ -16,6 +16,7 @@ private:
 	FolderListingWidget & operator = (const FolderListingWidget &) = delete;
 
 	FolderListingWidget * m_Child = nullptr;
+	bool m_FilePreviewShouldBeVisible = false;
 };
 
 void AddWidgetForPath(const std::string & FullPath, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project);
