@@ -14,6 +14,7 @@ public:
 	void ProcessTimePassed(const double TimePassed) override;
 
 	ConnectionWidget<TextFieldWidget> * m_SourceWidget;
+	ConnectionWidget<TextFieldWidget> * m_StdinWidget;
 	TextFieldWidget * m_OutputWidget;
 
 	std::function<std::string(uint32)>		m_GetLineAnnotations = nullptr;

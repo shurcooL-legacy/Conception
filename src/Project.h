@@ -10,6 +10,9 @@ public:
 
 	void LoadSampleGenProgram(CanvasWidget & CanvasTEST);
 
+	void SetStdinContent(ConnectionWidget<TextFieldWidget> * StdinSource);
+	std::string GetStdinContent();
+
 	void GenerateProgram(const std::string & ProgramContent);
 	void GenerateProgramForFunction(std::ostream & Out, const std::string & InputContent, const std::string & FunctionContent, std::vector<ConceptId> & Imports);
 	void RunProgram(TextFieldWidget * OutputWidget);
@@ -31,7 +34,10 @@ public:volatile uint8	m_BackgroundState;private:
 public:volatile double m_ProcessEndedTime;private:
 	volatile bool	m_ExpiredOutput;
 	int				m_PipeFd[2];
+	int				m_PipeInFd[2];
 	Thread			m_BackgroundThread;
+
+	ConnectionWidget<TextFieldWidget> * m_StdinSource = nullptr;
 
 	const Color		m_CompilingColor = Color(0.98, 0.98, 0.98);
 	const Color		m_RunningColor = Color(1.0, 1, 1);

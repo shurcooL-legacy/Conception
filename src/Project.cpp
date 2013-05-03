@@ -303,6 +303,20 @@ void Project::RunProgram(TextFieldWidget * OutputWidget)
 #endif
 }
 
+void Project::SetStdinContent(ConnectionWidget<TextFieldWidget> * StdinSource)
+{
+	m_StdinSource = StdinSource;
+}
+
+std::string Project::GetStdinContent()
+{
+	if (   nullptr != m_StdinSource
+		&& nullptr != m_StdinSource->Target())
+		return m_StdinSource->Target()->GetContent();
+	else
+		return "";
+}
+
 void GLFWCALL Project::BackgroundThread(void * Argument)
 {
 	Thread * Thread = Thread::GetThisThreadAndRevertArgument(Argument);
@@ -345,6 +359,7 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 		close(Project->m_PipeFd[1]);		// Close the write end of the pipe in the parent
 
 		pipe(Project->m_PipeFd);
+		pipe(Project->m_PipeInFd);
 		fcntl(Project->m_PipeFd[0], F_SETFL, O_NONBLOCK);
 		//std::cout << "opened " << Project->m_PipeFd[0] << " and " << Project->m_PipeFd[1] << ".\n";
 
@@ -456,6 +471,10 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 
 				close(Project->m_PipeFd[1]);    // this descriptor is no longer needed
 
+				close(Project->m_PipeInFd[1]);    // close writing end in the child
+				dup2(Project->m_PipeInFd[0], 0);  // get stdin from the pipe
+				close(Project->m_PipeInFd[0]);    // this descriptor is no longer needed
+
 				//execl("/bin/echo", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/Users/Dmitri/Dmitri/^Work/^GitHub/Conception/print-args", "echo", "-n", "hello", "there,", "how are you?", (char *)0);
 				//execl("/usr/local/go/bin/go", "go", "version", (char *)0);
@@ -477,6 +496,12 @@ void GLFWCALL Project::BackgroundThread(void * Argument)
 				//std::cout << "After: " << getpgid(Project->m_LastPid) << ".\n";
 
 				//std::cout << "In parent, created pid " << Project->m_LastPid << ".\n";
+
+				// Write to child's stdin and end it
+				// TODO: Error check the write, perhaps need multiple tries to fully flush it
+				auto StdinContent = Project->GetStdinContent();
+				write(Project->m_PipeInFd[1], StdinContent.c_str(), StdinContent.length());
+				close(Project->m_PipeInFd[1]);
 
 				// Wait for child process to complete
 				{

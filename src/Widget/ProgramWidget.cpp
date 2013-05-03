@@ -2,6 +2,7 @@
 
 ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Project & Project, TextFieldWidget * Target)
 	: FlowLayoutWidget(Position, { std::shared_ptr<Widget>(m_SourceWidget = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO, Target)),
+								   std::shared_ptr<Widget>(m_StdinWidget = new ConnectionWidget<TextFieldWidget>(Vector2n::ZERO)),
 								   std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("go run"), LabelWidget::Background::Normal)),
 								   std::shared_ptr<Widget>(m_OutputWidget = new TextFieldWidget(Vector2n::ZERO, TypingModule)) }, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	  m_Project(Project)
@@ -50,6 +51,7 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 				Content = m_SourceWidget->Target()->GetContent();
 			}
 			Project.GenerateProgram(Content);
+			Project.SetStdinContent(m_StdinWidget);
 
 			g_OutputWidget = m_OutputWidget;		// HACK
 			//m_OutputWidget->SetContent("");
@@ -57,6 +59,8 @@ ProgramWidget::ProgramWidget(Vector2n Position, TypingModule & TypingModule, Pro
 			Project.m_ExpiredOutput = true;
 			Project.m_BackgroundState = 1;
 		};
+
+		m_StdinWidget->m_OnChange = m_SourceWidget->m_OnChange;
 
 		// If there's already a Target for source, then refresh ourselves
 		m_SourceWidget->m_OnChange();
