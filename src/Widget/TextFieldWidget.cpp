@@ -12,6 +12,7 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	  m_TypingModule(TypingModule)
 {
 	UpdateGestureRecognizer();
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { this->NotifyChange(true); }, "Run/Refresh"));
 
 	UpdateContentLines();		// This is here at least for resize
 }
