@@ -96,6 +96,20 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(LiveGodocWidget);
 		}
 
+		// LiveGodoc2Widget
+		{
+			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			auto Godoc2Widget = new class Godoc2Widget(Vector2n::ZERO, *m_TypingModule, SourceWidget);
+			Godoc2Widget->RemoveAllBehaviors();
+
+			auto LiveGodoc2Widget = new FlowLayoutWidget(Vector2n(400, -380), {
+				std::shared_ptr<Widget>(SourceWidget),
+				std::shared_ptr<Widget>(Godoc2Widget)
+			}, {});
+			LiveGodoc2Widget->AddBehavior(new DraggablePositionBehavior(*LiveGodoc2Widget));
+			MainCanvas->AddWidget(LiveGodoc2Widget);
+		}
+
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});
 			auto Username = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule); FlowLayout->AddWidget(Username);

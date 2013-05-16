@@ -61,6 +61,7 @@ int main(int argc, char * argv[])
 
 	// Set env vars
 	std::string GoPath;		// This has to exist even after putenv() call because putenv simply adds a pointer rather than copying the value
+	std::string Path = "PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/go/bin";
 	{
 		// Initialize the value of GoPath
 		GoPath = "GOPATH=";
@@ -70,6 +71,7 @@ int main(int argc, char * argv[])
 			if (nullptr != cwd) {
 				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
 				GoPath += cwd;
+				Path = Path + ":" + cwd + "/GoLand/bin";
 				free(cwd);
 			}
 		}
@@ -78,7 +80,7 @@ int main(int argc, char * argv[])
 		putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
 		putenv(const_cast<char *>(GoPath.c_str()));		// HACK: Const cast
 		// HACK: Add go/bin to $PATH by hardcoding the whole PATH for OS X
-		putenv(const_cast<char *>("PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/go/bin"));		// HACK: Const cast
+		putenv(const_cast<char *>(Path.c_str()));		// HACK: Const cast
 	}
 
 	glfwInit();

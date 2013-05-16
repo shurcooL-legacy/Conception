@@ -241,6 +241,7 @@ extern InputManager * g_InputManager;
 #include "Widget/FolderListingWidget.h"
 #include "Widget/ShellWidget.h"
 #include "Widget/GodocWidget.h"
+#include "Widget/Godoc2Widget.h"
 #include "Widget/GofmtWidget.h"
 #include "Widget/LiveGofmtWidget.h"
 #include "Widget/SayWidget.h"
