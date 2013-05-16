@@ -34,7 +34,7 @@ private:
 
 template <typename T> ConnectionWidget<T>::ConnectionWidget(Vector2n Position, T * Target)
   : CompositeWidget(Position, Vector2n(16, 16), {
-		std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [&](bool State) { NotifyChange(true); }, true))
+		std::shared_ptr<Widget>(m_LiveToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [&](bool State) { NotifyChange(false); }, true))
 	}, { /*std::shared_ptr<Behavior>(new NonDraggablePositionBehavior(*this))*/ } ),
 	m_FusedConnector(nullptr != Target)
 {
