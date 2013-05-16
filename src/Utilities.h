@@ -2,6 +2,8 @@
 #ifndef __Utilities_H__
 #define __Utilities_H__
 
+ssize_t write_all(int fd, const void * buffer, size_t count);
+
 bool HasSuffix(const std::string & s, const std::string & suffix);
 
 // Clipboard (from GLFW 3.0)
