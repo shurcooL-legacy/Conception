@@ -138,6 +138,7 @@ void DebugOverlayWidget::PrintName(std::ostringstream & out, GestureRecognizer *
 	else if (dynamic_cast<GitFileWidget *>(&i->GetOwner())) out << "\n GitFileWidget";
 	else if (dynamic_cast<LiveProgramFileWidget *>(&i->GetOwner())) out << "\n LiveProgramFileWidget";
 	else if (dynamic_cast<LiveCodeWidget *>(&i->GetOwner())) out << "\n LiveCodeWidget";
+	else if (dynamic_cast<ProgramWidget *>(&i->GetOwner())) out << "\n ProgramWidget";
 	else if (dynamic_cast<FlowLayoutWidget *>(&i->GetOwner())) out << "\n FlowLayoutWidget";
 	else if (dynamic_cast<TimeWidget *>(&i->GetOwner())) out << "\n TimeWidget";
 	else if (dynamic_cast<LabelWidget *>(&i->GetOwner())) out << "\n LabelWidget";

@@ -8,6 +8,7 @@ GitDiffWidget::GitDiffWidget(Vector2n Position, TypingModule & TypingModule, Tex
 	m_OutputWidget->m_GetLineHighlighting = GetLineHighlighting();
 
 	// TODO: Not quite sure if MinimizeToggle is applicable here, as the content is not really there
+	// (By that, I mean that originally MinimizeToggle was meant to simply not render content which was actually valid, whereas here it's used to hide the output when the content is out of date)
 	m_OutputWidget->m_MinimizeToggle = m_SourceWidget->m_LiveToggle;
 
 	m_SourceWidget->m_OnChange = [&]()

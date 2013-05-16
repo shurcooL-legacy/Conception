@@ -82,6 +82,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		MainCanvas->AddWidget(new GitStatusWidget(Vector2n(-380, 280), *m_TypingModule));
 		MainCanvas->AddWidget(new GitDiffWidget(Vector2n(-380, 300), *m_TypingModule));
 
+		// LiveGodocWidget
 		{
 			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
 			auto GodocWidget = new class GodocWidget(Vector2n::ZERO, *m_TypingModule, SourceWidget);
