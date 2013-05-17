@@ -21,7 +21,8 @@ fi");
 	{
 		std::string Out = "";
 
-		if (nullptr != m_SourceWidget->Target())
+		if (   nullptr != m_SourceWidget->Target()
+			&& m_SourceWidget->Target()->GetContent().length() > 0)
 		{
 			m_ShellWidget->m_StdInWidget->SetContent(m_SourceWidget->Target()->GetContent());
 			m_ShellWidget->m_ExecuteWidget->GetAction()();

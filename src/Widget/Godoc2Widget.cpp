@@ -8,14 +8,14 @@ Godoc2Widget::Godoc2Widget(Vector2n Position, TypingModule & TypingModule, TextF
 	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	m_ShellWidget(new ShellWidget(Vector2n::ZERO, TypingModule))
 {
-	m_ShellWidget->m_CommandWidget->SetContent("IN=`cat`\n\
-echo -n \"$IN\" | xargs doc 2>&1");
+	m_ShellWidget->m_CommandWidget->SetContent("cat | xargs doc 2>&1");
 
 	m_SourceWidget->m_OnChange = [&]()
 	{
 		std::string Out = "";
 
-		if (nullptr != m_SourceWidget->Target())
+		if (   nullptr != m_SourceWidget->Target()
+			&& m_SourceWidget->Target()->GetContent().length() > 0)
 		{
 			m_ShellWidget->m_StdInWidget->SetContent(m_SourceWidget->Target()->GetContent());
 			m_ShellWidget->m_ExecuteWidget->GetAction()();
