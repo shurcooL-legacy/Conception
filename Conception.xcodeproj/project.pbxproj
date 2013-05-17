@@ -26,6 +26,7 @@
 		2A3A49EA16AE43D60023010C /* ShellWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3A49E816AE43D60023010C /* ShellWidget.cpp */; };
 		2A3E2E751696A44D00ECC0D2 /* TimeWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E731696A44D00ECC0D2 /* TimeWidget.cpp */; };
 		2A3E2E791696AAFE00ECC0D2 /* DebugOverlayWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E2E771696AAFD00ECC0D2 /* DebugOverlayWidget.cpp */; };
+		2A44A5281746D44A000E1CEC /* GoForcedUseWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A44A5261746D44A000E1CEC /* GoForcedUseWidget.cpp */; };
 		2A487D0016CECD4C0088A0F3 /* CanvasWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A487CFE16CECD4C0088A0F3 /* CanvasWidget.cpp */; };
 		2A4FFA98155465D90021D8EF /* Concept.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA56155465D90021D8EF /* Concept.cpp */; };
 		2A4FFA9B155465D90021D8EF /* TypingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA5E155465D90021D8EF /* TypingModule.cpp */; };
@@ -159,6 +160,8 @@
 		2A42D9F716289823001DC834 /* ContextMenuWidget.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ContextMenuWidget.hpp; sourceTree = "<group>"; };
 		2A4490C016C899AC00F7EBC5 /* MenuWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuWidget.h; sourceTree = "<group>"; };
 		2A4490C116C899AC00F7EBC5 /* MenuWidget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MenuWidget.hpp; sourceTree = "<group>"; };
+		2A44A5261746D44A000E1CEC /* GoForcedUseWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GoForcedUseWidget.cpp; sourceTree = "<group>"; };
+		2A44A5271746D44A000E1CEC /* GoForcedUseWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoForcedUseWidget.h; sourceTree = "<group>"; };
 		2A487CFE16CECD4C0088A0F3 /* CanvasWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CanvasWidget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A487CFF16CECD4C0088A0F3 /* CanvasWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanvasWidget.h; sourceTree = "<group>"; };
 		2A4FFA56155465D90021D8EF /* Concept.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = Concept.cpp; path = src/Concept.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -421,6 +424,8 @@
 				2A148143170A5B8E0015E99A /* GodocWidget.h */,
 				2A1CCA7916D04E2D002F839E /* GofmtWidget.cpp */,
 				2A1CCA7A16D04E2D002F839E /* GofmtWidget.h */,
+				2A44A5261746D44A000E1CEC /* GoForcedUseWidget.cpp */,
+				2A44A5271746D44A000E1CEC /* GoForcedUseWidget.h */,
 				2ABE46811673CBBE0010923C /* LabelWidget.cpp */,
 				2ABE46821673CBBE0010923C /* LabelWidget.h */,
 				2A21998E15C8895400867486 /* LifeFormWidget.cpp */,
@@ -732,6 +737,7 @@
 				2A148144170A5B8E0015E99A /* GodocWidget.cpp in Sources */,
 				2A935DF3170D49B1006DB7AE /* FolderListingPureWidget.cpp in Sources */,
 				2A2F41011742B151004C7D7A /* Godoc2Widget.cpp in Sources */,
+				2A44A5281746D44A000E1CEC /* GoForcedUseWidget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

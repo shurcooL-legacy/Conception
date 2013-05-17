@@ -110,6 +110,20 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(LiveGodoc2Widget);
 		}
 
+		// LiveGoForcedUseWidget
+		{
+			auto SourceWidget = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			auto GoForcedUseWidget = new class GoForcedUseWidget(Vector2n::ZERO, *m_TypingModule, SourceWidget);
+			GoForcedUseWidget->RemoveAllBehaviors();
+
+			auto LiveGoForcedUseWidget = new FlowLayoutWidget(Vector2n(400, -360), {
+				std::shared_ptr<Widget>(SourceWidget),
+				std::shared_ptr<Widget>(GoForcedUseWidget)
+			}, {});
+			LiveGoForcedUseWidget->AddBehavior(new DraggablePositionBehavior(*LiveGoForcedUseWidget));
+			MainCanvas->AddWidget(LiveGoForcedUseWidget);
+		}
+
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});
 			auto Username = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule); FlowLayout->AddWidget(Username);
