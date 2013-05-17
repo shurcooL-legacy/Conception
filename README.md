@@ -23,7 +23,7 @@ Motivation
 
 Demonstration
 -------------
-There is a 5 minute [video](http://www.youtube.com/watch?v=DNJ7HqlV55k) demonstrating Conception.
+[![](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Video%20Demo.png)](http://www.youtube.com/watch?v=DNJ7HqlV55k)
 
 Screenshots
 -----------
