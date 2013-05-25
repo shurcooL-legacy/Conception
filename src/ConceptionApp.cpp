@@ -124,6 +124,27 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(LiveGoForcedUseWidget);
 		}
 
+		// Gists Summary Widget
+		{
+			auto X = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+
+			auto MinimizeToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [X](bool State) { if (!State) g_InputManager->RequestTypingPointer(*static_cast<GestureRecognizer *>(nullptr)); else {
+				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
+				Shell->m_CommandWidget->SetContent("goe --quiet 'gist.github.com/5645828.git' 'PrintPackageSummariesInDir(\"gist.github.com\")'");
+				Shell->m_ExecuteWidget->GetAction()();
+				X->SetContent(Shell->m_OutputWidget->GetContent());
+			} }, false);
+			X->m_MinimizeToggle = MinimizeToggle;
+
+			auto Y = new FlowLayoutWidget(Vector2n(400, -340), {
+				std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Gists"), LabelWidget::Background::Normal)),
+				std::shared_ptr<Widget>(MinimizeToggle),
+				std::shared_ptr<Widget>(X)
+			}, {});
+			Y->AddBehavior(new DraggablePositionBehavior(*Y));
+			MainCanvas->AddWidget(Y);
+		}
+
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});
 			auto Username = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule); FlowLayout->AddWidget(Username);
