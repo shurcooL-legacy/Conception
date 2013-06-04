@@ -145,6 +145,50 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(Y);
 		}
 
+		// TEST: Goal-driven small task interface (inputs/code/actual output/desired output)
+		{
+			static std::vector<std::string> vA({"(string)(\"Abcde\")", "(string)(\"Abc zzz\")"}),
+											vC({"Error", "Error"}),
+											vD({"(string)(\"edcbA\")", "(string)(\"zzz cbA\")"});
+
+			auto A = new ListWidget<std::string>(Vector2n::ZERO, vA, *m_TypingModule);
+			A->m_TapAction = [=](Vector2n LocalPosition, std::vector<std::string> & Entries)
+			{
+				auto Entry = m_TypingModule->TakeString();
+
+				if (!Entry.empty())
+				{
+					// TEST
+					auto Spot = Entries.begin() + (LocalPosition.Y() / lineHeight);
+					Entries.insert(Spot, Entry);
+				}
+				else
+				{
+					auto ListEntry = static_cast<decltype(Entries.size())>(LocalPosition.Y() / lineHeight);
+
+					if (ListEntry < Entries.size())
+					{
+						m_TypingModule->SetString(Entries[ListEntry]);
+						Entries.erase(Entries.begin() + ListEntry);
+					}
+				}
+			};
+			auto B = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			auto C = new ListWidget<std::string>(Vector2n::ZERO, vC, *m_TypingModule);
+			C->m_TapAction = A->m_TapAction;
+			auto D = new ListWidget<std::string>(Vector2n::ZERO, vD, *m_TypingModule);
+			D->m_TapAction = A->m_TapAction;
+
+			auto Y = new FlowLayoutWidget(Vector2n(400, -320), {
+				std::shared_ptr<Widget>(A),
+				std::shared_ptr<Widget>(B),
+				std::shared_ptr<Widget>(C),
+				std::shared_ptr<Widget>(D)
+			}, {});
+			Y->AddBehavior(new DraggablePositionBehavior(*Y));
+			MainCanvas->AddWidget(Y);
+		}
+
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});
 			auto Username = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule); FlowLayout->AddWidget(Username);
@@ -248,6 +292,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 		// Folder Listing
 		AddWidgetForPath("./", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
+		AddWidgetForPath("./GoLand/src/gist.github.com/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-700, -390));
 		AddWidgetForPath("/Users/Dmitri/Dropbox/Work/2013/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -590));
 
 		// TEST: Two dependencies
