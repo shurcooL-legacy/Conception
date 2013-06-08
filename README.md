@@ -9,7 +9,7 @@ It started off from [this tweet](https://twitter.com/shurcooL/status/17311076872
 
 Please steal any good ideas you see here. I'd rather have them benefit the world than die in obscurity.
 
-If you like the project and would like to support me in its further development, please consider backing me at [![](https://dl.dropboxusercontent.com/u/8554242/dmitri/Gittip.png)](https://www.gittip.com/shurcooL/). You can make it possible for me to keep working on this full-time while keeping it free!
+If you like the project and would like to support me in its further development, please consider backing me at [![Gittip](https://badgr.co/Gittip/shurcooL.png)](https://www.gittip.com/shurcooL/). You can make it possible for me to keep working on this full-time while keeping it free!
 
 Motivation
 ----------
