@@ -70,12 +70,13 @@ int main(int argc, char * argv[])
 			auto cwd = getcwd(nullptr, 0);
 			if (nullptr != cwd) {
 				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
-				GoPath += cwd;
+				GoPath = GoPath + cwd + "/GoLand";
+				GoPath += ":";
+				GoPath = GoPath + cwd + "/GoLand2";
 				Path = Path + ":" + cwd + "/GoLand/bin";
 				free(cwd);
 			}
 		}
-		GoPath += "/GoLand";
 
 		putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
 		putenv(const_cast<char *>(GoPath.c_str()));		// HACK: Const cast
