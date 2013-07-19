@@ -7,7 +7,7 @@ class PointerState
 private:
 	double								m_Timestamp;
 
-	std::vector<bool>					m_ButtonStates;		// True means pressed
+	std::vector<bool>					m_ButtonStates;		// True means pressed down
 	std::vector<Input::AxisState>		m_AxisStates;
 
 public:

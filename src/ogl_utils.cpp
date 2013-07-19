@@ -56,6 +56,7 @@ bool OglUtilsInitFont()
 		printf("Loaded texture successfully.\n");
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.5);
 	}
 	else {
 		printf("Error: Failed to load texture.\n");

@@ -41,7 +41,7 @@ public:
 
 	void ProcessTimePassed(const double TimePassed);
 
-	struct InputId {
+	/*struct InputId {
 		uint16 Device;
 		uint16 Id;
 
@@ -57,7 +57,7 @@ public:
 		}
 	};
 
-	typedef uint16 VirtualInputId;
+	typedef uint16 VirtualInputId;*/
 
 private:
 	InputManager(const InputManager &);
