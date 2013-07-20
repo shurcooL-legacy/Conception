@@ -209,8 +209,6 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 	// TEST: Gesture recognition and handling testing
 	if (1)
 	{
-		static bool InManipulationTEST = false;
-
 		auto UnreservedEvents = InputEventQueue.CreateFilteredQueue();
 
 		//for (auto & InputEvent : InputEventQueue.Queue())
@@ -233,6 +231,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 #endif
 
+			// TODO: Looks like a bug, should check that this is a pointing virtual type pointer, i.e. its GetAxisState(0) and GetAxisState(1) should make sense
 			// Calculate hits
 			std::list<Widget *> Hits;		// Front of list are top-most widgets
 			for (auto & Widget : reverse(m_Widgets))
