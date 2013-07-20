@@ -11,6 +11,10 @@ Please steal any good ideas you see here. I'd rather have them benefit the world
 
 If you like the project and would like to support me in its further development, please consider backing me at [![Gittip](https://badgr.co/Gittip/shurcooL.png)](https://www.gittip.com/shurcooL/). You can make it possible for me to keep working on this full-time while keeping it free!
 
+News
+----
+- **2013-07-19** - I now have a full-time job, so my time to work on Conception is very limited. However, I'm working on recreating a better and cleaner version of Conception in [Go](http://golang.org/). Sneak peek of my efforts [here](https://gist.github.com/shurcooL/5694308/revisions).
+
 Motivation
 ----------
 - Right now it's often easier to write code from scratch to do something, rather than find existing code that already does it. Conception is about flipping that.
