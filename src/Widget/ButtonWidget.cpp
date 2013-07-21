@@ -62,8 +62,6 @@ void ButtonWidget::Render()
 
 void ButtonWidget::ProcessEvent(InputEvent & InputEvent)
 {
-	Vector2n GlobalPosition(InputEvent.m_PostEventState.GetAxisState(0).GetPosition(), InputEvent.m_PostEventState.GetAxisState(1).GetPosition());
-
 	if (   IsPointerButtonEvent<Pointer::VirtualCategory::POINTING, 0, false>(InputEvent)
 		&& &GetGestureRecognizer() == InputEvent.m_Pointer->m_CurrentPointerMappingTEST.GetHoverer()		// IsHit(this button) should be true
 		&& &GetGestureRecognizer() == InputEvent.m_Pointer->GetPointerMapping().GetHoverer())		// Make sure we're releasing pointer over same button that it originally went active on, and nothing is in the way (i.e. button is hoverer)

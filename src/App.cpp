@@ -261,7 +261,7 @@ void App::ProcessEventQueue(InputEventQueue & InputEventQueue)
 			}
 
 #if 1
-			// Populate PointerMappings (but only when pointer is moved while not active)
+			// Populate PointerMappings (but only when pointer is moved while not active, and this isn't a deactivation since that's handled below)
 			{
 				if (   IsPointerPointingMoveEvent<0>(InputEvent)
 					&& !IsPointerPointingDeactivationEvent(InputEvent))
