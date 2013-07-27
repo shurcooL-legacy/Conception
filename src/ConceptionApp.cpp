@@ -291,8 +291,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 
 		// Folder Listing
-		AddWidgetForPath("./", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -390));
-		AddWidgetForPath("./GoLand/src/gist.github.com/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-700, -390));
+		AddWidgetForPath("./", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-610, -400));
+		AddWidgetForPath("./GoLand/src/gist.github.com/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-950, -390));
 		AddWidgetForPath("/Users/Dmitri/Dropbox/Work/2013/", *MainCanvas, *m_TypingModule, m_CurrentProject, Vector2n(-600, -590));
 
 		// TEST: Two dependencies

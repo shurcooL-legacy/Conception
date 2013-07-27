@@ -1,6 +1,6 @@
 #include "../Main.h"
 
-FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, bool FilePreviewShouldBeVisible)
+FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, CompositeWidget & AddTo, TypingModule & TypingModule, Project & Project, bool FilePreviewShouldBeVisible, bool Topmost)
 	: FlowLayoutWidget(Position, {}, { /*std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this))*/ })
 {
 	// If not empty and doesn't end with slash, add the slash
@@ -9,6 +9,9 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 	{
 		Path += "/";
 	}
+
+	if (Topmost)
+		AddWidget(new LabelWidget(Vector2n::ZERO, std::string(Path), LabelWidget::Background::Normal));
 
 	auto List = Ls(Path);
 
@@ -35,6 +38,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				   && List.front() == "ls: " + Path + ": Not a directory")))
 	{
 		auto ListingWidget = new FolderListingPureWidget(Vector2n::ZERO, List, Path, TypingModule);
+		m_Pure = ListingWidget;
 
 		ListingWidget->m_TapAction = [ListingWidget, this, &TypingModule](Vector2n LocalPosition, std::vector<std::string> & m_List)
 		{
@@ -85,7 +89,7 @@ FolderListingWidget::FolderListingWidget(Vector2n Position, std::string Path, Co
 				//PlayBeep();
 
 				auto NewPath = Path + *ListingWidget->GetSelectedEntry();
-				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule, Project, m_FilePreviewShouldBeVisible));
+				this->AddWidget(m_Child = new FolderListingWidget(Vector2n::ZERO, NewPath, AddTo, TypingModule, Project, m_FilePreviewShouldBeVisible, false));
 			}
 		};
 
@@ -202,7 +206,7 @@ void FolderListingWidget::ProcessEvent(InputEvent & InputEvent)
 						auto ParentFolderListingWidget = dynamic_cast<FolderListingWidget *>(ModifyParent());
 						if (nullptr != ParentFolderListingWidget)
 						{
-							g_InputManager->RequestTypingPointer(ParentFolderListingWidget->GetWidgets()[0]->ModifyGestureRecognizer());
+							g_InputManager->RequestTypingPointer(ParentFolderListingWidget->m_Pure->ModifyGestureRecognizer());
 
 							static_cast<FolderListingPureWidget *>(GetWidgets()[0].get())->SetSelectedEntryId(-1);		// Clear selection
 						}
