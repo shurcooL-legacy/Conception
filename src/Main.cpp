@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
 				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
 				GoPath = GoPath + cwd + "/GoLand";
 				GoPath += ":";
-				GoPath = GoPath + cwd + "/GoLand2";
+				GoPath = GoPath + cwd + "/GoLanding";
 				Path = Path + ":" + cwd + "/GoLand/bin";
 				free(cwd);
 			}
