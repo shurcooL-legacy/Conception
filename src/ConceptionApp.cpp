@@ -242,6 +242,8 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 		}
 		MainCanvas->AddWidget(new LiveGofmtWidget(Vector2n(-460, 200), *m_TypingModule));
 		MainCanvas->AddWidget(new GofmtWidget(Vector2n(-460, 240), *m_TypingModule));
+		MainCanvas->AddWidget(new LiveRubyWidget(Vector2n(-270, 200), *m_TypingModule));
+		MainCanvas->AddWidget(new RubyWidget(Vector2n(-270, 240), *m_TypingModule));
 
 		for (auto i = 0; i < 3; ++i)
 			MainCanvas->AddWidget(new DiffWidget(Vector2n(-450, 340), *m_TypingModule));

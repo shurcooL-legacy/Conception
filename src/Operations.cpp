@@ -289,6 +289,11 @@ void PlayBeep()
 
 void Gofmt(std::string & InOut)
 {
+	InOut = WaitProcessWithStdinStdout("/usr/local/go/bin/gofmt", InOut);
+}
+
+std::string WaitProcessWithStdinStdout(std::string Path, std::string In)
+{
 	std::string Output = "";
 
 	int PipeFd[2];			// Pipe for reading from child's stdout+stderr
@@ -315,8 +320,7 @@ void Gofmt(std::string & InOut)
 			dup2(PipeInFd[0], 0);  // get stdin from the pipe
 			close(PipeInFd[0]);    // this descriptor is no longer needed
 
-			execl("/usr/local/go/bin/gofmt", "/usr/local/go/bin/gofmt", (char *)0);
-			//execl("/bin/cat", "/bin/cat", (char *)0);
+			execl(Path.c_str(), Path.c_str(), (char *)0);
 
 			// TODO: Add error checking on above execl(), and do exit() in case execution reaches here
 			//exit(1);		// Not needed, just in case I comment out the above
@@ -331,7 +335,7 @@ void Gofmt(std::string & InOut)
 		{
 			// Write to child's stdin and end it
 			// TODO: Error check the write, perhaps need multiple tries to fully flush it
-			write(PipeInFd[1], InOut.c_str(), InOut.length());
+			write(PipeInFd[1], In.c_str(), In.length());
 			close(PipeInFd[1]);
 
 			// Wait for child process to complete
@@ -373,7 +377,7 @@ void Gofmt(std::string & InOut)
 	close(PipeFd[1]);
 	close(PipeInFd[0]);
 
-	InOut = Output;
+	return Output;
 }
 
 std::vector<std::string> Ls(const std::string Path)

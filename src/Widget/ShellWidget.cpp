@@ -123,6 +123,9 @@ ShellWidget::ShellWidget(Vector2n Position, TypingModule & TypingModule)
 	m_WorkingFolder->m_OnChange = [this]()
 	{
 	};
+
+	// HACK: Add execute button because overriding of Cmd+R is currently broken...
+	AddWidget(m_ExecuteWidget);
 }
 
 ShellWidget::~ShellWidget()
