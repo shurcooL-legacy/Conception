@@ -124,6 +124,32 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(LiveGoForcedUseWidget);
 		}
 
+		// LiveFormatJsonWidget
+		{
+			auto In = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+			auto Out = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
+
+			In->m_OnChange = [In, Out]() {
+				if (In->GetContent() != "") {
+					auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
+					Shell->m_CommandWidget->SetContent("goe 'gist.github.com/5498057.git' 'ReadAllStdin()' | goe 'gist.github.com/5034040.git' 'GetIndentedJson' | goe --quiet 'fmt' 'Print'");
+					Shell->m_StdInWidget = In;
+					Shell->m_ExecuteWidget->GetAction()();
+					Out->SetContent(Shell->m_OutputWidget->GetContent());
+				} else {
+					Out->SetContent("");
+				}
+			};
+
+			auto LiveFormatJsonWidget = new FlowLayoutWidget(Vector2n(-600, 260), {
+				std::shared_ptr<Widget>(In),
+				std::shared_ptr<Widget>(new LabelWidget(Vector2n::ZERO, std::string("Format Json"), LabelWidget::Background::Normal)),
+				std::shared_ptr<Widget>(Out)
+			}, {});
+			LiveFormatJsonWidget->AddBehavior(new DraggablePositionBehavior(*LiveFormatJsonWidget));
+			MainCanvas->AddWidget(LiveFormatJsonWidget);
+		}
+
 		// Gists Summary Widget
 		{
 			auto X = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule);
@@ -189,6 +215,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			MainCanvas->AddWidget(Y);
 		}
 
+		// "+ Gist" panel
 		{
 			auto FlowLayout = new FlowLayoutWidget(Vector2n(-200, -400), {}, {});
 			auto Username = new TextFieldWidget(Vector2n::ZERO, *m_TypingModule); FlowLayout->AddWidget(Username);
