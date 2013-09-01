@@ -178,14 +178,14 @@ const Vector2n Widget::ParentToLocal(const Vector2n ParentPosition) const
 }
 const Vector2n Widget::GlobalToParent(const Vector2n GlobalPosition) const
 {
-	Vector2n ParentPosition = GlobalPosition;
-
 	if (nullptr != GetParent())
 	{
-		ParentPosition = GetParent()->GlobalToLocal(ParentPosition);
+		return GetParent()->GlobalToLocal(GlobalPosition);
 	}
-
-	return ParentPosition;
+	else
+	{
+		return GlobalPosition;
+	}
 }
 const Vector2n Widget::GlobalToLocal(const Vector2n GlobalPosition) const
 {
@@ -204,14 +204,14 @@ const Vector2n Widget::LocalToParent(const Vector2n LocalPosition) const
 }
 const Vector2n Widget::ParentToGlobal(const Vector2n ParentPosition) const
 {
-	Vector2n GlobalPosition = ParentPosition;
-
 	if (nullptr != GetParent())
 	{
-		GlobalPosition = GetParent()->LocalToGlobal(ParentPosition);
+		return GetParent()->LocalToGlobal(ParentPosition);
 	}
-
-	return GlobalPosition;
+	else
+	{
+		return ParentPosition;
+	}
 }
 const Vector2n Widget::LocalToGlobal(const Vector2n LocalPosition) const
 {
