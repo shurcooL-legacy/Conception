@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5B6F56BE-C4CA-4104-A752-2672879BF6A2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Conception</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FDCC0DEB-4620-45AA-9B7D-3E4643FDB496</key>
+		<string>https://github.com/shurcooL/Conception.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Conception.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FDCC0DEB-4620-45AA-9B7D-3E4643FDB496</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/shurcooL/Conception.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FDCC0DEB-4620-45AA-9B7D-3E4643FDB496</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FDCC0DEB-4620-45AA-9B7D-3E4643FDB496</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Conception</string>
+		</dict>
+	</array>
+</dict>
+</plist>
