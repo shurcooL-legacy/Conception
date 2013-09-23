@@ -8,7 +8,7 @@ GoForcedUseWidget::GoForcedUseWidget(Vector2n Position, TypingModule & TypingMod
 	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	m_ShellWidget(new ShellWidget(Vector2n::ZERO, TypingModule))
 {
-	m_ShellWidget->m_CommandWidget->SetContent("cat | goe fmt 'gist.github.com/4727543.git' 'gist.github.com/5498057.git' 'Println(GetForcedUseFromImport(ReadAllStdin()))' | head -n 1");
+	m_ShellWidget->m_CommandWidget->SetContent("goe --quiet fmt 'gist.github.com/4727543.git' 'gist.github.com/5498057.git' 'Print(GetForcedUseFromImport(ReadAllStdin()))'");
 
 	m_SourceWidget->m_OnChange = [&]()
 	{
@@ -20,9 +20,6 @@ GoForcedUseWidget::GoForcedUseWidget(Vector2n Position, TypingModule & TypingMod
 			m_ShellWidget->m_StdInWidget->SetContent(m_SourceWidget->Target()->GetContent());
 			m_ShellWidget->m_ExecuteWidget->GetAction()();
 			Out = m_ShellWidget->m_OutputWidget->GetContent();
-
-			// Trim last newline, if there is one
-			TrimLastNewline(Out);
 		}
 
 		m_OutputWidget->SetContent(Out);
