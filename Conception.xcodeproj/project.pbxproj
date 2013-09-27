@@ -50,13 +50,13 @@
 		2A4FFAB1155465D90021D8EF /* MultitouchTestBoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA8F155465D90021D8EF /* MultitouchTestBoxWidget.cpp */; };
 		2A4FFAB2155465D90021D8EF /* TextFieldWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA91155465D90021D8EF /* TextFieldWidget.cpp */; };
 		2A4FFAB3155465D90021D8EF /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A4FFA93155465D90021D8EF /* Widget.cpp */; };
+		2A6696CE17F4D862002FEFB7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6696CD17F4D862002FEFB7 /* Cocoa.framework */; };
+		2A6696D017F4D88D002FEFB7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6696CF17F4D88D002FEFB7 /* OpenGL.framework */; };
 		2A6861AD16A6DE2300817B2C /* LiveGofmtWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A6861AB16A6DE2300817B2C /* LiveGofmtWidget.cpp */; };
 		2A70EA29163AEDC500B6E8B4 /* InputEventQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */; };
 		2A7B8B731558B26B007A1FA7 /* InputEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B8B721558B26B007A1FA7 /* InputEvent.cpp */; };
 		2A7C899B1559EFD500F5EE37 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899A1559EFD500F5EE37 /* GestureRecognizer.cpp */; };
 		2A7C899E155A12A900F5EE37 /* InputListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A7C899C155A12A900F5EE37 /* InputListener.cpp */; };
-		2A807460153F06C700649628 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A80745F153F06C700649628 /* OpenGL.framework */; };
-		2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A807461153F06CD00649628 /* Cocoa.framework */; };
 		2A807D3E16D13AAB00FEC105 /* ProgramWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A807D3C16D13AAB00FEC105 /* ProgramWidget.cpp */; };
 		2A8368CC155AD04800D25BC1 /* PointerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8368CB155AD04800D25BC1 /* PointerState.cpp */; };
 		2A8820D116CD62C1004D4D4D /* TextFileWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8820CF16CD62C1004D4D4D /* TextFileWidget.cpp */; };
@@ -216,6 +216,8 @@
 		2A4FFA92155465D90021D8EF /* TextFieldWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWidget.h; sourceTree = "<group>"; };
 		2A4FFA93155465D90021D8EF /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = Widget.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2A4FFA94155465D90021D8EF /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Widget.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2A6696CD17F4D862002FEFB7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		2A6696CF17F4D88D002FEFB7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		2A6861AB16A6DE2300817B2C /* LiveGofmtWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LiveGofmtWidget.cpp; sourceTree = "<group>"; };
 		2A6861AC16A6DE2300817B2C /* LiveGofmtWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveGofmtWidget.h; sourceTree = "<group>"; };
 		2A70EA27163AEDC500B6E8B4 /* InputEventQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputEventQueue.cpp; sourceTree = "<group>"; };
@@ -227,8 +229,6 @@
 		2A7C899C155A12A900F5EE37 /* InputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputListener.cpp; sourceTree = "<group>"; };
 		2A7C899D155A12A900F5EE37 /* InputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputListener.h; sourceTree = "<group>"; };
 		2A807413153F058500649628 /* Conception */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Conception; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A80745F153F06C700649628 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
-		2A807461153F06CD00649628 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		2A807D3C16D13AAB00FEC105 /* ProgramWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgramWidget.cpp; sourceTree = "<group>"; };
 		2A807D3D16D13AAB00FEC105 /* ProgramWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgramWidget.h; sourceTree = "<group>"; };
 		2A8368CB155AD04800D25BC1 /* PointerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PointerState.cpp; sourceTree = "<group>"; };
@@ -315,8 +315,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A807462153F06CD00649628 /* Cocoa.framework in Frameworks */,
-				2A807460153F06C700649628 /* OpenGL.framework in Frameworks */,
+				2A6696D017F4D88D002FEFB7 /* OpenGL.framework in Frameworks */,
+				2A6696CE17F4D862002FEFB7 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,8 +482,8 @@
 		2A807406153F052200649628 = {
 			isa = PBXGroup;
 			children = (
-				2A807461153F06CD00649628 /* Cocoa.framework */,
-				2A80745F153F06C700649628 /* OpenGL.framework */,
+				2A6696CF17F4D88D002FEFB7 /* OpenGL.framework */,
+				2A6696CD17F4D862002FEFB7 /* Cocoa.framework */,
 				2A96BDA21540AF300010D618 /* glfw */,
 				2A807416153F058500649628 /* src */,
 				2A807414153F058500649628 /* Products */,

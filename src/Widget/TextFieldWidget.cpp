@@ -14,6 +14,21 @@ TextFieldWidget::TextFieldWidget(Vector2n Position, TypingModule & TypingModule)
 	UpdateGestureRecognizer();
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { this->NotifyChange(true); }, "Run/Refresh"));
 
+	auto Open = [this, &TypingModule]() {
+		if (0 != this->GetSelectionLength())
+		{
+			std::string FullPath = "./GoLand/src/gist.github.com/" + this->GetSelectionContent() + ".git/main.go";
+
+			if (!FromFileToString(FullPath).empty()) {
+				AddWidgetForPath(FullPath, *g_AddTo, TypingModule, *g_CurrentProject);
+			} else {
+				// TODO: Show an error message, beep or some better feedback
+				printf("No gist at path \"%s\"\n", FullPath.c_str());
+			}
+		}
+	};
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry(GLFW_KEY_F3, PointerState::Modifiers::None, Open, "Open Gist"));
+
 	UpdateContentLines();		// This is here at least for resize
 }
 

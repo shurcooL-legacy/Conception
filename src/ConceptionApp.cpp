@@ -2,17 +2,25 @@
 
 TextFieldWidget * volatile g_OutputWidget = nullptr;
 
+// HACK: Made these global cuz too lazy to pass it through all the constructors manually
+CompositeWidget * g_AddTo = nullptr;
+Project * g_CurrentProject = nullptr;
+
 ConceptionApp::ConceptionApp(InputManager & InputManager)
 	: App(InputManager),
 	  m_CurrentProject(),
 	  m_TypingModule(new TypingModule())		// Gets cleaned up via unique_ptr when pushed back to m_Widgets
 {
+	g_CurrentProject = &m_CurrentProject;
+
 	PopulateConcepts();
 
 	{
 		auto MainCanvas = new CanvasWidget(Vector2n(0, 0), true, true, CanvasWidget::BehaviourScrolling::Zooming, m_TypingModule, &m_CurrentProject);
 		//MainCanvas->MoveView(0, 336);
 		MainCanvas->MoveView(1, -64);
+
+		g_AddTo = MainCanvas;
 
 #if 0
 		// DEBUG: Focus on one widget at a time

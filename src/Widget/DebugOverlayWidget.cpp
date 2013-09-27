@@ -77,7 +77,14 @@ DebugOverlayWidget::DebugOverlayWidget(CanvasWidget * MainCanvas)
 
 				if (PointerState::Modifiers::Super == S.Modifiers)		// TODO: Make this more general (Modifier -> string)
 					out << "Cmd+";
-				out << static_cast<char>(S.InputId);
+				switch (S.InputId) {
+				case GLFW_KEY_F3:
+					out << "F3";
+					break;
+				default:
+					out << static_cast<char>(S.InputId);
+					break;
+				}
 				out << " - " << S.Description;
 				out << endl;
 			}

@@ -183,6 +183,9 @@ typedef Rectangle<double> Rectangled;
 
 extern InputManager * g_InputManager;
 
+extern CompositeWidget * g_AddTo;
+extern Project * g_CurrentProject;
+
 #include "Utilities.h"
 #include "MutuallyConnectable.h"
 #include "ogl_utils.h"
