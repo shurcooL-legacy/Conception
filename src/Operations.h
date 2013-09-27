@@ -4,6 +4,7 @@
 
 typedef std::function<void(std::string &)> Operation;
 
+const std::string ParseGistIdFromFolder(const std::string Folder);
 const std::string ParseGistId(const std::string & JsonResponse);
 bool IsFileTrackedByGit(const std::string Path);
 std::function<Color(uint32, const std::string &)> GetLineHighlighting();

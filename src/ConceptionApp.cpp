@@ -233,7 +233,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			{
 				// Create a gist
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *m_TypingModule));
-				Shell->m_CommandWidget->SetContent("curl -d '{\"public\":true,\"files\":{\"main.go\":{\"content\":\"package main\\n\\nimport (\\n)\\n\\nfunc main() {\\n}\"}}}' 'https://api.github.com/gists' --config - 2> /dev/null");
+				Shell->m_CommandWidget->SetContent("curl -d '{\"public\":true,\"files\":{\"main.go\":{\"content\":\"package gist\\n\\nimport (\\n)\\n\"}}}' 'https://api.github.com/gists' --config - 2> /dev/null");
 				Shell->m_StdInWidget->SetContent("-u \"" + Username->GetContent() + ":" + Password->GetContent() + "\"");
 				Shell->m_ExecuteWidget->GetAction()();
 				Shell->m_StdInWidget->SetContent("");
@@ -252,6 +252,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 				Command += "\nmkdir -p \"./src/gist.github.com\"";
 				Command += "\ncd \"./src/gist.github.com\"";
 				Command += "\ngit clone https://gist.github.com/" + GistId + ".git \"./" + GistId + ".git\"";
+				Command += "\ncurl -d 'path=gist.github.com/" + GistId + ".git' http://godoc.org/-/refresh";
 				Shell->m_CommandWidget->SetContent(Command);
 				Shell->m_ExecuteWidget->GetAction()();
 				std::cerr << "Cloned gist successfully!\n" << Shell->m_OutputWidget->GetContent() << endl;

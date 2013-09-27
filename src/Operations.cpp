@@ -1,5 +1,19 @@
 #include "Main.h"
 
+// Returns GistId if the path looks like a gist, empty string otherwise
+// Assumes Folder doesn't have a trailing slash (e.g. "./GoLand/src/gist.github.com/123.git")
+const std::string ParseGistIdFromFolder(const std::string Folder)
+{
+	// HACK: The edge-most cases of this function are likely wrong, but it seems to work for correct input, so it'll have to do for now
+	auto FirstMarker = Folder.rfind(".git");
+	if (std::string::npos == FirstMarker || FirstMarker + 4 != Folder.length()) return "";
+	auto SecondMarker = Folder.rfind('/', Folder.length() - 4);
+	if (std::string::npos == SecondMarker) return "";
+	auto ThirdMarker = Folder.rfind("/src/gist.github.com/", SecondMarker);
+	if (std::string::npos == ThirdMarker || ThirdMarker + 21 != SecondMarker+1) return "";
+	return Folder.substr(ThirdMarker + 21, Folder.length() - 4 - (ThirdMarker+21));
+}
+
 // Really stupid hardcoded method to parse Json for id field, enough to hold me over until Golang reimplementation
 const std::string ParseGistId(const std::string & JsonResponse)
 {

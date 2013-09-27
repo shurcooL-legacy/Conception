@@ -71,6 +71,10 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
 				std::string Command = "cd \'" + Folder + "\'\ngit commit --allow-empty-message -m '' -- \'" + Filename + "\'";
 				Command += "\ngit push origin master";
+				auto GistId = ParseGistIdFromFolder(Folder);
+				if (!GistId.empty()) {
+					Command += "\ncurl -d 'path=gist.github.com/" + GistId + ".git' http://godoc.org/-/refresh";
+				}
 				Shell->m_CommandWidget->SetContent(Command);
 				Shell->m_ExecuteWidget->GetAction()();
 				this->NotifyExternalChange();		// Do this to trigger potential GitDiffWidget, GitStatusWidget, etc.
