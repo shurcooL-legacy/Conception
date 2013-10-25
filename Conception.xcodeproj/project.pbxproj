@@ -795,7 +795,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -823,7 +822,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
