@@ -291,6 +291,8 @@ void CanvasWidget::ProcessCanvasUpdated()
 	}
 }
 
+const double zoomFactor = 1.5;
+
 void CanvasWidget::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector2n ParentLocalPosition)
 {
 	switch (Degree)
@@ -305,7 +307,7 @@ void CanvasWidget::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector
 		{
 			if (MoveAmount > 0)
 			{
-				CameraZ *= 1.5;
+				CameraZ *= zoomFactor;
 				Camera.X() += A[0] * 0.5 / CameraZ;
 				Camera.Y() += A[1] * 0.5 / CameraZ;
 			}
@@ -313,7 +315,7 @@ void CanvasWidget::MoveView(uint8 Degree, double MoveAmount, double A[2], Vector
 			{
 				Camera.X() -= A[0] * 0.5 / CameraZ;
 				Camera.Y() -= A[1] * 0.5 / CameraZ;
-				CameraZ /= 1.5;
+				CameraZ /= zoomFactor;
 			}
 
 			// TODO: Loss of accuracy? Fix it if needed.
