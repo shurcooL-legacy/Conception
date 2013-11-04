@@ -42,6 +42,21 @@ CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground,
 			}
 		};
 		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('O', PointerState::Modifiers::Super, Open, "Open Path"));
+
+		auto OpenGist = [this, &TypingModule, &Project]() {
+			if (0 != TypingModule.GetString().length())
+			{
+				std::string FullPath = "./GoLand/src/gist.github.com/" + TypingModule.TakeString() + ".git/main.go";
+
+				if (!FromFileToString(FullPath).empty()) {
+					AddWidgetForPath(FullPath, *this, TypingModule, Project);
+				} else {
+					// TODO: Show an error message, beep or some better feedback
+					printf("No gist at path \"%s\"\n", FullPath.c_str());
+				}
+			}
+		};
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry(GLFW_KEY_F3, PointerState::Modifiers::None, OpenGist, "Open Gist"));
 	}
 }
 
