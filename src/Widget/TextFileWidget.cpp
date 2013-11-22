@@ -73,7 +73,7 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 				Command += "\ngit push origin master";
 				auto GistId = ParseGistIdFromFolder(Folder);
 				if (!GistId.empty()) {
-					Command += "\ncurl -d 'path=gist.github.com/" + GistId + ".git' http://godoc.org/-/refresh";
+					Command += "\ncurl -sS -i -d 'path=gist.github.com/" + GistId + ".git' http://godoc.org/-/refresh";
 				}
 				Shell->m_CommandWidget->SetContent(Command);
 				Shell->m_ExecuteWidget->GetAction()();
