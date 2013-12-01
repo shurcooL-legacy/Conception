@@ -22,6 +22,17 @@ LiveProgramFileWidget::LiveProgramFileWidget(Vector2n Position, std::string Path
 	}
 
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('R', PointerState::Modifiers::Super, [=]() { m_SourceWidget->NotifyChange(true); }, "Run/Refresh"));
+
+	auto GofmtFile = [Path, &TypingModule]() {
+		auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
+		std::string Command = "goimports -w \'" + Path + "\'";
+		Shell->m_CommandWidget->SetContent(Command);
+		Shell->m_ExecuteWidget->GetAction()();
+
+		std::cerr << "Doing: " << Shell->m_CommandWidget->GetContent() << endl;
+		std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+	};
+	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('S', PointerState::Modifiers::Super, GofmtFile, "goimports"));
 }
 
 LiveProgramFileWidget::~LiveProgramFileWidget()
