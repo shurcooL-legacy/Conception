@@ -7,13 +7,13 @@ My main guiding principle is to find ways to avoid [manual duplication](http://e
 
 It started off from [this tweet](https://twitter.com/shurcooL/status/173110768726839296).
 
-Please steal any good ideas you see here. I'd rather have them benefit the world than die in obscurity.
+Feel free to steal any good ideas you see here. My goal is to benefit the world as much as possible; personal gains are a lesser priority.
 
-If you like the project and would like to support me in its further development, please consider backing me at [![Gittip](https://badgr.co/Gittip/shurcooL.png)](https://www.gittip.com/shurcooL/). You can make it possible for me to keep working on this full-time while keeping it free!
+I work on this project in my free time. [Please consider supporting me on Gittip](https://www.gittip.com/shurcooL/). [![Gittip](https://badgr.co/Gittip/shurcooL.png)](https://www.gittip.com/shurcooL/)
 
 News
 ----
-- **2013-07-19** - I now have a full-time job, so my time to work on Conception is very limited. However, I'm working on recreating a better and cleaner version of Conception in [Go](http://golang.org/). Sneak peek of my efforts [here](https://gist.github.com/shurcooL/5694308/revisions).
+- **2013-07-19** - I now have a full-time job, so my time to work on Conception is very limited. However, I'm working on recreating a better and cleaner version of Conception in [Go](http://golang.org/). Sneak peek of my efforts [here](https://github.com/shurcooL/Conception-go/commits/master).
 
 Motivation
 ----------
