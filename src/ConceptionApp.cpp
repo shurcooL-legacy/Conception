@@ -140,7 +140,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			In->m_OnChange = [In, Out]() {
 				if (In->GetContent() != "") {
 					auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
-					Shell->m_CommandWidget->SetContent("goe 'gist.github.com/5498057.git' 'ReadAllStdin()' | goe 'gist.github.com/5034040.git' 'GetIndentedJson' | goe --quiet 'fmt' 'Print'");
+					Shell->m_CommandWidget->SetContent("goe --quiet 'fmt' 'gist.github.com/5498057.git' 'gist.github.com/5034040.git' 'Print(GetIndentedJson(ReadAllStdin()))'");
 					Shell->m_StdInWidget = In;
 					Shell->m_ExecuteWidget->GetAction()();
 					Out->SetContent(Shell->m_OutputWidget->GetContent());
