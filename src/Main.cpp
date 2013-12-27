@@ -68,14 +68,17 @@ int main(int argc, char * argv[])
 		// Get current working directory
 		{
 			auto cwd = getcwd(nullptr, 0);
-			if (nullptr != cwd) {
-				printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
-				GoPath = GoPath + cwd + "/GoLand";
-				GoPath += ":";
-				GoPath = GoPath + cwd + "/GoLanding";
-				Path = Path + ":" + cwd + "/GoLand/bin";
-				free(cwd);
+			if (nullptr == cwd) {
+				printf("Fatal Error: getcwd() failed.");
+				exit(1);
 			}
+
+			printf("Current-working-dir is '%s' (should be the folder where README.md is).\n", cwd);
+			GoPath = GoPath + cwd + "/GoLand";
+			GoPath += ":";
+			GoPath = GoPath + cwd + "/GoLanding";
+			Path = Path + ":" + cwd + "/GoLand/bin";
+			free(cwd);
 		}
 
 		putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
