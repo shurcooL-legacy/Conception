@@ -43,6 +43,19 @@ TextFileWidget::TextFileWidget(Vector2n Position, std::string Path, TypingModule
 	};
 	ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('E', PointerState::Modifiers::Super, OpenExternal, "Open in External Editor"));
 
+	if (HasSuffix(Path, ".md") || HasSuffix(Path, ".markdown")) {
+		auto MarkdownfmtFile = [Path, &TypingModule]() {
+			auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, TypingModule));
+			std::string Command = "markdownfmt -w \'" + Path + "\'";
+			Shell->m_CommandWidget->SetContent(Command);
+			Shell->m_ExecuteWidget->GetAction()();
+
+			std::cerr << "Doing: " << Shell->m_CommandWidget->GetContent() << endl;
+			std::cerr << Shell->m_OutputWidget->GetContent() << endl;
+		};
+		ModifyGestureRecognizer().AddShortcut(GestureRecognizer::ShortcutEntry('S', PointerState::Modifiers::Super, MarkdownfmtFile, "markdownfmt"));
+	}
+
 	// TEST: Line Gutters
 #if 0
 	//if ("./Gen/5086673/gistfile1.go" == Path)
