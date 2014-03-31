@@ -13,24 +13,25 @@ I work on this project in my free time. [Please consider supporting me on Gittip
 
 News
 ----
+
 - **2013-07-19** - I now have a full-time job, so my time to work on Conception is very limited. However, I'm working on recreating a better and cleaner version of Conception in [Go](http://golang.org/). Sneak peek of my efforts [here](https://github.com/shurcooL/Conception-go/commits/master).
 
 Motivation
 ----------
+
 - Right now it's often easier to write code from scratch to do something, rather than find existing code that already does it. Conception is about flipping that.
-
 - Conversely, code you write today is dead on arrival, no one (not even you) is likely to ever reuse it. Millions of ppl's efforts are wasted. Must make Conception so that we can encode complicated things in available formats. Make data-mining, machine-learning, computer vision algorithms as easily accessible as file.open, sort, hashmaps, other stuff available via standard libraries. Let the underlying technological improvements (new tools) propogate to current/old/future apps. Consider writing graphics code for latest ATI video card w/ new extensions, vs. "for the average user" - intention might be the same, just a difference of available tools.
-
 - Instead of dumbing down code for the existing tools, why not make more advanced tools to read code as if debugging the program. (https://twitter.com/shurcooL/status/156526541214457856)
-
 - What if you could change the public API of a library (in order to improve it) without breaking an unknown number of things that use the said library. That would require the dependencies to be known, and editable. That is not currently possible, but it may be possible if all code is within one open system. The payoff would be the ability to improve anything without fear of breakage; nothing would have to be written in stone.
 
 Demonstration
 -------------
+
 [![](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Video%20Demo.png)](http://www.youtube.com/watch?v=DNJ7HqlV55k)
 
 Screenshots
 -----------
+
 These WIP screenshots present a partial outlook into the things I'm prototyping.
 
 ![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/2013-04-02_1406%20Godoc%20Widget.png)
@@ -65,6 +66,7 @@ These WIP screenshots present a partial outlook into the things I'm prototyping.
 
 Notes
 -----
+
 The Xcode project is the most up to date and should allow you to compile and run right away.
 
 There's a makefile for Linux. It [compiles](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Conception%20on%20Linux.png) with the latest clang, but is largely untested.
