@@ -4,7 +4,7 @@ LifeFormWidget::LifeFormWidget(Vector2n Position)
 	: Widget(Position, Vector2n(100, 100), {}),
 //	  m_GestureRecognizerTEST(),
 	  m_Color(0),
-	  m_PositionD(Position.X(), Position.Y()), 
+	  m_PositionD(Position.X(), Position.Y()),
 	  m_VelocityD(0, 0),
 	  m_CurrentState()
 {
@@ -26,7 +26,7 @@ void LifeFormWidget::Render()
 		Color(static_cast<uint8>(191), 150, 0),
 		Color(static_cast<uint8>(140), 0, 0)
 	};
-	
+
 	Color BackgroundColor(Colors[m_Color]);
 	DrawCircle(GetPosition(), GetDimensions(), BackgroundColor);
 
@@ -93,7 +93,7 @@ void LifeFormWidget::ProcessTimePassed(const double TimePassed)
 					auto EscapeVector = LocalPosition;
 					auto EscapeAngle = std::atan2(EscapeVector.X(), EscapeVector.Y());
 					auto EscapeDirection = Vector2d(std::sin(EscapeAngle), std::cos(EscapeAngle)) * -1;
-					
+
 					m_VelocityD = EscapeDirection * SpeedMultiplier;
 				}
 			}
