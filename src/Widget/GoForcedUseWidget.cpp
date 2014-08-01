@@ -8,7 +8,7 @@ GoForcedUseWidget::GoForcedUseWidget(Vector2n Position, TypingModule & TypingMod
 	}, { std::shared_ptr<Behavior>(new DraggablePositionBehavior(*this)) }),
 	m_ShellWidget(new ShellWidget(Vector2n::ZERO, TypingModule))
 {
-	m_ShellWidget->m_CommandWidget->SetContent("goe --quiet fmt 'gist.github.com/4727543.git' 'gist.github.com/5498057.git' 'Print(GetForcedUseFromImport(ReadAllStdin()))'");
+	m_ShellWidget->m_CommandWidget->SetContent("goe --quiet fmt 'github.com/shurcooL/go/gists/gist4727543' 'github.com/shurcooL/go/gists/gist5498057' 'Print(GetForcedUseFromImport(ReadAllStdin()))'");
 
 	m_SourceWidget->m_OnChange = [&]()
 	{

@@ -140,7 +140,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 			In->m_OnChange = [In, Out]() {
 				if (In->GetContent() != "") {
 					auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
-					Shell->m_CommandWidget->SetContent("goe --quiet 'fmt' 'gist.github.com/5498057.git' 'gist.github.com/5034040.git' 'Print(GetIndentedJson(ReadAllStdin()))'");
+					Shell->m_CommandWidget->SetContent("goe --quiet 'fmt' 'github.com/shurcooL/go/gists/gist5498057' 'github.com/shurcooL/go/gists/gist5034040' 'Print(GetIndentedJson(ReadAllStdin()))'");
 					Shell->m_StdInWidget = In;
 					Shell->m_ExecuteWidget->GetAction()();
 					Out->SetContent(Shell->m_OutputWidget->GetContent());
@@ -164,7 +164,7 @@ ConceptionApp::ConceptionApp(InputManager & InputManager)
 
 			auto MinimizeToggle = new ToggleWidget(Vector2n::ZERO, Vector2n(12, 12), [X](bool State) { if (!State) g_InputManager->RequestTypingPointer(*static_cast<GestureRecognizer *>(nullptr)); else {
 				auto Shell = std::unique_ptr<ShellWidget>(new ShellWidget(Vector2n::ZERO, *static_cast<TypingModule *>(nullptr)));
-				Shell->m_CommandWidget->SetContent("goe --quiet 'gist.github.com/5645828.git' 'PrintPackageSummariesInDir(\"gist.github.com\")'");
+				Shell->m_CommandWidget->SetContent("goe --quiet 'github.com/shurcooL/go/gists/gist5645828' 'PrintPackageSummariesInDir(\"github.com/shurcooL/go/gists\")'");
 				Shell->m_ExecuteWidget->GetAction()();
 				X->SetContent(Shell->m_OutputWidget->GetContent());
 			} }, false);
