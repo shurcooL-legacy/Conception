@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "../Main.h"
 
 CanvasWidget::CanvasWidget(Vector2n Position, bool Centered, bool HasBackground, BehaviourScrolling BehaviourScrolling, TypingModule * pTypingModule, Project * pProject)
 	: CompositeWidget(Position, {}, {}),
