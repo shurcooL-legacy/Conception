@@ -81,6 +81,7 @@ int main(int argc, char * argv[])
 			free(cwd);
 		}
 
+		putenv(const_cast<char *>("DYLD_INSERT_LIBRARIES="));		// HACK: Const cast
 		putenv(const_cast<char *>("TERM=xterm"));		// HACK: Const cast
 		putenv(const_cast<char *>(GoPath.c_str()));		// HACK: Const cast
 		// HACK: Add go/bin to $PATH by hardcoding the whole PATH for OS X
