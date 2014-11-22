@@ -9,7 +9,7 @@ It started off from [this tweet](https://twitter.com/shurcooL/status/17311076872
 
 Feel free to steal any good ideas you see here. My goal is to benefit the world as much as possible; personal gains are a lesser priority.
 
-I work on this project in my free time. [Please consider supporting me on Gittip](https://www.gittip.com/shurcooL/). [![Gittip](http://img.shields.io/gittip/shurcooL.svg)](https://www.gittip.com/shurcooL/)
+I work on this project in my limited free time. All future development is done in the [Go version](https://github.com/shurcooL/Conception-go#conception-go).
 
 News
 ----
