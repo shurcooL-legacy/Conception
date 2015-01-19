@@ -277,7 +277,7 @@ void GLFWCALL InputManager::ProcessMousePos(int MousePositionX, int MousePositio
 	// TODO: Should I even treat it as a pointer device? Maybe not.
 }
 
-void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition, int MouseWheel2Position)
+void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition)
 {
 	{
 		InputEvent InputEvent;
@@ -285,7 +285,6 @@ void GLFWCALL InputManager::ProcessMouseWheel(int MouseWheelPosition, int MouseW
 		InputEvent.m_DeviceId = 0;
 		InputEvent.m_InputId = 2;
 		InputEvent.m_Axes.push_back(Input::AxisState(MouseWheelPosition, 0));
-		InputEvent.m_Axes.push_back(Input::AxisState(MouseWheel2Position, 0));
 		InputEvent.m_Pointer = m_pInstance->m_MousePointer.get();
 
 		InputEvent.m_Pointer->ProcessEvent(InputEvent);

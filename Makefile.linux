@@ -1,13 +1,13 @@
 # Linux version
 
 CC = clang++
-CFLAGS = -I./include -I./glfw -I./glfw/x11
+CFLAGS = $(shell pkg-config --cflags glu) $(shell pkg-config --cflags gl)
 CPPFLAGS = -std=c++11
 # Disabled
 # -stdlib=libc++
-LFLAGS = -lGL -lGLU
+LFLAGS = $(shell pkg-config --libs glu) $(shell pkg-config --libs gl) $(shell pkg-config --libs x11) $(shell pkg-config --libs xxf86vm) $(shell pkg-config --libs libglfw) -pthread
 
-OBJS = ./src/*.cpp ./src/*/*.cpp ./src/*/*/*.cpp ./lib/libglfw.a
+OBJS = ./src/*.cpp ./src/*/*.cpp ./src/*/*/*.cpp
 
 # Rule for Conception
 Conception: $(OBJS) Makefile.linux
