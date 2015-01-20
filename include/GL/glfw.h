@@ -421,7 +421,7 @@ typedef int  (GLFWCALL * GLFWwindowclosefun)(void);
 typedef void (GLFWCALL * GLFWwindowrefreshfun)(void);
 typedef void (GLFWCALL * GLFWmousebuttonfun)(int,int);
 typedef void (GLFWCALL * GLFWmouseposfun)(int,int);
-typedef void (GLFWCALL * GLFWmousewheelfun)(int,int);			// Dmitri: Scroll second axis
+typedef void (GLFWCALL * GLFWmousewheelfun)(int);
 #ifdef _GLFW_DMITRI_WINDOWS_TOUCH_ENABLED
 typedef void (GLFWCALL * GLFWtouchfun)(int,int,int,int);		// Dmitri: Touch
 #endif // _GLFW_DMITRI_WINDOWS_TOUCH_ENABLED

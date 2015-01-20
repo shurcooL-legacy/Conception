@@ -263,7 +263,7 @@ GLFWAPI void GLFWAPIENTRY glfwSetMouseWheelCallback( GLFWmousewheelfun cbfun )
     // mouse wheel position
     if( cbfun )
     {
-        cbfun( _glfwInput.WheelPos, _glfwInput.WheelPos2 );
+        cbfun( _glfwInput.WheelPos );
     }
 }
 

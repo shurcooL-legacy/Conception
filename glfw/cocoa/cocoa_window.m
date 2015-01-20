@@ -644,7 +644,7 @@ static int convertMacKeyCode( unsigned int macKeyCode )
 
     if( _glfwWin.mouseWheelCallback )
     {
-        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos, _glfwInput.WheelPos2 );
+        _glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
     }
 }
 
