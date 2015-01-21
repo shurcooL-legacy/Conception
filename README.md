@@ -1,6 +1,8 @@
 Conception
 ==========
 
+**Note:** All future development is done in the [Go version](https://github.com/shurcooL/Conception-go#conception-go-).
+
 Conception is an experimental research project, meant to become a modern IDE/Language package. It experiments with discarding old conventions that were based on computational limitations (e.g. breaking code into files on a file system), and tries to make the process of coding as efficient as possible. I'm a fan of ideas from Bret Victor's talks, Light Table, Code Bubbles, Subtext, and of course I have ideas of my own.
 
 My main guiding principle is to find ways to avoid [manual duplication](http://en.wikipedia.org/wiki/Don't_repeat_yourself) of code, human efforts.
@@ -9,7 +11,7 @@ It started off from [this tweet](https://twitter.com/shurcooL/status/17311076872
 
 Feel free to steal any good ideas you see here. My goal is to benefit the world as much as possible; personal gains are a lesser priority.
 
-I work on this project in my limited free time. All future development is done in the [Go version](https://github.com/shurcooL/Conception-go#conception-go).
+I work on this project in my limited free time.
 
 News
 ----
