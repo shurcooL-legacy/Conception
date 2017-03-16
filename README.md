@@ -29,49 +29,49 @@ Motivation
 Demonstration
 -------------
 
-[![](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Video%20Demo.png)](http://www.youtube.com/watch?v=DNJ7HqlV55k)
+[![](https://dmitri.shuralyov.com/projects/Conception/images/Video%20Demo.png)](http://www.youtube.com/watch?v=DNJ7HqlV55k)
 
 Screenshots
 -----------
 
 These WIP screenshots present a partial outlook into the things I'm prototyping.
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/2013-04-02_1406%20Godoc%20Widget.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/2013-04-02_1406%20Godoc%20Widget.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-19%202144%20Diff%20and%20Connections.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-02-19%202144%20Diff%20and%20Connections.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/videos/LiveCodeWidget.gif)
+![](https://dmitri.shuralyov.com/projects/Conception/videos/LiveCodeWidget.gif)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/2013-03-20_2356%20First%20Gist%20Created%20%26%20Cloned%20from%20Conception.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/2013-03-20_2356%20First%20Gist%20Created%20%26%20Cloned%20from%20Conception.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-24%201302%20Second-order%20Diff.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-02-24%201302%20Second-order%20Diff.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-02-27_1926%20TDD%20Workflow.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-02-27_1926%20TDD%20Workflow.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Two%20Programs.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/Two%20Programs.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-29_0134%20High%20level%20highlighting%20for%20zoomed%20out%20view.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-03-29_0134%20High%20level%20highlighting%20for%20zoomed%20out%20view.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-04-03_2242%20Display%20currently%20available%20shortcuts.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-04-03_2242%20Display%20currently%20available%20shortcuts.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/minor-milestones/2013-03-03_0113%20Inline%20Errors.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/minor-milestones/2013-03-03_0113%20Inline%20Errors.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Autocompletions%201.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/Autocompletions%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Go%20Live%20Editor%201.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/Go%20Live%20Editor%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Scrolling%20Motion%20Blur%201.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/Scrolling%20Motion%20Blur%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/List%201.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/List%201.png)
 
-![](https://dl.dropbox.com/u/8554242/dmitri/projects/Conception/images/Screen%20Shot%202012-10-17%20at%201.43.55%20PM.png)
+![](https://dmitri.shuralyov.com/projects/Conception/images/Screen%20Shot%202012-10-17%20at%201.43.55%20PM.png)
 
 Notes
 -----
 
 The Xcode project is the most up to date and should allow you to compile and run right away.
 
-There's a makefile for Linux. It [compiles](https://dl.dropboxusercontent.com/u/8554242/dmitri/projects/Conception/images/Conception%20on%20Linux.png) with the latest clang, but is largely untested.
+There's a makefile for Linux. It [compiles](https://dmitri.shuralyov.com/projects/Conception/images/Conception%20on%20Linux.png) with the latest clang, but is largely untested.
 
 Can be compiled on Windows, but since I use some C++11 features that Visual Studio 2012 doesn't support yet, it will take some effort to compile it there. Either remove C++11 code, or get clang compiler for Windows.
 
